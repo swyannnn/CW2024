@@ -18,6 +18,8 @@ public abstract class LevelParent extends Observable {
 	private final double screenHeight;
 	private final double screenWidth;
 	private final double enemyMaximumYPosition;
+	private boolean hasNotified = false; // Flag to track notifications
+	private boolean hasTransitioned = false; // New flag
 
 	private final Group root;
 	private final Timeline timeline;
@@ -42,6 +44,8 @@ public abstract class LevelParent extends Observable {
 		this.enemyUnits = new ArrayList<>();
 		this.userProjectiles = new ArrayList<>();
 		this.enemyProjectiles = new ArrayList<>();
+		this.hasNotified = false;
+        this.hasTransitioned = false;
 
 		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
 		this.screenHeight = screenHeight;
@@ -74,9 +78,21 @@ public abstract class LevelParent extends Observable {
 	}
 
 	public void goToNextLevel(String levelName) {
-		setChanged();
-		notifyObservers(levelName);
+        if (!hasNotified) {
+			System.out.println("notify now");
+            setChanged();
+            notifyObservers(levelName);
+            hasNotified = true;
+			hasTransitioned = true; // Set the flag when transitioning
+        }
+		else{
+			System.out.println("Already notified");
+		}
 	}
+
+	public boolean hasTransitioned() {
+        return hasTransitioned;
+    }
 
 	private void updateScene() {
 		spawnEnemyUnits();
