@@ -13,6 +13,7 @@ public class Main extends Application {
     private static final int SCREEN_WIDTH = 1300;
     private static final int SCREEN_HEIGHT = 750;
     private static final String TITLE = "Sky Battle";
+    private Controller myController;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -22,10 +23,8 @@ public class Main extends Application {
         stage.setWidth(SCREEN_WIDTH);
         stage.setHeight(SCREEN_HEIGHT);
 
-        // Initialize and display the Home Menu
-        HomeMenu homeMenu = new HomeMenu(stage);
-        stage.setScene(homeMenu.getHomeMenuScene());
-        stage.show();
+        myController = new Controller(stage);
+		myController.launchGame();
     }
 
     @Override

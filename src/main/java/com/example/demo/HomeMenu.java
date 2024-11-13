@@ -1,5 +1,8 @@
 package com.example.demo;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import com.example.demo.controller.Controller;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -18,9 +21,9 @@ import javafx.scene.media.AudioClip;
  */
 public class HomeMenu {
     private static final String AUDIO_LOCATION = "/com/example/demo/audios/";
+    private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
     private MediaPlayer menuMediaPlayer;
     private Stage primaryStage;
-    private Controller gameController;
     
     // Media files
     private Media titleBackgroundMusic;
@@ -33,44 +36,6 @@ public class HomeMenu {
      */
     public HomeMenu(Stage stage) {
         this.primaryStage = stage;
-        initializeMedia();
-    }
-
-    /**
-     * Initializes audio clips and background music.
-     */
-    private void initializeMedia() {
-        // Initialize AudioClips for sound effects
-        sfx = new AudioClip[]{
-            createAudioClip("player_death.wav"),
-            createAudioClip("enemy_destroy.wav"),
-            createAudioClip("titlescreen_transition.wav"),
-            createAudioClip("player_shoot.mp3")
-        };
-        if (sfx[3] != null) {
-            sfx[3].setVolume(0.20);
-        }
-
-        // Initialize Media for background music
-        titleBackgroundMusic = createMedia("titlebackground.mp3");
-    }
-
-    /**
-     * Creates an AudioClip from a resource file.
-     *
-     * @param filename The name of the audio file.
-     * @return An instance of AudioClip or null if not found.
-     */
-    private AudioClip createAudioClip(String filename) {
-        String resourcePath = AUDIO_LOCATION + filename;
-        try {
-            String uri = getClass().getResource(resourcePath).toExternalForm();
-            return new AudioClip(uri);
-        } catch (NullPointerException e) {
-            System.err.println("Audio file not found: " + resourcePath);
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
@@ -141,7 +106,14 @@ public class HomeMenu {
         startButton.setPrefWidth(200);
         startButton.setPrefHeight(50);
         startButton.setFont(Font.font("Arial", 20));
-        startButton.setOnAction(e -> startGame());
+        startButton.setOnAction(e -> {
+            try {
+                startGame();
+            } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+                System.err.println("Error starting game: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        });
 
         // Exit Button
         Button exitButton = new Button("Exit");
@@ -174,20 +146,35 @@ public class HomeMenu {
      * Handles the action of starting the game.
      * Stops menu music and launches the game controller.
      */
-    private void startGame() {
-        // Stop menu music
-        stopMenuMusic();
-
-        // Initialize and launch the game controller
-        gameController = new Controller(primaryStage);
-        try {
-            gameController.launchGame();
-        } catch (Exception ex) {
+    private void startGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
+    InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+        try{
+            // Stop menu music
+            stopMenuMusic();
+            goToLevel(LEVEL_ONE_CLASS_NAME);
+        } catch (Exception e) {
             System.err.println("Error launching game.");
-            ex.printStackTrace();
+            e.printStackTrace();
         }
     }
 
+    private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
+        InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        
+        try {
+            Class<?> myClass = Class.forName(className);
+            Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
+            LevelParent myLevel = (LevelParent) constructor.newInstance(primaryStage.getHeight(), primaryStage.getWidth());
+            // myLevel.addObserver(this);
+            Scene scene = myLevel.initializeScene();
+            primaryStage.setScene(scene);
+            myLevel.startGame();
+        } catch (Exception e) {
+            System.err.println("Error loading level: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+    }
     /**
      * Handles the action of exiting the game.
      * Stops menu music and closes the application.
