@@ -79,14 +79,10 @@ public abstract class LevelParent extends Observable {
 
 	public void goToNextLevel(String levelName) {
         if (!hasNotified) {
-			System.out.println("notify now");
             setChanged();
             notifyObservers(levelName);
             hasNotified = true;
 			hasTransitioned = true; // Set the flag when transitioning
-        }
-		else{
-			System.out.println("Already notified");
 		}
 	}
 
@@ -229,6 +225,7 @@ public abstract class LevelParent extends Observable {
 	protected void loseGame() {
 		timeline.stop();
 		levelView.showGameOverImage();
+		levelView.showShield();
 	}
 
 	protected UserPlane getUser() {
