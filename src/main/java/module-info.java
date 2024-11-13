@@ -1,10 +1,11 @@
 module com.example.demo {
+    // Requires JavaFX modules for your application
     requires javafx.controls;
-    requires javafx.fxml;
-    requires javafx.media;
     requires javafx.graphics;
+    requires javafx.media;
+    requires java.desktop;
 
-
-    opens com.example.demo to javafx.fxml;
+    // Export your packages so other modules can access them
+    exports com.example.demo;
     exports com.example.demo.controller;
 }

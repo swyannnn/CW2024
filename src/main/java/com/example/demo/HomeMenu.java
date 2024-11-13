@@ -1,8 +1,5 @@
 package com.example.demo;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,25 +7,24 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import com.example.demo.controller.Controller;
 
 /**
  * HomeMenu class represents the home menu of the game.
- * It provides options to start the game or exit the application.
  */
 public class HomeMenu {
-    private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
     private Stage primaryStage;
-    private AudioManager audioManager;
+    private Controller controller;
 
     /**
-     * Constructor initializes the HomeMenu with the primary stage and audio manager.
+     * Constructor initializes the HomeMenu with the primary stage and controller.
      *
      * @param stage The primary stage of the application.
      */
-    public HomeMenu(Stage stage) {
+    public HomeMenu(Stage stage, Controller controller) {
         this.primaryStage = stage;
-        this.audioManager = new AudioManager(); // Initialize AudioManager
-        audioManager.playBackgroundMusic("titlebackground.mp3"); // Play background music
+        this.controller = controller;
+        controller.getAudioManager().playBackgroundMusic("titlebackground.mp3"); // Play background music
     }
 
     /**
@@ -48,14 +44,7 @@ public class HomeMenu {
 
         // Use ButtonManager to create buttons
         Button startButton = ButtonManager.createButton("Start Game", 200, 50);
-        startButton.setOnAction(e -> {
-            try {
-                startGame();
-            } catch (Exception ex) {
-                System.err.println("Error starting game: " + ex.getMessage());
-                ex.printStackTrace();
-            }
-        });
+        startButton.setOnAction(e -> controller.startGame());
 
         Button exitButton = ButtonManager.createButton("Exit", 200, 50);
         exitButton.setOnAction(e -> exitGame());
@@ -65,27 +54,10 @@ public class HomeMenu {
     }
 
     /**
-     * Handles the action of starting the game.
-     */
-    private void startGame() throws Exception {
-        audioManager.stopMusic(); // Stop menu music
-        goToLevel(LEVEL_ONE_CLASS_NAME);
-    }
-
-    private void goToLevel(String className) throws Exception {
-        Class<?> myClass = Class.forName(className);
-        Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-        LevelParent myLevel = (LevelParent) constructor.newInstance(primaryStage.getHeight(), primaryStage.getWidth());
-        Scene scene = myLevel.initializeScene();
-        primaryStage.setScene(scene);
-        myLevel.startGame();
-    }
-
-    /**
      * Handles the action of exiting the game.
      */
     private void exitGame() {
-        audioManager.stopMusic(); // Stop menu music
+        controller.getAudioManager().stopMusic(); // Stop menu music
         primaryStage.close();
     }
 }

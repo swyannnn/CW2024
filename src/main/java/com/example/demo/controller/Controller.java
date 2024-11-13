@@ -1,81 +1,95 @@
 package com.example.demo.controller;
 
+import java.lang.reflect.Constructor;
+import javafx.animation.FadeTransition;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 import com.example.demo.LevelParent;
 import com.example.demo.AudioManager;
-
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-import javafx.stage.Stage;
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Observable;
-import java.util.Observer;
-
-import com.example.demo.AudioManager;
 import com.example.demo.HomeMenu;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
-/**
- * Controller class manages the game scene and its associated media.
- */
-public class Controller implements Observer{
-    private Stage primaryStage;
-    private AudioManager audioManager;
+public class Controller {
+    private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
+    private final Stage stage;
+    private final AudioManager audioManager;
+    private HomeMenu homeMenu;
+    private final PropertyChangeSupport support;
 
-    /**
-     * Constructor initializes the Controller with the primary stage.
-     *
-     * @param stage The primary stage of the application.
-     */
     public Controller(Stage stage) {
-        this.primaryStage = stage;
-        this.audioManager = new AudioManager(); // Initialize MusicManager
+        this.stage = stage;
+        this.audioManager = new AudioManager(); // Initialize AudioManager
+        this.support = new PropertyChangeSupport(this); // Initialize PropertyChangeSupport
+    }
+
+    // Method to add a listener
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    // Method to remove a listener
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
     }
 
     /**
-     * Creates the game scene by loading LevelOne.
-     */
-    @Override
-	public void update(Observable arg0, Object arg1) {
-        try {
-			goToLevel((String) arg1);
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText(e.getClass().toString());
-			alert.show();
-		}
-    }
-	
-
-    /**
-     * Launches the game by setting the game scene and starting background music.
+     * Launches the game by displaying the HomeMenu.
      */
     public void launchGame() {
-        primaryStage.show();
-        audioManager.playBackgroundMusic("titlebackground.mp3"); // Play background music
-        HomeMenu homeMenu = new HomeMenu(primaryStage);
-        primaryStage.setScene(homeMenu.getHomeMenuScene());
+        stage.show();
+        homeMenu = new HomeMenu(stage, this); // Pass the stage and controller to HomeMenu
+        stage.setScene(homeMenu.getHomeMenuScene()); // Set the home menu scene
+    }
+
+    /**
+     * Starts the game and transitions from the home menu to Level One.
+     */
+    public void startGame() {
+        // Create a fade-out transition
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000), stage.getScene().getRoot());
+        fadeTransition.setFromValue(1.0); // Start fully opaque
+        fadeTransition.setToValue(0.0);   // Fade to fully transparent
+        fadeTransition.setOnFinished(event -> {
+            // Stop menu music and go to Level One after the fade-out effect
+            audioManager.stopMusic();
+            try {
+                goToLevel(LEVEL_ONE_CLASS_NAME);
+            } catch (Exception e) {
+                System.err.println("Error launching game: " + e.getMessage());
+                e.printStackTrace();
+            }
+        });
+
+        // Play the fade-out transition
+        fadeTransition.play();
     }
 
     /**
      * Loads and transitions to the specified level.
      *
      * @param className The fully qualified class name of the level to load.
+     * @throws Exception If there is an error loading the level.
      */
-	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-			LevelParent myLevel = (LevelParent) constructor.newInstance(primaryStage.getHeight(), primaryStage.getWidth());
-			myLevel.addObserver(this);
-			Scene scene = myLevel.initializeScene();
-			primaryStage.setScene(scene);
-			myLevel.startGame();
+    private void goToLevel(String className) throws Exception {
+        Class<?> myClass = Class.forName(className);
+        Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
+        LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
+        Scene scene = myLevel.initializeScene();
+        stage.setScene(scene);
 
-	}
+        // Create a fade-in transition for Level One
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(1000), scene.getRoot());
+        fadeIn.setFromValue(0.0); // Start fully transparent
+        fadeIn.setToValue(1.0);   // Fade to fully opaque
+        fadeIn.play(); // Play the fade-in effect
+        
+        support.firePropertyChange("level", null, className);
+        myLevel.startGame();
+    }
+
+    public AudioManager getAudioManager() {
+        return audioManager;
+    }
 }

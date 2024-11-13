@@ -1,6 +1,5 @@
 package com.example.demo.controller;
 
-import com.example.demo.HomeMenu;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -16,14 +15,16 @@ public class Main extends Application {
     private Controller myController;
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         // Set stage properties
         stage.setTitle(TITLE);
         stage.setResizable(false);
         stage.setWidth(SCREEN_WIDTH);
         stage.setHeight(SCREEN_HEIGHT);
+
+        // Initialize and launch the controller to show the HomeMenu
         myController = new Controller(stage);
-		myController.launchGame();
+        myController.launchGame();
     }
 
     @Override

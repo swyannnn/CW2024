@@ -19,7 +19,6 @@ public class UserPlane extends FighterPlane {
 	private int verticalVelocityMultiplier;
 	private int horizontalVelocityMultiplier;
 	private int numberOfKills;
-	private Stage primaryStage;
 
 	public UserPlane(double stageHeight, double stageWidth, int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, stageWidth * 0.01, stageHeight / 2, initialHealth);
@@ -58,6 +57,12 @@ public class UserPlane extends FighterPlane {
 				this.setTranslateX(initialTranslateX);
 			}
 		}
+	}
+
+	// Reset position using initialXPosition and initialYPosition
+	public void resetPosition() {
+		setLayoutX(initialXPosition);
+		setLayoutY(initialYPosition);
 	}
 
 	@Override

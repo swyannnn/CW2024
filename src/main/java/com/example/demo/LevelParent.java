@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -11,83 +13,85 @@ import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.util.Duration;
 
-public abstract class LevelParent extends Observable {
+public abstract class LevelParent {
 
-	private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
-	private static final int MILLISECOND_DELAY = 50;
-	private final double screenHeight;
-	private final double screenWidth;
-	private final double enemyMaximumYPosition;
-	private boolean hasNotified = false; // Flag to track notifications
-	private boolean hasTransitioned = false; // New flag
+    private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+    private static final int MILLISECOND_DELAY = 50;
+    private final double screenHeight;
+    private final double screenWidth;
+    private final double enemyMaximumYPosition;
+    
+    private final Group root;
+    private final Timeline timeline;
+    private final UserPlane user;
+    private final Scene scene;
+    private final ImageView background;
 
-	private final Group root;
-	private final Timeline timeline;
-	private final UserPlane user;
-	private final Scene scene;
-	private final ImageView background;
+    private final List<ActiveActorDestructible> friendlyUnits;
+    private final List<ActiveActorDestructible> enemyUnits;
+    private final List<ActiveActorDestructible> userProjectiles;
+    private final List<ActiveActorDestructible> enemyProjectiles;
 
-	private final List<ActiveActorDestructible> friendlyUnits;
-	private final List<ActiveActorDestructible> enemyUnits;
-	private final List<ActiveActorDestructible> userProjectiles;
-	private final List<ActiveActorDestructible> enemyProjectiles;
-	
-	private int currentNumberOfEnemies;
-	private LevelView levelView;
+    private int currentNumberOfEnemies;
+    private LevelView levelView;
 
-	public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
-		this.root = new Group();
-		this.scene = new Scene(root, screenWidth, screenHeight);
-		this.timeline = new Timeline();
-		this.user = new UserPlane(screenHeight, screenWidth, playerInitialHealth);
-		this.friendlyUnits = new ArrayList<>();
-		this.enemyUnits = new ArrayList<>();
-		this.userProjectiles = new ArrayList<>();
-		this.enemyProjectiles = new ArrayList<>();
-		this.hasNotified = false;
-        this.hasTransitioned = false;
+    // PropertyChangeSupport to handle listeners
+    private final PropertyChangeSupport support;
 
-		this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
-		this.screenHeight = screenHeight;
-		this.screenWidth = screenWidth;
-		this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
-		this.levelView = instantiateLevelView();
-		this.currentNumberOfEnemies = 0;
-		initializeTimeline();
-		friendlyUnits.add(user);
-	}
+    public LevelParent(String backgroundImageName, double screenHeight, double screenWidth, int playerInitialHealth) {
+        this.root = new Group();
+        this.scene = new Scene(root, screenWidth, screenHeight);
+        this.timeline = new Timeline();
+        this.user = new UserPlane(screenHeight, screenWidth, playerInitialHealth);
+        this.friendlyUnits = new ArrayList<>();
+        this.enemyUnits = new ArrayList<>();
+        this.userProjectiles = new ArrayList<>();
+        this.enemyProjectiles = new ArrayList<>();
 
-	protected abstract void initializeFriendlyUnits();
+        this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
+        this.screenHeight = screenHeight;
+        this.screenWidth = screenWidth;
+        this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
+        this.levelView = instantiateLevelView();
+        this.currentNumberOfEnemies = 0;
+        this.support = new PropertyChangeSupport(this); // Initialize PropertyChangeSupport
 
-	protected abstract void checkIfGameOver();
+        initializeTimeline();
+        friendlyUnits.add(user);
+    }
 
-	protected abstract void spawnEnemyUnits();
+    protected abstract void initializeFriendlyUnits();
 
-	protected abstract LevelView instantiateLevelView();
+    protected abstract void checkIfGameOver();
 
-	public Scene initializeScene() {
-		initializeBackground();
-		initializeFriendlyUnits();
-		levelView.showHeartDisplay();
-		return scene;
-	}
+    protected abstract void spawnEnemyUnits();
 
-	public void startGame() {
-		background.requestFocus();
-		timeline.play();
-	}
+    protected abstract LevelView instantiateLevelView();
 
-	public void goToNextLevel(String levelName) {
-        if (!hasNotified) {
-            setChanged();
-            notifyObservers(levelName);
-            hasNotified = true;
-			hasTransitioned = true; // Set the flag when transitioning
-		}
-	}
+    public Scene initializeScene() {
+        initializeBackground();
+        initializeFriendlyUnits();
+        levelView.showHeartDisplay();
+        return scene;
+    }
 
-	public boolean hasTransitioned() {
-        return hasTransitioned;
+    public void startGame() {
+        background.requestFocus();
+        timeline.play();
+    }
+
+    // Refactor goToNextLevel to use PropertyChangeSupport
+    public void goToNextLevel(String levelName) {
+        support.firePropertyChange("level", null, levelName); // Notify listeners about the level change
+    }
+
+    // Methods to add and remove listeners
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
     }
 
 	private void updateScene() {
