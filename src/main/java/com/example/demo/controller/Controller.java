@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.LevelParent;
+import com.example.demo.AudioManager;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -13,6 +15,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Observable;
 import java.util.Observer;
+
+import com.example.demo.AudioManager;
 import com.example.demo.HomeMenu;
 
 /**
@@ -20,13 +24,7 @@ import com.example.demo.HomeMenu;
  */
 public class Controller implements Observer{
     private Stage primaryStage;
-    private MediaPlayer gameMediaPlayer;
-    private Media titleBackgroundMusic;
-    private AudioClip[] sfx;
-
-    // Media files for the game
-    private static final String AUDIO_LOCATION = "/com/example/demo/audios/";
-    private Media bgmEasy, bgmMedium, bgmHard;
+    private AudioManager audioManager;
 
     /**
      * Constructor initializes the Controller with the primary stage.
@@ -35,63 +33,8 @@ public class Controller implements Observer{
      */
     public Controller(Stage stage) {
         this.primaryStage = stage;
+        this.audioManager = new AudioManager(); // Initialize MusicManager
     }
-
-    /**
-     * Initializes audio clips and background music.
-     */
-    private void initializeMedia() {
-        // Initialize AudioClips for sound effects
-        sfx = new AudioClip[]{
-            createAudioClip("player_death.wav"),
-            createAudioClip("enemy_destroy.wav"),
-            createAudioClip("titlescreen_transition.wav"),
-            createAudioClip("player_shoot.mp3")
-        };
-        if (sfx[3] != null) {
-            sfx[3].setVolume(0.20);
-        }
-
-        // Initialize Media for background music
-        titleBackgroundMusic = createMedia("titlebackground.mp3");
-    }
-
-    /**
-     * Creates an AudioClip from a resource file.
-     *
-     * @param filename The name of the audio file.
-     * @return An instance of AudioClip or null if not found.
-     */
-    private AudioClip createAudioClip(String filename) {
-        String resourcePath = AUDIO_LOCATION + filename;
-        try {
-            String uri = getClass().getResource(resourcePath).toExternalForm();
-            return new AudioClip(uri);
-        } catch (NullPointerException e) {
-            System.err.println("Audio file not found: " + resourcePath);
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
-     * Creates a Media instance from a resource file.
-     *
-     * @param filename The name of the media file.
-     * @return An instance of Media or null if not found.
-     */
-    private Media createMedia(String filename) {
-        String resourcePath = AUDIO_LOCATION + filename;
-        try {
-            String uri = getClass().getResource(resourcePath).toExternalForm();
-            return new Media(uri);
-        } catch (NullPointerException e) {
-            System.err.println("Media file not found: " + resourcePath);
-            e.printStackTrace();
-            return null;
-        }
-    }
-
 
     /**
      * Creates the game scene by loading LevelOne.
@@ -114,19 +57,9 @@ public class Controller implements Observer{
      */
     public void launchGame() {
         primaryStage.show();
-        initializeMedia();
+        audioManager.playBackgroundMusic("titlebackground.mp3"); // Play background music
         HomeMenu homeMenu = new HomeMenu(primaryStage);
         primaryStage.setScene(homeMenu.getHomeMenuScene());
-    }
-
-    /**
-     * Stops and disposes of the game media player.
-     */
-    public void stopGameMusic() {
-        if (gameMediaPlayer != null) {
-            gameMediaPlayer.stop();
-            gameMediaPlayer.dispose();
-        }
     }
 
     /**
@@ -145,25 +78,4 @@ public class Controller implements Observer{
 			myLevel.startGame();
 
 	}
-
-    /**
-     * Initializes and plays the game background music.
-     *
-     * @param media The Media object representing the background music.
-     */
-    private void playGameMusic(Media media) {
-        if (media == null) {
-            System.err.println("Game background music not initialized.");
-            return;
-        }
-        try {
-            gameMediaPlayer = new MediaPlayer(media);
-            gameMediaPlayer.setCycleCount(MediaPlayer.INDEFINITE); // Loop indefinitely
-            gameMediaPlayer.setVolume(0.5); // Set volume to 50%
-            gameMediaPlayer.play();
-        } catch (Exception e) {
-            System.err.println("Error initializing MediaPlayer for game music.");
-            e.printStackTrace();
-        }
-    }
 }

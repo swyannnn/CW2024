@@ -22,7 +22,6 @@ public class Main extends Application {
         stage.setResizable(false);
         stage.setWidth(SCREEN_WIDTH);
         stage.setHeight(SCREEN_HEIGHT);
-
         myController = new Controller(stage);
 		myController.launchGame();
     }

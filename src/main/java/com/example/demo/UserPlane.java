@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import javafx.stage.Stage;
+
 public class UserPlane extends FighterPlane {
 
 	private static final String IMAGE_NAME = "userplane.png";
@@ -17,10 +19,11 @@ public class UserPlane extends FighterPlane {
 	private int verticalVelocityMultiplier;
 	private int horizontalVelocityMultiplier;
 	private int numberOfKills;
+	private Stage primaryStage;
 
 	public UserPlane(double stageHeight, double stageWidth, int initialHealth) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, stageWidth * 0.01, stageHeight / 2, initialHealth);
-
+	
 		// Set bounds dynamically based on stage dimensions
 		this.yUpperBound = -40;
 		this.yLowerBound = stageHeight - 100; // Adjust this value to fit your needs
@@ -28,10 +31,11 @@ public class UserPlane extends FighterPlane {
 		this.xLowerBound = stageWidth - 100; // Adjust this value to fit your needs
 		this.initialXPosition = stageWidth * 0.01;
 		this.initialYPosition = stageHeight / 2;
-
+	
 		verticalVelocityMultiplier = 0;
 		horizontalVelocityMultiplier = 0;
 	}
+	
 
 	@Override
 	public void updatePosition() {
