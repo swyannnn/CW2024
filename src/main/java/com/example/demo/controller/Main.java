@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import javafx.application.Application;
+import com.example.demo.util.ScreenConstants;
 import javafx.stage.Stage;
 
 /**
@@ -8,9 +9,6 @@ import javafx.stage.Stage;
  * It initializes and displays the HomeMenu.
  */
 public class Main extends Application {
-
-    private static final int SCREEN_WIDTH = 1300;
-    private static final int SCREEN_HEIGHT = 750;
     private static final String TITLE = "Sky Battle";
     private Controller myController;
 
@@ -19,12 +17,11 @@ public class Main extends Application {
         // Set stage properties
         stage.setTitle(TITLE);
         stage.setResizable(false);
-        stage.setWidth(SCREEN_WIDTH);
-        stage.setHeight(SCREEN_HEIGHT);
+        stage.setWidth(ScreenConstants.SCREEN_WIDTH);
+        stage.setHeight(ScreenConstants.SCREEN_HEIGHT);
 
         // Initialize and launch the controller to show the HomeMenu
         myController = new Controller(stage);
-        myController.launchGame();
     }
 
     @Override
