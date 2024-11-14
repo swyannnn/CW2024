@@ -69,13 +69,6 @@ public abstract class LevelParent {
         this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
         this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
         this.levelView = instantiateLevelView();
-
-        if (this.levelView == null) {
-            System.err.println("Error: LevelView is null in LevelParent constructor.");
-        }else {
-            System.out.println("LevelView is not null in LevelParent constructor.");
-        }
-
         this.currentNumberOfEnemies = 0;
         this.support = new PropertyChangeSupport(this); // Initialize PropertyChangeSupport
 
@@ -139,19 +132,13 @@ public abstract class LevelParent {
 
     
     public LevelView getLevelView() {
-        if (levelView == null) {
-            System.err.println("Error: levelView is null in getLevelView.");
-        }
-        else {
-            System.out.println("Success: levelView is not null in getLevelView.");
-        }
         return this.levelView;
     }
      
     /**
      * Fires a projectile from the user's plane.
      */
-    private void fireProjectile() {
+    public void fireProjectile() {
         ActiveActorDestructible projectile = user.fireProjectile();
         if (projectile != null) {
             root.getChildren().add(projectile);
@@ -401,6 +388,11 @@ public abstract class LevelParent {
         return gameControl;
     }
 
+    // Getter methods for subclasses or controller
+    public UserPlane getUser() {
+        return user;
+    }
+
     // Abstract methods that must be implemented by subclasses
     protected abstract void initializeFriendlyUnits();
 
@@ -409,11 +401,6 @@ public abstract class LevelParent {
     protected abstract void spawnEnemyUnits();
 
     protected abstract LevelView instantiateLevelView();
-
-    // Getter methods for subclasses or controller
-    protected UserPlane getUser() {
-        return user;
-    }
 
     protected Group getRoot() {
         return root;

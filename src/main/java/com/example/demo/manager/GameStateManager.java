@@ -1,124 +1,115 @@
 package com.example.demo.manager;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-
-import com.example.demo.GameControl;
-import com.example.demo.level.LevelFactory;
+import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
-
-import javafx.scene.Scene;
+import com.example.demo.state.GameState;
+import com.example.demo.state.LevelState;
+import com.example.demo.state.MainMenuState;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
- * GameStateManager handles game state changes and manages level loading.
+ * GameStateManager handles the transitions and management of different game states.
+ * It follows the Singleton pattern to ensure only one instance is used throughout the application.
  */
 public class GameStateManager {
-    private final PropertyChangeSupport support;
-    private LevelParent currentLevel;
+    private static GameStateManager instance;
+    private GameState currentState;
+    private final Controller controller;
     private final Stage stage;
-    private int currentLevelNumber; 
 
-    public GameStateManager(Stage stage) {
-        this.support = new PropertyChangeSupport(this);
+    /**
+     * Private constructor to enforce the Singleton pattern.
+     *
+     * @param stage The main Stage object used for rendering scenes.
+     * @param controller The Controller instance managing game flow.
+     */
+    private GameStateManager(Stage stage, Controller controller) {
         this.stage = stage;
+        this.controller = controller;
     }
 
     /**
-     * Adds a property change listener to listen for level changes.
-     * @param listener The listener to add.
+     * Retrieves the single instance of GameStateManager, creating it if necessary.
+     *
+     * @param stage The main Stage object used for rendering scenes.
+     * @param controller The Controller instance managing game flow.
+     * @return The singleton instance of GameStateManager.
      */
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
-    }
-
-    /**
-     * Removes a property change listener.
-     * @param listener The listener to remove.
-     */
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        support.removePropertyChangeListener(listener);
-    }
-
-    /**
-     * Loads and initializes the specified level.
-     * @param levelNumber The level number to load.
-     * @param gameControl The GameControl instance for managing game flow.
-     */
-    public void loadLevel(int levelNumber, GameControl gameControl) {
-        // Prevent reloading the same level
-        if (levelNumber == currentLevelNumber) {
-            return;
+    public static GameStateManager getInstance(Stage stage, Controller controller) {
+        if (instance == null) {
+            instance = new GameStateManager(stage, controller);
         }
-
-        currentLevelNumber = levelNumber; // Update the current level number
-        currentLevel = LevelFactory.createLevel(levelNumber, gameControl);
-
-        if (currentLevel == null) {
-            System.err.println("Error: currentLevel is null in loadLevel.");
-            return;
-        }
-        
-        System.out.println("Success: currentLevel initialized in loadLevel.");
-
-        // Remove any existing listeners from the current level and add a new one
-        currentLevel.removePropertyChangeListener(this::levelChangeListener);
-        currentLevel.addPropertyChangeListener(this::levelChangeListener);
-
-        // Initialize the scene and start the game
-        Scene scene = currentLevel.initializeScene();
-        stage.setScene(scene);
-        currentLevel.startGame();
-
-        // Notify listeners of the level change
-        notifyLevelChange(levelNumber);
+        return instance;
     }
 
     /**
-     * Handles the level change event and loads the next level.
-     * @param event The property change event.
+     * Sets the current game state, performing any necessary cleanup of the previous state.
+     *
+     * @param state The new GameState to transition to.
      */
-    private void levelChangeListener(PropertyChangeEvent event) {
-        if ("level".equals(event.getPropertyName())) {
-            int nextLevelNumber = (int) event.getNewValue();
-            if (currentLevel != null) {
-                loadLevel(nextLevelNumber, currentLevel.getGameControl());
-            }
+    public void setState(GameState state) {
+        if (currentState != null) {
+            currentState.cleanup();
+        }
+        currentState = state;
+        currentState.initialize();
+    }
+
+    /**
+     * Transitions to the main menu state.
+     */
+    public void goToMainMenu() {
+        setState(new MainMenuState(stage, controller));
+    }
+
+    /**
+     * Transitions to a specific level by creating and setting a LevelState.
+     *
+     * @param level The LevelParent object representing the level to transition to.
+     */
+    public void goToLevel(LevelParent level) {
+        setState(new LevelState(level, stage));
+    }
+
+    /**
+     * Updates the current game state. This method is called in the game loop.
+     */
+    public void update() {
+        if (currentState != null) {
+            currentState.update();
         }
     }
 
     /**
-     * Notifies listeners of a level change event.
-     * @param levelNumber The new level number.
+     * Renders the current game state. This method is called in the game loop.
      */
-    private void notifyLevelChange(int levelNumber) {
-        support.firePropertyChange("level", null, levelNumber);
+    public void render() {
+        if (currentState != null) {
+            currentState.render();
+        }
+    }
+
+    /**
+     * Handles input events and delegates them to the current game state.
+     *
+     * @param event The KeyEvent to be processed.
+     */
+    public void handleInput(KeyEvent event) {
+        if (currentState != null) {
+            currentState.handleInput(event);
+        }
     }
 
     /**
      * Gets the current level.
+     *
      * @return The current LevelParent object.
      */
     public LevelParent getCurrentLevel() {
-        return currentLevel;
-    }
-
-    /**
-     * Calls loseGame on the current level.
-     */
-    public void loseCurrentLevel() {
-        if (currentLevel != null) {
-            currentLevel.loseGame();
+        if (currentState instanceof LevelState) {
+            return ((LevelState) currentState).getLevel();
         }
-    }
-
-    /**
-     * Calls winGame on the current level.
-     */
-    public void winCurrentLevel() {
-        if (currentLevel != null) {
-            currentLevel.winGame();
-        }
+        return null;
     }
 }

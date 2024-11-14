@@ -8,23 +8,22 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import com.example.demo.controller.Controller;
-import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.ButtonManager;
 
 /**
  * HomeMenu class represents the home menu of the game.
  */
-public class HomeMenu {
-    private Stage primaryStage;
-    private Controller controller;
-    private AudioManager audioManager;
+public class MainMenu {
+    private final Stage primaryStage;
+    private final Controller controller;
 
     /**
      * Constructor initializes the HomeMenu with the primary stage and controller.
      *
      * @param stage The primary stage of the application.
+     * @param controller The Controller for managing game actions.
      */
-    public HomeMenu(Stage stage, Controller controller) {
+    public MainMenu(Stage stage, Controller controller) {
         this.primaryStage = stage;
         this.controller = controller;
         controller.getAudioManager().playBackgroundMusic("titlebackground.mp3");
@@ -60,7 +59,7 @@ public class HomeMenu {
      * Handles the action of exiting the game.
      */
     private void exitGame() {
-        audioManager.stopMusic(); // Stop menu music
+        controller.getAudioManager().stopMusic(); // Use Controller to stop music
         primaryStage.close();
     }
 }
