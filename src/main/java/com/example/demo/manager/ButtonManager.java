@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.manager;
 
 import javafx.scene.control.Button;
 import javafx.scene.text.Font;
