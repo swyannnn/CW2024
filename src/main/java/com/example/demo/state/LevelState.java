@@ -1,6 +1,10 @@
 package com.example.demo.state;
 
 import com.example.demo.level.LevelParent;
+import com.example.demo.manager.GameStateManager;
+
+import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -11,6 +15,7 @@ import javafx.stage.Stage;
 public class LevelState implements GameState {
     private final LevelParent level;
     private final Stage stage;
+    private boolean levelCompleted;
 
     /**
      * Constructor for LevelState.
@@ -21,14 +26,24 @@ public class LevelState implements GameState {
     public LevelState(LevelParent level, Stage stage) {
         this.level = level;
         this.stage = stage;
+        this.levelCompleted = false;
     }
 
     @Override
     public void initialize() {
-        // Initialize the level and set the scene
-        stage.setScene(level.initializeScene());
+        Scene scene = level.initializeScene();
+        if (scene == null) {
+            System.err.println("LevelState: initializeScene returned null for level " + level.getCurrentLevelNumber());
+            return;
+        }
+        // Optionally, clear existing children or reset the stage
+        stage.setScene(scene);
+        // // Initialize the level and set the scene
+        // stage.setScene(level.initializeScene());
         level.startGame();
-        
+        stage.show();
+
+        System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and shown.");
         // Add event handlers for key input
         stage.getScene().setOnKeyPressed(this::handleKeyPressed);
         stage.getScene().setOnKeyReleased(this::handleKeyReleased);
@@ -36,12 +51,26 @@ public class LevelState implements GameState {
 
     @Override
     public void update() {
-        level.update();
+        if (!levelCompleted) {
+            level.update();
+            checkLevelCompletion(); // Check if the level has been completed
+        }
+    }
+
+    /**
+     * Checks if the level has been completed and calls onLevelComplete if true.
+     */
+    private void checkLevelCompletion() {
+        if (level.userHasReachedKillTarget()) { // Assuming this method exists
+            onLevelComplete();
+        }
     }
 
     @Override
     public void render() {
-        level.render();
+        if (!levelCompleted) {
+            level.render();
+        }
     }
 
     @Override
@@ -60,14 +89,17 @@ public class LevelState implements GameState {
             handleKeyReleased(event);
         }
     }
-
+        
     /**
-     * Gets the current LevelParent object.
-     *
-     * @return The LevelParent object representing the game level.
+     * Called when the level is complete. Transitions to the next level.
      */
-    public LevelParent getLevel() {
-        return level;
+    public void onLevelComplete() {
+        if (!levelCompleted) {
+            levelCompleted = true; // Mark the level as completed
+            int nextLevelNumber = level.getCurrentLevelNumber() + 1;
+            System.out.println("Transitioning to Level " + nextLevelNumber + " using onLevelComplete");
+            Platform.runLater(() -> GameStateManager.getInstance().goToLevel(nextLevelNumber));
+        }
     }
 
     /**
@@ -117,5 +149,14 @@ public class LevelState implements GameState {
             default:
                 break;
         }
+    }
+
+    /**
+     * Gets the current LevelParent object.
+     *
+     * @return The LevelParent object representing the game level.
+     */
+    public LevelParent getLevel() {
+        return level;
     }
 }

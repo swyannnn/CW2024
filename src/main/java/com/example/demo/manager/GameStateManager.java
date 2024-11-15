@@ -1,7 +1,9 @@
 package com.example.demo.manager;
 
 import com.example.demo.controller.Controller;
+import com.example.demo.level.LevelFactory;
 import com.example.demo.level.LevelParent;
+import com.example.demo.memento.GameStateMemento;
 import com.example.demo.state.GameState;
 import com.example.demo.state.LevelState;
 import com.example.demo.state.MainMenuState;
@@ -17,6 +19,7 @@ public class GameStateManager {
     private GameState currentState;
     private final Controller controller;
     private final Stage stage;
+    private GameStateMemento savedState;
 
     /**
      * Private constructor to enforce the Singleton pattern.
@@ -44,6 +47,20 @@ public class GameStateManager {
     }
 
     /**
+     * Retrieves the single instance of GameStateManager.
+     * Must be called after the initial setup with stage and controller.
+     *
+     * @return The singleton instance of GameStateManager.
+     * @throws IllegalStateException if the instance has not been initialized yet.
+     */
+    public static GameStateManager getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("GameStateManager has not been initialized. Call getInstance(Stage, Controller) first.");
+        }
+        return instance;
+    }
+
+    /**
      * Sets the current game state, performing any necessary cleanup of the previous state.
      *
      * @param state The new GameState to transition to.
@@ -64,12 +81,24 @@ public class GameStateManager {
     }
 
     /**
-     * Transitions to a specific level by creating and setting a LevelState.
+     * Transitions to a specific level based on the level number.
      *
-     * @param level The LevelParent object representing the level to transition to.
+     * @param levelNumber The number of the level to transition to.
      */
-    public void goToLevel(LevelParent level) {
-        setState(new LevelState(level, stage));
+    public void goToLevel(int levelNumber) {
+        try {
+            System.out.println("GameStateManager: Transitioning to Level " + levelNumber);
+            LevelParent newLevel = LevelFactory.createLevel(levelNumber, controller);
+            if (newLevel != null) {
+                setState(new LevelState(newLevel, stage));
+                System.out.println("GameStateManager: Level " + levelNumber + " state set.");
+            } else {
+                System.err.println("GameStateManager: Failed to create Level " + levelNumber);
+            }
+        } catch (Exception e) {
+            System.err.println("GameStateManager: Exception while transitioning to Level " + levelNumber + ": " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -98,6 +127,40 @@ public class GameStateManager {
     public void handleInput(KeyEvent event) {
         if (currentState != null) {
             currentState.handleInput(event);
+        }
+    }
+
+    /**
+     * Saves the current game state.
+     */
+    public void saveGameState() {
+        if (currentState instanceof LevelState) {
+            LevelParent currentLevel = ((LevelState) currentState).getLevel();
+            if (currentLevel != null) {
+                savedState = currentLevel.saveState();
+                System.out.println("Game state saved.");
+            } else {
+                System.out.println("No current level to save.");
+            }
+        } else {
+            System.out.println("Current state is not a LevelState.");
+        }
+    }
+
+    /**
+     * Loads the previously saved game state.
+     */
+    public void loadGameState() {
+        if (savedState != null && currentState instanceof LevelState) {
+            LevelParent currentLevel = ((LevelState) currentState).getLevel();
+            if (currentLevel != null) {
+                currentLevel.restoreState(savedState);
+                System.out.println("Game state loaded.");
+            } else {
+                System.out.println("No current level to load.");
+            }
+        } else {
+            System.out.println("No saved state to load or current state is not a LevelState.");
         }
     }
 

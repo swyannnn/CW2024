@@ -28,13 +28,30 @@ public class LevelFactory {
      * @param gameControl The GameControl instance for managing game flow.
      * @return An instance of the specified LevelParent.
      */
+    // public static LevelParent createLevel(Integer levelNumber, GameControl gameControl) {
+    //     BiFunction<GameControl, Integer, LevelParent> constructor = levelMap.get(levelNumber);
+    //     if (constructor != null) {
+    //         return constructor.apply(gameControl, levelNumber); // Call the constructor with arguments
+    //     }
+    //     throw new IllegalArgumentException("Unknown level: " + levelNumber);
+    // }
     public static LevelParent createLevel(Integer levelNumber, GameControl gameControl) {
-        BiFunction<GameControl, Integer, LevelParent> constructor = levelMap.get(levelNumber);
-        if (constructor != null) {
-            return constructor.apply(gameControl, levelNumber); // Call the constructor with arguments
+        try {
+            System.out.println("Creating level: " + levelNumber);
+            BiFunction<GameControl, Integer, LevelParent> constructor = levelMap.get(levelNumber);
+            if (constructor != null) {
+                LevelParent level = constructor.apply(gameControl, levelNumber);
+                System.out.println("Level " + levelNumber + " created successfully.");
+                return level;
+            }
+            throw new IllegalArgumentException("Unknown level: " + levelNumber);
+        } catch (Exception e) {
+            System.err.println("Error creating level " + levelNumber + ": " + e.getMessage());
+            e.printStackTrace();
+            throw e;
         }
-        throw new IllegalArgumentException("Unknown level: " + levelNumber);
     }
+    
 
     /**
      * Registers a new level dynamically.

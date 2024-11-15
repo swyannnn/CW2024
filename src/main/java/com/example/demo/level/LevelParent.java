@@ -4,6 +4,7 @@ import com.example.demo.FighterPlane;
 import com.example.demo.GameControl;
 import com.example.demo.UserPlane;
 import com.example.demo.util.ScreenConstants;
+import com.example.demo.memento.GameStateMemento;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -78,6 +79,35 @@ public abstract class LevelParent {
 
         friendlyUnits.add(user);
     }
+
+    /**
+     * Creates a memento object to save the current state of the level.
+     * @return A GameStateMemento containing the current state.
+     */
+    public GameStateMemento saveState() {
+        return new GameStateMemento(getUser().getHealth(), getUser().getScore(), getCurrentLevelNumber());
+    }
+
+    /**
+     * Restores the state of the level from a memento object.
+     * @param memento The GameStateMemento to restore from.
+     */
+    public void restoreState(GameStateMemento memento) {
+        getUser().setHealth(memento.getPlayerHealth());
+        getUser().setScore(memento.getScore());
+        setCurrentLevelNumber(memento.getLevelNumber());
+    }
+
+    // Abstract or existing methods to get and set user health, score, and level number
+    public abstract int getCurrentLevelNumber();
+    protected abstract void setCurrentLevelNumber(int levelNumber);
+    
+    /**
+     * Checks if the user has reached the kill target.
+     * Subclasses like Level001 and Level002 should implement this method.
+     * @return true if the user has reached the kill target, false otherwise.
+     */
+    public abstract boolean userHasReachedKillTarget();
 
     /**
      * Initializes the background image and input handlers.

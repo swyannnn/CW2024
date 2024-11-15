@@ -1,12 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.GameControl;
-import com.example.demo.level.LevelFactory;
-import com.example.demo.level.LevelParent;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.GameStateManager;
-import com.example.demo.state.LevelState;
-
 import javafx.animation.AnimationTimer;
 import javafx.stage.Stage;
 
@@ -30,6 +26,7 @@ public class Controller implements GameControl {
         this.audioManager = new AudioManager();
         this.gameStateManager = GameStateManager.getInstance(stage, this);
         initialize();
+        startGameLoop(); // Start the game loop here
     }
 
     /**
@@ -40,22 +37,9 @@ public class Controller implements GameControl {
     }
 
     /**
-     * Handles the transition from the main menu to the first level.
+     * Starts the game loop that continuously updates and renders the current game state.
      */
-    public void startGame() {
-        audioManager.stopMusic();
-        LevelParent level = LevelFactory.createLevel(1, this); // Create the initial level
-        LevelState levelState = new LevelState(level, stage); // Create a new LevelState for the level
-        gameStateManager.setState(levelState); // Set the new LevelState in GameStateManager
-        startGameLoop(levelState); // Start the game loop with the new LevelState
-    }
-
-    /**
-     * Starts or resets the game loop for a specific LevelState.
-     *
-     * @param levelState The LevelState object to be updated and rendered in the game loop.
-     */
-    public void startGameLoop(LevelState levelState) {
+    private void startGameLoop() {
         if (gameLoop != null) {
             gameLoop.stop();
         }
@@ -63,11 +47,19 @@ public class Controller implements GameControl {
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                levelState.update(); // Update game logic
-                levelState.render(); // Render game elements
+                gameStateManager.update(); // Update the current state
+                gameStateManager.render(); // Render the current state
             }
         };
         gameLoop.start();
+    }
+
+    /**
+     * Handles the transition from the main menu to the first level.
+     */
+    public void startGame() {
+        audioManager.stopMusic();
+        gameStateManager.goToLevel(1); // Use GameStateManager to transition to level 1
     }
 
     /**
