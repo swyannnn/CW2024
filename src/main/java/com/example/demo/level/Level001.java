@@ -4,6 +4,7 @@ import com.example.demo.ActiveActorDestructible;
 import com.example.demo.EnemyPlane;
 import com.example.demo.GameControl;
 import com.example.demo.manager.GameStateManager;
+import com.example.demo.util.ScreenConstant;
 
 public class Level001 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
@@ -20,7 +21,7 @@ public class Level001 extends LevelParent {
 
     @Override
     protected void initializeFriendlyUnits() {
-        getRoot().getChildren().add(getUser());
+        getActorManager().addFriendlyUnit(getUser());
     }
 
     @Override
@@ -30,6 +31,10 @@ public class Level001 extends LevelParent {
         } else if (userHasReachedKillTarget()) {
             // onLevelComplete();
         }
+    }
+
+    public boolean userIsDestroyed() {
+        return getUser().isDestroyed(); // Ensure that UserPlane has an isDestroyed() method returning a boolean
     }
 
     @Override
@@ -49,19 +54,24 @@ public class Level001 extends LevelParent {
 
     @Override
     protected void spawnEnemyUnits() {
-        int currentNumberOfEnemies = getCurrentNumberOfEnemies();
+        // Get the current number of enemies from ActorManager
+        int currentNumberOfEnemies = getActorManager().getEnemyUnits().size();
+    
+        // Loop to spawn new enemies until the total number of enemies reaches TOTAL_ENEMIES
         for (int i = 0; i < TOTAL_ENEMIES - currentNumberOfEnemies; i++) {
+            // Spawn a new enemy with a probability defined by ENEMY_SPAWN_PROBABILITY
             if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
                 double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
-                ActiveActorDestructible newEnemy = new EnemyPlane(getScreenWidth(), newEnemyInitialYPosition);
-                addEnemyUnit(newEnemy);
+                ActiveActorDestructible newEnemy = new EnemyPlane(ScreenConstant.SCREEN_WIDTH, newEnemyInitialYPosition);
+                getActorManager().addEnemyUnit(newEnemy); // Use ActorManager to add the enemy unit
             }
         }
     }
 
+
     @Override
     protected LevelView instantiateLevelView() {
-        return new LevelView(getRoot(), PLAYER_INITIAL_HEALTH);
+        return new LevelView(getActorManager(), PLAYER_INITIAL_HEALTH);
     }
 }
 

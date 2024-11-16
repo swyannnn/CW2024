@@ -1,24 +1,22 @@
 package com.example.demo.manager;
 
 import com.example.demo.controller.Controller;
-import com.example.demo.level.LevelFactory;
 import com.example.demo.level.LevelParent;
 import com.example.demo.memento.GameStateMemento;
 import com.example.demo.state.GameState;
+import com.example.demo.state.GameStateFactory;
 import com.example.demo.state.LevelState;
-import com.example.demo.state.MainMenuState;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
  * GameStateManager handles the transitions and management of different game states.
- * It follows the Singleton pattern to ensure only one instance is used throughout the application.
+ * It uses the Singleton pattern to ensure only one instance is used throughout the application.
  */
 public class GameStateManager {
     private static GameStateManager instance;
     private GameState currentState;
-    private final Controller controller;
-    private final Stage stage;
+    private final GameStateFactory stateFactory;
     private GameStateMemento savedState;
 
     /**
@@ -28,8 +26,7 @@ public class GameStateManager {
      * @param controller The Controller instance managing game flow.
      */
     private GameStateManager(Stage stage, Controller controller) {
-        this.stage = stage;
-        this.controller = controller;
+        this.stateFactory = new GameStateFactory(stage, controller, this);
     }
 
     /**
@@ -47,37 +44,37 @@ public class GameStateManager {
     }
 
     /**
-     * Retrieves the single instance of GameStateManager.
-     * Must be called after the initial setup with stage and controller.
+     * Sets the controller instance for GameStateManager.
      *
-     * @return The singleton instance of GameStateManager.
-     * @throws IllegalStateException if the instance has not been initialized yet.
+     * @param controller The Controller instance managing game flow.
      */
-    public static GameStateManager getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException("GameStateManager has not been initialized. Call getInstance(Stage, Controller) first.");
-        }
-        return instance;
+    public void setController(Controller controller) {
+        stateFactory.setController(controller);
     }
 
     /**
      * Sets the current game state, performing any necessary cleanup of the previous state.
      *
-     * @param state The new GameState to transition to.
+     * @param newState The new GameState to transition to.
      */
-    public void setState(GameState state) {
-        if (currentState != null) {
-            currentState.cleanup();
+    public void setState(GameState newState) {
+        try {
+            if (currentState != null) {
+                currentState.cleanup();
+            }
+            currentState = newState;
+            currentState.initialize();
+        } catch (Exception e) {
+            System.err.println("Error during state transition: " + e.getMessage());
+            e.printStackTrace();
         }
-        currentState = state;
-        currentState.initialize();
     }
 
     /**
      * Transitions to the main menu state.
      */
     public void goToMainMenu() {
-        setState(new MainMenuState(stage, controller));
+        setState(stateFactory.createMainMenuState());
     }
 
     /**
@@ -86,18 +83,11 @@ public class GameStateManager {
      * @param levelNumber The number of the level to transition to.
      */
     public void goToLevel(int levelNumber) {
-        try {
-            System.out.println("GameStateManager: Transitioning to Level " + levelNumber);
-            LevelParent newLevel = LevelFactory.createLevel(levelNumber, controller);
-            if (newLevel != null) {
-                setState(new LevelState(newLevel, stage));
-                System.out.println("GameStateManager: Level " + levelNumber + " state set.");
-            } else {
-                System.err.println("GameStateManager: Failed to create Level " + levelNumber);
-            }
-        } catch (Exception e) {
-            System.err.println("GameStateManager: Exception while transitioning to Level " + levelNumber + ": " + e.getMessage());
-            e.printStackTrace();
+        GameState levelState = stateFactory.createLevelState(levelNumber);
+        if (levelState != null) {
+            setState(levelState);
+        } else {
+            System.err.println("Failed to transition to Level " + levelNumber);
         }
     }
 
@@ -167,7 +157,7 @@ public class GameStateManager {
     /**
      * Gets the current level.
      *
-     * @return The current LevelParent object.
+     * @return The current LevelParent object, or null if the current state is not a LevelState.
      */
     public LevelParent getCurrentLevel() {
         if (currentState instanceof LevelState) {

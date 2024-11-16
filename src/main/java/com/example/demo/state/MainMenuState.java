@@ -44,13 +44,12 @@ public class MainMenuState implements GameState {
 
     @Override
     public void handleInput(KeyEvent event) {
-        // Handle keyboard input if necessary (e.g., for keyboard navigation in the menu)
         switch (event.getCode()) {
             case ENTER:
-                controller.startGame(); // Example: Pressing ENTER starts the game
+                controller.startGame(); 
                 break;
             case ESCAPE:
-                exitGame(); // Example: Pressing ESC exits the game
+                exitGame(); 
                 break;
             default:
                 break;
@@ -59,7 +58,6 @@ public class MainMenuState implements GameState {
 
     @Override
     public void cleanup() {
-        // Perform any necessary cleanup, such as stopping background music
         if (controller.getAudioManager() != null) {
             controller.getAudioManager().stopMusic();
         }

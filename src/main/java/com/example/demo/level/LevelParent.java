@@ -1,31 +1,27 @@
 package com.example.demo.level;
+
 import com.example.demo.ActiveActorDestructible;
-import com.example.demo.FighterPlane;
 import com.example.demo.GameControl;
 import com.example.demo.UserPlane;
-import com.example.demo.util.ScreenConstants;
+import com.example.demo.manager.*;
+import com.example.demo.util.ScreenConstant;
+import com.example.demo.FighterPlane;
 import com.example.demo.memento.GameStateMemento;
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.util.*;
-import java.util.stream.Collectors;
-
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.event.EventHandler;
+import javafx.scene.shape.Rectangle;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * Abstract base class for game levels.
  */
 public abstract class LevelParent {
     protected GameControl gameControl;
-    private static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
     private final double screenHeight;
     private final double screenWidth;
     private final double enemyMaximumYPosition;
@@ -35,53 +31,73 @@ public abstract class LevelParent {
     private final Scene scene;
     private final ImageView background;
 
-    private final List<ActiveActorDestructible> friendlyUnits;
-    private final List<ActiveActorDestructible> enemyUnits;
-    private final List<ActiveActorDestructible> userProjectiles;
-    private final List<ActiveActorDestructible> enemyProjectiles;
-
-    private int currentNumberOfEnemies;
     private LevelView levelView;
 
+    private int currentNumberOfEnemies;
 
     // PropertyChangeSupport to handle listeners
     private final PropertyChangeSupport support;
+
+    // Managers
+    private final ActorManager actorManager;
+    private final CollisionManager collisionManager;
 
     /**
      * Constructs a new LevelParent instance.
      *
      * @param backgroundImageName The path to the background image.
-     * @param screenHeight        The height of the screen.
-     * @param screenWidth         The width of the screen.
      * @param playerInitialHealth The initial health of the player.
      */
     public LevelParent(GameControl gameControl, String backgroundImageName, int playerInitialHealth) {
-        this.root = new Group();
         this.gameControl = gameControl;
-        this.screenHeight = ScreenConstants.SCREEN_HEIGHT;
-        this.screenWidth = ScreenConstants.SCREEN_WIDTH;
+        this.screenHeight = ScreenConstant.SCREEN_HEIGHT;
+        this.screenWidth = ScreenConstant.SCREEN_WIDTH;
+        this.root = new Group();
         this.scene = new Scene(root, screenWidth, screenHeight);
         this.user = new UserPlane(screenHeight, screenWidth, playerInitialHealth);
-        this.friendlyUnits = new ArrayList<>();
-        this.enemyUnits = new ArrayList<>();
-        this.userProjectiles = new ArrayList<>();
-        this.enemyProjectiles = new ArrayList<>();
-
         this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
-        this.enemyMaximumYPosition = screenHeight - SCREEN_HEIGHT_ADJUSTMENT;
+        this.enemyMaximumYPosition = screenHeight - ScreenConstant.SCREEN_HEIGHT_ADJUSTMENT;
+    
+        // Initialize ActorManager **before** LevelView
+        this.actorManager = new ActorManager(root, user);
+    
+        // Now instantiate LevelView with a non-null ActorManager
         this.levelView = instantiateLevelView();
+    
+        // Initialize other components
+        this.collisionManager = new CollisionManager();
         this.currentNumberOfEnemies = 0;
         this.support = new PropertyChangeSupport(this); // Initialize PropertyChangeSupport
-
+    
+        // Add the background to the root first to ensure it is behind other elements
         initializeBackground();
+    
+        // Add the UserPlane on top of the background
+        if (!root.getChildren().contains(user)) {
+            root.getChildren().add(user);
+        }
+    
         initializeFriendlyUnits();
         levelView.showHeartDisplay();
-
-        friendlyUnits.add(user);
+    
+        // Add UserPlane to the ActorManager
+        actorManager.addFriendlyUnit(user);
+    }    
+    
+    /**
+     * Initializes the background image and input handlers.
+     */
+    private void initializeBackground() {
+        background.setFitHeight(screenHeight);
+        background.setFitWidth(screenWidth);
+        root.getChildren().add(background);
+        System.out.println("Background added to root.");
     }
+    
 
     /**
      * Creates a memento object to save the current state of the level.
+     *
      * @return A GameStateMemento containing the current state.
      */
     public GameStateMemento saveState() {
@@ -90,6 +106,7 @@ public abstract class LevelParent {
 
     /**
      * Restores the state of the level from a memento object.
+     *
      * @param memento The GameStateMemento to restore from.
      */
     public void restoreState(GameStateMemento memento) {
@@ -98,81 +115,42 @@ public abstract class LevelParent {
         setCurrentLevelNumber(memento.getLevelNumber());
     }
 
-    // Abstract or existing methods to get and set user health, score, and level number
+    // Abstract methods to be implemented by subclasses
     public abstract int getCurrentLevelNumber();
+
     protected abstract void setCurrentLevelNumber(int levelNumber);
-    
-    /**
-     * Checks if the user has reached the kill target.
-     * Subclasses like Level001 and Level002 should implement this method.
-     * @return true if the user has reached the kill target, false otherwise.
-     */
+
     public abstract boolean userHasReachedKillTarget();
 
-    /**
-     * Initializes the background image and input handlers.
-     */
-    private void initializeBackground() {
-        // background.setFocusTraversable(true);
-        background.setFitHeight(screenHeight);
-        background.setFitWidth(screenWidth);
-        background.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                KeyCode kc = e.getCode();
-                switch (kc) {
-                    case UP:
-                        user.moveUp();
-                        break;
-                    case DOWN:
-                        user.moveDown();
-                        break;
-                    case LEFT:
-                        user.moveLeft();
-                        break;
-                    case RIGHT:
-                        user.moveRight();
-                        break;
-                    case SPACE:
-                        fireProjectile();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-        background.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            public void handle(KeyEvent e) {
-                KeyCode kc = e.getCode();
-                switch (kc) {
-                    case UP:
-                    case DOWN:
-                        user.stopVertical();
-                        break;
-                    case LEFT:
-                    case RIGHT:
-                        user.stopHorizontal();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-        root.getChildren().add(background);
-    }
+    protected abstract void initializeFriendlyUnits();
 
-    
+    protected abstract void checkIfGameOver();
+
+    protected abstract void spawnEnemyUnits();
+
+    protected abstract LevelView instantiateLevelView();
+
     public LevelView getLevelView() {
         return this.levelView;
     }
-     
+
+        /**
+     * Checks if the user's plane has been destroyed.
+     * 
+     * @return true if the user's plane is destroyed; false otherwise.
+     */
+    public boolean userIsDestroyed() {
+        // Check if the user's health is zero or the user has been marked as destroyed
+        return getUser().getHealth() <= 0; // getHealth() returns the player's health
+    }
+
     /**
      * Fires a projectile from the user's plane.
      */
     public void fireProjectile() {
         ActiveActorDestructible projectile = user.fireProjectile();
         if (projectile != null) {
-            root.getChildren().add(projectile);
-            userProjectiles.add(projectile);
+            actorManager.addUserProjectile(projectile);
         }
     }
 
@@ -180,11 +158,12 @@ public abstract class LevelParent {
      * Generates projectiles from enemy units.
      */
     private void generateEnemyFire() {
-        for (ActiveActorDestructible enemy : enemyUnits) {
-            ActiveActorDestructible projectile = ((FighterPlane) enemy).fireProjectile();
-            if (projectile != null) {
-                root.getChildren().add(projectile);
-                enemyProjectiles.add(projectile);
+        for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
+            if (enemy instanceof FighterPlane) {
+                ActiveActorDestructible projectile = ((FighterPlane) enemy).fireProjectile();
+                if (projectile != null) {
+                    actorManager.addEnemyProjectile(projectile);
+                }
             }
         }
     }
@@ -193,108 +172,25 @@ public abstract class LevelParent {
      * Updates all actors in the level.
      */
     private void updateActors() {
-        for (ActiveActorDestructible plane : friendlyUnits) {
-            plane.updateActor();
-        }
-        for (ActiveActorDestructible enemy : enemyUnits) {
-            enemy.updateActor();
-        }
-        for (ActiveActorDestructible projectile : userProjectiles) {
-            projectile.updateActor();
-        }
-        for (ActiveActorDestructible projectile : enemyProjectiles) {
-            projectile.updateActor();
-        }
+        actorManager.updateAllActors();
     }
+
+	protected double getEnemyMaximumYPosition() {
+		return enemyMaximumYPosition;
+	}
 
     /**
      * Removes all destroyed actors from their respective lists and the scene graph.
      */
     private void removeAllDestroyedActors() {
-        removeDestroyedActors(friendlyUnits);
-        removeDestroyedActors(enemyUnits);
-        removeDestroyedActors(userProjectiles);
-        removeDestroyedActors(enemyProjectiles);
-    }
-
-    /**
-     * Removes destroyed actors from a given list.
-     *
-     * @param actors The list of actors to remove destroyed actors from.
-     */
-    private void removeDestroyedActors(List<ActiveActorDestructible> actors) {
-        List<ActiveActorDestructible> destroyedActors = actors.stream()
-                .filter(ActiveActorDestructible::isDestroyed)
-                .collect(Collectors.toList());
-        root.getChildren().removeAll(destroyedActors);
-        actors.removeAll(destroyedActors);
-    }
-
-    /**
-     * Handles collisions between two lists of actors.
-     *
-     * @param actors1 The first list of actors.
-     * @param actors2 The second list of actors.
-     */
-    private void handleCollisions(List<ActiveActorDestructible> actors1, List<ActiveActorDestructible> actors2) {
-        for (ActiveActorDestructible actor : actors2) {
-            for (ActiveActorDestructible otherActor : actors1) {
-                if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-                    actor.takeDamage();
-                    otherActor.takeDamage();
-                }
-            }
-        }
-    }
-
-    /**
-     * Handles the game over state.
-     */
-    // Method to handle losing the game
-    public void loseGame() {
-        if (gameControl != null) {
-            gameControl.stopGameLoopAndLose(); // Call the interface method
-        }
-        // Additional lose logic here
-        
-    }
-
-    /**
-     * Handles the win game state.
-     */
-    public void winGame() {
-        if (gameControl != null) {
-            gameControl.stopGameLoopAndWin(); // Call the interface method
-        }
-        // Additional win logic here
-    }
-
-    /**
-     * Handles collisions between planes.
-     */
-    private void handlePlaneCollisions() {
-        handleCollisions(friendlyUnits, enemyUnits);
-    }
-
-    /**
-     * Handles collisions between user projectiles and enemies.
-     */
-    private void handleUserProjectileCollisions() {
-        handleCollisions(userProjectiles, enemyUnits);
-    }
-
-    /**
-     * Handles collisions between enemy projectiles and friendly units.
-     */
-    private void handleEnemyProjectileCollisions() {
-        handleCollisions(enemyProjectiles, friendlyUnits);
+        actorManager.removeDestroyedActors();
     }
 
     /**
      * Handles when enemies penetrate defenses and reach the user.
      */
     private void handleEnemyPenetration() {
-        for (ActiveActorDestructible enemy : enemyUnits) {
+        for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
             if (enemyHasPenetratedDefenses(enemy)) {
                 user.takeDamage();
                 enemy.destroy();
@@ -323,7 +219,7 @@ public abstract class LevelParent {
      * Updates the kill count based on the current number of enemies.
      */
     private void updateKillCount() {
-        int kills = currentNumberOfEnemies - enemyUnits.size();
+        int kills = currentNumberOfEnemies - actorManager.getEnemyUnits().size();
         for (int i = 0; i < kills; i++) {
             user.incrementKillCount();
         }
@@ -333,7 +229,14 @@ public abstract class LevelParent {
      * Updates the number of current enemies.
      */
     private void updateNumberOfEnemies() {
-        currentNumberOfEnemies = enemyUnits.size();
+        currentNumberOfEnemies = actorManager.getEnemyUnits().size();
+    }
+
+    /**
+     * Updates the game state. This method is called by the game loop.
+     */
+    public void update() {
+        updateScene();
     }
 
     /**
@@ -346,20 +249,13 @@ public abstract class LevelParent {
         generateEnemyFire();
         updateNumberOfEnemies();
         handleEnemyPenetration();
-        handleUserProjectileCollisions();
-        handleEnemyProjectileCollisions();
-        handlePlaneCollisions();
+        collisionManager.handleProjectileCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
+        collisionManager.handleEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getFriendlyUnits());
+        collisionManager.handleUnitCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
         removeAllDestroyedActors();
         updateKillCount();
         updateLevelView();
         checkIfGameOver();
-    }
-
-    /**
-     * Updates the game state. This method is called by the game loop.
-     */
-    public void update() {
-        updateScene();
     }
 
     /**
@@ -370,7 +266,6 @@ public abstract class LevelParent {
     public void render() {
         // In JavaFX, rendering is handled by the scene graph.
         // If you have any custom rendering logic, implement it here.
-        // For example:
         levelView.updateView();
     }
 
@@ -393,25 +288,38 @@ public abstract class LevelParent {
     }
 
     /**
+     * Handles the game over state.
+     */
+    // Method to handle losing the game
+    public void loseGame() {
+        if (gameControl != null) {
+            Platform.runLater(() -> gameControl.stopGameLoopAndLose()); // Call the interface method on the JavaFX thread
+        }
+        // Additional lose logic here
+    }
+
+    /**
+     * Handles the win game state.
+     */
+    public void winGame() {
+        if (gameControl != null) {
+            Platform.runLater(() -> gameControl.stopGameLoopAndWin()); // Call the interface method on the JavaFX thread
+        }
+        // Additional win logic here
+    }
+
+    /**
      * Transitions to the next level by firing a property change event.
      *
-     * @param levelName The fully qualified class name of the next level.
+     * @param nextLevelNumber The number of the next level.
      */
     public void goToNextLevel(Integer nextLevelNumber) {
         support.firePropertyChange("level", null, nextLevelNumber); // Notify listeners about the level change
     }
 
-    // Methods to add and remove listeners
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        support.removePropertyChangeListener(listener);
-    }
-
     /**
      * Getter for the GameControl instance.
+     *
      * @return The GameControl instance associated with this level.
      */
     public GameControl getGameControl() {
@@ -423,39 +331,25 @@ public abstract class LevelParent {
         return user;
     }
 
-    // Abstract methods that must be implemented by subclasses
-    protected abstract void initializeFriendlyUnits();
-
-    protected abstract void checkIfGameOver();
-
-    protected abstract void spawnEnemyUnits();
-
-    protected abstract LevelView instantiateLevelView();
-
-    protected Group getRoot() {
-        return root;
+    public Group getRoot() {
+        return this.root;
     }
 
-    protected int getCurrentNumberOfEnemies() {
-        return enemyUnits.size();
+    public ActorManager getActorManager() {
+        return actorManager;
     }
 
-    protected void addEnemyUnit(ActiveActorDestructible enemy) {
-        enemyUnits.add(enemy);
-        root.getChildren().add(enemy);
+    public CollisionManager getCollisionManager() {
+        return collisionManager;
     }
 
-    protected double getEnemyMaximumYPosition() {
-        return enemyMaximumYPosition;
+    // Methods to add and remove listeners
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        support.addPropertyChangeListener(listener);
     }
 
-    protected double getScreenWidth() {
-        return screenWidth;
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        support.removePropertyChangeListener(listener);
     }
-
-    protected boolean userIsDestroyed() {
-        return user.isDestroyed();
-    }
-
     // Additional helper methods can be added here
 }

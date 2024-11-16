@@ -21,38 +21,47 @@ public class Controller implements GameControl {
      *
      * @param stage The main Stage object used for rendering scenes.
      */
-    public Controller(Stage stage) {
+    public Controller(Stage stage, GameStateManager gameStateManager) {
         this.stage = stage;
         this.audioManager = new AudioManager();
-        this.gameStateManager = GameStateManager.getInstance(stage, this);
+        this.gameStateManager = gameStateManager;
         initialize();
-        startGameLoop(); // Start the game loop here
+        startGameLoop();
     }
 
     /**
      * Initializes the game by transitioning to the main menu.
      */
     private void initialize() {
+        // Example setup: Transition to the main menu
         gameStateManager.goToMainMenu();
+
+        stage.getScene().setOnKeyPressed(event -> gameStateManager.handleInput(event));
+        stage.getScene().setOnKeyReleased(event -> gameStateManager.handleInput(event));
+
+        // Play background music
+        audioManager.playMusic("background_music.mp3");
     }
 
     /**
      * Starts the game loop that continuously updates and renders the current game state.
      */
     private void startGameLoop() {
-        if (gameLoop != null) {
-            gameLoop.stop();
-        }
-
+        final long[] previous = {System.nanoTime()};
+        final double nsPerUpdate = 1e9 / 60.0; // 60 updates per second
+    
         gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                gameStateManager.update(); // Update the current state
-                gameStateManager.render(); // Render the current state
+                while (now - previous[0] >= nsPerUpdate) {
+                    gameStateManager.update();
+                    previous[0] += nsPerUpdate;
+                }
+                gameStateManager.render();
             }
         };
         gameLoop.start();
-    }
+    }    
 
     /**
      * Handles the transition from the main menu to the first level.

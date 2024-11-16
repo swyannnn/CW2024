@@ -55,7 +55,7 @@ public class AudioManager {
      *
      * @param filename The name of the media file.
      */
-    public void playBackgroundMusic(String filename) {
+    public void playMusic(String filename) {
         stopMusic(); // Stop any existing music
         Media media = createMedia(filename);
         if (media != null) {

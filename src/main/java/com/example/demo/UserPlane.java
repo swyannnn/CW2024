@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import javafx.scene.shape.Rectangle;
+
 public class UserPlane extends FighterPlane {
     private static final String IMAGE_NAME = "userplane.png";
     private static final int IMAGE_HEIGHT = 150;
@@ -29,7 +31,6 @@ public class UserPlane extends FighterPlane {
      */
     public UserPlane(double stageHeight, double stageWidth, int initialHealth) {
         super(IMAGE_NAME, IMAGE_HEIGHT, stageWidth * 0.01, stageHeight / 2, initialHealth);
-
         // Set dynamic bounds based on stage dimensions
         this.yUpperBound = -40;
         this.yLowerBound = stageHeight - 100;
@@ -52,6 +53,7 @@ public class UserPlane extends FighterPlane {
             moveVertically(VERTICAL_VELOCITY * verticalVelocityMultiplier);
             if (isOutOfVerticalBounds()) {
                 setTranslateY(initialTranslateY); // Revert to the previous position if out of bounds
+                System.out.println("UserPlane out of vertical bounds, reverting Y position.");
             }
         }
 
@@ -61,9 +63,15 @@ public class UserPlane extends FighterPlane {
             moveHorizontally(HORIZONTAL_VELOCITY * horizontalVelocityMultiplier);
             if (isOutOfHorizontalBounds()) {
                 setTranslateX(initialTranslateX); // Revert to the previous position if out of bounds
+                System.out.println("UserPlane out of horizontal bounds, reverting X position.");
+
             }
         }
-    }
+
+        Rectangle testRect = new Rectangle(100, 100, javafx.scene.paint.Color.RED);
+        testRect.setX(getLayoutX() + getTranslateX());
+        testRect.setY(getLayoutY() + getTranslateY());
+}
 
     // Health management methods
     public int getHealth() {
@@ -81,6 +89,19 @@ public class UserPlane extends FighterPlane {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    // Method to reduce the user's health (for when the user takes damage)
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health < 0) {
+            health = 0; // Ensure health doesn't go below zero
+        }
+    }
+
+    // Method to check if the user is destroyed
+    public boolean isDestroyed() {
+        return health <= 0;
     }
 
     /**
@@ -131,6 +152,7 @@ public class UserPlane extends FighterPlane {
     // Movement methods
     public void moveUp() {
         verticalVelocityMultiplier = -1;
+        System.out.println("UserPlane moving up. Current position: X=" + (getLayoutX() + getTranslateX()) + ", Y=" + (getLayoutY() + getTranslateY()));
     }
 
     public void moveDown() {

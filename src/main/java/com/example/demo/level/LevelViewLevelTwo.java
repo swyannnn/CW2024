@@ -1,12 +1,12 @@
 package com.example.demo.level;
 
-import javafx.scene.Group;
+import com.example.demo.manager.ActorManager;
 
 public class LevelViewLevelTwo extends LevelView {
-	private final Group root;
+	private final ActorManager actorManager;
 	
-	public LevelViewLevelTwo(Group root, int heartsToDisplay) {
-		super(root, heartsToDisplay);
-		this.root = root;
+	public LevelViewLevelTwo(ActorManager actorManager, int heartsToDisplay) {
+		super(actorManager, heartsToDisplay);
+		this.actorManager = actorManager;
 	}
 }
