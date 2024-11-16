@@ -190,7 +190,6 @@ public class UserPlane extends FighterPlane {
     // Movement methods
     public void moveUp() {
         verticalVelocityMultiplier = -1;
-        System.out.println("UserPlane moving up. Current position: X=" + (getLayoutX() + getTranslateX()) + ", Y=" + (getLayoutY() + getTranslateY()));
     }
 
     public void moveDown() {

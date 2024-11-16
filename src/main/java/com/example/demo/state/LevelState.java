@@ -55,8 +55,8 @@ public class LevelState implements GameState {
         stage.show();
         System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
 
-        // // Play background music for this level
-        // audioManager.playMusic("background_music.mp3");
+        // Play background music for this level
+        audioManager.playMusic("background_music.mp3");
     }
 
     @Override
@@ -89,7 +89,7 @@ public class LevelState implements GameState {
         if (actorManager != null) {
             actorManager.removeDestroyedActors();
         }
-        audioManager.stopMusic(); // Stop music when level is cleaned up
+        // audioManager.stopMusic(); // Stop music when level is cleaned up
     }
 
     /**

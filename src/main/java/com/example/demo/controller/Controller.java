@@ -26,13 +26,12 @@ public class Controller {
         this.stage = stage;
         this.gameStateManager = gameStateManager;
         this.rootGroup = new Group(); // Initialize the root Group for the scene
-
+        gameStateManager.setController(this);
         // Set up the scene with the root group and attach it to the stage
         Scene scene = new Scene(rootGroup);
         stage.setScene(scene);
-
+        setupGameLoop(); // Set up the game loop
         initialize();
-        setupGameLoop();
     }
 
     /**
@@ -42,9 +41,7 @@ public class Controller {
         // Set up key event handlers for input
         stage.getScene().setOnKeyPressed(event -> gameStateManager.handleInput(event));
         stage.getScene().setOnKeyReleased(event -> gameStateManager.handleInput(event));
-
-        // Initialize GameStateManager to show the main menu
-        gameStateManager.goToMainMenu();
+        gameStateManager.goToMainMenu(); // Transition to the main menu
     }
 
     /**

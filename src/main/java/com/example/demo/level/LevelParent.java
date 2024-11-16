@@ -87,7 +87,6 @@ public abstract class LevelParent {
         background.setFitHeight(screenHeight);
         background.setFitWidth(screenWidth);
         root.getChildren().add(background);
-        System.out.println("Background added to root.");
     }
 
     /**

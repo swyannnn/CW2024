@@ -6,8 +6,6 @@ import com.example.demo.ShieldImage;
 import com.example.demo.WinImage;
 import com.example.demo.manager.ActorManager;
 
-import javafx.scene.Group;
-
 public class LevelView {
 	
 	private static final double HEART_DISPLAY_X_POSITION = 5;

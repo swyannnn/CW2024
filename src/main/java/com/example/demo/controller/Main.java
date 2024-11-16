@@ -19,15 +19,8 @@ public class Main extends Application {
         stage.setWidth(GameConstant.SCREEN_WIDTH);
         stage.setHeight(GameConstant.SCREEN_HEIGHT);
 
-        // Step 1: Create an instance of GameStateManager with only the Stage
         GameStateManager gameStateManager = GameStateManager.getInstance(stage);
-
-        // Step 2: Create the Controller and set it in GameStateManager
         Controller controller = new Controller(stage, gameStateManager);
-        gameStateManager.setController(controller); // This method sets the Controller
-
-        // Step 3: Start the game from the Controller
-        controller.startGame();
     }
 
     @Override

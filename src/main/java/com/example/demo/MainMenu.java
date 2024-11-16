@@ -32,7 +32,7 @@ public class MainMenu {
 
         gameStateManager = controller.getGameStateManager();
         if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().playMusic("titlebackground.mp3");
+            gameStateManager.getAudioManager().playMusic("menubgm.mp3");
         }
     }
 
