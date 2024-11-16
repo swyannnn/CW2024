@@ -2,8 +2,7 @@ package com.example.demo.level;
 
 import com.example.demo.ActiveActorDestructible;
 import com.example.demo.EnemyPlane;
-import com.example.demo.GameControl;
-import com.example.demo.manager.GameStateManager;
+import com.example.demo.controller.Controller;
 import com.example.demo.util.GameConstant;
 
 public class Level001 extends LevelParent {
@@ -14,8 +13,8 @@ public class Level001 extends LevelParent {
     private static final int PLAYER_INITIAL_HEALTH = 5;
     private int currentLevelNumber;
 
-    public Level001(GameControl gameControl, int levelNumber) {
-        super(gameControl, BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
+    public Level001(Controller controller, int levelNumber) {
+        super(BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
         this.currentLevelNumber = levelNumber;
     }
 

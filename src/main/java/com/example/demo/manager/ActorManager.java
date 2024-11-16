@@ -4,7 +4,6 @@ import com.example.demo.ActiveActorDestructible;
 import com.example.demo.UserPlane;
 import javafx.scene.Group;
 import javafx.scene.Node;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,19 +12,34 @@ import java.util.stream.Collectors;
  * ActorManager handles all actors within a level, including updating and managing their lifecycle.
  */
 public class ActorManager {
+    private static ActorManager instance;
     private final List<ActiveActorDestructible> friendlyUnits;
     private final List<ActiveActorDestructible> enemyUnits;
     private final List<ActiveActorDestructible> userProjectiles;
     private final List<ActiveActorDestructible> enemyProjectiles;
     private final Group root;
 
-    public ActorManager(Group root, UserPlane user) {
+    // Private constructor to enforce Singleton pattern
+    public ActorManager(Group root) {
         this.root = root;
         this.friendlyUnits = new ArrayList<>();
         this.enemyUnits = new ArrayList<>();
         this.userProjectiles = new ArrayList<>();
         this.enemyProjectiles = new ArrayList<>();
-        addFriendlyUnit(user); // Initialize with the user plane
+    }
+
+    /**
+     * Retrieves the singleton instance of ActorManager.
+     *
+     * @param root  The root group to which actors are added.
+     * @param user  The user-controlled plane.
+     * @return The singleton instance of ActorManager.
+     */
+    public static synchronized ActorManager getInstance(Group root) {
+        if (instance == null) {
+            instance = new ActorManager(root);
+        }
+        return instance;
     }
 
     // Method to add a friendly unit to the scene and list
@@ -61,7 +75,7 @@ public class ActorManager {
         if (!root.getChildren().contains(element)) {
             root.getChildren().add(element);
         }
-    }  
+    }
 
     // Update all actors in the game
     public void updateAllActors() {
@@ -69,7 +83,7 @@ public class ActorManager {
         enemyUnits.forEach(ActiveActorDestructible::updateActor);
         userProjectiles.forEach(ActiveActorDestructible::updateActor);
         enemyProjectiles.forEach(ActiveActorDestructible::updateActor);
-    } 
+    }
 
     // Remove actors that have been destroyed
     public void removeDestroyedActors() {
@@ -82,8 +96,8 @@ public class ActorManager {
     // Helper method to remove destroyed actors from a list
     private void removeDestroyedActorsFromList(List<ActiveActorDestructible> actors) {
         List<ActiveActorDestructible> destroyed = actors.stream()
-                .filter(ActiveActorDestructible::isDestroyed)
-                .collect(Collectors.toList());
+            .filter(ActiveActorDestructible::isDestroyed)
+            .collect(Collectors.toList());
         root.getChildren().removeAll(destroyed);
         actors.removeAll(destroyed);
     }

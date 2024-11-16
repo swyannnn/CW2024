@@ -2,7 +2,10 @@ package com.example.demo.state;
 
 import com.example.demo.level.LevelParent;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.GameStateManager;
+import com.example.demo.manager.ImageManager;
+
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -15,8 +18,10 @@ import javafx.stage.Stage;
 public class LevelState implements GameState {
     private final LevelParent level;
     private final Stage stage;
+    private final GameStateManager gameStateManager;
+    private final AudioManager audioManager;
+    private final ImageManager imageManager;
     private final ActorManager actorManager;
-    private final GameStateManager gameStateManager; // Inject GameStateManager as a dependency
     private boolean levelCompleted;
 
     /**
@@ -27,11 +32,13 @@ public class LevelState implements GameState {
      * @param stage The main Stage object used for rendering scenes.
      * @param gameStateManager The GameStateManager handling game state transitions.
      */
-    public LevelState(LevelParent level, ActorManager actorManager, Stage stage, GameStateManager gameStateManager) {
+    public LevelState(Stage stage, LevelParent level, ActorManager actorManager, GameStateManager gameStateManager, AudioManager audioManager, ImageManager imageManager) {
         this.level = level;
-        this.actorManager = actorManager;
         this.stage = stage;
-        this.gameStateManager = gameStateManager; // Initialize GameStateManager
+        this.actorManager = actorManager;
+        this.gameStateManager = gameStateManager;
+        this.audioManager = audioManager;
+        this.imageManager = imageManager;
         this.levelCompleted = false;
     }
 
@@ -47,6 +54,9 @@ public class LevelState implements GameState {
         level.startGame();
         stage.show();
         System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
+
+        // // Play background music for this level
+        // audioManager.playMusic("background_music.mp3");
     }
 
     @Override
@@ -79,6 +89,7 @@ public class LevelState implements GameState {
         if (actorManager != null) {
             actorManager.removeDestroyedActors();
         }
+        audioManager.stopMusic(); // Stop music when level is cleaned up
     }
 
     /**
@@ -163,7 +174,7 @@ public class LevelState implements GameState {
             levelCompleted = true;
             int nextLevelNumber = level.getCurrentLevelNumber() + 1;
             System.out.println("LevelState: Transitioning to Level " + nextLevelNumber);
-            Platform.runLater(() -> gameStateManager.goToLevel(nextLevelNumber)); // Use the injected GameStateManager
+            Platform.runLater(() -> gameStateManager.goToLevel(nextLevelNumber)); 
         }
     }
 

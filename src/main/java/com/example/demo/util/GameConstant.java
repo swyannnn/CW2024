@@ -20,4 +20,21 @@ public class GameConstant {
         "background_music.mp3"
         // Add more background music filenames here as needed
     };
+
+    // Image file paths
+    public static final String[] IMAGE_FILES = {
+        "background1.png",
+        "background2.png",
+        "bossplane.png",
+        "enemyFire.png",
+        "enemyplane.png",
+        "fireball.png",
+        "gameover.png",
+        "health.png",
+        "shield.png",
+        "userfire.png",
+        "userplane.png",
+        "youwin.png"
+        // Add more image filenames here as needed
+    };
 }

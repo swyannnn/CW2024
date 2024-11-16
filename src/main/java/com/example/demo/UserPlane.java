@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.memento.PlayerStateMemento;
+
 import javafx.scene.shape.Rectangle;
 
 public class UserPlane extends FighterPlane {
@@ -22,6 +24,8 @@ public class UserPlane extends FighterPlane {
     private int numberOfKills = 0;
 	private int health;
     private int score;
+    private double positionX;
+    private double positionY;
 
     /**
      * Constructs a UserPlane object with specified stage dimensions and initial health.
@@ -40,6 +44,27 @@ public class UserPlane extends FighterPlane {
         this.initialYPosition = stageHeight / 2;
         this.health = initialHealth;
         this.score = 0;
+    }
+
+    /**
+     * Creates a memento of the current player state.
+     *
+     * @return A PlayerStateMemento containing the current state.
+     */
+    public PlayerStateMemento createMemento() {
+        return new PlayerStateMemento(health, score, positionX, positionY);
+    }
+
+    /**
+     * Restores the player state from the given memento.
+     *
+     * @param memento The PlayerStateMemento to restore from.
+     */
+    public void restoreMemento(PlayerStateMemento memento) {
+        this.health = memento.getHealth();
+        this.score = memento.getScore();
+        this.positionX = memento.getPositionX();
+        this.positionY = memento.getPositionY();
     }
 
     /**
@@ -89,6 +114,19 @@ public class UserPlane extends FighterPlane {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public double getPositionX() {
+        return positionX;
+    }
+
+    public double getPositionY() {
+        return positionY;
+    }
+
+    public void setPosition(double positionX, double positionY) {
+        this.positionX = positionX;
+        this.positionY = positionY;
     }
 
     // Method to reduce the user's health (for when the user takes damage)

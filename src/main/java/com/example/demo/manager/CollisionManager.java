@@ -1,13 +1,29 @@
 package com.example.demo.manager;
 
 import com.example.demo.ActiveActorDestructible;
-
 import java.util.List;
 
 /**
  * CollisionManager handles all collision detections and responses between actors.
  */
 public class CollisionManager {
+    private static CollisionManager instance;
+
+    // Private constructor to enforce Singleton pattern
+    private CollisionManager() {}
+
+    /**
+     * Retrieves the singleton instance of CollisionManager.
+     *
+     * @return The singleton instance of CollisionManager.
+     */
+    public static synchronized CollisionManager getInstance() {
+        if (instance == null) {
+            instance = new CollisionManager();
+        }
+        return instance;
+    }
+
     /**
      * Handles collisions between two lists of actors.
      *

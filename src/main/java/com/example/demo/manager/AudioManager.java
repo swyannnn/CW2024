@@ -14,34 +14,62 @@ import java.util.List;
  */
 public class AudioManager {
     private static final String AUDIO_LOCATION = "/com/example/demo/audios/";
+    private boolean audioEnabled = true;
+    private static AudioManager instance;
     private MediaPlayer mediaPlayer;
-    private final AudioClip[] soundEffects;
+    private final List<AudioClip> soundEffects;
     private final List<Media> preloadedMedia;
 
-    /**
-     * Initializes sound effects and preloads media resources.
-     */
-    public AudioManager() {
-        // Initialize sound effects using GameConstants
-        soundEffects = new AudioClip[GameConstant.SOUND_EFFECT_FILES.length];
-        for (int i = 0; i < GameConstant.SOUND_EFFECT_FILES.length; i++) {
-            soundEffects[i] = loadAudioClip(GameConstant.SOUND_EFFECT_FILES[i]);
-        }
-
-        // Example: Adjust the volume for a specific sound effect
-        if (soundEffects.length > 3 && soundEffects[3] != null) {
-            soundEffects[3].setVolume(0.20);
-        }
-
-        // Preload background music or other media
+    // Private constructor to enforce Singleton pattern
+    private AudioManager() {
+        soundEffects = new ArrayList<>();
         preloadedMedia = new ArrayList<>();
         preloadAllAudio();
     }
 
     /**
-     * Preloads all media resources required for the game.
+     * Retrieves the singleton instance of AudioManager.
+     *
+     * @return The singleton instance of AudioManager.
+     */
+    public static synchronized AudioManager getInstance() {
+        if (instance == null) {
+            instance = new AudioManager();
+        }
+        return instance;
+    }
+
+    public boolean isAudioEnabled() {
+        return audioEnabled;
+    }
+    
+    public void setAudioEnabled(boolean enabled) {
+        this.audioEnabled = enabled;
+        // Implement enabling/disabling audio playback accordingly
+        if (!enabled) {
+            stopMusic();
+        }
+    }
+
+    /**
+     * Preloads all sound effects and background music specified in GameConstant.
      */
     private void preloadAllAudio() {
+        // Preload sound effects
+        for (String filename : GameConstant.SOUND_EFFECT_FILES) {
+            AudioClip clip = preloadAudioClip(filename);
+            if (clip != null) {
+                soundEffects.add(clip);
+            }
+        }
+
+        // Adjust volume for specific sound effects if needed
+        // Example: Set volume for the fourth sound effect
+        if (soundEffects.size() > 3 && soundEffects.get(3) != null) {
+            soundEffects.get(3).setVolume(0.20);
+        }
+
+        // Preload background music
         for (String filename : GameConstant.BACKGROUND_MUSIC_FILES) {
             preloadMedia(filename);
         }
@@ -53,7 +81,7 @@ public class AudioManager {
      * @param filename The name of the audio file.
      * @return The AudioClip, or null if not found.
      */
-    private AudioClip loadAudioClip(String filename) {
+    private AudioClip preloadAudioClip(String filename) {
         try {
             String uri = getClass().getResource(AUDIO_LOCATION + filename).toExternalForm();
             return new AudioClip(uri);
@@ -127,8 +155,10 @@ public class AudioManager {
      * @param index The index of the sound effect to play.
      */
     public void playSoundEffect(int index) {
-        if (index >= 0 && index < soundEffects.length && soundEffects[index] != null) {
-            soundEffects[index].play();
+        if (index >= 0 && index < soundEffects.size() && soundEffects.get(index) != null) {
+            soundEffects.get(index).play();
+        } else {
+            System.err.println("Invalid sound effect index: " + index);
         }
     }
 }

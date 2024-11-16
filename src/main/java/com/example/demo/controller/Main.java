@@ -7,33 +7,32 @@ import javafx.stage.Stage;
 
 /**
  * Main class serves as the entry point for the JavaFX application.
- * It initializes and displays the HomeMenu.
+ * It initializes and displays the game.
  */
 public class Main extends Application {
     private static final String TITLE = "Sky Battle";
 
     @Override
     public void start(Stage stage) {
-        // Set stage properties
         stage.setTitle(TITLE);
         stage.setResizable(false);
         stage.setWidth(GameConstant.SCREEN_WIDTH);
         stage.setHeight(GameConstant.SCREEN_HEIGHT);
 
-        // Initialize GameStateManager and Controller
-        GameStateManager gameStateManager = GameStateManager.getInstance(stage, null); // Temporarily pass null for the controller
+        // Step 1: Create an instance of GameStateManager with only the Stage
+        GameStateManager gameStateManager = GameStateManager.getInstance(stage);
+
+        // Step 2: Create the Controller and set it in GameStateManager
         Controller controller = new Controller(stage, gameStateManager);
+        gameStateManager.setController(controller); // This method sets the Controller
 
-        // Now that the controller is created, set it in the GameStateManager
-        gameStateManager.setController(controller);
-
-        // Start the game by going to the main menu or another initial state
-        gameStateManager.goToMainMenu();
+        // Step 3: Start the game from the Controller
+        controller.startGame();
     }
 
     @Override
     public void stop() {
-        // Perform any necessary cleanup here
+        GameStateManager.getInstance(null).cleanup(); 
     }
 
     public static void main(String[] args) {

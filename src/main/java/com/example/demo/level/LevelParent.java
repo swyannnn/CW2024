@@ -1,12 +1,14 @@
 package com.example.demo.level;
 
 import com.example.demo.ActiveActorDestructible;
-import com.example.demo.GameControl;
-import com.example.demo.UserPlane;
-import com.example.demo.manager.*;
-import com.example.demo.util.GameConstant;
 import com.example.demo.FighterPlane;
-import com.example.demo.memento.GameStateMemento;
+import com.example.demo.UserPlane;
+import com.example.demo.manager.ActorManager;
+import com.example.demo.manager.CollisionManager;
+import com.example.demo.memento.LevelStateMemento;
+import com.example.demo.memento.PlayerStateMemento;
+import com.example.demo.util.GameConstant;
+
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -20,7 +22,6 @@ import java.beans.PropertyChangeSupport;
  * Abstract base class for game levels.
  */
 public abstract class LevelParent {
-    protected GameControl gameControl;
     private final double screenHeight;
     private final double screenWidth;
     private final double enemyMaximumYPosition;
@@ -38,17 +39,17 @@ public abstract class LevelParent {
     private final PropertyChangeSupport support;
 
     // Managers
-    private final ActorManager actorManager;
-    private final CollisionManager collisionManager;
+    protected final ActorManager actorManager;
+    protected final CollisionManager collisionManager;
 
     /**
      * Constructs a new LevelParent instance.
      *
-     * @param backgroundImageName The path to the background image.
-     * @param playerInitialHealth The initial health of the player.
+     * @param gameControl          The GameControl instance managing game actions. Remove if not using.
+     * @param backgroundImageName  The path to the background image.
+     * @param playerInitialHealth  The initial health of the player.
      */
-    public LevelParent(GameControl gameControl, String backgroundImageName, int playerInitialHealth) {
-        this.gameControl = gameControl;
+    public LevelParent(String backgroundImageName, int playerInitialHealth) {
         this.screenHeight = GameConstant.SCREEN_HEIGHT;
         this.screenWidth = GameConstant.SCREEN_WIDTH;
         this.root = new Group();
@@ -56,35 +57,31 @@ public abstract class LevelParent {
         this.user = new UserPlane(screenHeight, screenWidth, playerInitialHealth);
         this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
         this.enemyMaximumYPosition = screenHeight - GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
-    
-        // Initialize ActorManager **before** LevelView
-        this.actorManager = new ActorManager(root, user);
-    
-        // Now instantiate LevelView with a non-null ActorManager
+
+        // Initialize PropertyChangeSupport
+        this.support = new PropertyChangeSupport(this);
+
+        // Initialize Managers
+        this.actorManager = new ActorManager(root);
+        this.collisionManager = CollisionManager.getInstance();
+
+        // Initialize LevelView
         this.levelView = instantiateLevelView();
-    
+
         // Initialize other components
-        this.collisionManager = new CollisionManager();
         this.currentNumberOfEnemies = 0;
-        this.support = new PropertyChangeSupport(this); // Initialize PropertyChangeSupport
-    
-        // Add the background to the root first to ensure it is behind other elements
+
+        // Add the background and user to the root
         initializeBackground();
-    
-        // Add the UserPlane on top of the background
-        if (!root.getChildren().contains(user)) {
-            root.getChildren().add(user);
-        }
-    
+        initializeUser();
+
+        // Initialize friendly units and view
         initializeFriendlyUnits();
         levelView.showHeartDisplay();
-    
-        // Add UserPlane to the ActorManager
-        actorManager.addFriendlyUnit(user);
-    }    
-    
+    }
+
     /**
-     * Initializes the background image and input handlers.
+     * Initializes the background image.
      */
     private void initializeBackground() {
         background.setFitHeight(screenHeight);
@@ -92,26 +89,53 @@ public abstract class LevelParent {
         root.getChildren().add(background);
         System.out.println("Background added to root.");
     }
-    
 
     /**
-     * Creates a memento object to save the current state of the level.
-     *
-     * @return A GameStateMemento containing the current state.
+     * Initializes the user plane in the scene.
      */
-    public GameStateMemento saveState() {
-        return new GameStateMemento(getUser().getHealth(), getUser().getScore(), getCurrentLevelNumber());
+    private void initializeUser() {
+        if (!root.getChildren().contains(user)) {
+            root.getChildren().add(user);
+        }
     }
 
     /**
-     * Restores the state of the level from a memento object.
+     * Creates a PlayerStateMemento to save the current state of the player.
      *
-     * @param memento The GameStateMemento to restore from.
+     * @return A PlayerStateMemento containing the current player state.
      */
-    public void restoreState(GameStateMemento memento) {
-        getUser().setHealth(memento.getPlayerHealth());
-        getUser().setScore(memento.getScore());
+    public PlayerStateMemento createPlayerMemento() {
+        return new PlayerStateMemento(user.getHealth(), user.getScore(), user.getPositionX(), user.getPositionY());
+    }
+
+    /**
+     * Creates a LevelStateMemento to save the current state of the level.
+     *
+     * @return A LevelStateMemento containing the current level state.
+     */
+    public LevelStateMemento createLevelMemento() {
+        return new LevelStateMemento(getCurrentLevelNumber(), actorManager.getEnemyUnits().size());
+    }
+
+    /**
+     * Restores the player's state from a PlayerStateMemento.
+     *
+     * @param memento The PlayerStateMemento to restore from.
+     */
+    public void restorePlayerState(PlayerStateMemento memento) {
+        user.setHealth(memento.getHealth());
+        user.setScore(memento.getScore());
+        user.setPosition(memento.getPositionX(), memento.getPositionY());
+    }
+
+    /**
+     * Restores the level's state from a LevelStateMemento.
+     *
+     * @param memento The LevelStateMemento to restore from.
+     */
+    public void restoreLevelState(LevelStateMemento memento) {
         setCurrentLevelNumber(memento.getLevelNumber());
+        // Implement logic to recreate enemy units based on the saved state if necessary
     }
 
     // Abstract methods to be implemented by subclasses
@@ -133,14 +157,13 @@ public abstract class LevelParent {
         return this.levelView;
     }
 
-        /**
+    /**
      * Checks if the user's plane has been destroyed.
-     * 
+     *
      * @return true if the user's plane is destroyed; false otherwise.
      */
     public boolean userIsDestroyed() {
-        // Check if the user's health is zero or the user has been marked as destroyed
-        return getUser().getHealth() <= 0; // getHealth() returns the player's health
+        return user.getHealth() <= 0;
     }
 
     /**
@@ -174,9 +197,9 @@ public abstract class LevelParent {
         actorManager.updateAllActors();
     }
 
-	protected double getEnemyMaximumYPosition() {
-		return enemyMaximumYPosition;
-	}
+    protected double getEnemyMaximumYPosition() {
+        return enemyMaximumYPosition;
+    }
 
     /**
      * Removes all destroyed actors from their respective lists and the scene graph.
@@ -263,8 +286,6 @@ public abstract class LevelParent {
      * may handle updating UI elements or LevelView.
      */
     public void render() {
-        // In JavaFX, rendering is handled by the scene graph.
-        // If you have any custom rendering logic, implement it here.
         levelView.updateView();
     }
 
@@ -289,11 +310,8 @@ public abstract class LevelParent {
     /**
      * Handles the game over state.
      */
-    // Method to handle losing the game
     public void loseGame() {
-        if (gameControl != null) {
-            Platform.runLater(() -> gameControl.stopGameLoopAndLose()); // Call the interface method on the JavaFX thread
-        }
+        Platform.runLater(() -> support.firePropertyChange("lose", false, true));
         // Additional lose logic here
     }
 
@@ -301,9 +319,7 @@ public abstract class LevelParent {
      * Handles the win game state.
      */
     public void winGame() {
-        if (gameControl != null) {
-            Platform.runLater(() -> gameControl.stopGameLoopAndWin()); // Call the interface method on the JavaFX thread
-        }
+        Platform.runLater(() -> support.firePropertyChange("win", false, true));
         // Additional win logic here
     }
 
@@ -314,15 +330,6 @@ public abstract class LevelParent {
      */
     public void goToNextLevel(Integer nextLevelNumber) {
         support.firePropertyChange("level", null, nextLevelNumber); // Notify listeners about the level change
-    }
-
-    /**
-     * Getter for the GameControl instance.
-     *
-     * @return The GameControl instance associated with this level.
-     */
-    public GameControl getGameControl() {
-        return gameControl;
     }
 
     // Getter methods for subclasses or controller
@@ -350,5 +357,4 @@ public abstract class LevelParent {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         support.removePropertyChangeListener(listener);
     }
-    // Additional helper methods can be added here
 }

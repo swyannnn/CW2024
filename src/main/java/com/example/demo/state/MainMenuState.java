@@ -2,6 +2,8 @@ package com.example.demo.state;
 
 import com.example.demo.MainMenu;
 import com.example.demo.controller.Controller;
+import com.example.demo.manager.GameStateManager;
+
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -12,6 +14,7 @@ public class MainMenuState implements GameState {
     private final Stage primaryStage;
     private final Controller controller;
     private MainMenu mainMenu;
+    GameStateManager gameStateManager;
 
     /**
      * Constructor for MainMenuState.
@@ -22,6 +25,7 @@ public class MainMenuState implements GameState {
     public MainMenuState(Stage primaryStage, Controller controller) {
         this.primaryStage = primaryStage;
         this.controller = controller;
+        this.gameStateManager = controller.getGameStateManager();
     }
 
     @Override
@@ -58,8 +62,8 @@ public class MainMenuState implements GameState {
 
     @Override
     public void cleanup() {
-        if (controller.getAudioManager() != null) {
-            controller.getAudioManager().stopMusic();
+        if (gameStateManager.getAudioManager() != null) {
+            gameStateManager.getAudioManager().stopMusic();
         }
     }
 
