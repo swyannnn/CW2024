@@ -56,7 +56,7 @@ public class LevelState implements GameState {
         System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
 
         // Play background music for this level
-        audioManager.playMusic("background_music.mp3");
+        gameStateManager.getAudioManager().playMusic("menubgm.mp3");
     }
 
     @Override

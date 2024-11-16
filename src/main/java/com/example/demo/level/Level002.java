@@ -7,13 +7,13 @@ import com.example.demo.controller.Controller;
 import com.example.demo.util.GameConstant;
 
 public class Level002 extends LevelParent {
-    private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
+    private static final String BACKGROUND_IMAGE_NAME = "background2.jpg";
     private static final int PLAYER_INITIAL_HEALTH = 5;
     private final BossPlane bossPlane;
     private int currentLevelNumber;
 
     public Level002(Controller controller, int levelNumber) {
-        super(BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
+        super(controller, BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
         this.currentLevelNumber = levelNumber;
         bossPlane = new BossPlane(GameConstant.SCREEN_HEIGHT, GameConstant.SCREEN_WIDTH);
     }

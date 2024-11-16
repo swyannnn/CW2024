@@ -3,67 +3,70 @@ package com.example.demo.level;
 import com.example.demo.ActiveActorDestructible;
 import com.example.demo.FighterPlane;
 import com.example.demo.UserPlane;
+import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.CollisionManager;
+import com.example.demo.manager.GameStateManager;
+import com.example.demo.manager.ImageManager;
 import com.example.demo.memento.LevelStateMemento;
 import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.util.GameConstant;
 
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 /**
  * Abstract base class for game levels.
+ * Now streamlined to focus on level-specific logic.
  */
 public abstract class LevelParent {
-    private final double screenHeight;
-    private final double screenWidth;
-    private final double enemyMaximumYPosition;
+    protected final double screenHeight;
+    protected final double screenWidth;
+    protected final double enemyMaximumYPosition;
 
-    private final Group root;
-    private final UserPlane user;
-    private final Scene scene;
-    private final ImageView background;
+    protected final Group root;
+    protected final Scene scene;
+    protected final ImageView background;
 
-    private LevelView levelView;
+    protected UserPlane user;
+    protected LevelView levelView;
+    protected Controller controller;
 
-    private int currentNumberOfEnemies;
+    protected int currentNumberOfEnemies;
 
-    // PropertyChangeSupport to handle listeners
-    private final PropertyChangeSupport support;
-
-    // Managers
+    // Managers are injected to ensure they're properly initialized
     protected final ActorManager actorManager;
     protected final CollisionManager collisionManager;
+    protected final GameStateManager gameStateManager;
 
     /**
      * Constructs a new LevelParent instance.
      *
-     * @param gameControl          The GameControl instance managing game actions. Remove if not using.
-     * @param backgroundImageName  The path to the background image.
-     * @param playerInitialHealth  The initial health of the player.
+     * @param backgroundImageName The path to the background image.
+     * @param playerInitialHealth The initial health of the player.
+     * @param gameStateManager    The GameStateManager instance managing game states.
      */
-    public LevelParent(String backgroundImageName, int playerInitialHealth) {
+    public LevelParent(Controller controller, String backgroundImageName, int playerInitialHealth) {
         this.screenHeight = GameConstant.SCREEN_HEIGHT;
         this.screenWidth = GameConstant.SCREEN_WIDTH;
-        this.root = new Group();
-        this.scene = new Scene(root, screenWidth, screenHeight);
-        this.user = new UserPlane(screenHeight, screenWidth, playerInitialHealth);
-        this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
         this.enemyMaximumYPosition = screenHeight - GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
 
-        // Initialize PropertyChangeSupport
-        this.support = new PropertyChangeSupport(this);
+        this.root = new Group();
+        this.scene = new Scene(root, screenWidth, screenHeight);
+
+        // Initialize background
+        this.background = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
+        initializeBackground();
+
+        // Initialize User Plane
+        this.user = new UserPlane(screenHeight, screenWidth, playerInitialHealth);
+        initializeUser();
 
         // Initialize Managers
-        this.actorManager = new ActorManager(root);
-        this.collisionManager = CollisionManager.getInstance();
+        this.gameStateManager = controller.getGameStateManager();
+        this.actorManager = gameStateManager.getActorManager();
+        this.collisionManager = gameStateManager.getCollisionManager();
 
         // Initialize LevelView
         this.levelView = instantiateLevelView();
@@ -71,12 +74,7 @@ public abstract class LevelParent {
         // Initialize other components
         this.currentNumberOfEnemies = 0;
 
-        // Add the background and user to the root
-        initializeBackground();
-        initializeUser();
-
-        // Initialize friendly units and view
-        initializeFriendlyUnits();
+        // Add LevelView related UI elements
         levelView.showHeartDisplay();
     }
 
@@ -96,6 +94,15 @@ public abstract class LevelParent {
         if (!root.getChildren().contains(user)) {
             root.getChildren().add(user);
         }
+    }
+
+    // Getter methods for subclasses or controller
+    public UserPlane getUser() {
+        return user;
+    }
+
+    public ActorManager getActorManager() {
+        return actorManager;
     }
 
     /**
@@ -302,24 +309,22 @@ public abstract class LevelParent {
      * This method can be called when the level is loaded.
      */
     public void startGame() {
+        // Any initialization before the game loop starts can be done here.
         background.requestFocus();
-        // Any other initialization before the game loop starts can be done here.
     }
 
     /**
      * Handles the game over state.
      */
     public void loseGame() {
-        Platform.runLater(() -> support.firePropertyChange("lose", false, true));
-        // Additional lose logic here
+        gameStateManager.goToLoseState();
     }
 
     /**
      * Handles the win game state.
      */
     public void winGame() {
-        Platform.runLater(() -> support.firePropertyChange("win", false, true));
-        // Additional win logic here
+        gameStateManager.goToWinState();
     }
 
     /**
@@ -328,32 +333,6 @@ public abstract class LevelParent {
      * @param nextLevelNumber The number of the next level.
      */
     public void goToNextLevel(Integer nextLevelNumber) {
-        support.firePropertyChange("level", null, nextLevelNumber); // Notify listeners about the level change
-    }
-
-    // Getter methods for subclasses or controller
-    public UserPlane getUser() {
-        return user;
-    }
-
-    public Group getRoot() {
-        return this.root;
-    }
-
-    public ActorManager getActorManager() {
-        return actorManager;
-    }
-
-    public CollisionManager getCollisionManager() {
-        return collisionManager;
-    }
-
-    // Methods to add and remove listeners
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        support.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        support.removePropertyChangeListener(listener);
+        gameStateManager.goToLevel(nextLevelNumber);
     }
 }

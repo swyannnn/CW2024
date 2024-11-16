@@ -3,19 +3,19 @@ package com.example.demo.level;
 import com.example.demo.controller.Controller;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * LevelFactory creates instances of levels using a map of registered level constructors.
  */
 public class LevelFactory {
     // Map for registered level constructors
-    private static final Map<Integer, BiFunction<Controller, Integer, LevelParent>> levelMap = new HashMap<>();
+    private static final Map<Integer, Function<Controller, LevelParent>> levelMap = new HashMap<>();
 
     static {
         // Register levels with appropriate constructors
-        levelMap.put(1, Level001::new);
-        levelMap.put(2, Level002::new);
+        levelMap.put(1, controller -> new Level001(controller, 1));
+        levelMap.put(2, controller -> new Level002(controller, 2));
         // Add more levels as needed
     }
 
@@ -29,9 +29,9 @@ public class LevelFactory {
     public static LevelParent createLevel(int levelNumber, Controller controller) {
         try {
             System.out.println("Creating level: " + levelNumber);
-            BiFunction<Controller, Integer, LevelParent> constructor = levelMap.get(levelNumber);
+            Function<Controller, LevelParent> constructor = levelMap.get(levelNumber);
             if (constructor != null) {
-                LevelParent level = constructor.apply(controller, levelNumber);
+                LevelParent level = constructor.apply(controller);
                 System.out.println("Level " + levelNumber + " created successfully.");
                 return level;
             }
@@ -49,7 +49,7 @@ public class LevelFactory {
      * @param levelNumber The level number to register.
      * @param constructor The constructor function for the level.
      */
-    public static void registerLevel(int levelNumber, BiFunction<Controller, Integer, LevelParent> constructor) {
+    public static void registerLevel(int levelNumber, Function<Controller, LevelParent> constructor) {
         levelMap.put(levelNumber, constructor);
     }
 }

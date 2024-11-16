@@ -9,9 +9,6 @@ import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.state.GameState;
 import com.example.demo.state.GameStateFactory;
 import com.example.demo.state.LevelState;
-import com.example.demo.state.MainMenuState;
-import com.example.demo.state.WinState;
-import com.example.demo.state.LoseState;
 import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -99,16 +96,6 @@ public class GameStateManager implements PropertyChangeListener {
         }
         currentState = newState;
         currentState.initialize();
-
-        // Register as a listener if the new state supports it
-        if (newState instanceof LevelState) {
-            ((LevelState) newState).getLevel().addPropertyChangeListener(this);
-        } else if (newState instanceof MainMenuState) {
-            // Handle listeners for MainMenuState if necessary
-            // Example: ((MainMenuState) newState).addPropertyChangeListener(this);
-        } else if (newState instanceof WinState || newState instanceof LoseState) {
-            // Handle listeners for WinState or LoseState if necessary
-        }
     }
 
     /**
