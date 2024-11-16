@@ -4,7 +4,7 @@ import com.example.demo.ActiveActorDestructible;
 import com.example.demo.GameControl;
 import com.example.demo.UserPlane;
 import com.example.demo.manager.*;
-import com.example.demo.util.ScreenConstant;
+import com.example.demo.util.GameConstant;
 import com.example.demo.FighterPlane;
 import com.example.demo.memento.GameStateMemento;
 import javafx.application.Platform;
@@ -12,7 +12,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.Rectangle;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -50,13 +49,13 @@ public abstract class LevelParent {
      */
     public LevelParent(GameControl gameControl, String backgroundImageName, int playerInitialHealth) {
         this.gameControl = gameControl;
-        this.screenHeight = ScreenConstant.SCREEN_HEIGHT;
-        this.screenWidth = ScreenConstant.SCREEN_WIDTH;
+        this.screenHeight = GameConstant.SCREEN_HEIGHT;
+        this.screenWidth = GameConstant.SCREEN_WIDTH;
         this.root = new Group();
         this.scene = new Scene(root, screenWidth, screenHeight);
         this.user = new UserPlane(screenHeight, screenWidth, playerInitialHealth);
         this.background = new ImageView(new Image(getClass().getResource(backgroundImageName).toExternalForm()));
-        this.enemyMaximumYPosition = screenHeight - ScreenConstant.SCREEN_HEIGHT_ADJUSTMENT;
+        this.enemyMaximumYPosition = screenHeight - GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
     
         // Initialize ActorManager **before** LevelView
         this.actorManager = new ActorManager(root, user);

@@ -4,7 +4,6 @@ import com.example.demo.ActiveActorDestructible;
 import com.example.demo.UserPlane;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,24 +29,12 @@ public class ActorManager {
     }
 
     // Method to add a friendly unit to the scene and list
-    // public void addFriendlyUnit(ActiveActorDestructible unit) {
-    //     if (!root.getChildren().contains(unit)) {
-    //         root.getChildren().add(unit);
-    //         friendlyUnits.add(unit);
-    //     }
-    // }
-    
     public void addFriendlyUnit(ActiveActorDestructible unit) {
         if (!root.getChildren().contains(unit)) {
             root.getChildren().add(unit);
             friendlyUnits.add(unit);
-            // Debugging statement
-            System.out.println("Added friendly unit to root and list: " + unit);
-        } else {
-            System.out.println("Friendly unit already exists in root: " + unit);
         }
     }
-    
 
     // Method to add an enemy unit to the scene and list
     public void addEnemyUnit(ActiveActorDestructible enemy) {
@@ -69,37 +56,20 @@ public class ActorManager {
         root.getChildren().add(projectile);
     }
 
-    // // Method to add UI elements to the scene
-    // public void addUIElement(Node element) {
-    //     if (!root.getChildren().contains(element)) {
-    //         root.getChildren().add(element);
-    //     }
-    // }
+    // Method to add UI elements to the scene
     public void addUIElement(Node element) {
         if (!root.getChildren().contains(element)) {
             root.getChildren().add(element);
-            // Debugging statement
-            System.out.println("Added UI element to root: " + element);
-        } else {
-            System.out.println("UI element already exists in root: " + element);
         }
-    }    
+    }  
 
-    // // Update all actors in the game
-    // public void updateAllActors() {
-    //     friendlyUnits.forEach(ActiveActorDestructible::updateActor);
-    //     enemyUnits.forEach(ActiveActorDestructible::updateActor);
-    //     userProjectiles.forEach(ActiveActorDestructible::updateActor);
-    //     enemyProjectiles.forEach(ActiveActorDestructible::updateActor);
-    // }
+    // Update all actors in the game
     public void updateAllActors() {
-        friendlyUnits.forEach(unit -> {
-            unit.updateActor();
-        });
+        friendlyUnits.forEach(ActiveActorDestructible::updateActor);
         enemyUnits.forEach(ActiveActorDestructible::updateActor);
         userProjectiles.forEach(ActiveActorDestructible::updateActor);
         enemyProjectiles.forEach(ActiveActorDestructible::updateActor);
-    }    
+    } 
 
     // Remove actors that have been destroyed
     public void removeDestroyedActors() {

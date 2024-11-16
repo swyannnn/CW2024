@@ -4,7 +4,7 @@ import com.example.demo.ActiveActorDestructible;
 import com.example.demo.BossPlane;
 import com.example.demo.EnemyPlane;
 import com.example.demo.GameControl;
-import com.example.demo.util.ScreenConstant;
+import com.example.demo.util.GameConstant;
 
 public class Level002 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background2.jpg";
@@ -15,7 +15,7 @@ public class Level002 extends LevelParent {
     public Level002(GameControl gameControl, int levelNumber) {
         super(gameControl, BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
         this.currentLevelNumber = levelNumber;
-        bossPlane = new BossPlane(ScreenConstant.SCREEN_HEIGHT, ScreenConstant.SCREEN_WIDTH);
+        bossPlane = new BossPlane(GameConstant.SCREEN_HEIGHT, GameConstant.SCREEN_WIDTH);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class Level002 extends LevelParent {
         // Check if there are no current enemies
         if (getActorManager().getEnemyUnits().size() == 0) {
             // Create and add the boss plane
-            ActiveActorDestructible bossPlane = new EnemyPlane(ScreenConstant.SCREEN_WIDTH, ScreenConstant.SCREEN_HEIGHT / 2);
+            ActiveActorDestructible bossPlane = new EnemyPlane(GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT / 2);
             getActorManager().addEnemyUnit(bossPlane); // Use ActorManager to add the boss enemy
         }
     }

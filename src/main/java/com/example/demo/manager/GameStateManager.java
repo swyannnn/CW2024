@@ -2,7 +2,10 @@ package com.example.demo.manager;
 
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
-import com.example.demo.memento.GameStateMemento;
+import com.example.demo.memento.Caretaker;
+import com.example.demo.memento.GameSettingsMemento;
+import com.example.demo.memento.LevelStateMemento;
+import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.state.GameState;
 import com.example.demo.state.GameStateFactory;
 import com.example.demo.state.LevelState;
@@ -17,7 +20,7 @@ public class GameStateManager {
     private static GameStateManager instance;
     private GameState currentState;
     private final GameStateFactory stateFactory;
-    private GameStateMemento savedState;
+    private final Caretaker caretaker;
 
     /**
      * Private constructor to enforce the Singleton pattern.
@@ -27,6 +30,7 @@ public class GameStateManager {
      */
     private GameStateManager(Stage stage, Controller controller) {
         this.stateFactory = new GameStateFactory(stage, controller, this);
+        this.caretaker = new Caretaker();
     }
 
     /**
@@ -121,37 +125,57 @@ public class GameStateManager {
     }
 
     /**
-     * Saves the current game state.
+     * Saves the player state using the Caretaker.
+     *
+     * @param memento The PlayerStateMemento to save.
      */
-    public void saveGameState() {
-        if (currentState instanceof LevelState) {
-            LevelParent currentLevel = ((LevelState) currentState).getLevel();
-            if (currentLevel != null) {
-                savedState = currentLevel.saveState();
-                System.out.println("Game state saved.");
-            } else {
-                System.out.println("No current level to save.");
-            }
-        } else {
-            System.out.println("Current state is not a LevelState.");
-        }
+    public void savePlayerState(PlayerStateMemento memento) {
+        caretaker.saveMemento("PlayerState", memento);
     }
 
     /**
-     * Loads the previously saved game state.
+     * Loads the player state using the Caretaker.
+     *
+     * @return The PlayerStateMemento, or null if not found.
      */
-    public void loadGameState() {
-        if (savedState != null && currentState instanceof LevelState) {
-            LevelParent currentLevel = ((LevelState) currentState).getLevel();
-            if (currentLevel != null) {
-                currentLevel.restoreState(savedState);
-                System.out.println("Game state loaded.");
-            } else {
-                System.out.println("No current level to load.");
-            }
-        } else {
-            System.out.println("No saved state to load or current state is not a LevelState.");
-        }
+    public PlayerStateMemento loadPlayerState() {
+        return (PlayerStateMemento) caretaker.getMemento("PlayerState");
+    }
+
+    /**
+     * Saves the level state using the Caretaker.
+     *
+     * @param memento The LevelStateMemento to save.
+     */
+    public void saveLevelState(LevelStateMemento memento) {
+        caretaker.saveMemento("LevelState", memento);
+    }
+
+    /**
+     * Loads the level state using the Caretaker.
+     *
+     * @return The LevelStateMemento, or null if not found.
+     */
+    public LevelStateMemento loadLevelState() {
+        return (LevelStateMemento) caretaker.getMemento("LevelState");
+    }
+
+    /**
+     * Saves the game settings using the Caretaker.
+     *
+     * @param memento The GameSettingsMemento to save.
+     */
+    public void saveGameSettings(GameSettingsMemento memento) {
+        caretaker.saveMemento("GameSettings", memento);
+    }
+
+    /**
+     * Loads the game settings using the Caretaker.
+     *
+     * @return The GameSettingsMemento, or null if not found.
+     */
+    public GameSettingsMemento loadGameSettings() {
+        return (GameSettingsMemento) caretaker.getMemento("GameSettings");
     }
 
     /**

@@ -26,7 +26,7 @@ public class MainMenu {
     public MainMenu(Stage stage, Controller controller) {
         this.primaryStage = stage;
         this.controller = controller;
-        controller.getAudioManager().playBackgroundMusic("titlebackground.mp3");
+        controller.getAudioManager().playMusic("titlebackground.mp3");
     }
 
     /**

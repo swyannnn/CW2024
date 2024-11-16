@@ -4,7 +4,7 @@ import com.example.demo.ActiveActorDestructible;
 import com.example.demo.EnemyPlane;
 import com.example.demo.GameControl;
 import com.example.demo.manager.GameStateManager;
-import com.example.demo.util.ScreenConstant;
+import com.example.demo.util.GameConstant;
 
 public class Level001 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "/com/example/demo/images/background1.jpg";
@@ -62,7 +62,7 @@ public class Level001 extends LevelParent {
             // Spawn a new enemy with a probability defined by ENEMY_SPAWN_PROBABILITY
             if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
                 double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
-                ActiveActorDestructible newEnemy = new EnemyPlane(ScreenConstant.SCREEN_WIDTH, newEnemyInitialYPosition);
+                ActiveActorDestructible newEnemy = new EnemyPlane(GameConstant.SCREEN_WIDTH, newEnemyInitialYPosition);
                 getActorManager().addEnemyUnit(newEnemy); // Use ActorManager to add the enemy unit
             }
         }

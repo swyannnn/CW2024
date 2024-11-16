@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import javafx.application.Application;
 import com.example.demo.manager.GameStateManager;
-import com.example.demo.util.ScreenConstant;
+import com.example.demo.util.GameConstant;
 import javafx.stage.Stage;
 
 /**
@@ -17,8 +17,8 @@ public class Main extends Application {
         // Set stage properties
         stage.setTitle(TITLE);
         stage.setResizable(false);
-        stage.setWidth(ScreenConstant.SCREEN_WIDTH);
-        stage.setHeight(ScreenConstant.SCREEN_HEIGHT);
+        stage.setWidth(GameConstant.SCREEN_WIDTH);
+        stage.setHeight(GameConstant.SCREEN_HEIGHT);
 
         // Initialize GameStateManager and Controller
         GameStateManager gameStateManager = GameStateManager.getInstance(stage, null); // Temporarily pass null for the controller
