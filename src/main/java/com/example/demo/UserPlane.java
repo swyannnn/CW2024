@@ -1,15 +1,20 @@
 package com.example.demo;
 
 import com.example.demo.memento.PlayerStateMemento;
+import com.example.demo.util.GameConstant;
 
-import javafx.scene.shape.Rectangle;
+import javafx.animation.AnimationTimer;
+
+import com.example.demo.controller.Controller;
 
 public class UserPlane extends FighterPlane {
     private static final String IMAGE_NAME = "userplane.png";
     private static final int IMAGE_HEIGHT = 150;
     private static final int VERTICAL_VELOCITY = 8;
     private static final int HORIZONTAL_VELOCITY = 8;
-    private static final int PROJECTILE_X_POSITION = 110;
+    private static final double INITIAL_X_POSITION = 5.0;
+	private static final double INITIAL_Y_POSITION = 300.0;
+    private static final int PROJECTILE_X_POSITION_OFFSET = 90;
     private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
 
     private final double yUpperBound;
@@ -26,6 +31,7 @@ public class UserPlane extends FighterPlane {
     private int score;
     private double positionX;
     private double positionY;
+    private final Controller controller;
 
     /**
      * Constructs a UserPlane object with specified stage dimensions and initial health.
@@ -33,17 +39,31 @@ public class UserPlane extends FighterPlane {
      * @param stageWidth The width of the stage.
      * @param initialHealth The initial health of the user plane.
      */
-    public UserPlane(double stageHeight, double stageWidth, int initialHealth) {
-        super(IMAGE_NAME, IMAGE_HEIGHT, stageWidth * 0.01, stageHeight / 2, initialHealth);
+    public UserPlane(int initialHealth, Controller controller) {
+        super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth, controller, GameConstant.USERPLANE_FIRE_INTERVAL_NANOSECONDS);
         // Set dynamic bounds based on stage dimensions
+        this.controller = controller;
         this.yUpperBound = -40;
-        this.yLowerBound = stageHeight - 100;
-        this.xUpperBound = 5;
-        this.xLowerBound = stageWidth - 100;
-        this.initialXPosition = stageWidth * 0.01;
-        this.initialYPosition = stageHeight / 2;
+        this.yLowerBound = 600.0; 
+        this.xUpperBound = 10;
+        this.xLowerBound = GameConstant.SCREEN_WIDTH - 150; 
+        this.initialXPosition = INITIAL_X_POSITION;
+        this.initialYPosition = INITIAL_Y_POSITION;
         this.health = initialHealth;
         this.score = 0;
+    }
+
+    /**
+     * Fires a projectile from the user plane's current position.
+     */
+    public void fireProjectile() {
+        double currentX =  getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
+        double currentY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+
+        UserProjectile projectile = new UserProjectile(currentX, currentY);
+        controller.getGameStateManager().getActorManager().addUserProjectile(projectile);
+
+        System.out.println("Projectile fired at: " + currentX + ", " + currentY);
     }
 
     /**
@@ -78,7 +98,10 @@ public class UserPlane extends FighterPlane {
             moveVertically(VERTICAL_VELOCITY * verticalVelocityMultiplier);
             if (isOutOfVerticalBounds()) {
                 setTranslateY(initialTranslateY); // Revert to the previous position if out of bounds
-                System.out.println("UserPlane out of vertical bounds, reverting Y position.");
+                // System.out.println("UserPlane out of vertical bounds, reverting Y position.");
+            } else {
+                // Update positionY
+                positionY = getLayoutY() + getTranslateY();
             }
         }
 
@@ -88,15 +111,15 @@ public class UserPlane extends FighterPlane {
             moveHorizontally(HORIZONTAL_VELOCITY * horizontalVelocityMultiplier);
             if (isOutOfHorizontalBounds()) {
                 setTranslateX(initialTranslateX); // Revert to the previous position if out of bounds
-                System.out.println("UserPlane out of horizontal bounds, reverting X position.");
-
+                // System.out.println("UserPlane out of horizontal bounds, reverting X position.");
+            } else {
+                // Update positionX
+                positionX = getLayoutX() + getTranslateX();
             }
         }
 
-        Rectangle testRect = new Rectangle(100, 100, javafx.scene.paint.Color.RED);
-        testRect.setX(getLayoutX() + getTranslateX());
-        testRect.setY(getLayoutY() + getTranslateY());
-}
+        // System.out.println("Current user plane position: " + getTranslateX() + ", " + getTranslateY());
+    }
 
     // Health management methods
     public int getHealth() {
@@ -174,17 +197,6 @@ public class UserPlane extends FighterPlane {
     @Override
     public void updateActor() {
         updatePosition();
-    }
-
-    /**
-     * Fires a projectile from the user plane.
-     * @return A new UserProjectile object.
-     */
-    @Override
-    public ActiveActorDestructible fireProjectile() {
-        double currentX = getLayoutX() + getTranslateX() + PROJECTILE_X_POSITION;
-        double currentY = getLayoutY() + getTranslateY() + PROJECTILE_Y_POSITION_OFFSET;
-        return new UserProjectile(currentX, currentY);
     }
 
     // Movement methods

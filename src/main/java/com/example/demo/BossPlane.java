@@ -2,8 +2,11 @@ package com.example.demo;
 
 import java.util.*;
 
-public class BossPlane extends FighterPlane {
+import com.example.demo.controller.Controller;
+import com.example.demo.manager.ActorManager;
 
+public class BossPlane extends FighterPlane {
+	private final Controller controller;
 	private static final String IMAGE_NAME = "bossplane.png";
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
 	private static final double BOSS_FIRE_RATE = 0.04;
@@ -15,6 +18,12 @@ public class BossPlane extends FighterPlane {
 	private static final int ZERO = 0;
 	private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
 	private static final int MAX_FRAMES_WITH_SHIELD = 500;
+	private static final int Y_POSITION_UPPER_BOUND = -100;
+	private static final int Y_POSITION_LOWER_BOUND = 475;
+	private static final double INITIAL_X_POSITION = 1000.0;
+	private static final double INITIAL_Y_POSITION = 400;
+	private static final int INITIAL_HEALTH = 10;
+	private static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000;
 
 	// Dynamic bounds and position based on screen size
 	private double initialXPosition;
@@ -27,14 +36,16 @@ public class BossPlane extends FighterPlane {
 	private int indexOfCurrentMove;
 	private int framesWithShieldActivated;
 
-	public BossPlane(double stageHeight, double stageWidth) {
-		super(IMAGE_NAME, IMAGE_HEIGHT, stageWidth * 0.75, stageHeight * 0.5, HEALTH);
+	public BossPlane(Controller controller) {
+		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, INITIAL_HEALTH, controller, FIRE_INTERVAL_NANOSECONDS);
+		this.controller = controller;
+		// super(IMAGE_NAME, IMAGE_HEIGHT, stageWidth * 0.75, stageHeight * 0.5, HEALTH);
 
-		// Set initial positions and bounds dynamically based on stage dimensions
-		this.initialXPosition = stageWidth * 0.75; // 75% of the screen width
-		this.initialYPosition = stageHeight * 0.5; // Centered vertically
-		this.yUpperBound = -100;
-		this.yLowerBound = stageHeight - IMAGE_HEIGHT; // Adjust lower bound based on screen height
+		// // Set initial positions and bounds dynamically based on stage dimensions
+		// this.initialXPosition = stageWidth * 0.75; // 75% of the screen width
+		// this.initialYPosition = stageHeight * 0.5; // Centered vertically
+		// this.yUpperBound = -100;
+		// this.yLowerBound = stageHeight - IMAGE_HEIGHT; // Adjust lower bound based on screen height
 
 		movePattern = new ArrayList<>();
 		consecutiveMovesInSameDirection = 0;
@@ -67,8 +78,13 @@ public class BossPlane extends FighterPlane {
 	}
 	
 	@Override
-	public ActiveActorDestructible fireProjectile() {
-		return bossFiresInCurrentFrame() ? new BossProjectile(getProjectileInitialPosition()) : null;
+	public void fireProjectile() {
+		if (bossFiresInCurrentFrame()) {
+			double projectileY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+			BossProjectile projectile = new BossProjectile(getProjectileInitialPosition());
+			ActorManager.getInstance(controller.getGameStateManager().getActorManager().getRoot()).addBossProjectile(projectile);
+		}
+		// return bossFiresInCurrentFrame() ? new BossProjectile(getProjectileInitialPosition()) : null;
 	}
 
 	@Override

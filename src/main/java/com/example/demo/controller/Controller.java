@@ -12,9 +12,9 @@ import javafx.stage.Stage;
  */
 public class Controller {
     private final Stage stage;
-    private final GameStateManager gameStateManager;
     private final Group rootGroup;
     private AnimationTimer gameLoop;
+    private GameStateManager gameStateManager;
 
     /**
      * Constructor initializes the Controller with the main stage and sets up the game.
@@ -22,32 +22,31 @@ public class Controller {
      * @param stage The main Stage object used for rendering scenes.
      * @param gameStateManager The GameStateManager instance for managing game states.
      */
-    public Controller(Stage stage, GameStateManager gameStateManager) {
+    public Controller(Stage stage) {
         this.stage = stage;
-        this.gameStateManager = gameStateManager;
-        this.rootGroup = new Group(); // Initialize the root Group for the scene
-        gameStateManager.setController(this);
-        // Set up the scene with the root group and attach it to the stage
-        Scene scene = new Scene(rootGroup);
+        this.rootGroup = new Group(); 
+        Scene scene = new Scene(rootGroup); 
         stage.setScene(scene);
-        setupGameLoop(); // Set up the game loop
-        initialize();
     }
 
     /**
      * Initializes the game by setting up input handling and transitioning to the main menu.
      */
-    private void initialize() {
+    public void initialize() {
+        gameStateManager = GameStateManager.getInstance(stage);
+        gameStateManager.setController(this);
+        setupGameLoop(gameStateManager);
         // Set up key event handlers for input
         stage.getScene().setOnKeyPressed(event -> gameStateManager.handleInput(event));
         stage.getScene().setOnKeyReleased(event -> gameStateManager.handleInput(event));
         gameStateManager.goToMainMenu(); // Transition to the main menu
+        gameLoop.start();
     }
 
     /**
      * Sets up the game loop to continuously update and render the current game state.
      */
-    private void setupGameLoop() {
+    private void setupGameLoop(GameStateManager gameStateManager) {
         gameLoop = new AnimationTimer() {
             private long lastUpdate = System.nanoTime();
             private final double nsPerUpdate = 1e9 / 60.0; // 60 updates per second
@@ -88,10 +87,22 @@ public class Controller {
      * @return The root Group object.
      */
     public Group getRootGroup() {
-        return rootGroup;
+        return this.rootGroup;
     }
 
     public GameStateManager getGameStateManager() {
         return gameStateManager;
+    }
+
+    /**
+     * Cleanup method to stop the game loop and cleanup the GameStateManager.
+     */
+    public void cleanup() {
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+        if (gameStateManager != null) {
+            gameStateManager.cleanup();
+        }
     }
 }

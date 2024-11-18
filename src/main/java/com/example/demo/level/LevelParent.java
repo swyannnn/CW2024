@@ -1,7 +1,6 @@
 package com.example.demo.level;
 
 import com.example.demo.ActiveActorDestructible;
-import com.example.demo.FighterPlane;
 import com.example.demo.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
@@ -39,44 +38,51 @@ public abstract class LevelParent {
     protected final ActorManager actorManager;
     protected final CollisionManager collisionManager;
     protected final GameStateManager gameStateManager;
-
     /**
      * Constructs a new LevelParent instance.
      *
+     * @param controller The Controller instance.
      * @param backgroundImageName The path to the background image.
      * @param playerInitialHealth The initial health of the player.
-     * @param gameStateManager    The GameStateManager instance managing game states.
      */
     public LevelParent(Controller controller, String backgroundImageName, int playerInitialHealth) {
+
+        if (controller == null) {
+            System.err.println("Controller is null in LevelParent");
+        }
+        else {
+            System.out.println("Controller is not null in LevelParent");
+        }
+        this.controller = controller;
         this.screenHeight = GameConstant.SCREEN_HEIGHT;
         this.screenWidth = GameConstant.SCREEN_WIDTH;
         this.enemyMaximumYPosition = screenHeight - GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
-
+    
         this.root = new Group();
         this.scene = new Scene(root, screenWidth, screenHeight);
-
+    
         // Initialize background
         this.background = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
         initializeBackground();
 
-        // Initialize User Plane
-        this.user = new UserPlane(screenHeight, screenWidth, playerInitialHealth);
-        initializeUser();
-
         // Initialize Managers
         this.gameStateManager = controller.getGameStateManager();
-        this.actorManager = gameStateManager.getActorManager();
         this.collisionManager = gameStateManager.getCollisionManager();
+        this.actorManager = gameStateManager.getActorManager();
+    
+        // Pass the root to ActorManager
+        this.actorManager.updateRoot(this.root);
 
         // Initialize LevelView
         this.levelView = instantiateLevelView();
-
+    
         // Initialize other components
         this.currentNumberOfEnemies = 0;
-
+    
         // Add LevelView related UI elements
         levelView.showHeartDisplay();
-    }
+    }    
+    
 
     /**
      * Initializes the background image.
@@ -84,25 +90,8 @@ public abstract class LevelParent {
     private void initializeBackground() {
         background.setFitHeight(screenHeight);
         background.setFitWidth(screenWidth);
+        background.setOpacity(0.3);
         root.getChildren().add(background);
-    }
-
-    /**
-     * Initializes the user plane in the scene.
-     */
-    private void initializeUser() {
-        if (!root.getChildren().contains(user)) {
-            root.getChildren().add(user);
-        }
-    }
-
-    // Getter methods for subclasses or controller
-    public UserPlane getUser() {
-        return user;
-    }
-
-    public ActorManager getActorManager() {
-        return actorManager;
     }
 
     /**
@@ -111,7 +100,7 @@ public abstract class LevelParent {
      * @return A PlayerStateMemento containing the current player state.
      */
     public PlayerStateMemento createPlayerMemento() {
-        return new PlayerStateMemento(user.getHealth(), user.getScore(), user.getPositionX(), user.getPositionY());
+        return new PlayerStateMemento(actorManager.getPlayer().getHealth(), actorManager.getPlayer().getScore(), actorManager.getPlayer().getPositionX(), actorManager.getPlayer().getPositionY());
     }
 
     /**
@@ -129,9 +118,10 @@ public abstract class LevelParent {
      * @param memento The PlayerStateMemento to restore from.
      */
     public void restorePlayerState(PlayerStateMemento memento) {
-        user.setHealth(memento.getHealth());
-        user.setScore(memento.getScore());
-        user.setPosition(memento.getPositionX(), memento.getPositionY());
+        actorManager.getPlayer().setHealth(memento.getHealth());
+        actorManager.getPlayer().setScore(memento.getScore());
+        actorManager.getPlayer().setPosition(memento.getPositionX(), memento.getPositionY());
+        System.out.println("Player state restored.");
     }
 
     /**
@@ -142,6 +132,7 @@ public abstract class LevelParent {
     public void restoreLevelState(LevelStateMemento memento) {
         setCurrentLevelNumber(memento.getLevelNumber());
         // Implement logic to recreate enemy units based on the saved state if necessary
+        System.out.println("Level state restored.");
     }
 
     // Abstract methods to be implemented by subclasses
@@ -153,14 +144,18 @@ public abstract class LevelParent {
 
     protected abstract void initializeFriendlyUnits();
 
-    protected abstract void checkIfGameOver();
+    public abstract void checkIfGameOver();
 
-    protected abstract void spawnEnemyUnits();
+    public abstract void spawnEnemyUnits();
 
-    protected abstract LevelView instantiateLevelView();
+    public abstract LevelView instantiateLevelView();
 
     public LevelView getLevelView() {
         return this.levelView;
+    }
+
+    public Group getRoot() {
+        return this.root;
     }
 
     /**
@@ -169,38 +164,7 @@ public abstract class LevelParent {
      * @return true if the user's plane is destroyed; false otherwise.
      */
     public boolean userIsDestroyed() {
-        return user.getHealth() <= 0;
-    }
-
-    /**
-     * Fires a projectile from the user's plane.
-     */
-    public void fireProjectile() {
-        ActiveActorDestructible projectile = user.fireProjectile();
-        if (projectile != null) {
-            actorManager.addUserProjectile(projectile);
-        }
-    }
-
-    /**
-     * Generates projectiles from enemy units.
-     */
-    private void generateEnemyFire() {
-        for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
-            if (enemy instanceof FighterPlane) {
-                ActiveActorDestructible projectile = ((FighterPlane) enemy).fireProjectile();
-                if (projectile != null) {
-                    actorManager.addEnemyProjectile(projectile);
-                }
-            }
-        }
-    }
-
-    /**
-     * Updates all actors in the level.
-     */
-    private void updateActors() {
-        actorManager.updateAllActors();
+        return actorManager.getPlayer().getHealth() <= 0;
     }
 
     protected double getEnemyMaximumYPosition() {
@@ -208,20 +172,14 @@ public abstract class LevelParent {
     }
 
     /**
-     * Removes all destroyed actors from their respective lists and the scene graph.
+     * Handles when enemies penetrate defenses and reach the user
      */
-    private void removeAllDestroyedActors() {
-        actorManager.removeDestroyedActors();
-    }
-
-    /**
-     * Handles when enemies penetrate defenses and reach the user.
-     */
-    private void handleEnemyPenetration() {
+    public void handleEnemyPenetration() {
         for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
             if (enemyHasPenetratedDefenses(enemy)) {
-                user.takeDamage();
+                actorManager.getPlayer().takeDamage();
                 enemy.destroy();
+                System.out.println("Enemy penetrated defenses: " + enemy + ". User took damage.");
             }
         }
     }
@@ -239,61 +197,38 @@ public abstract class LevelParent {
     /**
      * Updates the level view based on the user's health.
      */
-    private void updateLevelView() {
-        levelView.removeHearts(user.getHealth());
+    public void updateLevelView() {
+        if (user == null) {
+            // System.err.println("UserPlane is null in updateLevelView");
+            return; // Early return to avoid NullPointerException
+        }
+
+        // Now it's safe to call methods on user
+        int health = actorManager.getPlayer().getHealth();
+        System.out.println("UserPlane health: " + health);
+
+        // Other update logic...
     }
 
     /**
      * Updates the kill count based on the current number of enemies.
      */
-    private void updateKillCount() {
-        int kills = currentNumberOfEnemies - actorManager.getEnemyUnits().size();
+    public void updateKillCount() {
+        int kills = currentNumberOfEnemies - actorManager.getEnemyUnits().size(); // logic error
         for (int i = 0; i < kills; i++) {
-            user.incrementKillCount();
+            actorManager.getPlayer().incrementKillCount();
+            System.out.println("Kill count incremented. Total kills: " + actorManager.getPlayer().getNumberOfKills());
         }
     }
 
     /**
      * Updates the number of current enemies.
      */
-    private void updateNumberOfEnemies() {
+    public void updateNumberOfEnemies() {
         currentNumberOfEnemies = actorManager.getEnemyUnits().size();
     }
 
-    /**
-     * Updates the game state. This method is called by the game loop.
-     */
-    public void update() {
-        updateScene();
-    }
-
-    /**
-     * Updates the game scene by handling spawning, actor updates, collisions, and game state.
-     * This method is called by the game loop.
-     */
-    private void updateScene() {
-        spawnEnemyUnits();
-        updateActors();
-        generateEnemyFire();
-        updateNumberOfEnemies();
-        handleEnemyPenetration();
-        collisionManager.handleProjectileCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
-        collisionManager.handleEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getFriendlyUnits());
-        collisionManager.handleUnitCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
-        removeAllDestroyedActors();
-        updateKillCount();
-        updateLevelView();
-        checkIfGameOver();
-    }
-
-    /**
-     * Renders the game view. This method is called by the game loop.
-     * In JavaFX, rendering is often handled by the scene graph, so this method
-     * may handle updating UI elements or LevelView.
-     */
-    public void render() {
-        levelView.updateView();
-    }
+    // Removed update() and render() methods to be managed by GameStateManager
 
     /**
      * Initializes and returns the scene for this level.
@@ -309,8 +244,9 @@ public abstract class LevelParent {
      * This method can be called when the level is loaded.
      */
     public void startGame() {
-        // Any initialization before the game loop starts can be done here.
-        background.requestFocus();
+        // It's better to request focus on the scene or root node instead of background
+        // Platform.runLater(() -> scene.getRoot().requestFocus());
+        System.out.println("Game started. Scene focus requested.");
     }
 
     /**
@@ -318,6 +254,7 @@ public abstract class LevelParent {
      */
     public void loseGame() {
         gameStateManager.goToLoseState();
+        System.out.println("Game lost. Transitioning to LoseState.");
     }
 
     /**
@@ -325,6 +262,7 @@ public abstract class LevelParent {
      */
     public void winGame() {
         gameStateManager.goToWinState();
+        System.out.println("Game won. Transitioning to WinState.");
     }
 
     /**
@@ -334,5 +272,8 @@ public abstract class LevelParent {
      */
     public void goToNextLevel(Integer nextLevelNumber) {
         gameStateManager.goToLevel(nextLevelNumber);
+        System.out.println("Transitioning to Level " + nextLevelNumber);
     }
+
+    // Additional level-specific methods can be added here
 }

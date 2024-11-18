@@ -5,7 +5,13 @@ public class GameConstant {
     public static final int SCREEN_WIDTH = 1300;
     public static final int SCREEN_HEIGHT = 750;
     public static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+    public static double ENEMYPLANE_HORIZONTAL_VELOCITY = -3;
+    public static double USERPLANE_HORIZONTAL_VELOCITY = 8;
+    public static double USERPLANE_VERTICAL_VELOCITY = 8;
+    public static long USERPLANE_FIRE_INTERVAL_NANOSECONDS = 500_000_000;
+    public static long ENEMYPLANE_FIRE_INTERVAL_NANOSECONDS = 100_000_000;
     public static final int MILLISECOND_DELAY = 50;
+    public static double X_UPPER_BOUND = 0;
 
     // Audio file paths
     public static final String[] SOUND_EFFECT_FILES = {

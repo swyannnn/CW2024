@@ -76,7 +76,7 @@ public class GameStateManager implements PropertyChangeListener {
 
             // Initialize ActorManager now that Controller is set
             Group root = controller.getRootGroup();
-            this.actorManager = new ActorManager(root);
+            this.actorManager = ActorManager.getInstance(root);
             this.stateFactory.setActorManager(actorManager); // Pass ActorManager to the factory if needed
 
             // Now you can initialize the game or transition to the main menu
@@ -143,6 +143,7 @@ public class GameStateManager implements PropertyChangeListener {
 
         // Update all actors and handle collisions
         if (actorManager != null) {
+
             actorManager.updateAllActors();
             handleCollisions();
             actorManager.removeDestroyedActors();

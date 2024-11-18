@@ -18,7 +18,7 @@ public class GameStateFactory {
     private final GameStateManager gameStateManager;
     private final AudioManager audioManager;
     private final ImageManager imageManager;
-    private ActorManager actorManager; 
+    private ActorManager actorManager;
 
     /**
      * Constructor initializes the GameStateFactory with necessary dependencies.
@@ -72,8 +72,8 @@ public class GameStateFactory {
         // Create the level using LevelFactory
         LevelParent level = LevelFactory.createLevel(levelNumber, controller);
         if (level != null) {
-            ActorManager actorManager = new ActorManager(controller.getRootGroup());
-            return new LevelState(stage, level, actorManager, gameStateManager, audioManager, imageManager);
+            ActorManager actorManager = ActorManager.getInstance(null);
+            return new LevelState(stage, controller, level, actorManager, gameStateManager, audioManager, imageManager);
         }
         return null;
     }

@@ -1,5 +1,7 @@
 package com.example.demo.state;
 
+import com.example.demo.UserPlane;
+import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.AudioManager;
@@ -19,27 +21,39 @@ public class LevelState implements GameState {
     private final LevelParent level;
     private final Stage stage;
     private final GameStateManager gameStateManager;
+    private final Controller controller;
     private final AudioManager audioManager;
     private final ImageManager imageManager;
+    private UserPlane userPlane;
     private final ActorManager actorManager;
     private boolean levelCompleted;
 
     /**
      * Constructor for LevelState.
      *
+     * @param stage The main Stage object used for rendering scenes.
+     * @param controller The Controller handling game logic.
      * @param level The LevelParent object representing the game level.
      * @param actorManager The ActorManager handling game actors.
-     * @param stage The main Stage object used for rendering scenes.
      * @param gameStateManager The GameStateManager handling game state transitions.
+     * @param audioManager The AudioManager handling game audio.
+     * @param imageManager The ImageManager handling game images.
      */
-    public LevelState(Stage stage, LevelParent level, ActorManager actorManager, GameStateManager gameStateManager, AudioManager audioManager, ImageManager imageManager) {
+    public LevelState(Stage stage, Controller controller, LevelParent level, ActorManager actorManager, GameStateManager gameStateManager, AudioManager audioManager, ImageManager imageManager) {
         this.level = level;
         this.stage = stage;
+        this.controller = controller;
         this.actorManager = actorManager;
         this.gameStateManager = gameStateManager;
         this.audioManager = audioManager;
         this.imageManager = imageManager;
         this.levelCompleted = false;
+
+        // Initialize userPlane
+        this.userPlane = actorManager.getPlayer();
+        if (this.userPlane == null) {
+            System.err.println("LevelState: No UserPlane found in ActorManager.");
+        }
     }
 
     @Override
@@ -56,13 +70,22 @@ public class LevelState implements GameState {
         System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
 
         // Play background music for this level
+        System.out.println("LevelState:" + gameStateManager);
         gameStateManager.getAudioManager().playMusic("menubgm.mp3");
     }
 
     @Override
     public void update() {
         if (!levelCompleted) {
-            level.update();
+            // Perform level-specific updates
+            level.spawnEnemyUnits();
+            level.handleEnemyPenetration();
+            level.updateNumberOfEnemies();
+            level.updateKillCount();
+            level.updateLevelView();
+            level.checkIfGameOver();
+
+            // Check for level completion
             checkLevelCompletion();
         }
     }
@@ -70,7 +93,8 @@ public class LevelState implements GameState {
     @Override
     public void render() {
         if (!levelCompleted) {
-            level.render();
+            level.getLevelView().updateView();
+            // System.out.println("LevelState: Rendered LevelView.");
         }
     }
 
@@ -82,6 +106,7 @@ public class LevelState implements GameState {
             handleKeyReleased(event);
         }
     }
+    
 
     @Override
     public void cleanup() {
@@ -99,6 +124,7 @@ public class LevelState implements GameState {
      */
     private void setupScene(Scene scene) {
         stage.setScene(scene);
+        scene.getRoot().requestFocus();
         registerEventHandlers();
     }
 
@@ -141,13 +167,13 @@ public class LevelState implements GameState {
      * @param event The KeyEvent to process.
      */
     private void handleKeyPressed(KeyEvent event) {
+        if (userPlane == null) return; // Ensure userPlane is not null
         KeyCode keyCode = event.getCode();
         switch (keyCode) {
-            case UP -> level.getUser().moveUp();
-            case DOWN -> level.getUser().moveDown();
-            case LEFT -> level.getUser().moveLeft();
-            case RIGHT -> level.getUser().moveRight();
-            case SPACE -> level.fireProjectile();
+            case UP -> userPlane.moveUp();
+            case DOWN -> userPlane.moveDown();
+            case LEFT -> userPlane.moveLeft();
+            case RIGHT -> userPlane.moveRight();
             default -> {}
         }
     }
@@ -158,10 +184,11 @@ public class LevelState implements GameState {
      * @param event The KeyEvent to process.
      */
     private void handleKeyReleased(KeyEvent event) {
+        if (userPlane == null) return; // Ensure userPlane is not null
         KeyCode keyCode = event.getCode();
         switch (keyCode) {
-            case UP, DOWN -> level.getUser().stopVertical();
-            case LEFT, RIGHT -> level.getUser().stopHorizontal();
+            case UP, DOWN -> userPlane.stopVertical();
+            case LEFT, RIGHT -> userPlane.stopHorizontal();
             default -> {}
         }
     }
