@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.manager.GameStateManager;
+import com.example.demo.util.GameConstant;
+
 import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -25,17 +27,20 @@ public class Controller {
     public Controller(Stage stage) {
         this.stage = stage;
         this.rootGroup = new Group(); 
-        Scene scene = new Scene(rootGroup); 
+        Scene scene = new Scene(rootGroup, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT); // Set desired dimensions and background
         stage.setScene(scene);
+        stage.setTitle(GameConstant.TITLE);
+        stage.show();
     }
 
     /**
      * Initializes the game by setting up input handling and transitioning to the main menu.
      */
-    public void initialize() {
+    public void initializeGame() {
         gameStateManager = GameStateManager.getInstance(stage);
         gameStateManager.setController(this);
         setupGameLoop(gameStateManager);
+        
         // Set up key event handlers for input
         stage.getScene().setOnKeyPressed(event -> gameStateManager.handleInput(event));
         stage.getScene().setOnKeyReleased(event -> gameStateManager.handleInput(event));

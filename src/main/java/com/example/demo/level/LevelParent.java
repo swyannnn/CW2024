@@ -11,6 +11,7 @@ import com.example.demo.memento.LevelStateMemento;
 import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.util.GameConstant;
 
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,7 @@ public abstract class LevelParent {
     protected final double screenHeight;
     protected final double screenWidth;
     protected final double enemyMaximumYPosition;
+    protected final double enemyMinimumYPosition;
 
     protected final Group root;
     protected final Scene scene;
@@ -56,7 +58,10 @@ public abstract class LevelParent {
         this.controller = controller;
         this.screenHeight = GameConstant.SCREEN_HEIGHT;
         this.screenWidth = GameConstant.SCREEN_WIDTH;
-        this.enemyMaximumYPosition = screenHeight - GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
+        // this.enemyMaximumYPosition = GameConstant.SCREEN_HEIGHT - GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
+        // this.enemyMinimumYPosition = GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
+        this.enemyMaximumYPosition = 250;
+        this.enemyMinimumYPosition = -40;
     
         this.root = new Group();
         this.scene = new Scene(root, screenWidth, screenHeight);
@@ -171,6 +176,10 @@ public abstract class LevelParent {
         return enemyMaximumYPosition;
     }
 
+    protected double getEnemyMinimumYPosition() {
+        return enemyMinimumYPosition;
+    }
+
     /**
      * Handles when enemies penetrate defenses and reach the user
      */
@@ -245,7 +254,7 @@ public abstract class LevelParent {
      */
     public void startGame() {
         // It's better to request focus on the scene or root node instead of background
-        // Platform.runLater(() -> scene.getRoot().requestFocus());
+        Platform.runLater(() -> scene.getRoot().requestFocus());
         System.out.println("Game started. Scene focus requested.");
     }
 

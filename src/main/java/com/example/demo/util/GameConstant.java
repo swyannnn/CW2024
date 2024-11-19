@@ -2,9 +2,10 @@ package com.example.demo.util;
 
 public class GameConstant {
     // Screen settings
+    public static final String TITLE = "Sky Battle";
     public static final int SCREEN_WIDTH = 1300;
     public static final int SCREEN_HEIGHT = 750;
-    public static final double SCREEN_HEIGHT_ADJUSTMENT = 150;
+    public static final double SCREEN_HEIGHT_ADJUSTMENT = 200;
     public static double ENEMYPLANE_HORIZONTAL_VELOCITY = -3;
     public static double USERPLANE_HORIZONTAL_VELOCITY = 8;
     public static double USERPLANE_VERTICAL_VELOCITY = 8;

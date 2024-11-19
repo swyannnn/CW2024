@@ -75,20 +75,20 @@ public class ActorManager {
 
     // Method to add an enemy unit to the scene and list
     public void addEnemyUnit(ActiveActorDestructible enemy) {
-        // if (!root.getChildren().contains(enemy)) {
             this.root.getChildren().add(enemy);
             enemyUnits.add(enemy);
-            System.out.println("Added enemyUnit: " + enemy);
-        // }
+            System.out.println("Added enemyUnit: " + enemy + "to the root" + this.root);
     }
 
     // Method to remove an enemy unit to the scene and list
     public void removeEnemyUnit(ActiveActorDestructible enemy) {
-        // if (!root.getChildren().contains(enemy)) {
+        if (this.root.getChildren().contains(enemy)) {
             this.root.getChildren().remove(enemy);
             enemyUnits.remove(enemy);
             System.out.println("Removed enemy: " + enemy);
-        // }
+        } else {
+            System.out.println("Attempted to remove non-existent enemy: " + enemy);
+        }
     }
 
     // Method to add a user projectile to the scene and list
@@ -109,6 +109,45 @@ public class ActorManager {
         this.root.getChildren().add(projectile);
     }
 
+    /**
+     * Removes an enemy projectile from the scene and tracking list.
+     *
+     * @param projectile The enemy projectile to remove.
+     */
+    public void removeEnemyProjectile(ActiveActorDestructible projectile) {
+        if (this.root.getChildren().contains(projectile)) {
+            this.root.getChildren().remove(projectile);
+            enemyProjectiles.remove(projectile);
+            System.out.println("Removed enemy projectile: " + projectile);
+        }
+    }
+
+    /**
+     * Removes a user projectile from the scene and tracking list.
+     *
+     * @param projectile The user projectile to remove.
+     */
+    public void removeUserProjectile(ActiveActorDestructible projectile) {
+        if (this.root.getChildren().contains(projectile)) {
+            this.root.getChildren().remove(projectile);
+            userProjectiles.remove(projectile);
+            System.out.println("Removed user projectile: " + projectile);
+        }
+    }
+
+    /**
+     * Removes a boss projectile from the scene and tracking list.
+     *
+     * @param projectile The boss projectile to remove.
+     */
+    public void removeBossProjectile(ActiveActorDestructible projectile) {
+        if (this.root.getChildren().contains(projectile)) {
+            this.root.getChildren().remove(projectile);
+            bossProjectiles.remove(projectile);
+            System.out.println("Removed user projectile: " + projectile);
+        }
+    }
+
     // Method to add UI elements to the scene
     public void addUIElement(Node element) {
         if (!this.root.getChildren().contains(element)) {
@@ -116,14 +155,39 @@ public class ActorManager {
         }
     }
 
-    // Update all actors in the game
+    /**
+     * Updates all actors in the game.
+     */
     public void updateAllActors() {
-        player.forEach(ActiveActorDestructible::updateActor);
-        friendlyUnits.forEach(ActiveActorDestructible::updateActor);
-        enemyUnits.forEach(ActiveActorDestructible::updateActor);
-        userProjectiles.forEach(ActiveActorDestructible::updateActor);
-        enemyProjectiles.forEach(ActiveActorDestructible::updateActor);
+        // Update players
+        for (ActiveActorDestructible p : new ArrayList<>(player)) {
+            p.updateActor();
+        }
+    
+        // Update friendly units
+        for (ActiveActorDestructible friendly : new ArrayList<>(friendlyUnits)) {
+            friendly.updateActor();
+        }
+    
+        // Update enemy units
+        for (ActiveActorDestructible enemy : new ArrayList<>(enemyUnits)) {
+            enemy.updateActor();
+        }
+    
+        // Update user projectiles
+        for (ActiveActorDestructible userProj : new ArrayList<>(userProjectiles)) {
+            userProj.updateActor();
+        }
+    
+        // Update enemy projectiles
+        for (ActiveActorDestructible enemyProj : new ArrayList<>(enemyProjectiles)) {
+            enemyProj.updateActor();
+            if (enemyProj.isDestroyed()) {
+                removeEnemyProjectile(enemyProj);
+            }
+        }
     }
+    
 
     // Remove actors that have been destroyed
     public void removeDestroyedActors() {

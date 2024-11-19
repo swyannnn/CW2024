@@ -81,10 +81,9 @@ public class BossPlane extends FighterPlane {
 	public void fireProjectile() {
 		if (bossFiresInCurrentFrame()) {
 			double projectileY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
-			BossProjectile projectile = new BossProjectile(getProjectileInitialPosition());
+			BossProjectile projectile = new BossProjectile(projectileY);
 			ActorManager.getInstance(controller.getGameStateManager().getActorManager().getRoot()).addBossProjectile(projectile);
 		}
-		// return bossFiresInCurrentFrame() ? new BossProjectile(getProjectileInitialPosition()) : null;
 	}
 
 	@Override
@@ -125,10 +124,6 @@ public class BossPlane extends FighterPlane {
 
 	private boolean bossFiresInCurrentFrame() {
 		return Math.random() < BOSS_FIRE_RATE;
-	}
-
-	private double getProjectileInitialPosition() {
-		return getLayoutY() + getTranslateY() + PROJECTILE_Y_POSITION_OFFSET;
 	}
 
 	private boolean shieldShouldBeActivated() {

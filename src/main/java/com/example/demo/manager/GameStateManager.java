@@ -60,6 +60,7 @@ public class GameStateManager implements PropertyChangeListener {
     public static synchronized GameStateManager getInstance(Stage stage) {
         if (instance == null) {
             instance = new GameStateManager(stage);
+            System.out.println("GameStateManager initialized.");
         }
         return instance;
     }

@@ -14,7 +14,7 @@ public class Level001 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
     private static final int TOTAL_ENEMIES = 1;
     private static final int KILLS_TO_ADVANCE = 5;
-    private static final double ENEMY_SPAWN_PROBABILITY = 0.5;
+    private static final double ENEMY_SPAWN_PROBABILITY = 1;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
     private int currentLevelNumber;
@@ -75,6 +75,7 @@ public class Level001 extends LevelParent {
     public void spawnEnemyUnits() {
         // Get the current number of enemies from ActorManager
         int currentNumberOfEnemies = controller.getGameStateManager().getActorManager().getEnemyUnits().size();
+        System.out.println("Current number of enemies: " + currentNumberOfEnemies);
 
         // Loop to spawn new enemies until the total number of enemies reaches
         // TOTAL_ENEMIES
@@ -82,14 +83,17 @@ public class Level001 extends LevelParent {
             // Spawn a new enemy with a probability defined by ENEMY_SPAWN_PROBABILITY
             if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
                 double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
+                if (newEnemyInitialYPosition < getEnemyMinimumYPosition()) {
+                    newEnemyInitialYPosition = getEnemyMinimumYPosition();
+                }
                 ActiveActorDestructible newEnemy = new EnemyPlane(GameConstant.SCREEN_WIDTH, newEnemyInitialYPosition, controller);
                 System.out.println(
                         "Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
-                controller.getGameStateManager().getActorManager().addEnemyUnit(newEnemy); // Use ActorManager to add
+            controller.getGameStateManager().getActorManager().addEnemyUnit(newEnemy); // Use ActorManager to add
                                                                                            // the enemy unit
-                currentNumberOfEnemies++;
+                currentNumberOfEnemies++ ;
             } else {
-                break; // Exit the loop if the probability condition is not met
+                break; // Exit the loop if the probability EnemyPlane position:condition is not met
             }
         }
     }
