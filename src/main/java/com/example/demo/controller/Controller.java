@@ -37,8 +37,8 @@ public class Controller {
      * Initializes the game by setting up input handling and transitioning to the main menu.
      */
     public void initializeGame() {
-        gameStateManager = GameStateManager.getInstance(stage);
-        gameStateManager.setController(this);
+        gameStateManager = GameStateManager.getInstance(stage, this);
+        // gameStateManager.setController(this);
         
         gameStateManager.goToMainMenu(); // Transition to the main menu
 
@@ -47,17 +47,6 @@ public class Controller {
         stage.getScene().setOnKeyReleased(event -> gameStateManager.handleInput(event));
         stage.getScene().getRoot().requestFocus();
     }
-
-    // /**
-    //  * Starts the game loop and transitions to the first level.
-    //  */
-    // public void startGame() {
-    //     if (gameLoop != null) {
-    //         gameLoop.start();
-    //         gameStateManager.goToLevel(1); // Transition to level 1
-    //         System.out.println("Game started!");
-    //     }
-    // }
 
     /**
      * Stops the game loop if it is running.

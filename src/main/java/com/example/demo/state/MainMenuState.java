@@ -11,7 +11,7 @@ import javafx.stage.Stage;
  * MainMenuState class manages the main menu state of the game.
  */
 public class MainMenuState implements GameState {
-    private final Stage primaryStage;
+    private final Stage stage;
     private final Controller controller;
     private MainMenu mainMenu;
     GameStateManager gameStateManager;
@@ -23,18 +23,18 @@ public class MainMenuState implements GameState {
      * @param controller   The game controller.
      */
     public MainMenuState(Stage primaryStage, Controller controller) {
-        this.primaryStage = primaryStage;
+        this.stage = primaryStage;
         this.controller = controller;
-        this.gameStateManager = GameStateManager.getInstance(primaryStage);
+        this.gameStateManager = GameStateManager.getInstance(stage, controller);
     }
 
     @Override
     public void initialize() {
         // Initialize the HomeMenu and set the scene
         System.out.println("Initializing Main Menu State");
-        mainMenu = new MainMenu(primaryStage, controller);
-        primaryStage.setScene(mainMenu.getHomeMenuScene());
-        primaryStage.show();
+        mainMenu = new MainMenu(stage, controller);
+        stage.setScene(mainMenu.getHomeMenuScene());
+        stage.show();
     }
 
     @Override
@@ -73,6 +73,6 @@ public class MainMenuState implements GameState {
      * Handles the action of exiting the game.
      */
     private void exitGame() {
-        primaryStage.close();
+        stage.close();
     }
 }

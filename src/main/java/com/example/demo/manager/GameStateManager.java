@@ -41,7 +41,8 @@ public class GameStateManager implements PropertyChangeListener {
      *
      * @param stage The main Stage object used for rendering scenes.
      */
-    private GameStateManager(Stage stage) {
+    private GameStateManager(Stage stage, Controller controller) {
+        this.controller = controller; 
         this.stateFactory = new GameStateFactory(stage, controller, this); // Controller will be set later
         this.caretaker = new Caretaker();
 
@@ -50,8 +51,11 @@ public class GameStateManager implements PropertyChangeListener {
         this.imageManager = ImageManager.getInstance();
         this.collisionManager = CollisionManager.getInstance();
 
-        // ActorManager is initialized after Controller is set
-        this.actorManager = null; // Initialize later
+        // Initialize ActorManager using the Controller's root group
+        Group root = controller.getRootGroup();
+        this.actorManager = ActorManager.getInstance(root);
+        this.stateFactory.setActorManager(actorManager);
+
         setupGameLoop();
     }
 
@@ -61,9 +65,9 @@ public class GameStateManager implements PropertyChangeListener {
      * @param stage The main Stage object used for rendering scenes.
      * @return The singleton instance of GameStateManager.
      */
-    public static synchronized GameStateManager getInstance(Stage stage) {
+    public static synchronized GameStateManager getInstance(Stage stage, Controller controller) {
         if (instance == null) {
-            instance = new GameStateManager(stage);
+            instance = new GameStateManager(stage, controller);
             System.out.println("GameStateManager initialized.");
         }
         return instance;
