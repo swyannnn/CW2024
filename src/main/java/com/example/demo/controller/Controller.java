@@ -38,7 +38,6 @@ public class Controller {
      */
     public void initializeGame() {
         gameStateManager = GameStateManager.getInstance(stage, this);
-        // gameStateManager.setController(this);
         
         gameStateManager.goToMainMenu(); // Transition to the main menu
 
@@ -67,7 +66,6 @@ public class Controller {
     }
 
     public GameStateManager getGameStateManager() {
-
         return gameStateManager;
     }
 

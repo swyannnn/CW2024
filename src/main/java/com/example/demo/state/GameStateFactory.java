@@ -36,15 +36,6 @@ public class GameStateFactory {
     }
 
     /**
-     * Sets the updated Controller.
-     *
-     * @param controller The new Controller instance.
-     */
-    public void setController(Controller controller) {
-        this.controller = controller;
-    }
-
-    /**
      * Sets the ActorManager.
      *
      * @param actorManager The ActorManager instance.

@@ -73,26 +73,6 @@ public class GameStateManager implements PropertyChangeListener {
         return instance;
     }
 
-    /**
-     * Sets the Controller instance. This should only be called once to avoid reassignment issues.
-     *
-     * @param controller The Controller instance managing game flow.
-     */
-    public void setController(Controller controller) {
-        if (this.controller == null) {
-            this.controller = controller;
-            this.stateFactory.setController(controller); // Update the factory with the controller
-
-            // Initialize ActorManager now that Controller is set
-            Group root = controller.getRootGroup();
-            this.actorManager = ActorManager.getInstance(root);
-            this.stateFactory.setActorManager(actorManager); // Pass ActorManager to the factory if needed
-
-            // Now you can initialize the game or transition to the main menu
-        } else {
-            throw new IllegalStateException("Controller has already been set and cannot be reassigned.");
-        }
-    }
 
     /**
      * Sets the current game state, performing any necessary cleanup of the previous state.
