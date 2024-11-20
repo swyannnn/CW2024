@@ -25,12 +25,13 @@ public class MainMenuState implements GameState {
     public MainMenuState(Stage primaryStage, Controller controller) {
         this.primaryStage = primaryStage;
         this.controller = controller;
-        this.gameStateManager = controller.getGameStateManager();
+        this.gameStateManager = GameStateManager.getInstance(primaryStage);
     }
 
     @Override
     public void initialize() {
         // Initialize the HomeMenu and set the scene
+        System.out.println("Initializing Main Menu State");
         mainMenu = new MainMenu(primaryStage, controller);
         primaryStage.setScene(mainMenu.getHomeMenuScene());
         primaryStage.show();

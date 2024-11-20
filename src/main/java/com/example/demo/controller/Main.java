@@ -14,19 +14,12 @@ public class Main extends Application {
     public void start(Stage stage) {
         Controller controller = new Controller(stage);
         controller.initializeGame();
-        // controller.startGameLoop();
-        // stage.setTitle(TITLE);
-        // stage.setResizable(false);
-        // stage.setWidth(GameConstant.SCREEN_WIDTH);
-        // stage.setHeight(GameConstant.SCREEN_HEIGHT);
-        // Controller controller = new Controller(stage);
-        // controller.initialize();
     }
 
     @Override
     public void stop() {
         if (controller != null) {
-            controller.cleanup(); // Call cleanup method to avoid passing null
+            controller.cleanup(); 
         }
     }
 

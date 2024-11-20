@@ -27,7 +27,7 @@ public class Controller {
     public Controller(Stage stage) {
         this.stage = stage;
         this.rootGroup = new Group(); 
-        Scene scene = new Scene(rootGroup, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT); // Set desired dimensions and background
+        Scene scene = new Scene(rootGroup, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT); 
         stage.setScene(scene);
         stage.setTitle(GameConstant.TITLE);
         stage.show();
@@ -39,32 +39,11 @@ public class Controller {
     public void initializeGame() {
         gameStateManager = GameStateManager.getInstance(stage);
         gameStateManager.setController(this);
-        setupGameLoop(gameStateManager);
         
         // Set up key event handlers for input
         stage.getScene().setOnKeyPressed(event -> gameStateManager.handleInput(event));
         stage.getScene().setOnKeyReleased(event -> gameStateManager.handleInput(event));
         gameStateManager.goToMainMenu(); // Transition to the main menu
-        gameLoop.start();
-    }
-
-    /**
-     * Sets up the game loop to continuously update and render the current game state.
-     */
-    private void setupGameLoop(GameStateManager gameStateManager) {
-        gameLoop = new AnimationTimer() {
-            private long lastUpdate = System.nanoTime();
-            private final double nsPerUpdate = 1e9 / 60.0; // 60 updates per second
-
-            @Override
-            public void handle(long now) {
-                while (now - lastUpdate >= nsPerUpdate) {
-                    gameStateManager.update();
-                    lastUpdate += nsPerUpdate;
-                }
-                gameStateManager.render();
-            }
-        };
     }
 
     /**
@@ -74,6 +53,7 @@ public class Controller {
         if (gameLoop != null) {
             gameLoop.start();
             gameStateManager.goToLevel(1); // Transition to level 1
+            System.out.println("Game started!");
         }
     }
 
@@ -96,6 +76,7 @@ public class Controller {
     }
 
     public GameStateManager getGameStateManager() {
+
         return gameStateManager;
     }
 

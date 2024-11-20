@@ -52,7 +52,7 @@ public class MainMenu {
 
         // Buttons using ButtonManager
         Button startButton = ButtonManager.createButton("Start Game", 200, 50);
-        startButton.setOnAction(e -> controller.startGame());
+        startButton.setOnAction(e -> gameStateManager.startGame());
 
         Button exitButton = ButtonManager.createButton("Exit", 200, 50);
         exitButton.setOnAction(e -> exitGame());

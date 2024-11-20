@@ -9,6 +9,8 @@ import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.state.GameState;
 import com.example.demo.state.GameStateFactory;
 import com.example.demo.state.LevelState;
+
+import javafx.animation.AnimationTimer;
 import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -26,6 +28,7 @@ public class GameStateManager implements PropertyChangeListener {
     private final GameStateFactory stateFactory;
     private final Caretaker caretaker;
     private Controller controller;
+    private AnimationTimer gameLoop;
 
     // Managers
     private final AudioManager audioManager;
@@ -49,6 +52,7 @@ public class GameStateManager implements PropertyChangeListener {
 
         // ActorManager is initialized after Controller is set
         this.actorManager = null; // Initialize later
+        setupGameLoop();
     }
 
     /**
@@ -97,6 +101,7 @@ public class GameStateManager implements PropertyChangeListener {
         }
         currentState = newState;
         currentState.initialize();
+        System.out.println("Transitioned to new state: " + newState.getClass().getSimpleName());
     }
 
     /**
@@ -107,17 +112,36 @@ public class GameStateManager implements PropertyChangeListener {
     }
 
     /**
+     * Sets up the game loop to continuously update and render the current game state.
+     */
+    private void setupGameLoop() {
+        gameLoop = new AnimationTimer() {
+            private long lastUpdate = System.nanoTime();
+            private final double nsPerUpdate = 1e9 / 60.0; // 60 updates per second
+
+            @Override
+            public void handle(long now) {
+                while (now - lastUpdate >= nsPerUpdate) {
+                    update();
+                    lastUpdate += nsPerUpdate;
+                }
+                render();
+            }
+        };
+    }
+
+    public void startGame() {
+        goToLevel(1);
+    }
+
+    /**
      * Transitions to a specific level based on the level number.
      *
      * @param levelNumber The number of the level to transition to.
      */
     public void goToLevel(int levelNumber) {
-        GameState levelState = stateFactory.createLevelState(levelNumber);
-        if (levelState != null) {
-            setState(levelState);
-        } else {
-            System.err.println("Failed to transition to Level " + levelNumber);
-        }
+        gameLoop.start();
+        setState(stateFactory.createLevelState(levelNumber));
     }
 
     /**
