@@ -51,7 +51,8 @@ public class MainMenuState implements GameState {
     public void handleInput(KeyEvent event) {
         switch (event.getCode()) {
             case ENTER:
-                controller.startGame(); 
+                System.out.println("pressed enter");
+                gameStateManager.startGame(); 
                 break;
             case ESCAPE:
                 exitGame(); 

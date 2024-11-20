@@ -40,22 +40,24 @@ public class Controller {
         gameStateManager = GameStateManager.getInstance(stage);
         gameStateManager.setController(this);
         
+        gameStateManager.goToMainMenu(); // Transition to the main menu
+
         // Set up key event handlers for input
         stage.getScene().setOnKeyPressed(event -> gameStateManager.handleInput(event));
         stage.getScene().setOnKeyReleased(event -> gameStateManager.handleInput(event));
-        gameStateManager.goToMainMenu(); // Transition to the main menu
+        stage.getScene().getRoot().requestFocus();
     }
 
-    /**
-     * Starts the game loop and transitions to the first level.
-     */
-    public void startGame() {
-        if (gameLoop != null) {
-            gameLoop.start();
-            gameStateManager.goToLevel(1); // Transition to level 1
-            System.out.println("Game started!");
-        }
-    }
+    // /**
+    //  * Starts the game loop and transitions to the first level.
+    //  */
+    // public void startGame() {
+    //     if (gameLoop != null) {
+    //         gameLoop.start();
+    //         gameStateManager.goToLevel(1); // Transition to level 1
+    //         System.out.println("Game started!");
+    //     }
+    // }
 
     /**
      * Stops the game loop if it is running.
