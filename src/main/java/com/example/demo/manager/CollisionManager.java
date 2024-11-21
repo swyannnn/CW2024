@@ -52,21 +52,29 @@ public class CollisionManager {
      * @param projectiles The list of projectiles.
      * @param enemies     The list of enemy units.
      */
-    public void handleProjectileCollisions(List<ActiveActorDestructible> projectiles, List<ActiveActorDestructible> enemies) {
-        handleCollisions(projectiles, enemies);
+    public void handleUserProjectileEnemyCollisions(List<ActiveActorDestructible> userProjectiles, List<ActiveActorDestructible> enemies) {
+        handleCollisions(userProjectiles, enemies);
     }
 
-/**
+    /**
      * Handles collisions between enemy projectiles and player entities.
      *
      * @param enemyProjectiles The list of enemy projectiles.
      * @param players          The list of player entities.
      */
-    public void handleEnemyProjectileCollisions(
-            List<ActiveActorDestructible> enemyProjectiles, 
-            List<UserPlane> players) {
-        handleCollisions(enemyProjectiles, players);
+    public void handlePlayerEnemyProjectileCollisions(List<ActiveActorDestructible> enemyProjectiles, List<UserPlane> players) {
+        handleCollisions(players, enemyProjectiles);
     }
+
+    /**
+     * Handles collisions between enemy projectiles and player entities.
+     *
+     * @param enemyProjectiles The list of enemy.
+     * @param players          The list of player entities.
+     */
+    public void handleEnemyPlayerCollisions(List<ActiveActorDestructible> enemies, List<UserPlane> players) {
+        handleCollisions(enemies, players);
+    }  
 
     /**
      * Handles collisions between friendly and enemy units.

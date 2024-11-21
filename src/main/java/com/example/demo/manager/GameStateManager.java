@@ -246,9 +246,10 @@ public class GameStateManager implements PropertyChangeListener {
      * Handles all collision detections.
      */
     private void handleCollisions() {
-        collisionManager.handleProjectileCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
-        collisionManager.handleEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
+        collisionManager.handleUserProjectileEnemyCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
+        collisionManager.handlePlayerEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
         collisionManager.handleUnitCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
+        collisionManager.handleEnemyPlayerCollisions(actorManager.getEnemyUnits(), actorManager.getPlayers());
     }
 
     /**
