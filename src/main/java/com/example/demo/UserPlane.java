@@ -6,6 +6,7 @@ import com.example.demo.util.GameConstant;
 import javafx.animation.AnimationTimer;
 
 import com.example.demo.controller.Controller;
+import com.example.demo.manager.ActorManager;
 
 public class UserPlane extends FighterPlane {
     private static final String IMAGE_NAME = "userplane.png";
@@ -32,6 +33,7 @@ public class UserPlane extends FighterPlane {
     private double positionX;
     private double positionY;
     private final Controller controller;
+    private ActorManager actorManager;
 
     /**
      * Constructs a UserPlane object with specified stage dimensions and initial health.
@@ -43,6 +45,7 @@ public class UserPlane extends FighterPlane {
         super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth, controller, GameConstant.USERPLANE_FIRE_INTERVAL_NANOSECONDS);
         // Set dynamic bounds based on stage dimensions
         this.controller = controller;
+        this.actorManager = controller.getGameStateManager().getActorManager();
         this.yUpperBound = -40;
         this.yLowerBound = 600.0; 
         this.xUpperBound = 10;
@@ -61,7 +64,7 @@ public class UserPlane extends FighterPlane {
         double currentY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
 
         UserProjectile projectile = new UserProjectile(currentX, currentY);
-        controller.getGameStateManager().getActorManager().addUserProjectile(projectile);
+        actorManager.addUserProjectile(projectile);
 
         // System.out.println("Projectile fired at: " + currentX + ", " + currentY);
     }

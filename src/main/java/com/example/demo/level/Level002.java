@@ -3,16 +3,19 @@ package com.example.demo.level;
 import com.example.demo.ActiveActorDestructible;
 import com.example.demo.BossPlane;
 import com.example.demo.controller.Controller;
+import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
 
 public class Level002 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "background2.jpg";
     private static final int PLAYER_INITIAL_HEALTH = 5;
     private int currentLevelNumber;
+    private ActorManager actorManager;
 
     public Level002(Controller controller, int levelNumber) {
         super(controller, BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
         this.controller = controller;
+        this.actorManager = gameStateManager.getActorManager();
         this.currentLevelNumber = levelNumber;
         initializeFriendlyUnits();
     }
@@ -34,7 +37,7 @@ public class Level002 extends LevelParent {
 
     @Override
     public boolean userHasReachedKillTarget() {
-        BossPlane bossPlane = controller.getGameStateManager().getActorManager().getBossPlane();
+        BossPlane bossPlane = actorManager.getBossPlane();
         return bossPlane.isDestroyed();
     }
 
@@ -54,7 +57,7 @@ public class Level002 extends LevelParent {
         if (controller.getGameStateManager().getActorManager().getEnemyUnits().size() == 0) {
             // Create and add the boss plane
             ActiveActorDestructible bossPlane = new BossPlane(controller);
-            controller.getGameStateManager().getActorManager().addEnemyUnit(bossPlane); // Use ActorManager to add the boss enemy
+            actorManager.addEnemyUnit(bossPlane); // Use ActorManager to add the boss enemy
         }
     }
 

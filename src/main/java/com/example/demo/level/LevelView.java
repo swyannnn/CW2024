@@ -40,6 +40,7 @@ public class LevelView {
 	}
 	
 	public void showHeartDisplay() {
+		System.out.println("Adding heart display to scene");
 		actorManager.addUIElement(heartDisplay.getContainer());
 	}
 	

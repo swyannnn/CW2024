@@ -242,7 +242,7 @@ public abstract class LevelParent {
         List<UserPlane> players = actorManager.getPlayers();
 
         if (players.isEmpty()) {
-            System.err.println("No players found in updateLevelView");
+            // System.err.println("No players found in updateLevelView");
             return; // Early return to avoid further processing
         }
 
@@ -250,7 +250,7 @@ public abstract class LevelParent {
         for (int i = 0; i < players.size(); i++) {
             UserPlane player = players.get(i);
             int health = player.getHealth();
-            System.out.println("Player " + (i + 1) + " health: " + health);
+            // System.out.println("Player " + (i + 1) + " health: " + health);
         }
     }
 

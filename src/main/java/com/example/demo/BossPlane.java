@@ -7,6 +7,7 @@ import com.example.demo.manager.ActorManager;
 
 public class BossPlane extends FighterPlane {
 	private final Controller controller;
+	private ActorManager actorManager;
 	private static final String IMAGE_NAME = "bossplane.png";
 	private static final double PROJECTILE_Y_POSITION_OFFSET = 75.0;
 	private static final double BOSS_FIRE_RATE = 0.04;
@@ -39,6 +40,7 @@ public class BossPlane extends FighterPlane {
 	public BossPlane(Controller controller) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, INITIAL_HEALTH, controller, FIRE_INTERVAL_NANOSECONDS);
 		this.controller = controller;
+		this.actorManager = controller.getGameStateManager().getActorManager();
 		// super(IMAGE_NAME, IMAGE_HEIGHT, stageWidth * 0.75, stageHeight * 0.5, HEALTH);
 
 		// // Set initial positions and bounds dynamically based on stage dimensions
@@ -82,7 +84,7 @@ public class BossPlane extends FighterPlane {
 		if (bossFiresInCurrentFrame()) {
 			double projectileY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
 			BossProjectile projectile = new BossProjectile(projectileY);
-			ActorManager.getInstance(controller.getGameStateManager().getActorManager().getRoot()).addBossProjectile(projectile);
+			ActorManager.getInstance(actorManager.getRoot()).addBossProjectile(projectile);
 		}
 	}
 

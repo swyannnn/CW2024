@@ -18,6 +18,7 @@ public class EnemyPlane extends FighterPlane {
     private static final double FIRE_RATE = 0.5; // Probability of firing per interval
 
     private final Controller controller;
+    private ActorManager actorManager;
 
     /**
      * Constructs an EnemyPlane at the specified initial position.
@@ -29,6 +30,7 @@ public class EnemyPlane extends FighterPlane {
     public EnemyPlane(double initialXPos, double initialYPos, Controller controller) {
         super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH, controller, FIRE_INTERVAL_NANOSECONDS);
         this.controller = controller;
+        this.actorManager = controller.getGameStateManager().getActorManager();
     }
 
     /**
@@ -41,9 +43,7 @@ public class EnemyPlane extends FighterPlane {
             double projectileY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
 
             EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY);
-            ActorManager.getInstance(controller.getGameStateManager().getActorManager().getRoot()).addEnemyProjectile(projectile);
-
-            // System.out.println("EnemyPlane fired a projectile at: " + projectileX + ", " + projectileY);
+            ActorManager.getInstance(actorManager.getRoot()).addEnemyProjectile(projectile);
         }
     }
 
@@ -58,7 +58,7 @@ public class EnemyPlane extends FighterPlane {
 
         if (isOutOfHorizontalBounds()) {
             stopFiring(); // Stop firing before removal
-            ActorManager.getInstance(controller.getGameStateManager().getActorManager().getRoot()).removeEnemyUnit(this);
+            ActorManager.getInstance(actorManager.getRoot()).removeEnemyUnit(this);
             // System.out.println("EnemyPlane removed for moving off-screen.");
         }
     }

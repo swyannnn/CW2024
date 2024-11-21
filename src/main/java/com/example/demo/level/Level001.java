@@ -19,6 +19,7 @@ public class Level001 extends LevelParent {
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
     private int currentLevelNumber;
+    private ActorManager actorManager;
 
     /**
      * Constructor for Level001.
@@ -31,6 +32,7 @@ public class Level001 extends LevelParent {
         super(controller, BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
+        this.actorManager = gameStateManager.getActorManager();
         initializeFriendlyUnits();
         if (controller == null) {
             System.err.println("Controller is null in Level001");
@@ -44,7 +46,6 @@ public class Level001 extends LevelParent {
     protected void initializeFriendlyUnits() {
         UserPlane player = new UserPlane(PLAYER_INITIAL_HEALTH, controller);
         actorManager.addPlayer(player);
-        // controller.getGameStateManager().getActorManager().addPlayer(player);
     }
 
     @Override
@@ -63,7 +64,7 @@ public class Level001 extends LevelParent {
      * @return true if all players' kill counts are greater than or equal to the kill target; false otherwise.
      */
     public boolean userHasReachedKillTarget() {
-        return controller.getGameStateManager().getActorManager().getPlayers().stream()
+        return  actorManager.getPlayers().stream()
                 .allMatch(player -> player.getNumberOfKills() >= KILLS_TO_ADVANCE);
     }
 
@@ -80,7 +81,7 @@ public class Level001 extends LevelParent {
     @Override
     public void spawnEnemyUnits() {
         // Get the current number of enemies from ActorManager
-        int currentNumberOfEnemies = controller.getGameStateManager().getActorManager().getEnemyUnits().size();
+        int currentNumberOfEnemies = actorManager.getEnemyUnits().size();
         // System.out.println("Current number of enemies: " + currentNumberOfEnemies);
 
         // Loop to spawn new enemies until the total number of enemies reaches
@@ -92,13 +93,12 @@ public class Level001 extends LevelParent {
                     newEnemyInitialYPosition = getEnemyMinimumYPosition();
                 }
                 ActiveActorDestructible newEnemy = new EnemyPlane(GameConstant.SCREEN_WIDTH, newEnemyInitialYPosition, controller);
-                // System.out.println(
-                        // "Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
-            controller.getGameStateManager().getActorManager().addEnemyUnit(newEnemy); // Use ActorManager to add
-                                                                                           // the enemy unit
+                System.out.println(
+                        "Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
+            actorManager.addEnemyUnit(newEnemy);                                                                                // the enemy unit
                 currentNumberOfEnemies++ ;
             } else {
-                break; // Stop spawning if the probability check fails
+                break; 
             }
         }
     }
