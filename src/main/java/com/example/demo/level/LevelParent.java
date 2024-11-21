@@ -21,11 +21,6 @@ import javafx.scene.image.ImageView;
  * Now streamlined to focus on level-specific logic.
  */
 public abstract class LevelParent {
-    protected final double screenHeight;
-    protected final double screenWidth;
-    protected final double enemyMaximumYPosition;
-    protected final double enemyMinimumYPosition;
-
     protected final Group root;
     protected final Scene scene;
     protected final ImageView background;
@@ -56,15 +51,9 @@ public abstract class LevelParent {
             System.out.println("Controller is not null in LevelParent");
         }
         this.controller = controller;
-        this.screenHeight = GameConstant.SCREEN_HEIGHT;
-        this.screenWidth = GameConstant.SCREEN_WIDTH;
-        // this.enemyMaximumYPosition = GameConstant.SCREEN_HEIGHT - GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
-        // this.enemyMinimumYPosition = GameConstant.SCREEN_HEIGHT_ADJUSTMENT;
-        this.enemyMaximumYPosition = 250;
-        this.enemyMinimumYPosition = -40;
     
         this.root = new Group();
-        this.scene = new Scene(root, screenWidth, screenHeight);
+        this.scene = new Scene(root, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT);
     
         // Initialize background
         this.background = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
@@ -93,8 +82,8 @@ public abstract class LevelParent {
      * Initializes the background image.
      */
     private void initializeBackground() {
-        background.setFitHeight(screenHeight);
-        background.setFitWidth(screenWidth);
+        background.setFitHeight(GameConstant.SCREEN_HEIGHT);
+        background.setFitWidth(GameConstant.SCREEN_WIDTH);
         background.setOpacity(0.3);
         root.getChildren().add(background);
     }
@@ -173,11 +162,11 @@ public abstract class LevelParent {
     }
 
     protected double getEnemyMaximumYPosition() {
-        return enemyMaximumYPosition;
+        return GameConstant.ENEMY_MAXIMUM_Y_POSITION;
     }
 
     protected double getEnemyMinimumYPosition() {
-        return enemyMinimumYPosition;
+        return GameConstant.ENEMY_MINIMUM_Y_POSITION;
     }
 
     /**
@@ -200,7 +189,7 @@ public abstract class LevelParent {
      * @return True if the enemy has penetrated defenses; false otherwise.
      */
     private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-        return Math.abs(enemy.getTranslateX()) > screenWidth;
+        return Math.abs(enemy.getTranslateX()) > GameConstant.SCREEN_WIDTH;
     }
 
     /**

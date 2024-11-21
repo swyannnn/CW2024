@@ -4,6 +4,7 @@ import com.example.demo.ActiveActorDestructible;
 import com.example.demo.EnemyPlane;
 import com.example.demo.UserPlane;
 import com.example.demo.controller.Controller;
+import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
 
 /**
@@ -42,7 +43,8 @@ public class Level001 extends LevelParent {
     @Override
     protected void initializeFriendlyUnits() {
         UserPlane player = new UserPlane(PLAYER_INITIAL_HEALTH, controller);
-        controller.getGameStateManager().getActorManager().addPlayer(player);
+        actorManager.addPlayer(player);
+        // controller.getGameStateManager().getActorManager().addPlayer(player);
     }
 
     @Override
@@ -51,7 +53,7 @@ public class Level001 extends LevelParent {
             loseGame();
         } else if (userHasReachedKillTarget()) {
             // Transition to the next level or handle level completion
-            goToNextLevel(currentLevelNumber + 1); // Example transition logic
+            goToNextLevel(currentLevelNumber + 1); 
         }
     }
 
@@ -78,7 +80,6 @@ public class Level001 extends LevelParent {
         System.out.println("Current number of enemies: " + currentNumberOfEnemies);
 
         // Loop to spawn new enemies until the total number of enemies reaches
-        // TOTAL_ENEMIES
         while (currentNumberOfEnemies < TOTAL_ENEMIES) {
             // Spawn a new enemy with a probability defined by ENEMY_SPAWN_PROBABILITY
             if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
@@ -93,7 +94,7 @@ public class Level001 extends LevelParent {
                                                                                            // the enemy unit
                 currentNumberOfEnemies++ ;
             } else {
-                break; // Exit the loop if the probability EnemyPlane position:condition is not met
+                break; // Stop spawning if the probability check fails
             }
         }
     }

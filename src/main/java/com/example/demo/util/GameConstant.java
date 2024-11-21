@@ -13,6 +13,9 @@ public class GameConstant {
     public static long ENEMYPLANE_FIRE_INTERVAL_NANOSECONDS = 100_000_000;
     public static final int MILLISECOND_DELAY = 50;
     public static double X_UPPER_BOUND = 0;
+    public static double ENEMY_MAXIMUM_Y_POSITION = 250;
+    public static double ENEMY_MINIMUM_Y_POSITION = -40;
+    public static double USERPLANE_FIRE_RATE = 1.0;
 
     // Audio file paths
     public static final String[] SOUND_EFFECT_FILES = {
