@@ -56,14 +56,13 @@ public class ActorManager {
         return this.root;
     }
 
-    // Method to add a player to the scene and list
     public void addPlayer(UserPlane user) {
         if (!this.root.getChildren().contains(user)) {
             this.root.getChildren().add(user);
             player.add(user);
             System.out.println("Added player: " + user);
         }
-    }
+    }    
 
     // Method to add a friendly unit to the scene and list
     public void addFriendlyUnit(ActiveActorDestructible unit) {
@@ -223,13 +222,18 @@ public class ActorManager {
         return enemyProjectiles;
     }
 
-    // Add this method to return the player as a UserPlane
-    public UserPlane getPlayer() {
-        if (!player.isEmpty() && player.get(0) instanceof UserPlane) {
-            return (UserPlane) player.get(0); // Cast to UserPlane
-        }
-        return null; // Handle the case when there is no player
+    /**
+     * Retrieves a list of players.
+     *
+     * @return A list of players, currently containing only one player.
+     */
+    public List<UserPlane> getPlayers() {
+        return player.stream()
+                    .filter(UserPlane.class::isInstance) // Ensure only UserPlane instances are returned
+                    .map(UserPlane.class::cast)         // Cast to UserPlane
+                    .collect(Collectors.toList());
     }
+
 
     // Optionally, add a getBossPlane() method if needed
     public BossPlane getBossPlane() {

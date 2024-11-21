@@ -1,5 +1,8 @@
 package com.example.demo.level;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.demo.ActiveActorDestructible;
 import com.example.demo.UserPlane;
 import com.example.demo.controller.Controller;
@@ -89,12 +92,23 @@ public abstract class LevelParent {
     }
 
     /**
-     * Creates a PlayerStateMemento to save the current state of the player.
+     * Creates a list of PlayerStateMementos to save the current state of all players.
      *
-     * @return A PlayerStateMemento containing the current player state.
+     * @return A list of PlayerStateMementos containing the current states of all players.
      */
-    public PlayerStateMemento createPlayerMemento() {
-        return new PlayerStateMemento(actorManager.getPlayer().getHealth(), actorManager.getPlayer().getScore(), actorManager.getPlayer().getPositionX(), actorManager.getPlayer().getPositionY());
+    public List<PlayerStateMemento> createPlayerMementos() {
+        List<PlayerStateMemento> mementos = new ArrayList<>();
+
+        for (UserPlane player : actorManager.getPlayers()) {
+            mementos.add(new PlayerStateMemento(
+                player.getHealth(),
+                player.getScore(),
+                player.getPositionX(),
+                player.getPositionY()
+            ));
+        }
+
+        return mementos;
     }
 
     /**
@@ -107,15 +121,27 @@ public abstract class LevelParent {
     }
 
     /**
-     * Restores the player's state from a PlayerStateMemento.
+     * Restores the state of each player using the provided list of mementos.
      *
-     * @param memento The PlayerStateMemento to restore from.
+     * @param mementos A list of PlayerStateMemento objects for each player.
      */
-    public void restorePlayerState(PlayerStateMemento memento) {
-        actorManager.getPlayer().setHealth(memento.getHealth());
-        actorManager.getPlayer().setScore(memento.getScore());
-        actorManager.getPlayer().setPosition(memento.getPositionX(), memento.getPositionY());
-        System.out.println("Player state restored.");
+    public void restorePlayerStates(List<PlayerStateMemento> mementos) {
+        List<UserPlane> players = actorManager.getPlayers();
+
+        if (mementos.size() != players.size()) {
+            throw new IllegalArgumentException("The number of mementos does not match the number of players.");
+        }
+
+        for (int i = 0; i < players.size(); i++) {
+            UserPlane player = players.get(i);
+            PlayerStateMemento memento = mementos.get(i);
+
+            player.setHealth(memento.getHealth());
+            player.setScore(memento.getScore());
+            player.setPosition(memento.getPositionX(), memento.getPositionY());
+
+            System.out.println("Player state restored for player " + (i + 1) + ": " + player);
+        }
     }
 
     /**
@@ -152,15 +178,28 @@ public abstract class LevelParent {
         return this.root;
     }
 
-    /**
-     * Checks if the user's plane has been destroyed.
+/**
+     * Checks if any user's plane has been destroyed.
      *
-     * @return true if the user's plane is destroyed; false otherwise.
+     * @return true if any user's plane is destroyed; false otherwise.
      */
     public boolean userIsDestroyed() {
-        return actorManager.getPlayer().getHealth() <= 0;
+        for (UserPlane player : actorManager.getPlayers()) {
+            if (player.getHealth() <= 0) {
+                return true; // At least one player is destroyed
+            }
+        }
+        return false; // No players are destroyed
     }
 
+    public boolean allUsersAreDestroyed() {
+        return actorManager.getPlayers().stream()
+                .allMatch(player -> player.getHealth() <= 0);
+    }    
+
+    /**
+     * Spawns a new enemy unit at a random position.
+     */ 
     protected double getEnemyMaximumYPosition() {
         return GameConstant.ENEMY_MAXIMUM_Y_POSITION;
     }
@@ -170,14 +209,18 @@ public abstract class LevelParent {
     }
 
     /**
-     * Handles when enemies penetrate defenses and reach the user
+     * Handles when enemies penetrate defenses and reach the users.
      */
     public void handleEnemyPenetration() {
         for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
             if (enemyHasPenetratedDefenses(enemy)) {
-                actorManager.getPlayer().takeDamage();
-                enemy.destroy();
-                System.out.println("Enemy penetrated defenses: " + enemy + ". User took damage.");
+                // Choose the first player to take damage for now
+                List<UserPlane> players = actorManager.getPlayers();
+                if (!players.isEmpty()) {
+                    players.get(0).takeDamage(); // First player takes the damage
+                    enemy.destroy();
+                    System.out.println("Enemy penetrated defenses: " + enemy + ". First user took damage.");
+                }
             }
         }
     }
@@ -193,29 +236,36 @@ public abstract class LevelParent {
     }
 
     /**
-     * Updates the level view based on the user's health.
+     * Updates the level view based on the health of all players.
      */
     public void updateLevelView() {
-        if (user == null) {
-            // System.err.println("UserPlane is null in updateLevelView");
-            return; // Early return to avoid NullPointerException
+        List<UserPlane> players = actorManager.getPlayers();
+
+        if (players.isEmpty()) {
+            System.err.println("No players found in updateLevelView");
+            return; // Early return to avoid further processing
         }
 
-        // Now it's safe to call methods on user
-        int health = actorManager.getPlayer().getHealth();
-        System.out.println("UserPlane health: " + health);
-
-        // Other update logic...
+        // Iterate through all players and print their health
+        for (int i = 0; i < players.size(); i++) {
+            UserPlane player = players.get(i);
+            int health = player.getHealth();
+            System.out.println("Player " + (i + 1) + " health: " + health);
+        }
     }
 
     /**
      * Updates the kill count based on the current number of enemies.
      */
     public void updateKillCount() {
-        int kills = currentNumberOfEnemies - actorManager.getEnemyUnits().size(); // logic error
+        int kills = currentNumberOfEnemies - actorManager.getEnemyUnits().size();
+        List<UserPlane> players = actorManager.getPlayers();
+
         for (int i = 0; i < kills; i++) {
-            actorManager.getPlayer().incrementKillCount();
-            System.out.println("Kill count incremented. Total kills: " + actorManager.getPlayer().getNumberOfKills());
+            for (UserPlane player : players) {
+                player.incrementKillCount(); // Increment kill count for each player
+                System.out.println("Kill count incremented for player: " + player + ". Total kills: " + player.getNumberOfKills());
+            }
         }
     }
 

@@ -1,5 +1,7 @@
 package com.example.demo.state;
 
+import java.util.List;
+
 import com.example.demo.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
@@ -49,10 +51,13 @@ public class LevelState implements GameState {
         this.imageManager = imageManager;
         this.levelCompleted = false;
 
-        // Initialize userPlane
-        this.userPlane = actorManager.getPlayer();
-        if (this.userPlane == null) {
+        // Initialize userPlanes (handles multiple players)
+        List<UserPlane> players = actorManager.getPlayers();
+        if (players.isEmpty()) {
             System.err.println("LevelState: No UserPlane found in ActorManager.");
+        } else {
+            this.userPlane = players.get(0); // For single-player, just take the first player
+            System.out.println("LevelState: UserPlane initialized with " + players.size() + " players.");
         }
     }
 

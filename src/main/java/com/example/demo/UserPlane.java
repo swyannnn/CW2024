@@ -63,7 +63,7 @@ public class UserPlane extends FighterPlane {
         UserProjectile projectile = new UserProjectile(currentX, currentY);
         controller.getGameStateManager().getActorManager().addUserProjectile(projectile);
 
-        System.out.println("Projectile fired at: " + currentX + ", " + currentY);
+        // System.out.println("Projectile fired at: " + currentX + ", " + currentY);
     }
 
     /**
@@ -121,10 +121,10 @@ public class UserPlane extends FighterPlane {
         // System.out.println("Current user plane position: " + getTranslateX() + ", " + getTranslateY());
     }
 
-    // Health management methods
-    public int getHealth() {
-        return health;
-    }
+    // // Health management methods
+    // public int getHealth() {
+    //     return health;
+    // }
 
     public void setHealth(int health) {
         this.health = health;
@@ -152,13 +152,14 @@ public class UserPlane extends FighterPlane {
         this.positionY = positionY;
     }
 
-    // Method to reduce the user's health (for when the user takes damage)
-    public void takeDamage(int damage) {
-        health -= damage;
-        if (health < 0) {
-            health = 0; // Ensure health doesn't go below zero
-        }
-    }
+    // // Method to reduce the user's health (for when the user takes damage)
+    // public void takeDamage(int damage) {
+    //     System.out.println("I am user, I am taking damage");
+    //     health -= damage;
+    //     if (health < 0) {
+    //         health = 0; // Ensure health doesn't go below zero
+    //     }
+    // }
 
     // Method to check if the user is destroyed
     public boolean isDestroyed() {

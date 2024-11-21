@@ -1,6 +1,8 @@
 package com.example.demo.manager;
 
 import com.example.demo.ActiveActorDestructible;
+import com.example.demo.UserPlane;
+
 import java.util.List;
 
 /**
@@ -27,15 +29,18 @@ public class CollisionManager {
     /**
      * Handles collisions between two lists of actors.
      *
-     * @param actors1 The first list of actors.
-     * @param actors2 The second list of actors.
+     * @param sourceActors The list of source actors (e.g., projectiles).
+     * @param targetActors The list of target actors (e.g., players).
      */
-    public void handleCollisions(List<ActiveActorDestructible> actors1, List<ActiveActorDestructible> actors2) {
-        for (ActiveActorDestructible actor : actors2) {
-            for (ActiveActorDestructible otherActor : actors1) {
-                if (actor.getBoundsInParent().intersects(otherActor.getBoundsInParent())) {
-                    actor.takeDamage();
-                    otherActor.takeDamage();
+    private void handleCollisions(
+            List<? extends ActiveActorDestructible> sourceActors, 
+            List<? extends ActiveActorDestructible> targetActors) {
+        for (ActiveActorDestructible source : sourceActors) {
+            for (ActiveActorDestructible target : targetActors) {
+                if (source.getBoundsInParent().intersects(target.getBoundsInParent())) {
+                    source.takeDamage();
+                    target.takeDamage();
+                    System.out.println("Collision detected: " + source + " hit " + target);
                 }
             }
         }
@@ -51,14 +56,16 @@ public class CollisionManager {
         handleCollisions(projectiles, enemies);
     }
 
-    /**
-     * Handles collisions between enemy projectiles and friendly units.
+/**
+     * Handles collisions between enemy projectiles and player entities.
      *
      * @param enemyProjectiles The list of enemy projectiles.
-     * @param friendlyUnits    The list of friendly units.
+     * @param players          The list of player entities.
      */
-    public void handleEnemyProjectileCollisions(List<ActiveActorDestructible> enemyProjectiles, List<ActiveActorDestructible> friendlyUnits) {
-        handleCollisions(enemyProjectiles, friendlyUnits);
+    public void handleEnemyProjectileCollisions(
+            List<ActiveActorDestructible> enemyProjectiles, 
+            List<UserPlane> players) {
+        handleCollisions(enemyProjectiles, players);
     }
 
     /**

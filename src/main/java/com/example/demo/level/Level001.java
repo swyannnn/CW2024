@@ -57,10 +57,14 @@ public class Level001 extends LevelParent {
         }
     }
 
+    /**
+     * Checks if all users have reached the kill target to advance.
+     *
+     * @return true if all players' kill counts are greater than or equal to the kill target; false otherwise.
+     */
     public boolean userHasReachedKillTarget() {
-        // Get the player list from ActorManager
-        UserPlane player = controller.getGameStateManager().getActorManager().getPlayer();
-        return player.getNumberOfKills() >= KILLS_TO_ADVANCE;
+        return controller.getGameStateManager().getActorManager().getPlayers().stream()
+                .allMatch(player -> player.getNumberOfKills() >= KILLS_TO_ADVANCE);
     }
 
     @Override
@@ -77,7 +81,7 @@ public class Level001 extends LevelParent {
     public void spawnEnemyUnits() {
         // Get the current number of enemies from ActorManager
         int currentNumberOfEnemies = controller.getGameStateManager().getActorManager().getEnemyUnits().size();
-        System.out.println("Current number of enemies: " + currentNumberOfEnemies);
+        // System.out.println("Current number of enemies: " + currentNumberOfEnemies);
 
         // Loop to spawn new enemies until the total number of enemies reaches
         while (currentNumberOfEnemies < TOTAL_ENEMIES) {
@@ -88,8 +92,8 @@ public class Level001 extends LevelParent {
                     newEnemyInitialYPosition = getEnemyMinimumYPosition();
                 }
                 ActiveActorDestructible newEnemy = new EnemyPlane(GameConstant.SCREEN_WIDTH, newEnemyInitialYPosition, controller);
-                System.out.println(
-                        "Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
+                // System.out.println(
+                        // "Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
             controller.getGameStateManager().getActorManager().addEnemyUnit(newEnemy); // Use ActorManager to add
                                                                                            // the enemy unit
                 currentNumberOfEnemies++ ;

@@ -76,7 +76,7 @@ public class BossPlane extends FighterPlane {
 		updatePosition();
 		updateShield();
 	}
-	
+
 	@Override
 	public void fireProjectile() {
 		if (bossFiresInCurrentFrame()) {

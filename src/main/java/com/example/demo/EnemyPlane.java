@@ -43,7 +43,7 @@ public class EnemyPlane extends FighterPlane {
             EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY);
             ActorManager.getInstance(controller.getGameStateManager().getActorManager().getRoot()).addEnemyProjectile(projectile);
 
-            System.out.println("EnemyPlane fired a projectile at: " + projectileX + ", " + projectileY);
+            // System.out.println("EnemyPlane fired a projectile at: " + projectileX + ", " + projectileY);
         }
     }
 
@@ -54,12 +54,12 @@ public class EnemyPlane extends FighterPlane {
     @Override
     public void updatePosition() {
         moveHorizontally(HORIZONTAL_VELOCITY);
-        System.out.println("EnemyPlane position: X=" + getTranslateX() + ", Y=" + getTranslateY());
+        // System.out.println("EnemyPlane position: X=" + getTranslateX() + ", Y=" + getTranslateY());
 
         if (isOutOfHorizontalBounds()) {
             stopFiring(); // Stop firing before removal
             ActorManager.getInstance(controller.getGameStateManager().getActorManager().getRoot()).removeEnemyUnit(this);
-            System.out.println("EnemyPlane removed for moving off-screen.");
+            // System.out.println("EnemyPlane removed for moving off-screen.");
         }
     }
 
@@ -71,7 +71,7 @@ public class EnemyPlane extends FighterPlane {
     private boolean isOutOfHorizontalBounds() {
         double newPositionX = getLayoutX() + getTranslateX();
         if (newPositionX < -getWidth()) {
-            System.out.println("enemy plane position out of screen: " + newPositionX + "=" + getLayoutX() + "+" + getTranslateX());
+            // System.out.println("enemy plane position out of screen: " + newPositionX + "=" + getLayoutX() + "+" + getTranslateX());
         }
         return newPositionX < 0;
     }

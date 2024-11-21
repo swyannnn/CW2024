@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.List;
 
 /**
  * GameStateManager handles the transitions and management of different game states.
@@ -186,9 +187,18 @@ public class GameStateManager implements PropertyChangeListener {
         if (currentState instanceof LevelState) {
             LevelParent currentLevel = ((LevelState) currentState).getLevel();
             if (currentLevel != null) {
-                caretaker.saveMemento("PlayerState", currentLevel.createPlayerMemento());
-                caretaker.saveMemento("LevelState", currentLevel.createLevelMemento());
-                caretaker.saveMemento("GameSettings", GameSettingsMemento.createFromSettings(audioManager, imageManager));
+                // Save player states as a list of mementos
+                List<PlayerStateMemento> playerMementos = currentLevel.createPlayerMementos();
+                caretaker.saveMemento("PlayerState", playerMementos);
+
+                // Save level state
+                LevelStateMemento levelMemento = currentLevel.createLevelMemento();
+                caretaker.saveMemento("LevelState", levelMemento);
+
+                // Save game settings
+                GameSettingsMemento settingsMemento = GameSettingsMemento.createFromSettings(audioManager, imageManager);
+                caretaker.saveMemento("GameSettings", settingsMemento);
+
                 System.out.println("Game state saved.");
             } else {
                 System.out.println("No current level to save.");
@@ -205,19 +215,24 @@ public class GameStateManager implements PropertyChangeListener {
         if (currentState instanceof LevelState) {
             LevelParent currentLevel = ((LevelState) currentState).getLevel();
             if (currentLevel != null) {
-                PlayerStateMemento playerMemento = (PlayerStateMemento) caretaker.getMemento("PlayerState");
+                List<PlayerStateMemento> playerMementos = (List<PlayerStateMemento>) caretaker.getMemento("PlayerState");
                 LevelStateMemento levelMemento = (LevelStateMemento) caretaker.getMemento("LevelState");
                 GameSettingsMemento settingsMemento = (GameSettingsMemento) caretaker.getMemento("GameSettings");
 
-                if (playerMemento != null) {
-                    currentLevel.restorePlayerState(playerMemento);
+                if (playerMementos != null) {
+                    currentLevel.restorePlayerStates(playerMementos);
+                } else {
+                    System.err.println("Player mementos not found. Cannot restore player states.");
                 }
+
                 if (levelMemento != null) {
                     currentLevel.restoreLevelState(levelMemento);
                 }
+
                 if (settingsMemento != null) {
                     settingsMemento.applySettings(audioManager, imageManager);
                 }
+
                 System.out.println("Game state loaded.");
             } else {
                 System.out.println("No current level to load.");
@@ -232,7 +247,7 @@ public class GameStateManager implements PropertyChangeListener {
      */
     private void handleCollisions() {
         collisionManager.handleProjectileCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
-        collisionManager.handleEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getFriendlyUnits());
+        collisionManager.handleEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
         collisionManager.handleUnitCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
     }
 
