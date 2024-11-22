@@ -2,9 +2,6 @@ package com.example.demo;
 
 import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.util.GameConstant;
-
-import javafx.animation.AnimationTimer;
-
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 
@@ -32,7 +29,6 @@ public class UserPlane extends FighterPlane {
     private int score;
     private double positionX;
     private double positionY;
-    private final Controller controller;
     private ActorManager actorManager;
 
     /**
@@ -42,9 +38,8 @@ public class UserPlane extends FighterPlane {
      * @param initialHealth The initial health of the user plane.
      */
     public UserPlane(int initialHealth, Controller controller) {
-        super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth, controller, GameConstant.USERPLANE_FIRE_INTERVAL_NANOSECONDS);
+        super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth, GameConstant.USERPLANE_FIRE_INTERVAL_NANOSECONDS);
         // Set dynamic bounds based on stage dimensions
-        this.controller = controller;
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.yUpperBound = -40;
         this.yLowerBound = 600.0; 

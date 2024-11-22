@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
 import javafx.animation.AnimationTimer;
 
 /**
@@ -28,11 +26,9 @@ public abstract class FighterPlane extends ActiveActorDestructible {
      * @param initialXPos           The initial X position.
      * @param initialYPos           The initial Y position.
      * @param health                The initial health.
-     * @param controller            The game controller.
      * @param fireIntervalNanoseconds The interval between fires in nanoseconds.
      */
-    public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health,
-                        Controller controller, long fireIntervalNanoseconds) {
+    public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health, long fireIntervalNanoseconds) {
         super(imageName, imageHeight, initialXPos, initialYPos);
         this.health = health;
         this.fireIntervalNanoseconds = fireIntervalNanoseconds;

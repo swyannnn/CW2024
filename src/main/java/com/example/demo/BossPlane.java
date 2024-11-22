@@ -38,7 +38,7 @@ public class BossPlane extends FighterPlane {
 	private int framesWithShieldActivated;
 
 	public BossPlane(Controller controller) {
-		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, INITIAL_HEALTH, controller, FIRE_INTERVAL_NANOSECONDS);
+		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, INITIAL_HEALTH, FIRE_INTERVAL_NANOSECONDS);
 		this.controller = controller;
 		this.actorManager = controller.getGameStateManager().getActorManager();
 		// super(IMAGE_NAME, IMAGE_HEIGHT, stageWidth * 0.75, stageHeight * 0.5, HEALTH);

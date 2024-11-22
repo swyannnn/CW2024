@@ -23,7 +23,7 @@ public class Level002 extends LevelParent {
     @Override
     protected void initializeFriendlyUnits() {
         ActiveActorDestructible bossPlane = new BossPlane(controller);
-        controller.getGameStateManager().getActorManager().addEnemyUnit(bossPlane);
+        actorManager.addEnemyUnit(bossPlane);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class Level002 extends LevelParent {
     @Override
     public void spawnEnemyUnits() {
         // Check if there are no current enemies
-        if (controller.getGameStateManager().getActorManager().getEnemyUnits().size() == 0) {
+        if (actorManager.getEnemyUnits().size() == 0) {
             // Create and add the boss plane
             ActiveActorDestructible bossPlane = new BossPlane(controller);
             actorManager.addEnemyUnit(bossPlane); // Use ActorManager to add the boss enemy

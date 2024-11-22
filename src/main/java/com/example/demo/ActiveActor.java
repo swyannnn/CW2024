@@ -13,8 +13,6 @@ public abstract class ActiveActor extends ImageView {
 		this.setPreserveRatio(true);
 	}
 
-	public abstract void updatePosition();
-
 	protected void moveHorizontally(double horizontalMove) {
 		this.setTranslateX(getTranslateX() + horizontalMove);
 	}

@@ -16,8 +16,6 @@ public class EnemyPlane extends FighterPlane {
     private static final int INITIAL_HEALTH = 1;
     private static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // Fire every 1 second
     private static final double FIRE_RATE = 0.5; // Probability of firing per interval
-
-    private final Controller controller;
     private ActorManager actorManager;
 
     /**
@@ -28,8 +26,7 @@ public class EnemyPlane extends FighterPlane {
      * @param controller  The game controller.
      */
     public EnemyPlane(double initialXPos, double initialYPos, Controller controller) {
-        super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH, controller, FIRE_INTERVAL_NANOSECONDS);
-        this.controller = controller;
+        super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH, FIRE_INTERVAL_NANOSECONDS);
         this.actorManager = controller.getGameStateManager().getActorManager();
     }
 
@@ -58,7 +55,7 @@ public class EnemyPlane extends FighterPlane {
 
         if (isOutOfHorizontalBounds()) {
             stopFiring(); // Stop firing before removal
-            ActorManager.getInstance(actorManager.getRoot()).removeEnemyUnit(this);
+            actorManager.removeEnemyUnit(this);
             // System.out.println("EnemyPlane removed for moving off-screen.");
         }
     }

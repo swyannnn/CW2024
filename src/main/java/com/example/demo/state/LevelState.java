@@ -23,7 +23,6 @@ public class LevelState implements GameState {
     private final LevelParent level;
     private final Stage stage;
     private final GameStateManager gameStateManager;
-    private final Controller controller;
     private final AudioManager audioManager;
     private final ImageManager imageManager;
     private UserPlane userPlane;
@@ -44,7 +43,6 @@ public class LevelState implements GameState {
     public LevelState(Stage stage, Controller controller, LevelParent level, ActorManager actorManager, GameStateManager gameStateManager, AudioManager audioManager, ImageManager imageManager) {
         this.level = level;
         this.stage = stage;
-        this.controller = controller;
         this.actorManager = actorManager;
         this.gameStateManager = gameStateManager;
         this.audioManager = audioManager;
