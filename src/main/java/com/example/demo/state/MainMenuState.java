@@ -1,8 +1,8 @@
 package com.example.demo.state;
 
-import com.example.demo.MainMenu;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.GameStateManager;
+import com.example.demo.ui.MainMenu;
 
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;

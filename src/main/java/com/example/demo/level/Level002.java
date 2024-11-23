@@ -1,9 +1,11 @@
 package com.example.demo.level;
 
-import com.example.demo.ActiveActorDestructible;
-import com.example.demo.BossPlane;
+import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.planes.BossPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.ui.LevelView001;
+import com.example.demo.ui.LevelView002;
 import com.example.demo.util.GameConstant;
 
 public class Level002 extends LevelParent {
@@ -62,7 +64,7 @@ public class Level002 extends LevelParent {
     }
 
     @Override
-    public LevelView instantiateLevelView() {
-        return new LevelViewLevelTwo(controller.getGameStateManager().getActorManager(), PLAYER_INITIAL_HEALTH);
+    public LevelView001 instantiateLevelView() {
+        return new LevelView002(controller.getGameStateManager().getActorManager(), PLAYER_INITIAL_HEALTH);
     }
 }

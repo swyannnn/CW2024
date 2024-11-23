@@ -1,4 +1,4 @@
-package com.example.demo.level;
+package com.example.demo.ui;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,12 +6,12 @@ import java.util.Map;
 import com.example.demo.GameOverImage;
 import com.example.demo.HeartDisplay;
 import com.example.demo.ShieldImage;
-import com.example.demo.UserPlane;
 import com.example.demo.WinImage;
+import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ActorManager;
 
-public class LevelView implements HealthChangeListener {
+public class LevelView001 implements HealthChangeListener {
 	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 25;
@@ -26,7 +26,7 @@ public class LevelView implements HealthChangeListener {
 	private final GameOverImage gameOverImage;
 	private final ShieldImage shield;
 	
-	public LevelView(ActorManager actorManager, int heartsToDisplay) {
+	public LevelView001(ActorManager actorManager, int heartsToDisplay) {
 		if (actorManager == null) {
 			throw new IllegalArgumentException("ActorManager cannot be null.");
 		}

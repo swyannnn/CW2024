@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.actors.projectile;
+
+import com.example.demo.actors.planes.UserPlane;
 
 public class UserProjectile extends Projectile {
 	private final UserPlane owner;

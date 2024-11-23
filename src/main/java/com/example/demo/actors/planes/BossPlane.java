@@ -1,7 +1,8 @@
-package com.example.demo;
+package com.example.demo.actors.planes;
 
 import java.util.*;
 
+import com.example.demo.actors.projectile.BossProjectile;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 

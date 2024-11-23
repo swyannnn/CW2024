@@ -1,10 +1,11 @@
 package com.example.demo.level;
 
-import com.example.demo.ActiveActorDestructible;
-import com.example.demo.EnemyPlane;
-import com.example.demo.UserPlane;
+import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.planes.EnemyPlane;
+import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.ui.LevelView001;
 import com.example.demo.util.GameConstant;
 
 /**
@@ -96,7 +97,7 @@ public class Level001 extends LevelParent {
     }
 
     @Override
-    public LevelView instantiateLevelView() {
+    public LevelView001 instantiateLevelView() {
         // Instantiate LevelView with the ActorManager and initial player health
         if (this.controller == null) {
             System.err.println("Controller is null in instantiateLevelView");
@@ -104,6 +105,6 @@ public class Level001 extends LevelParent {
         else {
             System.out.println("Controller is not null in instantiateLevelView");
         }
-        return new LevelView(controller.getGameStateManager().getActorManager(), PLAYER_INITIAL_HEALTH);
+        return new LevelView001(controller.getGameStateManager().getActorManager(), PLAYER_INITIAL_HEALTH);
     }
 }

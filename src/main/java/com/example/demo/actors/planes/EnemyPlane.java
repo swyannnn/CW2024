@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.actors.planes;
 
+import com.example.demo.actors.projectile.EnemyProjectile;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 

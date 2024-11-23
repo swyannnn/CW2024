@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.actors.planes;
 
 import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.util.GameConstant;
@@ -6,6 +6,7 @@ import com.example.demo.util.GameConstant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.actors.projectile.UserProjectile;
 import com.example.demo.controller.Controller;
 import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ActorManager;

@@ -1,8 +1,9 @@
 package com.example.demo.manager;
 
-import com.example.demo.ActiveActorDestructible;
-import com.example.demo.BossPlane;
-import com.example.demo.UserPlane;
+import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.planes.BossPlane;
+import com.example.demo.actors.planes.UserPlane;
+
 import javafx.scene.Group;
 import javafx.scene.Node;
 import java.util.ArrayList;

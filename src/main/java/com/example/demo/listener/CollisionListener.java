@@ -1,7 +1,7 @@
 package com.example.demo.listener;
 
-import com.example.demo.ActiveActorDestructible;
-import com.example.demo.UserPlane;
+import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.planes.UserPlane;
 
 public interface CollisionListener {
     /**

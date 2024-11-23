@@ -3,8 +3,8 @@ package com.example.demo.level;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.ActiveActorDestructible;
-import com.example.demo.UserPlane;
+import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.CollisionManager;
@@ -12,6 +12,7 @@ import com.example.demo.manager.GameStateManager;
 import com.example.demo.manager.ImageManager;
 import com.example.demo.memento.LevelStateMemento;
 import com.example.demo.memento.PlayerStateMemento;
+import com.example.demo.ui.LevelView001;
 import com.example.demo.util.GameConstant;
 
 import javafx.application.Platform;
@@ -29,7 +30,7 @@ public abstract class LevelParent {
     protected final ImageView background;
 
     protected UserPlane user;
-    protected LevelView levelView;
+    protected LevelView001 levelView;
     protected Controller controller;
 
     protected int currentNumberOfEnemies;
@@ -182,9 +183,9 @@ public abstract class LevelParent {
 
     public abstract void spawnEnemyUnits();
 
-    public abstract LevelView instantiateLevelView();
+    public abstract LevelView001 instantiateLevelView();
 
-    public LevelView getLevelView() {
+    public LevelView001 getLevelView() {
         return this.levelView;
     }
 

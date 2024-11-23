@@ -1,6 +1,4 @@
-package com.example.demo;
-
-import com.example.demo.Destructible;
+package com.example.demo.actors;
 
 /**
  * Abstract class representing active actors that can be destroyed.

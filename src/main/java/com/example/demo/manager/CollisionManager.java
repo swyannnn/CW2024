@@ -1,9 +1,9 @@
 package com.example.demo.manager;
 
-import com.example.demo.ActiveActorDestructible;
-import com.example.demo.EnemyPlane;
-import com.example.demo.UserPlane;
-import com.example.demo.UserProjectile;
+import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actors.planes.EnemyPlane;
+import com.example.demo.actors.planes.UserPlane;
+import com.example.demo.actors.projectile.UserProjectile;
 import com.example.demo.listener.CollisionListener;
 
 import java.util.List;
