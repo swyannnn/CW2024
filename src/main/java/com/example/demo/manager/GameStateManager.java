@@ -1,7 +1,10 @@
 package com.example.demo.manager;
 
+import com.example.demo.ActiveActorDestructible;
+import com.example.demo.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
+import com.example.demo.listener.CollisionListener;
 import com.example.demo.memento.Caretaker;
 import com.example.demo.memento.GameSettingsMemento;
 import com.example.demo.memento.LevelStateMemento;
@@ -23,12 +26,11 @@ import java.util.List;
  * GameStateManager handles the transitions and management of different game states.
  * It uses the Singleton pattern to ensure only one instance is used throughout the application.
  */
-public class GameStateManager implements PropertyChangeListener {
+public class GameStateManager implements PropertyChangeListener, CollisionListener {
     private static GameStateManager instance;
     private GameState currentState;
     private final GameStateFactory stateFactory;
     private final Caretaker caretaker;
-    private Controller controller;
     private AnimationTimer gameLoop;
 
     // Managers
@@ -43,22 +45,25 @@ public class GameStateManager implements PropertyChangeListener {
      * @param stage The main Stage object used for rendering scenes.
      */
     private GameStateManager(Stage stage, Controller controller) {
-        this.controller = controller; 
         this.stateFactory = new GameStateFactory(stage, controller, this); // Controller will be set later
         this.caretaker = new Caretaker();
-
+    
         // Initialize other managers
         this.audioManager = AudioManager.getInstance();
         this.imageManager = ImageManager.getInstance();
         this.collisionManager = CollisionManager.getInstance();
-
+    
         // Initialize ActorManager using the Controller's root group
         Group root = controller.getRootGroup();
         this.actorManager = ActorManager.getInstance(root);
         this.stateFactory.setActorManager(actorManager);
-
+    
         setupGameLoop();
+    
+        // Set the collision listener after initialization
+        collisionManager.setCollisionListener(this);
     }
+    
 
     /**
      * Retrieves the singleton instance of GameStateManager, creating it if necessary.
@@ -262,6 +267,11 @@ public class GameStateManager implements PropertyChangeListener {
             return ((LevelState) currentState).getLevel();
         }
         return null;
+    }
+    @Override
+    public void onProjectileHitEnemy(UserPlane userPlane, ActiveActorDestructible enemy) {
+        userPlane.incrementKillCount();
+        System.out.println("Kill count for user updated: " + userPlane.getNumberOfKills());
     }
 
     // Getters for other managers

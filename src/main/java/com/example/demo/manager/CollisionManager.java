@@ -1,7 +1,10 @@
 package com.example.demo.manager;
 
 import com.example.demo.ActiveActorDestructible;
+import com.example.demo.EnemyPlane;
 import com.example.demo.UserPlane;
+import com.example.demo.UserProjectile;
+import com.example.demo.listener.CollisionListener;
 
 import java.util.List;
 
@@ -10,7 +13,7 @@ import java.util.List;
  */
 public class CollisionManager {
     private static CollisionManager instance;
-
+    private CollisionListener collisionListener;
     // Private constructor to enforce Singleton pattern
     private CollisionManager() {}
 
@@ -24,6 +27,10 @@ public class CollisionManager {
             instance = new CollisionManager();
         }
         return instance;
+    }
+
+    public void setCollisionListener(CollisionListener listener) {
+        this.collisionListener = listener;
     }
 
     /**
@@ -41,9 +48,24 @@ public class CollisionManager {
                     source.takeDamage();
                     target.takeDamage();
                     System.out.println("Collision detected: " + source + " hit " + target);
-                }
+                    
+                    if (collisionListener != null && source instanceof UserProjectile && target instanceof EnemyPlane) {
+                        UserProjectile projectile = (UserProjectile) source; // Safe to cast here
+                        UserPlane userPlane = getUserPlaneForProjectile(projectile);
+                        System.out.println("Collision detected haha: " + projectile + " hit " + target);
+                    
+                        if (userPlane != null) {
+                            collisionListener.onProjectileHitEnemy(userPlane, target);
+                        }
+                    }  
+                }              
             }
         }
+    }
+
+
+    private UserPlane getUserPlaneForProjectile(UserProjectile projectile) {
+        return projectile.getOwner();
     }
 
     /**

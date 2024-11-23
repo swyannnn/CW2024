@@ -76,8 +76,9 @@ public abstract class LevelParent {
         // Initialize other components
         this.currentNumberOfEnemies = 0;
     
-        // Add LevelView related UI elements
-        levelView.showHeartDisplay();
+        for (UserPlane player : actorManager.getPlayers()) {
+            levelView.showHeartDisplay(player);
+        }
     }    
     
 
@@ -91,6 +92,19 @@ public abstract class LevelParent {
         root.getChildren().add(background);
     }
 
+    public void updateLevelView() {
+        List<UserPlane> players = actorManager.getPlayers();
+
+        if (players.isEmpty()) {
+            return; // Early return if there are no players
+        }
+
+        for (UserPlane player : players) {
+            // int health = player.getHealth();
+            levelView.showHeartDisplay(player);
+        }
+    }
+    
     /**
      * Creates a list of PlayerStateMementos to save the current state of all players.
      *
@@ -185,11 +199,13 @@ public abstract class LevelParent {
      */
     public boolean userIsDestroyed() {
         for (UserPlane player : actorManager.getPlayers()) {
+            System.out.println("Checking player health: " + player.getHealth());
             if (player.getHealth() <= 0) {
+                System.out.println("Player destroyed: " + player);
                 return true; // At least one player is destroyed
             }
         }
-        return false; // No players are destroyed
+        return false; 
     }
 
     public boolean allUsersAreDestroyed() {
@@ -233,25 +249,6 @@ public abstract class LevelParent {
      */
     private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
         return Math.abs(enemy.getTranslateX()) > GameConstant.SCREEN_WIDTH;
-    }
-
-    /**
-     * Updates the level view based on the health of all players.
-     */
-    public void updateLevelView() {
-        List<UserPlane> players = actorManager.getPlayers();
-
-        if (players.isEmpty()) {
-            // System.err.println("No players found in updateLevelView");
-            return; // Early return to avoid further processing
-        }
-
-        // Iterate through all players and print their health
-        for (int i = 0; i < players.size(); i++) {
-            UserPlane player = players.get(i);
-            int health = player.getHealth();
-            // System.out.println("Player " + (i + 1) + " health: " + health);
-        }
     }
 
     /**

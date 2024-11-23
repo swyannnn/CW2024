@@ -8,7 +8,7 @@ import javafx.animation.AnimationTimer;
  */
 public abstract class FighterPlane extends ActiveActorDestructible {
 
-    private int health;
+    protected int health;
     private AnimationTimer fireTimer;
     private long lastFireTime = 0;
 
@@ -99,7 +99,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
             }
         };
         fireTimer.start();
-        System.out.println(getClass().getSimpleName() + " started firing.");
+        // System.out.println(getClass().getSimpleName() + " started firing.");
     }
 
     /**
@@ -108,7 +108,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
     public void stopFiring() {
         if (fireTimer != null) {
             fireTimer.stop();
-            System.out.println(getClass().getSimpleName() + " stopped firing.");
+            // System.out.println(getClass().getSimpleName() + " stopped firing.");
         }
     }
 }

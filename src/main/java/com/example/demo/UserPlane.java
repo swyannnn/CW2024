@@ -2,11 +2,17 @@ package com.example.demo;
 
 import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.util.GameConstant;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import com.example.demo.controller.Controller;
+import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ActorManager;
 
 public class UserPlane extends FighterPlane {
     private static final String IMAGE_NAME = "userplane.png";
+    private List<HealthChangeListener> healthChangeListeners = new ArrayList<>();
     private static final int IMAGE_HEIGHT = 150;
     private static final int VERTICAL_VELOCITY = 8;
     private static final int HORIZONTAL_VELOCITY = 8;
@@ -25,7 +31,6 @@ public class UserPlane extends FighterPlane {
     private int verticalVelocityMultiplier = 0;
     private int horizontalVelocityMultiplier = 0;
     private int numberOfKills = 0;
-	private int health;
     private int score;
     private double positionX;
     private double positionY;
@@ -58,10 +63,24 @@ public class UserPlane extends FighterPlane {
         double currentX =  getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
         double currentY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
 
-        UserProjectile projectile = new UserProjectile(currentX, currentY);
+        UserProjectile projectile = new UserProjectile(currentX, currentY, this);
         actorManager.addUserProjectile(projectile);
 
-        // System.out.println("Projectile fired at: " + currentX + ", " + currentY);
+        // System.out.println("Projectile fired by " + this + " at: " + currentX + ", " + currentY);
+    }
+
+    public void addHealthChangeListener(HealthChangeListener listener) {
+        healthChangeListeners.add(listener);
+    }
+
+    public void removeHealthChangeListener(HealthChangeListener listener) {
+        healthChangeListeners.remove(listener);
+    }
+
+    private void notifyHealthChange() {
+        for (HealthChangeListener listener : healthChangeListeners) {
+            listener.onHealthChange(this, this.health);
+        }
     }
 
     /**
@@ -84,6 +103,10 @@ public class UserPlane extends FighterPlane {
         this.positionX = memento.getPositionX();
         this.positionY = memento.getPositionY();
     }
+
+    // public int getHealth() {
+    //     return health;
+    // }
 
     /**
      * Updates the position of the user plane based on velocity multipliers.
@@ -119,12 +142,23 @@ public class UserPlane extends FighterPlane {
         // System.out.println("Current user plane position: " + getTranslateX() + ", " + getTranslateY());
     }
 
-    // // Health management methods
-    // public int getHealth() {
-    //     return health;
-    // }
+    @Override
+    public void takeDamage() {
+        health--;
+        if (health < 0) {
+            health = 0;
+        }
+
+        notifyHealthChange(); // Notify listeners of health change
+        System.out.println("notifyHealthChange() called in UserPlane.takeDamage().");
+        if (health == 0) {
+            System.out.println("UserPlane destroyed because health zero.");
+            destroy();
+        }
+    }
 
     public void setHealth(int health) {
+        notifyHealthChange();
         this.health = health;
     }
 
@@ -149,15 +183,6 @@ public class UserPlane extends FighterPlane {
         this.positionX = positionX;
         this.positionY = positionY;
     }
-
-    // // Method to reduce the user's health (for when the user takes damage)
-    // public void takeDamage(int damage) {
-    //     System.out.println("I am user, I am taking damage");
-    //     health -= damage;
-    //     if (health < 0) {
-    //         health = 0; // Ensure health doesn't go below zero
-    //     }
-    // }
 
     // Method to check if the user is destroyed
     public boolean isDestroyed() {

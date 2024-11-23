@@ -14,7 +14,7 @@ import com.example.demo.util.GameConstant;
 public class Level001 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
     private static final int TOTAL_ENEMIES = 1;
-    private static final int KILLS_TO_ADVANCE = 5;
+    private static final int KILLS_TO_ADVANCE = 200;
     private static final double ENEMY_SPAWN_PROBABILITY = 1;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
@@ -46,6 +46,8 @@ public class Level001 extends LevelParent {
     protected void initializeFriendlyUnits() {
         UserPlane player = new UserPlane(PLAYER_INITIAL_HEALTH, controller);
         actorManager.addPlayer(player);
+        levelView = instantiateLevelView(); // Instantiate LevelView before adding listener
+        player.addHealthChangeListener(levelView); // Register LevelView as listener for health changes
     }
 
     @Override
@@ -80,25 +82,15 @@ public class Level001 extends LevelParent {
 
     @Override
     public void spawnEnemyUnits() {
-        // Get the current number of enemies from ActorManager
-        int currentNumberOfEnemies = actorManager.getEnemyUnits().size();
-        // System.out.println("Current number of enemies: " + currentNumberOfEnemies);
-
-        // Loop to spawn new enemies until the total number of enemies reaches
-        while (currentNumberOfEnemies < TOTAL_ENEMIES) {
-            // Spawn a new enemy with a probability defined by ENEMY_SPAWN_PROBABILITY
+        while (actorManager.getEnemyUnits().size() < TOTAL_ENEMIES) {
             if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
                 double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
                 if (newEnemyInitialYPosition < getEnemyMinimumYPosition()) {
                     newEnemyInitialYPosition = getEnemyMinimumYPosition();
                 }
                 ActiveActorDestructible newEnemy = new EnemyPlane(GameConstant.SCREEN_WIDTH, newEnemyInitialYPosition, controller);
-                System.out.println(
-                        "Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
-            actorManager.addEnemyUnit(newEnemy);                                                                                // the enemy unit
-                currentNumberOfEnemies++ ;
-            } else {
-                break; 
+                System.out.println("Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
+                actorManager.addEnemyUnit(newEnemy);
             }
         }
     }

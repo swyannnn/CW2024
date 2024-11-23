@@ -1,13 +1,18 @@
 package com.example.demo.level;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.example.demo.GameOverImage;
 import com.example.demo.HeartDisplay;
 import com.example.demo.ShieldImage;
+import com.example.demo.UserPlane;
 import com.example.demo.WinImage;
+import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ActorManager;
 
-public class LevelView {
-	
+public class LevelView implements HealthChangeListener {
+	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 25;
 	private static final int WIN_IMAGE_X_POSITION = 355;
@@ -19,7 +24,6 @@ public class LevelView {
 	private final ActorManager actorManager;
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;
-	private final HeartDisplay heartDisplay;
 	private final ShieldImage shield;
 	
 	public LevelView(ActorManager actorManager, int heartsToDisplay) {
@@ -27,22 +31,28 @@ public class LevelView {
 			throw new IllegalArgumentException("ActorManager cannot be null.");
 		}
 		this.actorManager = actorManager;
-		this.heartDisplay = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, heartsToDisplay);
 		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION);
 		this.gameOverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSITION);
 		this.shield = new ShieldImage(SHIELD_X_POSITION, SHIELD_Y_POSITION);
 	}
 	
-	public void updateView() {
-		// If there are additional elements like score or level-specific UI updates,
-		// you can implement the logic here. For now, `updateView()` can be used
-		// to refresh or animate elements as needed.
-	}
-	
-	public void showHeartDisplay() {
-		System.out.println("Adding heart display to scene");
-		actorManager.addUIElement(heartDisplay.getContainer());
-	}
+    @Override
+    public void onHealthChange(UserPlane player, int newHealth) {
+        HeartDisplay hd = heartDisplays.get(player);
+        if (hd != null) {
+            hd.setHearts(newHealth);
+            System.out.println("Updated heart display for player: " + player + " to " + newHealth + " hearts.");
+        }
+    }
+
+	public void showHeartDisplay(UserPlane player) {
+        if (!heartDisplays.containsKey(player)) {
+            HeartDisplay hd = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, player.getHealth());
+            heartDisplays.put(player, hd);
+            actorManager.addUIElement(hd.getContainer());
+            System.out.println("Added heart display for player: " + player);
+        }
+    }
 	
 	public void showWinImage() {
 		actorManager.addUIElement(winImage); // Add winImage to the scene using ActorManager
@@ -59,11 +69,7 @@ public class LevelView {
 		shield.showShield(); // Call any additional methods needed to display the shield
 	}
 	
-	public void removeHearts(int heartsRemaining) {
-		int currentNumberOfHearts = heartDisplay.getContainer().getChildren().size();
-		for (int i = 0; i < currentNumberOfHearts - heartsRemaining; i++) {
-			heartDisplay.removeHeart();
-		}
+	public void updateView() {
+		// Initialize LevelView
 	}
-
 }
