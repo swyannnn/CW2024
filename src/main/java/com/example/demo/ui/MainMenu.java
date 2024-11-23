@@ -17,7 +17,6 @@ import com.example.demo.util.GameConstant;
  */
 public class MainMenu {
     private final Stage primaryStage;
-    private final Controller controller;
     private final GameStateManager gameStateManager;
 
     /**
@@ -28,7 +27,6 @@ public class MainMenu {
      */
     public MainMenu(Stage stage, Controller controller) {
         this.primaryStage = stage;
-        this.controller = controller;
 
         gameStateManager = controller.getGameStateManager();
         if (gameStateManager.getAudioManager() != null) {

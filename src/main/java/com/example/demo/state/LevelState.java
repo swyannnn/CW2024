@@ -158,8 +158,10 @@ public class LevelState implements GameState {
      */
     private void checkLevelCompletion() {
         if (level.userIsDestroyed()) {
+            actorManager.cleanup();
             level.loseGame();
         } else if (level.userHasReachedKillTarget()) {
+            actorManager.cleanup();
             onLevelComplete();
         }
     }

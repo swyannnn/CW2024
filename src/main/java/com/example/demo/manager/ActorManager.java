@@ -2,7 +2,9 @@ package com.example.demo.manager;
 
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.planes.BossPlane;
+import com.example.demo.actors.planes.FighterPlane;
 import com.example.demo.actors.planes.UserPlane;
+import com.example.demo.actors.projectile.UserProjectile;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -244,5 +246,48 @@ public class ActorManager {
             }
         }
         return null;
+    }
+
+    /**
+     * Cleans up all actors, projectiles, and UI elements from the scene and internal lists.
+     */
+    public void cleanup() {
+        // Stop firing for all fighter planes and user projectiles
+        for (ActiveActorDestructible actor : new ArrayList<>(player)) {
+            if (actor instanceof FighterPlane) {
+                ((FighterPlane) actor).stopFiring(); // Stop firing for fighter planes
+            }
+        }
+
+        for (ActiveActorDestructible projectile : new ArrayList<>(userProjectiles)) {
+            if (projectile instanceof ActiveActorDestructible) {
+                projectile.destroy(); // Destroy projectiles explicitly if they have lingering behaviors
+            }
+        }
+
+        // Stop firing for enemy planes
+        for (ActiveActorDestructible enemy : new ArrayList<>(enemyUnits)) {
+            if (enemy instanceof FighterPlane) {
+                ((FighterPlane) enemy).stopFiring();
+            }
+        }
+
+        // Remove all actors from the root group
+        root.getChildren().removeAll(player);
+        root.getChildren().removeAll(friendlyUnits);
+        root.getChildren().removeAll(enemyUnits);
+        root.getChildren().removeAll(userProjectiles);
+        root.getChildren().removeAll(enemyProjectiles);
+        root.getChildren().removeAll(bossProjectiles);
+
+        // Clear all internal lists
+        player.clear();
+        friendlyUnits.clear();
+        enemyUnits.clear();
+        userProjectiles.clear();
+        enemyProjectiles.clear();
+        bossProjectiles.clear();
+
+        System.out.println("ActorManager cleanup completed: All actors and projectiles removed.");
     }
 }

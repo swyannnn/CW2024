@@ -49,7 +49,7 @@ public class LoseScreen {
 
         // Restart Button
         Button restartButton = ButtonManager.createButton("Restart Game", 200, 50);
-        restartButton.setOnAction(e -> gameStateManager.goToMainMenu());
+        restartButton.setOnAction(e -> gameStateManager.goToLevel(1));
 
         // Exit Button
         Button exitButton = ButtonManager.createButton("Exit", 200, 50);
