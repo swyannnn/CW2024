@@ -1,7 +1,10 @@
 package com.example.demo.level;
 
+import java.util.List;
+
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.planes.BossPlane;
+import com.example.demo.actors.planes.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.ui.LevelView001;
@@ -23,16 +26,18 @@ public class Level002 extends LevelParent {
 
     @Override
     protected void initializeFriendlyUnits() {
-        ActiveActorDestructible bossPlane = new BossPlane(controller);
-        actorManager.addEnemyUnit(bossPlane);
-    }
-
-    @Override
-    public void checkIfGameOver() {
-        if (userIsDestroyed()) {
-            loseGame();
-        } else if (userHasReachedKillTarget()) {
-            // onLevelComplete();
+        // Re-add the UserPlane for Level 2
+        List<UserPlane> players = actorManager.getPlayers();
+        if (players.isEmpty()) {
+            UserPlane user = new UserPlane(PLAYER_INITIAL_HEALTH, controller);
+            user.addHealthChangeListener(levelView);
+            actorManager.addPlayer(user);
+            levelView.showHeartDisplay(user); // Ensure heart display is updated
+        } else {
+            // Update existing player's state if already present
+            for (UserPlane player : players) {
+                levelView.showHeartDisplay(player);
+            }
         }
     }
 
@@ -55,10 +60,10 @@ public class Level002 extends LevelParent {
     @Override
     public void spawnEnemyUnits() {
         // Check if there are no current enemies
-        if (actorManager.getEnemyUnits().size() == 0) {
+        if (actorManager.getBossUnits().size() == 0) {
             // Create and add the boss plane
             ActiveActorDestructible bossPlane = new BossPlane(controller);
-            actorManager.addEnemyUnit(bossPlane); // Use ActorManager to add the boss enemy
+            actorManager.addBossUnit(bossPlane); // Use ActorManager to add the boss enemy
         }
     }
 

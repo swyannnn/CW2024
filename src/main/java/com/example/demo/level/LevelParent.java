@@ -179,7 +179,7 @@ public abstract class LevelParent {
 
     protected abstract void initializeFriendlyUnits();
 
-    public abstract void checkIfGameOver();
+    // public abstract void checkIfGameOver();
 
     public abstract void spawnEnemyUnits();
 
@@ -200,7 +200,7 @@ public abstract class LevelParent {
      */
     public boolean userIsDestroyed() {
         for (UserPlane player : actorManager.getPlayers()) {
-            System.out.println("Checking player health: " + player.getHealth());
+            // System.out.println("Checking player health: " + player.getHealth());
             if (player.getHealth() <= 0) {
                 System.out.println("Player destroyed: " + player);
                 return true; // At least one player is destroyed

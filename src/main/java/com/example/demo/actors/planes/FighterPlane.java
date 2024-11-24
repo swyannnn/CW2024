@@ -8,7 +8,7 @@ import javafx.animation.AnimationTimer;
  * FighterPlane class representing a generic fighter plane in the game.
  * Both EnemyPlane and UserPlane extend this class.
  */
-public abstract class FighterPlane extends ActiveActorDestructible {
+public abstract class FighterPlane extends ActiveActorDestructible implements CanFire {
 
     protected int health;
     private AnimationTimer fireTimer;

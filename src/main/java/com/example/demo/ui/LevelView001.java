@@ -50,7 +50,7 @@ public class LevelView001 implements HealthChangeListener {
             HeartDisplay hd = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, player.getHealth());
             heartDisplays.put(player, hd);
             actorManager.addUIElement(hd.getContainer());
-            System.out.println("Added heart display for player: " + player);
+            System.out.println("Added heart display for player: " + player + "to" + actorManager.getRoot());
         }
     }
 	

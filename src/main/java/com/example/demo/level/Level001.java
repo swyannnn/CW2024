@@ -15,7 +15,7 @@ import com.example.demo.util.GameConstant;
 public class Level001 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
     private static final int TOTAL_ENEMIES = 1;
-    private static final int KILLS_TO_ADVANCE = 200;
+    private static final int KILLS_TO_ADVANCE = 0;
     private static final double ENEMY_SPAWN_PROBABILITY = 1;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
@@ -49,16 +49,6 @@ public class Level001 extends LevelParent {
         actorManager.addPlayer(player);
         levelView = instantiateLevelView(); // Instantiate LevelView before adding listener
         player.addHealthChangeListener(levelView); // Register LevelView as listener for health changes
-    }
-
-    @Override
-    public void checkIfGameOver() {
-        if (userIsDestroyed()) {
-            loseGame();
-        } else if (userHasReachedKillTarget()) {
-            // Transition to the next level or handle level completion
-            goToNextLevel(currentLevelNumber + 1); 
-        }
     }
 
     /**

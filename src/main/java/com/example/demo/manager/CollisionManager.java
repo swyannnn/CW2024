@@ -3,6 +3,7 @@ package com.example.demo.manager;
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.planes.EnemyPlane;
 import com.example.demo.actors.planes.UserPlane;
+import com.example.demo.actors.planes.BossPlane;
 import com.example.demo.actors.projectile.UserProjectile;
 import com.example.demo.listener.CollisionListener;
 
@@ -49,8 +50,8 @@ public class CollisionManager {
                     target.takeDamage();
                     System.out.println("Collision detected: " + source + " hit " + target);
                     
-                    if (collisionListener != null && source instanceof UserProjectile && target instanceof EnemyPlane) {
-                        UserProjectile projectile = (UserProjectile) source; // Safe to cast here
+                    if (collisionListener != null && source instanceof UserProjectile && ((target instanceof EnemyPlane) || (target instanceof BossPlane))) {
+                        UserProjectile projectile = (UserProjectile) source; 
                         UserPlane userPlane = getUserPlaneForProjectile(projectile);
                         System.out.println("Collision detected haha: " + projectile + " hit " + target);
                     
@@ -86,6 +87,16 @@ public class CollisionManager {
      */
     public void handlePlayerEnemyProjectileCollisions(List<ActiveActorDestructible> enemyProjectiles, List<UserPlane> players) {
         handleCollisions(players, enemyProjectiles);
+    }
+
+    /**
+     * Handles collisions between enemy projectiles and player entities.
+     *
+     * @param enemyProjectiles The list of enemy projectiles.
+     * @param players          The list of player entities.
+     */
+    public void handlePlayerBossProjectileCollisions(List<ActiveActorDestructible> bossProjectiles, List<UserPlane> players) {
+        handleCollisions(players, bossProjectiles);
     }
 
     /**

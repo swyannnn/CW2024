@@ -2,9 +2,8 @@ package com.example.demo.manager;
 
 import com.example.demo.actors.ActiveActorDestructible;
 import com.example.demo.actors.planes.BossPlane;
-import com.example.demo.actors.planes.FighterPlane;
+import com.example.demo.actors.planes.CanFire;
 import com.example.demo.actors.planes.UserPlane;
-import com.example.demo.actors.projectile.UserProjectile;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -20,6 +19,7 @@ public class ActorManager {
     private final List<ActiveActorDestructible> player;
     private final List<ActiveActorDestructible> friendlyUnits;
     private final List<ActiveActorDestructible> enemyUnits;
+    private final List<ActiveActorDestructible> bossUnits;
     private final List<ActiveActorDestructible> userProjectiles;
     private final List<ActiveActorDestructible> enemyProjectiles;
     private final List<ActiveActorDestructible> bossProjectiles;
@@ -29,6 +29,7 @@ public class ActorManager {
     private ActorManager(Group root) {
         this.root = root;
         this.friendlyUnits = new ArrayList<>();
+        this.bossUnits = new ArrayList<>();
         this.enemyUnits = new ArrayList<>();
         this.userProjectiles = new ArrayList<>();
         this.enemyProjectiles = new ArrayList<>();
@@ -50,10 +51,14 @@ public class ActorManager {
         return instance;
     }
 
-    // Method to update the root
+    // public static synchronized ActorManager getInstance() {}
+
+
     public void updateRoot(Group newRoot) {
+        System.out.println("ActorManager: Updating root to " + newRoot);
         this.root = newRoot;
     }
+    
 
     public Group getRoot() {
         return this.root;
@@ -63,7 +68,7 @@ public class ActorManager {
         if (!this.root.getChildren().contains(user)) {
             this.root.getChildren().add(user);
             player.add(user);
-            System.out.println("Added player: " + user);
+            System.out.println("Added player: " + user + "to" + this.root);
         }
     }    
 
@@ -74,6 +79,13 @@ public class ActorManager {
             friendlyUnits.add(unit);
         }
     }
+
+    // Method to add an enemy unit to the scene and list
+    public void addBossUnit(ActiveActorDestructible boss) {
+        this.root.getChildren().add(boss);
+        bossUnits.add(boss);
+        System.out.println("Added bossUnit: " + boss + "to the root" + this.root);
+}
 
     // Method to add an enemy unit to the scene and list
     public void addEnemyUnit(ActiveActorDestructible enemy) {
@@ -175,6 +187,11 @@ public class ActorManager {
         for (ActiveActorDestructible enemy : new ArrayList<>(enemyUnits)) {
             enemy.updateActor();
         }
+
+        // Update boss units
+        for (ActiveActorDestructible boss : new ArrayList<>(bossUnits)) {
+            boss.updateActor();
+        }
     
         // Update user projectiles
         for (ActiveActorDestructible userProj : new ArrayList<>(userProjectiles)) {
@@ -186,6 +203,14 @@ public class ActorManager {
             enemyProj.updateActor();
             if (enemyProj.isDestroyed()) {
                 removeEnemyProjectile(enemyProj);
+            }
+        }
+
+        // Update boss projectiles
+        for (ActiveActorDestructible bossProj : new ArrayList<>(bossProjectiles)) {
+            bossProj.updateActor();
+            if (bossProj.isDestroyed()) {
+                removeBossProjectile(bossProj);
             }
         }
     }
@@ -217,12 +242,20 @@ public class ActorManager {
         return enemyUnits;
     }
 
+    public List<ActiveActorDestructible> getBossUnits() {
+        return bossUnits;
+    }
+
     public List<ActiveActorDestructible> getUserProjectiles() {
         return userProjectiles;
     }
 
     public List<ActiveActorDestructible> getEnemyProjectiles() {
         return enemyProjectiles;
+    }
+
+    public List<ActiveActorDestructible> getBossProjectiles() {
+        return bossProjectiles;
     }
 
     /**
@@ -240,7 +273,7 @@ public class ActorManager {
 
     // Optionally, add a getBossPlane() method if needed
     public BossPlane getBossPlane() {
-        for (ActiveActorDestructible enemy : enemyUnits) {
+        for (ActiveActorDestructible enemy : bossUnits) {
             if (enemy instanceof BossPlane) {
                 return (BossPlane) enemy;
             }
@@ -252,34 +285,33 @@ public class ActorManager {
      * Cleans up all actors, projectiles, and UI elements from the scene and internal lists.
      */
     public void cleanup() {
-        // Stop firing for all fighter planes and user projectiles
+        // Stop firing for all players
         for (ActiveActorDestructible actor : new ArrayList<>(player)) {
-            if (actor instanceof FighterPlane) {
-                ((FighterPlane) actor).stopFiring(); // Stop firing for fighter planes
+            if (actor instanceof CanFire) {
+                System.out.println(actor + " can fire, stopping firing.");
+                ((CanFire) actor).stopFiring();
             }
         }
 
-        for (ActiveActorDestructible projectile : new ArrayList<>(userProjectiles)) {
-            if (projectile instanceof ActiveActorDestructible) {
-                projectile.destroy(); // Destroy projectiles explicitly if they have lingering behaviors
+        // Stop firing for all enemy units
+        for (ActiveActorDestructible actor : new ArrayList<>(enemyUnits)) {
+            if (actor instanceof CanFire) {
+                System.out.println(actor + " can fire, stopping firing.");
+                ((CanFire) actor).stopFiring();
             }
         }
 
-        // Stop firing for enemy planes
-        for (ActiveActorDestructible enemy : new ArrayList<>(enemyUnits)) {
-            if (enemy instanceof FighterPlane) {
-                ((FighterPlane) enemy).stopFiring();
+        // Stop firing for all boss units
+        for (ActiveActorDestructible actor : new ArrayList<>(bossUnits)) {
+            if (actor instanceof CanFire) {
+                System.out.println(actor + " can fire, stopping firing.");
+                ((CanFire) actor).stopFiring();
             }
         }
 
-        // Remove all actors from the root group
-        root.getChildren().removeAll(player);
-        root.getChildren().removeAll(friendlyUnits);
-        root.getChildren().removeAll(enemyUnits);
-        root.getChildren().removeAll(userProjectiles);
-        root.getChildren().removeAll(enemyProjectiles);
-        root.getChildren().removeAll(bossProjectiles);
-
+        // Clear nodes from root
+        root.getChildren().clear();
+    
         // Clear all internal lists
         player.clear();
         friendlyUnits.clear();
@@ -287,7 +319,7 @@ public class ActorManager {
         userProjectiles.clear();
         enemyProjectiles.clear();
         bossProjectiles.clear();
-
+    
         System.out.println("ActorManager cleanup completed: All actors and projectiles removed.");
     }
-}
+}    
