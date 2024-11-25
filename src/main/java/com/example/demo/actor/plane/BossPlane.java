@@ -25,7 +25,7 @@ public class BossPlane extends FighterPlane {
     private static final int Y_POSITION_LOWER_BOUND = 300;
     private static final int MAX_FRAMES_WITH_SHIELD = 500;
     private static final int MAX_FRAMES_WITHOUT_SHIELD = 500; 
-    private static final int INITIAL_HEALTH = 10;
+    private static final int INITIAL_HEALTH = 1;
     private static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000;
 
     // Dynamic bounds and position based on screen size
@@ -107,7 +107,6 @@ public class BossPlane extends FighterPlane {
         if (isShielded) {
             framesWithShieldActivated++;
             if (shieldExhausted()) {
-                System.out.println("Shield exhausted");
                 deactivateShield();
             }
         } else {
@@ -115,7 +114,6 @@ public class BossPlane extends FighterPlane {
                 framesSinceLastShield++;
             }
             if (shieldShouldBeActivated() && framesSinceLastShield >= MAX_FRAMES_WITHOUT_SHIELD) {
-                System.out.println("Shield activated");
                 activateShield();
             }
         }

@@ -135,20 +135,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     }
 
     /**
-     * Transitions to the win state.
-     */
-    public void goToWinState() {
-        setState(stateFactory.createWinState());
-    }
-
-    /**
-     * Transitions to the lose state.
-     */
-    public void goToLoseState() {
-        setState(stateFactory.createLoseState());
-    }
-
-    /**
      * Updates the current game state and handles actor updates and collisions.
      */
     public void update() {
@@ -312,10 +298,10 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     public void propertyChange(PropertyChangeEvent evt) {
         switch (evt.getPropertyName()) {
             case "win":
-                handleWin();
+                goToWinState();
                 break;
             case "lose":
-                handleLose();
+                goToLoseState();
                 break;
             case "level":
                 int nextLevelNumber = (int) evt.getNewValue();
@@ -329,7 +315,7 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     /**
      * Handles the win state transition.
      */
-    private void handleWin() {
+    public void goToWinState() {
         System.out.println("Player has won the level!");
         // Transition to a WinState or next level
         setState(stateFactory.createWinState());
@@ -338,7 +324,7 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     /**
      * Handles the lose state transition.
      */
-    private void handleLose() {
+    public void goToLoseState() {
         System.out.println("Player has lost the level!");
         // Transition to a LoseState or restart the level
         setState(stateFactory.createLoseState());

@@ -3,6 +3,7 @@ package com.example.demo.level;
 import com.example.demo.controller.Controller;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -26,22 +27,14 @@ public class LevelFactory {
      * @param controller The Controller instance for managing game flow.
      * @return An instance of the specified LevelParent.
      */
-    public static LevelParent createLevel(int levelNumber, Controller controller) {
-        try {
-            System.out.println("Creating level: " + levelNumber);
-            Function<Controller, LevelParent> constructor = levelMap.get(levelNumber);
-            if (constructor != null) {
-                LevelParent level = constructor.apply(controller);
-                System.out.println("Level " + levelNumber + " created successfully.");
-                return level;
-            }
-            throw new IllegalArgumentException("Unknown level: " + levelNumber);
-        } catch (Exception e) {
-            System.err.println("Error creating level " + levelNumber + ": " + e.getMessage());
-            e.printStackTrace();
-            throw e;
-        }
+    public static Optional<LevelParent> createLevel(int levelNumber, Controller controller) {
+    Function<Controller, LevelParent> constructor = levelMap.get(levelNumber);
+    if (constructor != null) {
+        return Optional.of(constructor.apply(controller));
     }
+    return Optional.empty();
+    }
+
 
     /**
      * Registers a new level dynamically.

@@ -1,5 +1,7 @@
 package com.example.demo.state;
 
+import java.util.Optional;
+
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelFactory;
 import com.example.demo.level.LevelParent;
@@ -57,16 +59,18 @@ public class GameStateFactory {
      * Creates an instance of LevelState for the given level number.
      *
      * @param levelNumber The level number.
-     * @return A new LevelState, or null if the level creation fails.
+     * @return A new LevelState, WinState if the level does not exist.
      */
     public GameState createLevelState(int levelNumber) {
-        // Create the level using LevelFactory
-        LevelParent level = LevelFactory.createLevel(levelNumber, controller);
-        if (level != null) {
+        Optional<LevelParent> optionalLevel = LevelFactory.createLevel(levelNumber, controller);
+        if (optionalLevel.isPresent()) {
+            LevelParent level = optionalLevel.get();
             ActorManager actorManager = ActorManager.getInstance(null);
             return new LevelState(stage, controller, level, actorManager, gameStateManager, audioManager, imageManager);
+        } else {
+            System.out.println("No more levels available. Transitioning to Win State.");
+            return createWinState();
         }
-        return null;
     }
 
         /**
