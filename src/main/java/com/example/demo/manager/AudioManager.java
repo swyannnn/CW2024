@@ -13,7 +13,7 @@ import java.util.List;
  * It also preloads audio resources to minimize latency during gameplay.
  */
 public class AudioManager {
-    private static final String AUDIO_LOCATION = "/com/example/demo/audios/";
+    private static final String AUDIO_LOCATION = GameConstant.FilePaths.AUDIO_LOCATION;
     private boolean audioEnabled = true;
     private static AudioManager instance;
     private MediaPlayer mediaPlayer;

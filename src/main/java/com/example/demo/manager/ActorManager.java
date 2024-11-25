@@ -64,14 +64,6 @@ public class ActorManager {
         return this.root;
     }
 
-    public void addPlayer(UserPlane user) {
-        if (!this.root.getChildren().contains(user)) {
-            this.root.getChildren().add(user);
-            player.add(user);
-            System.out.println("Added player: " + user + "to" + this.root);
-        }
-    }    
-
     // Method to add a friendly unit to the scene and list
     public void addFriendlyUnit(ActiveActorDestructible unit) {
         if (!this.root.getChildren().contains(unit)) {
@@ -79,6 +71,14 @@ public class ActorManager {
             friendlyUnits.add(unit);
         }
     }
+
+    public void addPlayer(UserPlane user) {
+        if (!this.root.getChildren().contains(user)) {
+            this.root.getChildren().add(user);
+            player.add(user);
+            System.out.println("Added player: " + user + "to" + this.root);
+        }
+    }    
 
     // Method to add an enemy unit to the scene and list
     public void addBossUnit(ActiveActorDestructible boss) {
@@ -92,17 +92,6 @@ public class ActorManager {
             this.root.getChildren().add(enemy);
             enemyUnits.add(enemy);
             System.out.println("Added enemyUnit: " + enemy + "to the root" + this.root);
-    }
-
-    // Method to remove an enemy unit to the scene and list
-    public void removeEnemyUnit(ActiveActorDestructible enemy) {
-        if (this.root.getChildren().contains(enemy)) {
-            this.root.getChildren().remove(enemy);
-            enemyUnits.remove(enemy);
-            System.out.println("Removed enemy: " + enemy);
-        } else {
-            System.out.println("Attempted to remove non-existent enemy: " + enemy);
-        }
     }
 
     // Method to add a user projectile to the scene and list
@@ -123,16 +112,24 @@ public class ActorManager {
         this.root.getChildren().add(projectile);
     }
 
-    /**
-     * Removes an enemy projectile from the scene and tracking list.
-     *
-     * @param projectile The enemy projectile to remove.
-     */
-    public void removeEnemyProjectile(ActiveActorDestructible projectile) {
-        if (this.root.getChildren().contains(projectile)) {
-            this.root.getChildren().remove(projectile);
-            enemyProjectiles.remove(projectile);
-            // System.out.println("Removed enemy projectile: " + projectile);
+    // Method to remove an enemy unit to the scene and list
+    public void removeEnemyUnit(ActiveActorDestructible enemy) {
+        if (this.root.getChildren().contains(enemy)) {
+            this.root.getChildren().remove(enemy);
+            enemyUnits.remove(enemy);
+            System.out.println("Removed enemy: " + enemy);
+        } else {
+            System.out.println("Attempted to remove non-existent enemy: " + enemy);
+        }
+    }
+
+    public void removeBossUnit(ActiveActorDestructible boss) {
+        if (this.root.getChildren().contains(boss)) {
+            this.root.getChildren().remove(boss);
+            bossUnits.remove(boss);
+            System.out.println("Removed boss: " + boss);
+        } else {
+            System.out.println("Attempted to remove non-existent boss: " + boss);
         }
     }
 
@@ -146,6 +143,19 @@ public class ActorManager {
             this.root.getChildren().remove(projectile);
             userProjectiles.remove(projectile);
             // System.out.println("Removed user projectile: " + projectile);
+        }
+    }
+    
+    /**
+     * Removes an enemy projectile from the scene and tracking list.
+     *
+     * @param projectile The enemy projectile to remove.
+     */
+    public void removeEnemyProjectile(ActiveActorDestructible projectile) {
+        if (this.root.getChildren().contains(projectile)) {
+            this.root.getChildren().remove(projectile);
+            enemyProjectiles.remove(projectile);
+            // System.out.println("Removed enemy projectile: " + projectile);
         }
     }
 

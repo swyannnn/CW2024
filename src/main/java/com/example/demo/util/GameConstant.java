@@ -103,6 +103,8 @@ public class GameConstant {
 
     // File Paths
     public static class FilePaths {
+        public static final String AUDIO_LOCATION = "/com/example/demo/audios/";
+        public static final String IMAGE_LOCATION = "/com/example/demo/images/";
 
         // Sound Effects
         public static final String[] SOUND_EFFECTS = {

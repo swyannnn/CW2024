@@ -79,28 +79,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         return instance;
     }
 
-
-    /**
-     * Sets the current game state, performing any necessary cleanup of the previous state.
-     *
-     * @param newState The new GameState to transition to.
-     */
-    public void setState(GameState newState) {
-        if (currentState != null) {
-            currentState.cleanup();
-        }
-        currentState = newState;
-        currentState.initialize();
-        System.out.println("Transitioned to new state: " + newState.getClass().getSimpleName());
-    }
-
-    /**
-     * Transitions to the main menu state.
-     */
-    public void goToMainMenu() {
-        setState(stateFactory.createMainMenuState());
-    }
-
     /**
      * Sets up the game loop to continuously update and render the current game state.
      */
@@ -120,6 +98,13 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         };
     }
 
+    /**
+     * Transitions to the main menu state.
+     */
+    public void goToMainMenu() {
+        setState(stateFactory.createMainMenuState());
+    }
+
     public void startGame() {
         goToLevel(1);
     }
@@ -132,6 +117,20 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     public void goToLevel(int levelNumber) {
         gameLoop.start();
         setState(stateFactory.createLevelState(levelNumber));
+    }
+
+     /**
+     * Sets the current game state, performing any necessary cleanup of the previous state.
+     *
+     * @param newState The new GameState to transition to.
+     */
+    public void setState(GameState newState) {
+        if (currentState != null) {
+            currentState.cleanup();
+        }
+        currentState = newState;
+        currentState.initialize();
+        System.out.println("Transitioned to new state: " + newState.getClass().getSimpleName());
     }
 
     /**
@@ -168,6 +167,16 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     public void handleInput(KeyEvent event) {
         if (currentState != null) {
             currentState.handleInput(event);
+        }
+    }
+
+    /**
+     * Cleans up resources when the game is stopped.
+     */
+    public void cleanup() {
+        audioManager.stopMusic();
+        if (currentState != null) {
+            currentState.cleanup();
         }
     }
 
@@ -277,16 +286,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
 
     public CollisionManager getCollisionManager() {
         return collisionManager;
-    }
-
-    /**
-     * Cleans up resources when the game is stopped.
-     */
-    public void cleanup() {
-        audioManager.stopMusic();
-        if (currentState != null) {
-            currentState.cleanup();
-        }
     }
 
     /**

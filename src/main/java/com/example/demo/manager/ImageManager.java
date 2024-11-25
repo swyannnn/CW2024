@@ -9,7 +9,7 @@ import java.util.Map;
  * ImageManager handles the loading, caching, and preloading of image resources.
  */
 public class ImageManager {
-    private static final String IMAGE_LOCATION = "/com/example/demo/images/";
+    private static final String IMAGE_LOCATION = GameConstant.FilePaths.IMAGE_LOCATION;
     private static ImageManager instance;
     private final Map<String, Image> imageCache = new HashMap<>();
 
