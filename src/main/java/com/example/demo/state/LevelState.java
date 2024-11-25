@@ -2,7 +2,7 @@ package com.example.demo.state;
 
 import java.util.List;
 
-import com.example.demo.actors.planes.UserPlane;
+import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
 import com.example.demo.manager.ActorManager;
@@ -86,9 +86,6 @@ public class LevelState implements GameState {
             level.updateNumberOfEnemies();
             level.updateKillCount();
             level.updateLevelView();
-            // level.checkIfGameOver();
-
-            // Check for level completion
             checkLevelCompletion();
         }
     }
@@ -97,7 +94,6 @@ public class LevelState implements GameState {
     public void render() {
         if (!levelCompleted) {
             level.getLevelView().updateView();
-            // System.out.println("LevelState: Rendered LevelView.");
         }
     }
 

@@ -1,10 +1,10 @@
 package com.example.demo.manager;
 
-import com.example.demo.actors.ActiveActorDestructible;
-import com.example.demo.actors.planes.EnemyPlane;
-import com.example.demo.actors.planes.UserPlane;
-import com.example.demo.actors.planes.BossPlane;
-import com.example.demo.actors.projectile.UserProjectile;
+import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.plane.BossPlane;
+import com.example.demo.actor.plane.EnemyPlane;
+import com.example.demo.actor.plane.UserPlane;
+import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.listener.CollisionListener;
 
 import java.util.List;
@@ -41,8 +41,8 @@ public class CollisionManager {
      * @param targetActors The list of target actors (e.g., players).
      */
     private void handleCollisions(
-            List<? extends ActiveActorDestructible> sourceActors, 
-            List<? extends ActiveActorDestructible> targetActors) {
+        List<? extends ActiveActorDestructible> sourceActors, 
+        List<? extends ActiveActorDestructible> targetActors) {
         for (ActiveActorDestructible source : sourceActors) {
             for (ActiveActorDestructible target : targetActors) {
                 if (source.getBoundsInParent().intersects(target.getBoundsInParent())) {
@@ -87,6 +87,16 @@ public class CollisionManager {
      */
     public void handlePlayerEnemyProjectileCollisions(List<ActiveActorDestructible> enemyProjectiles, List<UserPlane> players) {
         handleCollisions(players, enemyProjectiles);
+    }
+
+    /**
+     * Handles collisions between projectiles and enemy units.
+     *
+     * @param projectiles The list of projectiles.
+     * @param enemies     The list of enemy units.
+     */
+    public void handleUserProjectileBossCollisions(List<ActiveActorDestructible> userProjectiles, List<ActiveActorDestructible> boss) {
+        handleCollisions(userProjectiles, boss);
     }
 
     /**

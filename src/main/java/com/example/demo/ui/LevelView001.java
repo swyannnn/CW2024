@@ -7,7 +7,7 @@ import com.example.demo.GameOverImage;
 import com.example.demo.HeartDisplay;
 import com.example.demo.ShieldImage;
 import com.example.demo.WinImage;
-import com.example.demo.actors.planes.UserPlane;
+import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ActorManager;
 
@@ -24,7 +24,6 @@ public class LevelView001 implements HealthChangeListener {
 	private final ActorManager actorManager;
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;
-	private final ShieldImage shield;
 	
 	public LevelView001(ActorManager actorManager, int heartsToDisplay) {
 		if (actorManager == null) {
@@ -33,7 +32,6 @@ public class LevelView001 implements HealthChangeListener {
 		this.actorManager = actorManager;
 		this.winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION);
 		this.gameOverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSITION);
-		this.shield = new ShieldImage(SHIELD_X_POSITION, SHIELD_Y_POSITION);
 	}
 	
     @Override
@@ -62,11 +60,6 @@ public class LevelView001 implements HealthChangeListener {
 	public void showGameOverImage() {
 		actorManager.addUIElement(gameOverImage); // Add gameOverImage to the scene using ActorManager
 		gameOverImage.showGameOverImage(); // Call any additional methods needed to display the game over image
-	}
-	
-	public void showShield() {
-		actorManager.addUIElement(shield); // Add shield to the scene using ActorManager
-		shield.showShield(); // Call any additional methods needed to display the shield
 	}
 	
 	public void updateView() {

@@ -1,4 +1,4 @@
-package com.example.demo.actors.planes;
+package com.example.demo.actor.plane;
 
 public interface CanFire {
     void stopFiring();

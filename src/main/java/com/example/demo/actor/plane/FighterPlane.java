@@ -1,6 +1,6 @@
-package com.example.demo.actors.planes;
+package com.example.demo.actor.plane;
 
-import com.example.demo.actors.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActorDestructible;
 
 import javafx.animation.AnimationTimer;
 

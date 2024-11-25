@@ -1,4 +1,4 @@
-package com.example.demo.actors;
+package com.example.demo.actor;
 
 /**
  * Abstract class representing active actors that can be destroyed.

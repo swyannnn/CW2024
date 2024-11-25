@@ -1,15 +1,15 @@
 package com.example.demo.manager;
 
-import com.example.demo.actors.ActiveActorDestructible;
-import com.example.demo.actors.planes.BossPlane;
-import com.example.demo.actors.planes.CanFire;
-import com.example.demo.actors.planes.UserPlane;
-
 import javafx.scene.Group;
 import javafx.scene.Node;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.plane.BossPlane;
+import com.example.demo.actor.plane.CanFire;
+import com.example.demo.actor.plane.UserPlane;
 
 /**
  * ActorManager handles all actors within a level, including updating and managing their lifecycle.

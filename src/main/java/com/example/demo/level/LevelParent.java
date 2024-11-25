@@ -3,8 +3,8 @@ package com.example.demo.level;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.demo.actors.ActiveActorDestructible;
-import com.example.demo.actors.planes.UserPlane;
+import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.CollisionManager;

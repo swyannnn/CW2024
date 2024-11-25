@@ -1,7 +1,7 @@
 package com.example.demo.manager;
 
-import com.example.demo.actors.ActiveActorDestructible;
-import com.example.demo.actors.planes.UserPlane;
+import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
 import com.example.demo.listener.CollisionListener;
@@ -107,7 +107,7 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     private void setupGameLoop() {
         gameLoop = new AnimationTimer() {
             private long lastUpdate = System.nanoTime();
-            private final double nsPerUpdate = 1e9 / 60.0; // 60 updates per second
+            private final double nsPerUpdate = 2e9 / 60.0; // 60 updates per second
 
             @Override
             public void handle(long now) {
@@ -256,7 +256,7 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         collisionManager.handlePlayerBossProjectileCollisions(actorManager.getBossProjectiles(), actorManager.getPlayers());
         collisionManager.handleUnitCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
         collisionManager.handleEnemyPlayerCollisions(actorManager.getEnemyUnits(), actorManager.getPlayers());
-
+        collisionManager.handleUserProjectileBossCollisions(actorManager.getUserProjectiles(), actorManager.getBossUnits());
     }
 
     /**

@@ -1,8 +1,8 @@
 package com.example.demo.level;
 
-import com.example.demo.actors.ActiveActorDestructible;
-import com.example.demo.actors.planes.EnemyPlane;
-import com.example.demo.actors.planes.UserPlane;
+import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.plane.EnemyPlane;
+import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.ui.LevelView001;
