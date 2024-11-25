@@ -44,7 +44,6 @@ public class Level002 extends LevelParent {
     @Override
     public boolean userHasReachedKillTarget() {
         BossPlane bossPlane = actorManager.getBossPlane();
-        System.out.println("bossPlane.isDestroyed()" + bossPlane.isDestroyed());
         return bossPlane.isDestroyed();
     }
 
@@ -65,7 +64,6 @@ public class Level002 extends LevelParent {
             // Create and add the boss plane
             ActiveActorDestructible bossPlane = new BossPlane(controller);
             actorManager.addBossUnit(bossPlane); // Use ActorManager to add the boss enemy
-            System.out.println("bossPlane.isDestroyed() in the beginning" + bossPlane.isDestroyed());
         }
     }
 

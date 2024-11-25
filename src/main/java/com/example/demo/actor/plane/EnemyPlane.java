@@ -18,6 +18,7 @@ public class EnemyPlane extends FighterPlane {
     private static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // Fire every 1 second
     private static final double FIRE_RATE = 0.5; // Probability of firing per interval
     private ActorManager actorManager;
+    private Controller controller;
 
     /**
      * Constructs an EnemyPlane at the specified initial position.
@@ -29,6 +30,7 @@ public class EnemyPlane extends FighterPlane {
     public EnemyPlane(double initialXPos, double initialYPos, Controller controller) {
         super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos, INITIAL_HEALTH, FIRE_INTERVAL_NANOSECONDS);
         this.actorManager = controller.getGameStateManager().getActorManager();
+        this.controller = controller;
     }
 
     /**
@@ -40,7 +42,7 @@ public class EnemyPlane extends FighterPlane {
             double projectileX = getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
             double projectileY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
 
-            EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY);
+            EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY, controller);
             ActorManager.getInstance(actorManager.getRoot()).addEnemyProjectile(projectile);
         }
     }

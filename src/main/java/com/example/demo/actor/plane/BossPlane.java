@@ -10,6 +10,7 @@ import com.example.demo.manager.ActorManager;
 public class BossPlane extends FighterPlane {
     private ActorManager actorManager;
     private final ShieldImage shield;
+    private Controller controller;
     private static final String IMAGE_NAME = "bossplane.png";
     private static final double INITIAL_X_POSITION = 1000.0;
     private static final double INITIAL_Y_POSITION = 125;
@@ -18,6 +19,8 @@ public class BossPlane extends FighterPlane {
     private static final double BOSS_SHIELD_PROBABILITY = 0.04;
     private static final int IMAGE_HEIGHT = 300;
     private static final int VERTICAL_VELOCITY = 4;
+    private static final int SHIELD_X_POSITION_OFFSET = -100;
+    private static final int SHIELD_Y_POSITION_OFFSET = 120;
     private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
     private static final int ZERO = 0;
     private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
@@ -27,6 +30,7 @@ public class BossPlane extends FighterPlane {
     private static final int MAX_FRAMES_WITHOUT_SHIELD = 500; 
     private static final int INITIAL_HEALTH = 1;
     private static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000;
+
 
     // Dynamic bounds and position based on screen size
     private final List<Integer> movePattern;
@@ -39,7 +43,7 @@ public class BossPlane extends FighterPlane {
     public BossPlane(Controller controller) {
         super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, INITIAL_HEALTH, FIRE_INTERVAL_NANOSECONDS);
         this.actorManager = controller.getGameStateManager().getActorManager();
-
+        this.controller = controller;
         movePattern = new ArrayList<>();
         consecutiveMovesInSameDirection = 0;
         indexOfCurrentMove = 0;
@@ -60,7 +64,7 @@ public class BossPlane extends FighterPlane {
     public void fireProjectile() {
         if (bossFiresInCurrentFrame()) { // Use the specified firing probability
             double projectileY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
-            BossProjectile projectile = new BossProjectile(projectileY);
+            BossProjectile projectile = new BossProjectile(projectileY, controller);
             actorManager.addBossProjectile(projectile);
         }
     }
@@ -82,8 +86,8 @@ public class BossPlane extends FighterPlane {
         
         // Update shield position to follow BossPlane
         if (shield.isVisible()) {
-            shield.setTranslateX(getTranslateX());
-            shield.setTranslateY(getTranslateY());
+            shield.setTranslateX(getTranslateX() + SHIELD_X_POSITION_OFFSET);
+            shield.setTranslateY(getTranslateY() + SHIELD_Y_POSITION_OFFSET);
         }
     }
 

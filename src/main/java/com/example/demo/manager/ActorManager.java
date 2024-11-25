@@ -132,7 +132,7 @@ public class ActorManager {
         if (this.root.getChildren().contains(projectile)) {
             this.root.getChildren().remove(projectile);
             enemyProjectiles.remove(projectile);
-            System.out.println("Removed enemy projectile: " + projectile);
+            // System.out.println("Removed enemy projectile: " + projectile);
         }
     }
 
@@ -145,7 +145,7 @@ public class ActorManager {
         if (this.root.getChildren().contains(projectile)) {
             this.root.getChildren().remove(projectile);
             userProjectiles.remove(projectile);
-            System.out.println("Removed user projectile: " + projectile);
+            // System.out.println("Removed user projectile: " + projectile);
         }
     }
 
@@ -158,7 +158,7 @@ public class ActorManager {
         if (this.root.getChildren().contains(projectile)) {
             this.root.getChildren().remove(projectile);
             bossProjectiles.remove(projectile);
-            System.out.println("Removed user projectile: " + projectile);
+            // System.out.println("Removed boss projectile: " + projectile);
         }
     }
 

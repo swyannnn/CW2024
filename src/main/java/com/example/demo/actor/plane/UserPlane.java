@@ -36,6 +36,7 @@ public class UserPlane extends FighterPlane {
     private double positionX;
     private double positionY;
     private ActorManager actorManager;
+    private Controller controller;
 
     /**
      * Constructs a UserPlane object with specified stage dimensions and initial health.
@@ -45,7 +46,7 @@ public class UserPlane extends FighterPlane {
      */
     public UserPlane(int initialHealth, Controller controller) {
         super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth, GameConstant.USERPLANE_FIRE_INTERVAL_NANOSECONDS);
-        // Set dynamic bounds based on stage dimensions
+        this.controller = controller;
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.yUpperBound = -40;
         this.yLowerBound = 600.0; 
@@ -64,7 +65,7 @@ public class UserPlane extends FighterPlane {
         double currentX =  getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
         double currentY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
 
-        UserProjectile projectile = new UserProjectile(currentX, currentY, this);
+        UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
         actorManager.addUserProjectile(projectile);
 
         // System.out.println("Projectile fired by " + this + " at: " + currentX + ", " + currentY);
