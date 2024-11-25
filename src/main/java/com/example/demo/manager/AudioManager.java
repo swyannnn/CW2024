@@ -56,7 +56,7 @@ public class AudioManager {
      */
     private void preloadAllAudio() {
         // Preload sound effects
-        for (String filename : GameConstant.SOUND_EFFECT_FILES) {
+        for (String filename : GameConstant.FilePaths.SOUND_EFFECTS) {
             AudioClip clip = preloadAudioClip(filename);
             if (clip != null) {
                 soundEffects.add(clip);
@@ -70,7 +70,7 @@ public class AudioManager {
         }
 
         // Preload background music
-        for (String filename : GameConstant.BACKGROUND_MUSIC_FILES) {
+        for (String filename : GameConstant.FilePaths.BACKGROUND_MUSIC) {
             preloadMedia(filename);
         }
     }

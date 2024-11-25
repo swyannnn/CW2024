@@ -57,7 +57,7 @@ public abstract class LevelParent {
         this.controller = controller;
     
         this.root = new Group();
-        this.scene = new Scene(root, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT);
+        this.scene = new Scene(root, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     
         // Initialize background
         this.background = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
@@ -87,8 +87,8 @@ public abstract class LevelParent {
      * Initializes the background image.
      */
     private void initializeBackground() {
-        background.setFitHeight(GameConstant.SCREEN_HEIGHT);
-        background.setFitWidth(GameConstant.SCREEN_WIDTH);
+        background.setFitHeight(GameConstant.GameSettings.SCREEN_HEIGHT);
+        background.setFitWidth(GameConstant.GameSettings.SCREEN_WIDTH);
         background.setOpacity(0.3);
         root.getChildren().add(background);
     }
@@ -179,8 +179,6 @@ public abstract class LevelParent {
 
     protected abstract void initializeFriendlyUnits();
 
-    // public abstract void checkIfGameOver();
-
     public abstract void spawnEnemyUnits();
 
     public abstract LevelView001 instantiateLevelView();
@@ -218,11 +216,11 @@ public abstract class LevelParent {
      * Spawns a new enemy unit at a random position.
      */ 
     protected double getEnemyMaximumYPosition() {
-        return GameConstant.ENEMY_MAXIMUM_Y_POSITION;
+        return GameConstant.EnemyPlane.MAXIMUM_Y_POSITION;
     }
 
     protected double getEnemyMinimumYPosition() {
-        return GameConstant.ENEMY_MINIMUM_Y_POSITION;
+        return GameConstant.EnemyPlane.MINIMUM_Y_POSITION;
     }
 
     /**
@@ -249,7 +247,7 @@ public abstract class LevelParent {
      * @return True if the enemy has penetrated defenses; false otherwise.
      */
     private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-        return Math.abs(enemy.getTranslateX()) > GameConstant.SCREEN_WIDTH;
+        return Math.abs(enemy.getTranslateX()) > GameConstant.GameSettings.SCREEN_WIDTH;
     }
 
     /**

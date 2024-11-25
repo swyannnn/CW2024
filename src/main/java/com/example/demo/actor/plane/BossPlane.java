@@ -6,30 +6,31 @@ import com.example.demo.ShieldImage;
 import com.example.demo.actor.projectile.BossProjectile;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.util.GameConstant;
 
 public class BossPlane extends FighterPlane {
     private ActorManager actorManager;
     private final ShieldImage shield;
     private Controller controller;
-    private static final String IMAGE_NAME = "bossplane.png";
-    private static final double INITIAL_X_POSITION = 1000.0;
-    private static final double INITIAL_Y_POSITION = 125;
-    private static final double PROJECTILE_Y_POSITION_OFFSET = 120.0;
-    private static final double BOSS_FIRE_RATE = 1;
-    private static final double BOSS_SHIELD_PROBABILITY = 0.04;
-    private static final int IMAGE_HEIGHT = 300;
-    private static final int VERTICAL_VELOCITY = 4;
-    private static final int SHIELD_X_POSITION_OFFSET = -100;
-    private static final int SHIELD_Y_POSITION_OFFSET = 120;
-    private static final int MOVE_FREQUENCY_PER_CYCLE = 5;
-    private static final int ZERO = 0;
-    private static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
-    private static final int Y_POSITION_UPPER_BOUND = -50;
-    private static final int Y_POSITION_LOWER_BOUND = 300;
-    private static final int MAX_FRAMES_WITH_SHIELD = 500;
-    private static final int MAX_FRAMES_WITHOUT_SHIELD = 500; 
-    private static final int INITIAL_HEALTH = 1;
-    private static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000;
+    private static final String imageName = GameConstant.BossPlane.IMAGE_NAME;
+    private static final int imageHeight = GameConstant.BossPlane.IMAGE_HEIGHT;
+    private static final double initialXPosition = GameConstant.BossPlane.INITIAL_X_POSITION;
+    private static final double initialYPosition = GameConstant.BossPlane.INITIAL_Y_POSITION;
+    private static final double projectileYPositionOffset = GameConstant.BossProjectile.PROJECTILE_Y_POSITION_OFFSET;
+    private static final double fireRate = GameConstant.BossProjectile.FIRE_RATE;
+    private static final double BossShieldProbability = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
+    private static final int verticalVelocity = GameConstant.BossPlane.VERTICAL_VELOCITY;
+    private static final int shieldXPositionOffset = GameConstant.BossShield.X_POSITION_OFFSET;
+    private static final int shieldYPositionOffset = GameConstant.BossShield.Y_POSITION_OFFSET;
+    private static final int moveFrequencyPerCycle = GameConstant.BossPlane.MOVE_FREQUENCY_PER_CYCLE;
+    private static final int zero = GameConstant.BossPlane.ZERO;
+    private static final int maxFramesWithSameMove = GameConstant.BossPlane.MAX_FRAMES_WITH_SAME_MOVE;
+    private static final int yPositionUpperBound = GameConstant.BossPlane.Y_POSITION_UPPER_BOUND;
+    private static final int yPositionLowerBound = GameConstant.BossPlane.Y_POSITION_LOWER_BOUND;
+    private static final int maxFramesWithShield = GameConstant.BossShield.MAX_FRAMES_WITH_SHIELD;
+    private static final int maxFramesWithoutShield = GameConstant.BossShield.MAX_FRAMES_WITHOUT_SHIELD; 
+    private static final int initialHealth = GameConstant.BossPlane.INITIAL_HEALTH;
+    private static final long fireIntervalNanoseconds = GameConstant.BossPlane.FIRE_INTERVAL_NANOSECONDS;
 
 
     // Dynamic bounds and position based on screen size
@@ -41,14 +42,14 @@ public class BossPlane extends FighterPlane {
     private int framesSinceLastShield;
 
     public BossPlane(Controller controller) {
-        super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, INITIAL_HEALTH, FIRE_INTERVAL_NANOSECONDS);
+        super(imageName, imageHeight, initialXPosition, initialYPosition, initialHealth, fireIntervalNanoseconds);
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.controller = controller;
         movePattern = new ArrayList<>();
         consecutiveMovesInSameDirection = 0;
         indexOfCurrentMove = 0;
         framesWithShieldActivated = 0;
-        framesSinceLastShield = MAX_FRAMES_WITHOUT_SHIELD;
+        framesSinceLastShield = maxFramesWithoutShield;
         isShielded = false;
         initializeMovePattern();
 
@@ -63,7 +64,7 @@ public class BossPlane extends FighterPlane {
     @Override
     public void fireProjectile() {
         if (bossFiresInCurrentFrame()) { // Use the specified firing probability
-            double projectileY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+            double projectileY = getProjectileYPosition(projectileYPositionOffset);
             BossProjectile projectile = new BossProjectile(projectileY, controller);
             actorManager.addBossProjectile(projectile);
         }
@@ -74,7 +75,7 @@ public class BossPlane extends FighterPlane {
         double initialTranslateY = getTranslateY();
         moveVertically(getNextMove());
         double currentPosition = getLayoutY() + getTranslateY();
-        if (currentPosition < Y_POSITION_UPPER_BOUND || currentPosition > Y_POSITION_LOWER_BOUND) {
+        if (currentPosition < yPositionUpperBound || currentPosition > yPositionLowerBound) {
             setTranslateY(initialTranslateY); // Revert to initial position if out of bounds
         }
     }   
@@ -86,8 +87,8 @@ public class BossPlane extends FighterPlane {
         
         // Update shield position to follow BossPlane
         if (shield.isVisible()) {
-            shield.setTranslateX(getTranslateX() + SHIELD_X_POSITION_OFFSET);
-            shield.setTranslateY(getTranslateY() + SHIELD_Y_POSITION_OFFSET);
+            shield.setTranslateX(getTranslateX() + shieldXPositionOffset);
+            shield.setTranslateY(getTranslateY() + shieldYPositionOffset);
         }
     }
 
@@ -99,10 +100,10 @@ public class BossPlane extends FighterPlane {
     }
 
     private void initializeMovePattern() {
-        for (int i = 0; i < MOVE_FREQUENCY_PER_CYCLE; i++) {
-            movePattern.add(VERTICAL_VELOCITY);
-            movePattern.add(-VERTICAL_VELOCITY);
-            movePattern.add(ZERO);
+        for (int i = 0; i < moveFrequencyPerCycle; i++) {
+            movePattern.add(verticalVelocity);
+            movePattern.add(-verticalVelocity);
+            movePattern.add(zero);
         }
         Collections.shuffle(movePattern);
     }
@@ -114,10 +115,10 @@ public class BossPlane extends FighterPlane {
                 deactivateShield();
             }
         } else {
-            if (framesSinceLastShield < MAX_FRAMES_WITHOUT_SHIELD) {
+            if (framesSinceLastShield < maxFramesWithoutShield) {
                 framesSinceLastShield++;
             }
-            if (shieldShouldBeActivated() && framesSinceLastShield >= MAX_FRAMES_WITHOUT_SHIELD) {
+            if (shieldShouldBeActivated() && framesSinceLastShield >= maxFramesWithoutShield) {
                 activateShield();
             }
         }
@@ -126,7 +127,7 @@ public class BossPlane extends FighterPlane {
     private int getNextMove() {
         int currentMove = movePattern.get(indexOfCurrentMove);
         consecutiveMovesInSameDirection++;
-        if (consecutiveMovesInSameDirection == MAX_FRAMES_WITH_SAME_MOVE) {
+        if (consecutiveMovesInSameDirection == maxFramesWithSameMove) {
             Collections.shuffle(movePattern);
             consecutiveMovesInSameDirection = 0;
             indexOfCurrentMove++;
@@ -138,15 +139,15 @@ public class BossPlane extends FighterPlane {
     }
 
     private boolean bossFiresInCurrentFrame() {
-        return Math.random() < BOSS_FIRE_RATE;
+        return Math.random() < fireRate;
     }
 
     private boolean shieldShouldBeActivated() {
-        return Math.random() < BOSS_SHIELD_PROBABILITY;
+        return Math.random() < BossShieldProbability;
     }
 
     private boolean shieldExhausted() {
-        return framesWithShieldActivated >= MAX_FRAMES_WITH_SHIELD;
+        return framesWithShieldActivated >= maxFramesWithShield;
     }
 
     private void activateShield() {

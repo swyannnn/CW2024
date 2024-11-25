@@ -59,7 +59,7 @@ public class LoseScreen {
         loseLayout.getChildren().addAll(loseText, restartButton, exitButton);
 
         // Return the constructed scene
-        return new Scene(loseLayout, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT);
+        return new Scene(loseLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     }
 
     /**

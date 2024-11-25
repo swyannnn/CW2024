@@ -12,31 +12,31 @@ import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ActorManager;
 
 public class UserPlane extends FighterPlane {
-    private static final String IMAGE_NAME = "userplane.png";
     private List<HealthChangeListener> healthChangeListeners = new ArrayList<>();
-    private static final int IMAGE_HEIGHT = 150;
-    private static final int VERTICAL_VELOCITY = 8;
-    private static final int HORIZONTAL_VELOCITY = 8;
-    private static final double INITIAL_X_POSITION = 5.0;
-	private static final double INITIAL_Y_POSITION = 300.0;
-    private static final int PROJECTILE_X_POSITION_OFFSET = 90;
-    private static final int PROJECTILE_Y_POSITION_OFFSET = 20;
+    private ActorManager actorManager;
+    private Controller controller;
 
-    private final double yUpperBound;
-    private final double yLowerBound;
-    private final double xUpperBound;
-    private final double xLowerBound;
-    private final double initialXPosition;
-    private final double initialYPosition;
+    private static final String imageName = GameConstant.UserPlane.IMAGE_NAME;
+    private static final int imageHeight = GameConstant.UserPlane.IMAGE_HEIGHT; 
+    private final double initialXPosition = GameConstant.UserPlane.INITIAL_X_POSITION;
+    private final double initialYPosition = GameConstant.UserPlane.INITIAL_Y_POSITION;
 
-    private int verticalVelocityMultiplier = 0;
-    private int horizontalVelocityMultiplier = 0;
-    private int numberOfKills = 0;
+    private static final double verticalVelocity = GameConstant.UserPlane.VERTICAL_VELOCITY;
+    private static final double horizontalVelocity = GameConstant.UserPlane.HORIZONTAL_VELOCITY;
+    private static final int projectileXPositionOffset = GameConstant.UserProjectile.PROJECTILE_X_POSITION_OFFSET;
+    private static final int projectileYPositionOffset = GameConstant.UserProjectile.PROJECTILE_Y_POSITION_OFFSET;
+
+    private final double yUpperBound = GameConstant.UserPlane.Y_UPPER_BOUND;
+    private final double yLowerBound = GameConstant.UserPlane.Y_LOWER_BOUND;
+    private final double xUpperBound = GameConstant.UserPlane.X_UPPER_BOUND;
+    private final double xLowerBound = GameConstant.UserPlane.X_LOWER_BOUND;
+
+    private int verticalVelocityMultiplier = GameConstant.UserPlane.VERTICAL_VELOCITY_MULTIPLIER;
+    private int horizontalVelocityMultiplier = GameConstant.UserPlane.HORIZONTAL_VELOCITY_MULTIPLIER;
+    private int numberOfKills = GameConstant.UserPlane.NUMBER_OF_KILLS;
     private int score;
     private double positionX;
     private double positionY;
-    private ActorManager actorManager;
-    private Controller controller;
 
     /**
      * Constructs a UserPlane object with specified stage dimensions and initial health.
@@ -45,15 +45,9 @@ public class UserPlane extends FighterPlane {
      * @param initialHealth The initial health of the user plane.
      */
     public UserPlane(int initialHealth, Controller controller) {
-        super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, INITIAL_Y_POSITION, initialHealth, GameConstant.USERPLANE_FIRE_INTERVAL_NANOSECONDS);
+        super(imageName, imageHeight, GameConstant.UserPlane.INITIAL_X_POSITION, GameConstant.UserPlane.INITIAL_Y_POSITION, initialHealth, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS);
         this.controller = controller;
         this.actorManager = controller.getGameStateManager().getActorManager();
-        this.yUpperBound = -40;
-        this.yLowerBound = 600.0; 
-        this.xUpperBound = 10;
-        this.xLowerBound = GameConstant.SCREEN_WIDTH - 150; 
-        this.initialXPosition = INITIAL_X_POSITION;
-        this.initialYPosition = INITIAL_Y_POSITION;
         this.health = initialHealth;
         this.score = 0;
     }
@@ -62,8 +56,8 @@ public class UserPlane extends FighterPlane {
      * Fires a projectile from the user plane's current position.
      */
     public void fireProjectile() {
-        double currentX =  getProjectileXPosition(PROJECTILE_X_POSITION_OFFSET);
-        double currentY = getProjectileYPosition(PROJECTILE_Y_POSITION_OFFSET);
+        double currentX =  getProjectileXPosition(projectileXPositionOffset);
+        double currentY = getProjectileYPosition(projectileYPositionOffset);
 
         UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
         actorManager.addUserProjectile(projectile);
@@ -106,10 +100,6 @@ public class UserPlane extends FighterPlane {
         this.positionY = memento.getPositionY();
     }
 
-    // public int getHealth() {
-    //     return health;
-    // }
-
     /**
      * Updates the position of the user plane based on velocity multipliers.
      */
@@ -118,7 +108,7 @@ public class UserPlane extends FighterPlane {
         // Handle vertical movement
         if (verticalVelocityMultiplier != 0) {
             double initialTranslateY = getTranslateY();
-            moveVertically(VERTICAL_VELOCITY * verticalVelocityMultiplier);
+            moveVertically(verticalVelocity * verticalVelocityMultiplier);
             if (isOutOfVerticalBounds()) {
                 setTranslateY(initialTranslateY); // Revert to the previous position if out of bounds
                 // System.out.println("UserPlane out of vertical bounds, reverting Y position.");
@@ -131,7 +121,7 @@ public class UserPlane extends FighterPlane {
         // Handle horizontal movement
         if (horizontalVelocityMultiplier != 0) {
             double initialTranslateX = getTranslateX();
-            moveHorizontally(HORIZONTAL_VELOCITY * horizontalVelocityMultiplier);
+            moveHorizontally(horizontalVelocity * horizontalVelocityMultiplier);
             if (isOutOfHorizontalBounds()) {
                 setTranslateX(initialTranslateX); // Revert to the previous position if out of bounds
                 // System.out.println("UserPlane out of horizontal bounds, reverting X position.");

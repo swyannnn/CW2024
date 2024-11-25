@@ -59,7 +59,7 @@ public class WinScreen {
         winLayout.getChildren().addAll(winText, restartButton, exitButton);
 
         // Return the constructed scene
-        return new Scene(winLayout, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT);
+        return new Scene(winLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     }
 
     /**

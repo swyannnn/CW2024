@@ -51,7 +51,7 @@ public class ImageManager {
      * Preloads all images specified in GameConstant.
      */
     private void preloadImages() {
-        for (String filename : GameConstant.IMAGE_FILES) {
+        for (String filename : GameConstant.FilePaths.IMAGES) {
             getImage(filename); // Load and cache each image
         }
     }

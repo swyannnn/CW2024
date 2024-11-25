@@ -59,7 +59,7 @@ public class MainMenu {
         menuLayout.getChildren().addAll(title, startButton, exitButton);
 
         // Return the constructed scene
-        return new Scene(menuLayout, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT);
+        return new Scene(menuLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     }
 
     /**

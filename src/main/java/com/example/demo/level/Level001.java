@@ -15,7 +15,7 @@ import com.example.demo.util.GameConstant;
 public class Level001 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
     private static final int TOTAL_ENEMIES = 1;
-    private static final int KILLS_TO_ADVANCE = 0;
+    private static final int KILLS_TO_ADVANCE = 1;
     private static final double ENEMY_SPAWN_PROBABILITY = 1;
     private static final int PLAYER_INITIAL_HEALTH = 5;
 
@@ -79,7 +79,7 @@ public class Level001 extends LevelParent {
                 if (newEnemyInitialYPosition < getEnemyMinimumYPosition()) {
                     newEnemyInitialYPosition = getEnemyMinimumYPosition();
                 }
-                ActiveActorDestructible newEnemy = new EnemyPlane(GameConstant.SCREEN_WIDTH, newEnemyInitialYPosition, controller);
+                ActiveActorDestructible newEnemy = new EnemyPlane(GameConstant.GameSettings.SCREEN_WIDTH, newEnemyInitialYPosition, controller);
                 System.out.println("Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
                 actorManager.addEnemyUnit(newEnemy);
             }

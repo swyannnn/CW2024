@@ -27,9 +27,9 @@ public class Controller {
     public Controller(Stage stage) {
         this.stage = stage;
         this.rootGroup = new Group(); 
-        Scene scene = new Scene(rootGroup, GameConstant.SCREEN_WIDTH, GameConstant.SCREEN_HEIGHT); 
+        Scene scene = new Scene(rootGroup, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT); 
         stage.setScene(scene);
-        stage.setTitle(GameConstant.TITLE);
+        stage.setTitle(GameConstant.GameSettings.TITLE);
         stage.show();
     }
 

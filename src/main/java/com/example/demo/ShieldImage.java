@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 public class ShieldImage extends ImageView {
     
     private static final String IMAGE_PATH = "shield.png"; // Updated path
-    private static final int SHIELD_SIZE = 200;
+    private static final int SHIELD_SIZE = 150;
     
     public ShieldImage() {
         // Load the image using the correct resource path
