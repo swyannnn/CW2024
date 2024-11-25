@@ -320,6 +320,4 @@ public abstract class LevelParent {
         gameStateManager.goToLevel(nextLevelNumber);
         System.out.println("Transitioning to Level " + nextLevelNumber);
     }
-
-    // Additional level-specific methods can be added here
 }

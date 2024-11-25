@@ -251,6 +251,7 @@ public class UserPlane extends FighterPlane {
 
     // Kill count methods
     public int getNumberOfKills() {
+        System.out.println("UserPlane.getNumberOfKills():" + numberOfKills);
         return numberOfKills;
     }
 

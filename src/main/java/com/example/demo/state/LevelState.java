@@ -158,6 +158,7 @@ public class LevelState implements GameState {
             level.loseGame();
         } else if (level.userHasReachedKillTarget()) {
             actorManager.cleanup();
+            System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " completed.");
             onLevelComplete();
         }
     }

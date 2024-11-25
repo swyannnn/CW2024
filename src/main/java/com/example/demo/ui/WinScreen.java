@@ -28,9 +28,9 @@ public class WinScreen {
         this.primaryStage = stage;
         this.gameStateManager = gameStateManager;
 
-        if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().playMusic("winbgm.mp3");
-        }
+        // if (gameStateManager.getAudioManager() != null) {
+        //     gameStateManager.getAudioManager().playMusic("winbgm.mp3");
+        // }
     }
 
     /**
@@ -49,7 +49,7 @@ public class WinScreen {
 
         // Restart Button
         Button restartButton = ButtonManager.createButton("Restart Game", 200, 50);
-        restartButton.setOnAction(e -> gameStateManager.goToMainMenu());
+        restartButton.setOnAction(e -> gameStateManager.goToLevel(1));
 
         // Exit Button
         Button exitButton = ButtonManager.createButton("Exit", 200, 50);

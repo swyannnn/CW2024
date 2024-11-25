@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.example.demo.GameOverImage;
 import com.example.demo.HeartDisplay;
-import com.example.demo.ShieldImage;
 import com.example.demo.WinImage;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.listener.HealthChangeListener;
@@ -19,8 +18,6 @@ public class LevelView001 implements HealthChangeListener {
 	private static final int WIN_IMAGE_Y_POSITION = 175;
 	private static final int LOSS_SCREEN_X_POSITION = -160;
 	private static final int LOSS_SCREEN_Y_POSITION = -375;
-	private static final int SHIELD_X_POSITION = 355;
-	private static final int SHIELD_Y_POSITION = 175;
 	private final ActorManager actorManager;
 	private final WinImage winImage;
 	private final GameOverImage gameOverImage;

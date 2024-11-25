@@ -316,6 +316,7 @@ public class ActorManager {
         player.clear();
         friendlyUnits.clear();
         enemyUnits.clear();
+        bossUnits.clear();
         userProjectiles.clear();
         enemyProjectiles.clear();
         bossProjectiles.clear();

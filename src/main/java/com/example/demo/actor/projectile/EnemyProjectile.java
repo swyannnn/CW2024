@@ -8,7 +8,6 @@ public class EnemyProjectile extends Projectile {
 
 	public EnemyProjectile(double initialXPos, double initialYPos) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, initialXPos, initialYPos);
-		System.out.println("i am being called");
 	}
 
 	@Override
