@@ -2,6 +2,8 @@ package com.example.demo.state;
 
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.ui.LoseScreen;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -12,6 +14,7 @@ public class LoseState implements GameState {
     private final Stage stage;
     private final GameStateManager gameStateManager;
     private LoseScreen loseScreen;
+    private Scene scene;
 
     /**
      * Constructor for LoseState.
@@ -29,8 +32,14 @@ public class LoseState implements GameState {
         // Initialize the LoseScreen and set the scene
         System.out.println("Initializing Lose State");
         loseScreen = new LoseScreen(stage, gameStateManager);
-        stage.setScene(loseScreen.getLoseScreenScene());
+        this.scene = loseScreen.getLoseScreenScene();
+        stage.setScene(this.scene);
         stage.show();
+    }
+
+    @Override
+    public Scene getScene() {
+        return scene;
     }
 
     @Override
@@ -45,7 +54,19 @@ public class LoseState implements GameState {
 
     @Override
     public void handleInput(KeyEvent event) {
-        // Handle input if necessary
+        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+            KeyCode keyCode = event.getCode();
+            switch (keyCode) {
+                case ENTER:
+                    gameStateManager.goToMainMenu(); // Return to main menu
+                    break;
+                case ESCAPE:
+                    stage.close(); // Exit the game
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Override
