@@ -1,5 +1,6 @@
 package com.example.demo.state;
 
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
 /**
@@ -51,4 +52,11 @@ public interface GameState {
         // Default implementation: do nothing.
         // Implementing classes can override if needed.
     }
+
+    /**
+     * Retrieves the current Scene of the state.
+     *
+     * @return The Scene object representing the current state.
+     */
+    Scene getScene();
 }

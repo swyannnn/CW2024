@@ -13,6 +13,7 @@ import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -151,12 +152,13 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         currentState = newState;
         if (currentState != null) {
             currentState.initialize();
+            setupInputHandlers();
             System.out.println("GameStateManager: Initialized new state: " + currentState.getClass().getSimpleName());
         }
 
         // Ensure the game is not paused when setting a new state
         if (isPaused.get()) {
-            resumeGame();
+            isPaused.set(false);
         }
     }
 
@@ -165,7 +167,7 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
      */
     public void update() {
         if (currentState != null) {
-            System.out.println("GameStateManager: Updating current state: " + currentState.getClass().getSimpleName());
+            // System.out.println("GameStateManager: Updating current state: " + currentState.getClass().getSimpleName());
             currentState.update();
         }
 
@@ -185,6 +187,15 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
             currentState.render();
         }
     }
+
+    private void setupInputHandlers() {
+        Scene scene = currentState.getScene();
+        if (scene != null) {
+            scene.setOnKeyPressed(this::handleInput);
+            scene.setOnKeyReleased(this::handleInput);
+        }
+    }
+    
 
     /**
      * Handles input events and delegates them to the current game state.
@@ -311,5 +322,9 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
             audioManager.resumeMusic(); // Assuming AudioManager has resumeMusic()
             System.out.println("GameStateManager: Game resumed.");
         }
+    }
+
+    public Boolean isPaused() {
+        return isPaused.get();
     }
 }

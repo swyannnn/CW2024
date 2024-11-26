@@ -48,11 +48,11 @@ public class LoseScreen {
         Text loseText = createTitle("You Lose!");
 
         // Restart Button
-        Button restartButton = ButtonManager.createButton("Restart Game", 200, 50);
+        Button restartButton = ButtonManager.createButton("Restart Game", 200, 50, 20);
         restartButton.setOnAction(e -> gameStateManager.goToLevel(1));
 
         // Exit Button
-        Button exitButton = ButtonManager.createButton("Exit", 200, 50);
+        Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout

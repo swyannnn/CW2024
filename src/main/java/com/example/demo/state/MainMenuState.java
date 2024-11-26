@@ -4,6 +4,7 @@ import com.example.demo.controller.Controller;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.ui.MainMenu;
 
+import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -15,6 +16,7 @@ public class MainMenuState implements GameState {
     private final Controller controller;
     private MainMenu mainMenu;
     GameStateManager gameStateManager;
+    private Scene scene;
 
     /**
      * Constructor for MainMenuState.
@@ -22,8 +24,8 @@ public class MainMenuState implements GameState {
      * @param primaryStage The primary stage of the application.
      * @param controller   The game controller.
      */
-    public MainMenuState(Stage primaryStage, Controller controller) {
-        this.stage = primaryStage;
+    public MainMenuState(Stage stage, Controller controller) {
+        this.stage = stage;
         this.controller = controller;
         this.gameStateManager = GameStateManager.getInstance(stage, controller);
     }
@@ -33,7 +35,8 @@ public class MainMenuState implements GameState {
         // Initialize the HomeMenu and set the scene
         System.out.println("Initializing Main Menu State");
         mainMenu = new MainMenu(stage, controller);
-        stage.setScene(mainMenu.getHomeMenuScene());
+        this.scene = mainMenu.getHomeMenuScene();
+        stage.setScene(this.scene);
         stage.show();
     }
 
@@ -60,6 +63,11 @@ public class MainMenuState implements GameState {
             default:
                 break;
         }
+    }
+
+    @Override
+    public Scene getScene() {
+        return scene;
     }
 
     @Override

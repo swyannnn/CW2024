@@ -33,6 +33,7 @@ public class LevelState implements GameState {
     private final ActorManager actorManager;
     private boolean levelCompleted;
     private VBox pauseOverlay;
+    private Scene scene;
 
     /**
      * Constructor for LevelState.
@@ -64,13 +65,13 @@ public class LevelState implements GameState {
 
     @Override
     public void initialize() {
-        Scene scene = level.initializeScene();
-        if (scene == null) {
+        this.scene = level.initializeScene();
+        if (this.scene == null) {
             System.err.println("LevelState: Failed to initialize scene for level " + level.getCurrentLevelNumber());
             return;
         }
 
-        setupScene(scene);
+        setupScene(this.scene);
         level.startGame();
         stage.show();
         System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
@@ -79,6 +80,11 @@ public class LevelState implements GameState {
         System.out.println("LevelState:" + gameStateManager);
         gameStateManager.getAudioManager().playMusic("menubgm.mp3");
         createPauseOverlay();
+    }
+
+    @Override
+    public Scene getScene() {
+        return scene;
     }
 
     @Override
@@ -103,17 +109,25 @@ public class LevelState implements GameState {
 
     @Override
     public void handleInput(KeyEvent event) {
-        if (event.getEventType() == KeyEvent.KEY_PRESSED) {
-            handleKeyPressed(event);
-        } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
-            handleKeyReleased(event);
+        if (gameStateManager.isPaused()) {
+            // Handle input when the game is paused, e.g., resume the game with ESCAPE
+            if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.ESCAPE) {
+                gameStateManager.resumeGame();
+            }
+        } else {
+            // Process regular game input
+            if (event.getEventType() == KeyEvent.KEY_PRESSED) {
+                handleKeyPressed(event);
+            } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
+                handleKeyReleased(event);
+            }
         }
     }
+    
     
 
     @Override
     public void cleanup() {
-        removeEventHandlers();
         if (actorManager != null) {
             actorManager.removeDestroyedActors();
         }
@@ -128,7 +142,6 @@ public class LevelState implements GameState {
     private void setupScene(Scene scene) {
         stage.setScene(scene);
         scene.getRoot().requestFocus();
-        registerEventHandlers();
         addPauseButton(scene);
     }
 
@@ -180,6 +193,10 @@ public class LevelState implements GameState {
         pauseOverlay.getChildren().addAll(pauseLabel, resumeButton, exitButton);
         pauseOverlay.setLayoutX(0);
         pauseOverlay.setLayoutY(0);
+
+        pauseOverlay.setFocusTraversable(true);
+        pauseOverlay.setOnKeyPressed(this::handleInput);
+        pauseOverlay.setOnKeyReleased(this::handleInput);
     }
 
     /**
@@ -190,6 +207,7 @@ public class LevelState implements GameState {
         Platform.runLater(() -> {
             if (!level.getRoot().getChildren().contains(pauseOverlay)) {
                 level.getRoot().getChildren().add(pauseOverlay);
+                pauseOverlay.requestFocus();
             }
         });
         System.out.println("Pause overlay displayed.");
@@ -202,6 +220,7 @@ public class LevelState implements GameState {
     public void handleResume() {
         Platform.runLater(() -> {
             level.getRoot().getChildren().remove(pauseOverlay);
+            level.getRoot().requestFocus();
         });
         System.out.println("Pause overlay hidden.");
     }
@@ -228,6 +247,7 @@ public class LevelState implements GameState {
     private void handleKeyPressed(KeyEvent event) {
         if (userPlane == null) return; // Ensure userPlane is not null
         KeyCode keyCode = event.getCode();
+        System.out.println("Key pressed: " + keyCode);
         switch (keyCode) {
             case UP -> userPlane.moveUp();
             case DOWN -> userPlane.moveDown();
@@ -272,27 +292,5 @@ public class LevelState implements GameState {
      */
     public LevelParent getLevel() {
         return level;
-    }
-
-        /**
-     * Registers event handlers for key input.
-     */
-    private void registerEventHandlers() {
-        Scene scene = stage.getScene();
-        if (scene != null) {
-            scene.setOnKeyPressed(this::handleKeyPressed);
-            scene.setOnKeyReleased(this::handleKeyReleased);
-        }
-    }
-
-    /**
-     * Removes input event handlers.
-     */
-    private void removeEventHandlers() {
-        Scene scene = stage.getScene();
-        if (scene != null) {
-            scene.setOnKeyPressed(null);
-            scene.setOnKeyReleased(null);
-        }
     }
 }

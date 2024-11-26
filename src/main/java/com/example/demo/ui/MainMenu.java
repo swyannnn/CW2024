@@ -49,10 +49,10 @@ public class MainMenu {
         Text title = createTitle("Sky Battle");
 
         // Buttons using ButtonManager
-        Button startButton = ButtonManager.createButton("Start Game", 200, 50);
+        Button startButton = ButtonManager.createButton("Start Game", 200, 50, 20);
         startButton.setOnAction(e -> gameStateManager.startGame());
 
-        Button exitButton = ButtonManager.createButton("Exit", 200, 50);
+        Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout

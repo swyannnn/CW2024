@@ -11,20 +11,20 @@ import javafx.scene.text.Font;
  * ButtonManager class provides utility methods to create and style buttons.
  */
 public class ButtonManager {
-
-    /**
-     * Creates a styled button with specified text, width, and height.
+     /**
+     * Creates a styled button with specified text, width, height, and font size.
      *
      * @param text The text to display on the button.
      * @param width The preferred width of the button.
      * @param height The preferred height of the button.
+     * @param fontSize The font size for the button text.
      * @return A styled Button instance.
      */
-    public static Button createButton(String text, double width, double height) {
+    public static Button createButton(String text, double width, double height, double fontSize) {
         Button button = new Button(text);
         button.setPrefWidth(width);
         button.setPrefHeight(height);
-        button.setFont(Font.font("Arial", 20)); // Set default font style and size
+        button.setFont(Font.font("Arial", fontSize)); // Set font style and size
         return button;
     }
 
