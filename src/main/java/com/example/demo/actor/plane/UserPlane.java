@@ -1,6 +1,5 @@
 package com.example.demo.actor.plane;
 
-import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.util.GameConstant;
 
 import java.util.ArrayList;
@@ -77,27 +76,6 @@ public class UserPlane extends FighterPlane {
         for (HealthChangeListener listener : healthChangeListeners) {
             listener.onHealthChange(this, this.health);
         }
-    }
-
-    /**
-     * Creates a memento of the current player state.
-     *
-     * @return A PlayerStateMemento containing the current state.
-     */
-    public PlayerStateMemento createMemento() {
-        return new PlayerStateMemento(health, score, positionX, positionY);
-    }
-
-    /**
-     * Restores the player state from the given memento.
-     *
-     * @param memento The PlayerStateMemento to restore from.
-     */
-    public void restoreMemento(PlayerStateMemento memento) {
-        this.health = memento.getHealth();
-        this.score = memento.getScore();
-        this.positionX = memento.getPositionX();
-        this.positionY = memento.getPositionY();
     }
 
     /**
@@ -242,7 +220,7 @@ public class UserPlane extends FighterPlane {
 
     // Kill count methods
     public int getNumberOfKills() {
-        System.out.println("UserPlane.getNumberOfKills():" + numberOfKills);
+        // System.out.println("UserPlane.getNumberOfKills():" + numberOfKills);
         return numberOfKills;
     }
 

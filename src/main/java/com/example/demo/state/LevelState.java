@@ -6,9 +6,7 @@ import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
 import com.example.demo.manager.ActorManager;
-import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.GameStateManager;
-import com.example.demo.manager.ImageManager;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -23,8 +21,6 @@ public class LevelState implements GameState {
     private final LevelParent level;
     private final Stage stage;
     private final GameStateManager gameStateManager;
-    private final AudioManager audioManager;
-    private final ImageManager imageManager;
     private UserPlane userPlane;
     private final ActorManager actorManager;
     private boolean levelCompleted;
@@ -40,13 +36,11 @@ public class LevelState implements GameState {
      * @param audioManager The AudioManager handling game audio.
      * @param imageManager The ImageManager handling game images.
      */
-    public LevelState(Stage stage, Controller controller, LevelParent level, ActorManager actorManager, GameStateManager gameStateManager, AudioManager audioManager, ImageManager imageManager) {
+    public LevelState(Stage stage, Controller controller, LevelParent level, ActorManager actorManager, GameStateManager gameStateManager) {
         this.level = level;
         this.stage = stage;
         this.actorManager = actorManager;
         this.gameStateManager = gameStateManager;
-        this.audioManager = audioManager;
-        this.imageManager = imageManager;
         this.levelCompleted = false;
 
         // Initialize userPlanes (handles multiple players)

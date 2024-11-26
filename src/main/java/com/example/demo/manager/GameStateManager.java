@@ -5,10 +5,6 @@ import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
 import com.example.demo.listener.CollisionListener;
-import com.example.demo.memento.Caretaker;
-import com.example.demo.memento.GameSettingsMemento;
-import com.example.demo.memento.LevelStateMemento;
-import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.state.GameState;
 import com.example.demo.state.GameStateFactory;
 import com.example.demo.state.LevelState;
@@ -20,7 +16,6 @@ import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 
 /**
  * GameStateManager handles the transitions and management of different game states.
@@ -30,7 +25,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     private static GameStateManager instance;
     private GameState currentState;
     private final GameStateFactory stateFactory;
-    private final Caretaker caretaker;
     private AnimationTimer gameLoop;
 
     // Managers
@@ -46,7 +40,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
      */
     private GameStateManager(Stage stage, Controller controller) {
         this.stateFactory = new GameStateFactory(stage, controller, this); // Controller will be set later
-        this.caretaker = new Caretaker();
     
         // Initialize other managers
         this.audioManager = AudioManager.getInstance();
@@ -177,68 +170,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         audioManager.stopMusic();
         if (currentState != null) {
             currentState.cleanup();
-        }
-    }
-
-    /**
-     * Saves the current game state using mementos.
-     */
-    public void saveGameState() {
-        if (currentState instanceof LevelState) {
-            LevelParent currentLevel = ((LevelState) currentState).getLevel();
-            if (currentLevel != null) {
-                // Save player states as a list of mementos
-                List<PlayerStateMemento> playerMementos = currentLevel.createPlayerMementos();
-                caretaker.saveMemento("PlayerState", playerMementos);
-
-                // Save level state
-                LevelStateMemento levelMemento = currentLevel.createLevelMemento();
-                caretaker.saveMemento("LevelState", levelMemento);
-
-                // Save game settings
-                GameSettingsMemento settingsMemento = GameSettingsMemento.createFromSettings(audioManager, imageManager);
-                caretaker.saveMemento("GameSettings", settingsMemento);
-
-                System.out.println("Game state saved.");
-            } else {
-                System.out.println("No current level to save.");
-            }
-        } else {
-            System.out.println("Current state is not a LevelState.");
-        }
-    }
-
-    /**
-     * Loads the previously saved game state using mementos.
-     */
-    public void loadGameState() {
-        if (currentState instanceof LevelState) {
-            LevelParent currentLevel = ((LevelState) currentState).getLevel();
-            if (currentLevel != null) {
-                List<PlayerStateMemento> playerMementos = (List<PlayerStateMemento>) caretaker.getMemento("PlayerState");
-                LevelStateMemento levelMemento = (LevelStateMemento) caretaker.getMemento("LevelState");
-                GameSettingsMemento settingsMemento = (GameSettingsMemento) caretaker.getMemento("GameSettings");
-
-                if (playerMementos != null) {
-                    currentLevel.restorePlayerStates(playerMementos);
-                } else {
-                    System.err.println("Player mementos not found. Cannot restore player states.");
-                }
-
-                if (levelMemento != null) {
-                    currentLevel.restoreLevelState(levelMemento);
-                }
-
-                if (settingsMemento != null) {
-                    settingsMemento.applySettings(audioManager, imageManager);
-                }
-
-                System.out.println("Game state loaded.");
-            } else {
-                System.out.println("No current level to load.");
-            }
-        } else {
-            System.out.println("No saved state to load or current state is not a LevelState.");
         }
     }
 

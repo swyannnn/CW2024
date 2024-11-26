@@ -1,6 +1,5 @@
 package com.example.demo.level;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.example.demo.actor.ActiveActorDestructible;
@@ -10,8 +9,6 @@ import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.manager.ImageManager;
-import com.example.demo.memento.LevelStateMemento;
-import com.example.demo.memento.PlayerStateMemento;
 import com.example.demo.ui.LevelView001;
 import com.example.demo.util.GameConstant;
 
@@ -104,70 +101,6 @@ public abstract class LevelParent {
             // int health = player.getHealth();
             levelView.showHeartDisplay(player);
         }
-    }
-    
-    /**
-     * Creates a list of PlayerStateMementos to save the current state of all players.
-     *
-     * @return A list of PlayerStateMementos containing the current states of all players.
-     */
-    public List<PlayerStateMemento> createPlayerMementos() {
-        List<PlayerStateMemento> mementos = new ArrayList<>();
-
-        for (UserPlane player : actorManager.getPlayers()) {
-            mementos.add(new PlayerStateMemento(
-                player.getHealth(),
-                player.getScore(),
-                player.getPositionX(),
-                player.getPositionY()
-            ));
-        }
-
-        return mementos;
-    }
-
-    /**
-     * Creates a LevelStateMemento to save the current state of the level.
-     *
-     * @return A LevelStateMemento containing the current level state.
-     */
-    public LevelStateMemento createLevelMemento() {
-        return new LevelStateMemento(getCurrentLevelNumber(), actorManager.getEnemyUnits().size());
-    }
-
-    /**
-     * Restores the state of each player using the provided list of mementos.
-     *
-     * @param mementos A list of PlayerStateMemento objects for each player.
-     */
-    public void restorePlayerStates(List<PlayerStateMemento> mementos) {
-        List<UserPlane> players = actorManager.getPlayers();
-
-        if (mementos.size() != players.size()) {
-            throw new IllegalArgumentException("The number of mementos does not match the number of players.");
-        }
-
-        for (int i = 0; i < players.size(); i++) {
-            UserPlane player = players.get(i);
-            PlayerStateMemento memento = mementos.get(i);
-
-            player.setHealth(memento.getHealth());
-            player.setScore(memento.getScore());
-            player.setPosition(memento.getPositionX(), memento.getPositionY());
-
-            System.out.println("Player state restored for player " + (i + 1) + ": " + player);
-        }
-    }
-
-    /**
-     * Restores the level's state from a LevelStateMemento.
-     *
-     * @param memento The LevelStateMemento to restore from.
-     */
-    public void restoreLevelState(LevelStateMemento memento) {
-        setCurrentLevelNumber(memento.getLevelNumber());
-        // Implement logic to recreate enemy units based on the saved state if necessary
-        System.out.println("Level state restored.");
     }
 
     // Abstract methods to be implemented by subclasses
