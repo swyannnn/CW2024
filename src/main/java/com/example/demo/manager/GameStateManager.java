@@ -10,6 +10,8 @@ import com.example.demo.state.GameStateFactory;
 import com.example.demo.state.LevelState;
 
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.Group;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -30,75 +32,86 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     // Managers
     private final AudioManager audioManager;
     private final ImageManager imageManager;
-    private ActorManager actorManager; // Made non-final to allow initialization after Controller is set
+    private final ActorManager actorManager;
     private final CollisionManager collisionManager;
+
+    // Pause control
+    private final BooleanProperty isPaused = new SimpleBooleanProperty(false);
 
     /**
      * Private constructor to enforce the Singleton pattern.
      *
-     * @param stage The main Stage object used for rendering scenes.
+     * @param stage      The main Stage object used for rendering scenes.
+     * @param controller The Controller handling game logic.
      */
     private GameStateManager(Stage stage, Controller controller) {
-        this.stateFactory = new GameStateFactory(stage, controller, this); // Controller will be set later
-    
-        // Initialize other managers
+        // Initialize managers
         this.audioManager = AudioManager.getInstance();
         this.imageManager = ImageManager.getInstance();
         this.collisionManager = CollisionManager.getInstance();
-    
+
         // Initialize ActorManager using the Controller's root group
         Group root = controller.getRootGroup();
         this.actorManager = ActorManager.getInstance(root);
+
+        // Initialize GameStateFactory
+        this.stateFactory = new GameStateFactory(stage, controller, this);
         this.stateFactory.setActorManager(actorManager);
-    
-        setupGameLoop();
-    
-        // Set the collision listener after initialization
+
+        // Set collision listener
         collisionManager.setCollisionListener(this);
+
+        // Setup game loop
+        setupGameLoop();
+
+        System.out.println("GameStateManager initialized.");
     }
-    
 
     /**
      * Retrieves the singleton instance of GameStateManager, creating it if necessary.
      *
-     * @param stage The main Stage object used for rendering scenes.
+     * @param stage      The main Stage object used for rendering scenes.
+     * @param controller The Controller handling game logic.
      * @return The singleton instance of GameStateManager.
      */
     public static synchronized GameStateManager getInstance(Stage stage, Controller controller) {
         if (instance == null) {
             instance = new GameStateManager(stage, controller);
-            System.out.println("GameStateManager initialized.");
         }
         return instance;
     }
 
     /**
      * Sets up the game loop to continuously update and render the current game state.
+     * The loop runs via an AnimationTimer and is controlled by the isPaused flag.
      */
     private void setupGameLoop() {
         gameLoop = new AnimationTimer() {
-            private long lastUpdate = System.nanoTime();
-            private final double nsPerUpdate = 2e9 / 60.0; // 60 updates per second
-
             @Override
             public void handle(long now) {
-                while (now - lastUpdate >= nsPerUpdate) {
+                if (!isPaused.get() && currentState != null) {
                     update();
-                    lastUpdate += nsPerUpdate;
+                    render();
                 }
-                render();
             }
         };
+        gameLoop.start();
+        System.out.println("Game loop started.");
     }
 
     /**
      * Transitions to the main menu state.
      */
     public void goToMainMenu() {
+        actorManager.cleanup();
         setState(stateFactory.createMainMenuState());
     }
 
+    /**
+     * Starts the game by transitioning to the first level.
+     */
     public void startGame() {
+        System.out.println("GameStateManager: Starting game.");
         goToLevel(1);
     }
 
@@ -108,11 +121,24 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
      * @param levelNumber The number of the level to transition to.
      */
     public void goToLevel(int levelNumber) {
-        gameLoop.start();
         setState(stateFactory.createLevelState(levelNumber));
     }
 
-     /**
+    /**
+     * Transitions to a win state.
+     */
+    public void goToWinState() {
+        setState(stateFactory.createWinState());
+    }
+
+    /**
+     * Transitions to a lose state.
+     */
+    public void goToLoseState() {
+        setState(stateFactory.createLoseState());
+    }
+
+    /**
      * Sets the current game state, performing any necessary cleanup of the previous state.
      *
      * @param newState The new GameState to transition to.
@@ -120,10 +146,18 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     public void setState(GameState newState) {
         if (currentState != null) {
             currentState.cleanup();
+            System.out.println("GameStateManager: Cleaned up previous state: " + currentState.getClass().getSimpleName());
         }
         currentState = newState;
-        currentState.initialize();
-        System.out.println("Transitioned to new state: " + newState.getClass().getSimpleName());
+        if (currentState != null) {
+            currentState.initialize();
+            System.out.println("GameStateManager: Initialized new state: " + currentState.getClass().getSimpleName());
+        }
+
+        // Ensure the game is not paused when setting a new state
+        if (isPaused.get()) {
+            resumeGame();
+        }
     }
 
     /**
@@ -131,12 +165,12 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
      */
     public void update() {
         if (currentState != null) {
+            System.out.println("GameStateManager: Updating current state: " + currentState.getClass().getSimpleName());
             currentState.update();
         }
 
         // Update all actors and handle collisions
         if (actorManager != null) {
-
             actorManager.updateAllActors();
             handleCollisions();
             actorManager.removeDestroyedActors();
@@ -171,6 +205,8 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         if (currentState != null) {
             currentState.cleanup();
         }
+        gameLoop.stop();
+        System.out.println("GameStateManager: Cleanup completed.");
     }
 
     /**
@@ -196,6 +232,13 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         }
         return null;
     }
+
+    /**
+     * Handles projectile collisions with enemies.
+     *
+     * @param userPlane The user plane involved in the collision.
+     * @param enemy     The enemy involved in the collision.
+     */
     @Override
     public void onProjectileHitEnemy(UserPlane userPlane, ActiveActorDestructible enemy) {
         userPlane.incrementKillCount();
@@ -243,20 +286,30 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     }
 
     /**
-     * Handles the win state transition.
+     * Pauses the game by setting the isPaused flag to true.
      */
-    public void goToWinState() {
-        System.out.println("Player has won the level!");
-        // Transition to a WinState or next level
-        setState(stateFactory.createWinState());
+    public void pauseGame() {
+        if (!isPaused.get()) {
+            isPaused.set(true);
+            if (currentState != null) {
+                currentState.handlePause();
+            }
+            audioManager.pauseMusic(); // Assuming AudioManager has pauseMusic()
+            System.out.println("GameStateManager: Game paused.");
+        }
     }
 
     /**
-     * Handles the lose state transition.
+     * Resumes the game by setting the isPaused flag to false.
      */
-    public void goToLoseState() {
-        System.out.println("Player has lost the level!");
-        // Transition to a LoseState or restart the level
-        setState(stateFactory.createLoseState());
+    public void resumeGame() {
+        if (isPaused.get()) {
+            isPaused.set(false);
+            if (currentState != null) {
+                currentState.handleResume();
+            }
+            audioManager.resumeMusic(); // Assuming AudioManager has resumeMusic()
+            System.out.println("GameStateManager: Game resumed.");
+        }
     }
 }

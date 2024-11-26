@@ -7,8 +7,6 @@ import com.example.demo.level.LevelFactory;
 import com.example.demo.level.LevelParent;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.GameStateManager;
-import com.example.demo.manager.AudioManager;
-import com.example.demo.manager.ImageManager;
 import javafx.stage.Stage;
 
 /**
@@ -18,8 +16,6 @@ public class GameStateFactory {
     private final Stage stage;
     private Controller controller;
     private final GameStateManager gameStateManager;
-    private final AudioManager audioManager;
-    private final ImageManager imageManager;
     private ActorManager actorManager;
 
     /**
@@ -33,8 +29,6 @@ public class GameStateFactory {
         this.stage = stage;
         this.controller = controller;
         this.gameStateManager = gameStateManager;
-        this.audioManager = gameStateManager.getAudioManager();
-        this.imageManager = gameStateManager.getImageManager();
     }
 
     /**

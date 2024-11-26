@@ -33,4 +33,22 @@ public interface GameState {
      * This method is called when the game state is about to be changed.
      */
     void cleanup();
+
+        /**
+     * Handles actions to perform when the game is paused.
+     * Default implementation does nothing.
+     */
+    default void handlePause() {
+        // Default implementation: do nothing.
+        // Implementing classes can override if needed.
+    }
+    
+    /**
+     * Handles actions to perform when the game is resumed.
+     * Default implementation does nothing.
+     */
+    default void handleResume() {
+        // Default implementation: do nothing.
+        // Implementing classes can override if needed.
+    }
 }

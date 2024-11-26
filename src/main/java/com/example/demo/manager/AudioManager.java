@@ -133,6 +133,18 @@ public class AudioManager {
         }
     }
 
+    public void pauseMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.pause();
+        }
+    }
+
+    public void resumeMusic() {
+        if (mediaPlayer != null) {
+            mediaPlayer.play();
+        }
+    }
+
     /**
      * Loads and returns a Media object from the specified filename.
      *

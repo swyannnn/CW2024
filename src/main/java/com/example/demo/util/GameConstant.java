@@ -134,7 +134,8 @@ public class GameConstant {
             "shield.png",
             "userfire.png",
             "userplane.png",
-            "youwin.png"
+            "youwin.png",
+            "setting.png"
             // Add more image filenames here as needed
         };
     }
