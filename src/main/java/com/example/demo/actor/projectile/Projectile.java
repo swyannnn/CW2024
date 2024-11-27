@@ -33,17 +33,9 @@ public abstract class Projectile extends ActiveActorDestructible {
     }
 
     /**
-     * Updates the projectile's position and handles removal if out of bounds.
-     */
-    @Override
-    public void updateActor() {
-        updatePosition();
-    }
-
-    /**
      * Moves the projectile horizontally and checks for out-of-bounds conditions.
      */
-    public void updatePosition() {
+    public void update(long now) {
         moveHorizontally(horizontalVelocity);
         if (isOutOfBounds()) {
             removeProjectile();

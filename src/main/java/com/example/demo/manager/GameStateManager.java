@@ -3,11 +3,9 @@ package com.example.demo.manager;
 import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
-import com.example.demo.level.LevelParent;
 import com.example.demo.listener.CollisionListener;
 import com.example.demo.state.GameState;
 import com.example.demo.state.GameStateFactory;
-import com.example.demo.state.LevelState;
 
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
@@ -91,7 +89,7 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
             @Override
             public void handle(long now) {
                 if (!isPaused.get() && currentState != null) {
-                    update();
+                    update(now);
                     render();
                 }
             }
@@ -163,12 +161,13 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
     }
 
     /**
-     * Updates the current game state and handles actor updates and collisions.
+     * Updates the current game state with the current timestamp.
+     *
+     * @param now The current timestamp in nanoseconds.
      */
-    public void update() {
+    public void update(long now) {
         if (currentState != null) {
-            // System.out.println("GameStateManager: Updating current state: " + currentState.getClass().getSimpleName());
-            currentState.update();
+            currentState.update(now);
         }
     }
 

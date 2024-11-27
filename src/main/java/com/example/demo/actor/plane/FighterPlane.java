@@ -8,10 +8,10 @@ import javafx.animation.AnimationTimer;
  * FighterPlane class representing a generic fighter plane in the game.
  * Both EnemyPlane and UserPlane extend this class.
  */
-public abstract class FighterPlane extends ActiveActorDestructible implements CanFire {
+public abstract class FighterPlane extends ActiveActorDestructible {
 
     protected int health;
-    private AnimationTimer fireTimer;
+    // private AnimationTimer fireTimer;
     private long lastFireTime = 0;
 
     // Firing interval in nanoseconds
@@ -41,8 +41,8 @@ public abstract class FighterPlane extends ActiveActorDestructible implements Ca
         setTranslateX(initialXPos); // Dynamic movement
         setTranslateY(initialYPos);
 
-        // Start firing
-        startFiring();
+        // // Start firing
+        // startFiring();
     }
 
     /**
@@ -57,7 +57,6 @@ public abstract class FighterPlane extends ActiveActorDestructible implements Ca
         System.out.println(getClass().getSimpleName() + " took damage. Health: " + health);
         if (healthAtZero()) {
             this.destroy();
-            stopFiring();
             System.out.println(getClass().getSimpleName() + " destroyed.");
         }
     }
@@ -88,29 +87,71 @@ public abstract class FighterPlane extends ActiveActorDestructible implements Ca
     }
 
     /**
-     * Starts firing projectiles at regular intervals.
+     * Template method to update the FighterPlane's state.
+     * Handles firing logic and delegates movement to subclasses.
+     *
+     * @param now The current timestamp in nanoseconds.
      */
-    public void startFiring() {
-        fireTimer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                if (now - lastFireTime >= fireIntervalNanoseconds) {
-                    fireProjectile();
-                    lastFireTime = now;
-                }
-            }
-        };
-        fireTimer.start();
-        // System.out.println(getClass().getSimpleName() + " started firing.");
+    public final void update(long now) {
+        handleFiring(now);
+        performMovement(now);
+        performAdditionalUpdates(now); // Hook for subclasses to add extra behavior
     }
 
     /**
-     * Stops the firing timer.
+     * Handles firing logic based on the elapsed time.
+     *
+     * @param now The current timestamp in nanoseconds.
      */
-    public void stopFiring() {
-        if (fireTimer != null) {
-            fireTimer.stop();
-            // System.out.println(getClass().getSimpleName() + " stopped firing.");
+    private void handleFiring(long now) {
+        if (now - lastFireTime >= fireIntervalNanoseconds) {
+            fireProjectile();
+            lastFireTime = now;
         }
     }
+
+    /**
+     * Abstract method for performing movement.
+     * Subclasses implement their specific movement logic.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
+    protected abstract void performMovement(long now);
+
+    /**
+     * Hook method for subclasses to perform additional updates.
+     * Subclasses can override this method to add behavior without altering the template.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
+    protected void performAdditionalUpdates(long now) {
+        // Default implementation does nothing.
+    }
+
+    /**
+    //  * Starts firing projectiles at regular intervals.
+    //  */
+    // public void startFiring() {
+    //     fireTimer = new AnimationTimer() {
+    //         @Override
+    //         public void handle(long now) {
+    //             if (now - lastFireTime >= fireIntervalNanoseconds) {
+    //                 fireProjectile();
+    //                 lastFireTime = now;
+    //             }
+    //         }
+    //     };
+    //     fireTimer.start();
+    //     // System.out.println(getClass().getSimpleName() + " started firing.");
+    // }
+
+    // /**
+    //  * Stops the firing timer.
+    //  */
+    // public void stopFiring() {
+    //     if (fireTimer != null) {
+    //         fireTimer.stop();
+    //         // System.out.println(getClass().getSimpleName() + " stopped firing.");
+    //     }
+    // }
 }

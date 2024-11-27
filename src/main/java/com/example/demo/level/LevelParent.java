@@ -183,21 +183,6 @@ public abstract class LevelParent {
     }
 
     /**
-     * Updates the kill count based on the current number of enemies.
-     */
-    public void updateKillCount() {
-        int kills = currentNumberOfEnemies - actorManager.getEnemyUnits().size();
-        List<UserPlane> players = actorManager.getPlayers();
-
-        for (int i = 0; i < kills; i++) {
-            for (UserPlane player : players) {
-                player.incrementKillCount(); // Increment kill count for each player
-                System.out.println("Kill count incremented for player: " + player + ". Total kills: " + player.getNumberOfKills());
-            }
-        }
-    }
-
-    /**
      * Updates the number of current enemies.
      */
     public void updateNumberOfEnemies() {

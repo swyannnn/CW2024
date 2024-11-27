@@ -14,8 +14,9 @@ public interface GameState {
 
     /**
      * Updates the game state. This method is called in the game loop to update the state logic.
+     * @param now The current timestamp in nanoseconds.
      */
-    void update();
+    void update(long now);
 
     /**
      * Renders the game state. This method is called in the game loop to render graphics or UI elements.

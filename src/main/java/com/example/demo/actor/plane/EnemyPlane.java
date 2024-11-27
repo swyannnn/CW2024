@@ -11,11 +11,11 @@ import com.example.demo.util.GameConstant;
 public class EnemyPlane extends FighterPlane {
     private static final String imageName = GameConstant.EnemyPlane.IMAGE_NAME;
     private static final int imageHeight = GameConstant.EnemyPlane.IMAGE_HEIGHT;
-    private static final int horizontalVelocity = GameConstant.EnemyPlane.HORIZONTAL_VELOCITY; // Moves to the left
+    private static final int horizontalVelocity = GameConstant.EnemyPlane.HORIZONTAL_VELOCITY; 
 	private static final double projectileXPositionOffset = GameConstant.EnemyProjectile.PROJECTILE_X_POSITION_OFFSET;
 	private static final double projectileYPositionOffset = GameConstant.EnemyProjectile.PROJECTILE_Y_POSITION_OFFSET;
     private static final int initialHealth = GameConstant.EnemyPlane.INITIAL_HEALTH;
-    private static final long fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS; // Fire every 1 second
+    private static final long fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS; 
     private static final double fireRate = GameConstant.EnemyProjectile.FIRE_RATE;
     private ActorManager actorManager;
     private Controller controller;
@@ -44,24 +44,23 @@ public class EnemyPlane extends FighterPlane {
 
             EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY, controller);
             System.out.println("EnemyPlane firing projectile at X=" + projectileX + ", Y=" + projectileY);
-            ActorManager.getInstance(actorManager.getRoot()).addEnemyProjectile(projectile);
+            actorManager.addEnemyProjectile(projectile);
+            System.out.println("Projectile fired by " + this + " at: " + projectileX + ", " + projectileY);
         }
     }
 
-    /**
-     * Updates the position of the enemy plane, moving it horizontally to the left.
-     * Stops firing and removes the enemy plane from the game if it moves off-screen.
-     */
     @Override
-    public void updatePosition() {
+    protected void performMovement(long now) {
         moveHorizontally(horizontalVelocity);
-        // System.out.println("EnemyPlane position: X=" + getTranslateX() + ", Y=" + getTranslateY());
-
         if (isOutOfHorizontalBounds()) {
-            stopFiring(); // Stop firing before removal
-            actorManager.removeEnemyUnit(this);
-            // System.out.println("EnemyPlane removed for moving off-screen.");
+            actorManager.removeEnemyUnit(this); // Remove self from ActorManager
+            System.out.println("EnemyPlane removed for moving off-screen.");
         }
+    }
+
+    @Override
+    protected void performAdditionalUpdates(long now) {
+        // Implement any additional updates specific to EnemyPlane if necessary
     }
 
     /**
@@ -77,11 +76,11 @@ public class EnemyPlane extends FighterPlane {
         return newPositionX < 0;
     }
 
-    /**
-     * Updates the actor's state, called in each frame of the game loop.
-     */
-    @Override
-    public void updateActor() {
-        updatePosition();
-    }
+    // /**
+    //  * Updates the actor's state, called in each frame of the game loop.
+    //  */
+    // @Override
+    // public void updateActor() {
+    //     updatePosition();
+    // }
 }

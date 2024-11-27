@@ -104,6 +104,7 @@ public class ActorManager {
     public void addEnemyProjectile(ActiveActorDestructible projectile) {
         enemyProjectiles.add(projectile);
         this.root.getChildren().add(projectile);
+        System.out.println("Added enemyProjectiles: " + projectile + "to the root" + this.root);
     }
 
     // Method to add an enemy projectile to the scene and list
@@ -182,35 +183,35 @@ public class ActorManager {
     /**
      * Updates all actors in the game.
      */
-    public void updateAllActors() {
+    public void updateAllActors(long now) {
         // Update players
-        for (ActiveActorDestructible p : new ArrayList<>(player)) {
-            p.updateActor();
+        for (ActiveActorDestructible user : new ArrayList<>(player)) {
+            user.update(now);
         }
     
         // Update friendly units
         for (ActiveActorDestructible friendly : new ArrayList<>(friendlyUnits)) {
-            friendly.updateActor();
+            friendly.update(now);
         }
     
         // Update enemy units
         for (ActiveActorDestructible enemy : new ArrayList<>(enemyUnits)) {
-            enemy.updateActor();
+            enemy.update(now);
         }
 
         // Update boss units
         for (ActiveActorDestructible boss : new ArrayList<>(bossUnits)) {
-            boss.updateActor();
+            boss.update(now);
         }
     
         // Update user projectiles
         for (ActiveActorDestructible userProj : new ArrayList<>(userProjectiles)) {
-            userProj.updateActor();
+            userProj.update(now);
         }
     
         // Update enemy projectiles
         for (ActiveActorDestructible enemyProj : new ArrayList<>(enemyProjectiles)) {
-            enemyProj.updateActor();
+            enemyProj.update(now);
             if (enemyProj.isDestroyed()) {
                 removeEnemyProjectile(enemyProj);
             }
@@ -218,7 +219,7 @@ public class ActorManager {
 
         // Update boss projectiles
         for (ActiveActorDestructible bossProj : new ArrayList<>(bossProjectiles)) {
-            bossProj.updateActor();
+            bossProj.update(now);
             if (bossProj.isDestroyed()) {
                 removeBossProjectile(bossProj);
             }

@@ -61,28 +61,11 @@ public class UserPlane extends FighterPlane {
         UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
         actorManager.addUserProjectile(projectile);
 
-        // System.out.println("Projectile fired by " + this + " at: " + currentX + ", " + currentY);
+        System.out.println("Projectile fired by " + this + " at: " + currentX + ", " + currentY);
     }
 
-    public void addHealthChangeListener(HealthChangeListener listener) {
-        healthChangeListeners.add(listener);
-    }
-
-    public void removeHealthChangeListener(HealthChangeListener listener) {
-        healthChangeListeners.remove(listener);
-    }
-
-    private void notifyHealthChange() {
-        for (HealthChangeListener listener : healthChangeListeners) {
-            listener.onHealthChange(this, this.health);
-        }
-    }
-
-    /**
-     * Updates the position of the user plane based on velocity multipliers.
-     */
     @Override
-    public void updatePosition() {
+    protected void performMovement(long now) {
         // Handle vertical movement
         if (verticalVelocityMultiplier != 0) {
             double initialTranslateY = getTranslateY();
@@ -111,6 +94,59 @@ public class UserPlane extends FighterPlane {
 
         // System.out.println("Current user plane position: " + getTranslateX() + ", " + getTranslateY());
     }
+
+    @Override
+    protected void performAdditionalUpdates(long now) {
+        // Implement any additional updates specific to UserPlane if necessary
+    }
+
+    public void addHealthChangeListener(HealthChangeListener listener) {
+        healthChangeListeners.add(listener);
+    }
+
+    public void removeHealthChangeListener(HealthChangeListener listener) {
+        healthChangeListeners.remove(listener);
+    }
+
+    private void notifyHealthChange() {
+        for (HealthChangeListener listener : healthChangeListeners) {
+            listener.onHealthChange(this, this.health);
+        }
+    }
+
+    /**
+     * Updates the position of the user plane based on velocity multipliers.
+     */
+    // @Override
+    // public void update(long now) {
+    //     // Handle vertical movement
+    //     if (verticalVelocityMultiplier != 0) {
+    //         double initialTranslateY = getTranslateY();
+    //         moveVertically(verticalVelocity * verticalVelocityMultiplier);
+    //         if (isOutOfVerticalBounds()) {
+    //             setTranslateY(initialTranslateY); // Revert to the previous position if out of bounds
+    //             // System.out.println("UserPlane out of vertical bounds, reverting Y position.");
+    //         } else {
+    //             // Update positionY
+    //             positionY = getLayoutY() + getTranslateY();
+    //         }
+    //     }
+
+    //     // Handle horizontal movement
+    //     if (horizontalVelocityMultiplier != 0) {
+    //         double initialTranslateX = getTranslateX();
+    //         moveHorizontally(horizontalVelocity * horizontalVelocityMultiplier);
+    //         if (isOutOfHorizontalBounds()) {
+    //             setTranslateX(initialTranslateX); // Revert to the previous position if out of bounds
+    //             // System.out.println("UserPlane out of horizontal bounds, reverting X position.");
+    //         } else {
+    //             // Update positionX
+    //             positionX = getLayoutX() + getTranslateX();
+    //         }
+    //     }
+
+    //     // System.out.println("Current user plane position: " + getTranslateX() + ", " + getTranslateY());
+    // }
 
     @Override
     public void takeDamage() {
@@ -183,14 +219,6 @@ public class UserPlane extends FighterPlane {
     public void resetPosition() {
         setLayoutX(initialXPosition);
         setLayoutY(initialYPosition);
-    }
-
-    /**
-     * Updates the actor's state, called in each frame of the game loop.
-     */
-    @Override
-    public void updateActor() {
-        updatePosition();
     }
 
     // Movement methods

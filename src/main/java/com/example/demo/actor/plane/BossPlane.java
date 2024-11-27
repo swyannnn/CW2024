@@ -67,29 +67,23 @@ public class BossPlane extends FighterPlane {
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
             BossProjectile projectile = new BossProjectile(projectileY, controller);
             actorManager.addBossProjectile(projectile);
+            System.out.println("Projectile fired by " + this + " at: " + projectileY);
         }
     }
 
     @Override
-    public void updatePosition() {
+    protected void performMovement(long now) {
         double initialTranslateY = getTranslateY();
         moveVertically(getNextMove());
         double currentPosition = getLayoutY() + getTranslateY();
         if (currentPosition < yPositionUpperBound || currentPosition > yPositionLowerBound) {
             setTranslateY(initialTranslateY); // Revert to initial position if out of bounds
         }
-    }   
-    
+    }
+
     @Override
-    public void updateActor() {
-        updatePosition();
+    protected void performAdditionalUpdates(long now) {
         updateShield();
-        
-        // Update shield position to follow BossPlane
-        if (shield.isVisible()) {
-            shield.setTranslateX(getTranslateX() + shieldXPositionOffset);
-            shield.setTranslateY(getTranslateY() + shieldYPositionOffset);
-        }
     }
 
     @Override
@@ -110,6 +104,8 @@ public class BossPlane extends FighterPlane {
 
     private void updateShield() {
         if (isShielded) {
+            shield.setTranslateX(getTranslateX() + shieldXPositionOffset);
+            shield.setTranslateY(getTranslateY() + shieldYPositionOffset);
             framesWithShieldActivated++;
             if (shieldExhausted()) {
                 deactivateShield();

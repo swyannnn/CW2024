@@ -89,14 +89,13 @@ public class LevelState implements GameState {
     }
 
     @Override
-    public void update() {
+    public void update(long now) {
         if (!levelCompleted) {
             level.spawnEnemyUnits();
-            actorManager.updateAllActors();
+            actorManager.updateAllActors(now);
             level.handleEnemyPenetration();
             handleCollisions();
             actorManager.removeDestroyedActors();
-            level.updateKillCount();
             level.updateNumberOfEnemies();
             level.updateLevelView();
             checkLevelCompletion();

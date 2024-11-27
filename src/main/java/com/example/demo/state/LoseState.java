@@ -43,7 +43,7 @@ public class LoseState implements GameState {
     }
 
     @Override
-    public void update() {
+    public void update(long now) {
         // No update logic needed for static lose screen
     }
 

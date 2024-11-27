@@ -4,7 +4,6 @@ package com.example.demo.actor;
  * Abstract class representing active actors that can be destroyed.
  */
 public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
-
     private boolean isDestroyed;
 
     /**
@@ -20,26 +19,15 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
         isDestroyed = false;
     }
 
-    public abstract void updatePosition();
-
     // @Override
-    public abstract void updateActor();
+    public abstract void update(long now);
 
     // @Override
     public abstract void takeDamage();
 
     // @Override
     public void destroy() {
-        setDestroyed(true);
-    }
-
-    /**
-     * Sets the destroyed state of the actor.
-     *
-     * @param isDestroyed True if the actor is destroyed, else false.
-     */
-    protected void setDestroyed(boolean isDestroyed) {
-        this.isDestroyed = isDestroyed;
+        this.isDestroyed = true;
     }
 
     /**
