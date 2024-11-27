@@ -7,6 +7,7 @@ import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
+import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
 
@@ -90,15 +91,18 @@ public class LevelState implements GameState {
     @Override
     public void update() {
         if (!levelCompleted) {
-            actorManager.updateAllActors();
             level.spawnEnemyUnits();
+            actorManager.updateAllActors();
             level.handleEnemyPenetration();
-            level.updateNumberOfEnemies();
+            handleCollisions();
+            actorManager.removeDestroyedActors();
             level.updateKillCount();
+            level.updateNumberOfEnemies();
             level.updateLevelView();
             checkLevelCompletion();
         }
     }
+    
 
     @Override
     public void render() {
@@ -110,7 +114,6 @@ public class LevelState implements GameState {
     @Override
     public void handleInput(KeyEvent event) {
         if (gameStateManager.isPaused()) {
-            // Handle input when the game is paused, e.g., resume the game with ESCAPE
             if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.ESCAPE) {
                 gameStateManager.resumeGame();
             }
@@ -199,6 +202,15 @@ public class LevelState implements GameState {
         pauseOverlay.setOnKeyReleased(this::handleInput);
     }
 
+    private void handleCollisions() {
+        CollisionManager collisionManager = gameStateManager.getCollisionManager();
+        if (collisionManager != null) {
+            collisionManager.handleAllCollisions(actorManager);
+        } else {
+            System.err.println("LevelState: CollisionManager not available.");
+        }
+    }
+
     /**
      * Displays the pause overlay.
      */
@@ -247,7 +259,6 @@ public class LevelState implements GameState {
     private void handleKeyPressed(KeyEvent event) {
         if (userPlane == null) return; // Ensure userPlane is not null
         KeyCode keyCode = event.getCode();
-        System.out.println("Key pressed: " + keyCode);
         switch (keyCode) {
             case UP -> userPlane.moveUp();
             case DOWN -> userPlane.moveDown();
@@ -285,12 +296,12 @@ public class LevelState implements GameState {
         }
     }
 
-    /**
-     * Gets the current LevelParent object.
-     *
-     * @return The LevelParent object representing the game level.
-     */
-    public LevelParent getLevel() {
-        return level;
-    }
+    // /**
+    //  * Gets the current LevelParent object.
+    //  *
+    //  * @return The LevelParent object representing the game level.
+    //  */
+    // public LevelParent getLevel() {
+    //     return level;
+    // }
 }

@@ -170,13 +170,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
             // System.out.println("GameStateManager: Updating current state: " + currentState.getClass().getSimpleName());
             currentState.update();
         }
-
-        // Update all actors and handle collisions
-        if (actorManager != null) {
-            actorManager.updateAllActors();
-            handleCollisions();
-            actorManager.removeDestroyedActors();
-        }
     }
 
     /**
@@ -218,30 +211,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         }
         gameLoop.stop();
         System.out.println("GameStateManager: Cleanup completed.");
-    }
-
-    /**
-     * Handles all collision detections.
-     */
-    private void handleCollisions() {
-        collisionManager.handleUserProjectileEnemyCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
-        collisionManager.handlePlayerEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
-        collisionManager.handlePlayerBossProjectileCollisions(actorManager.getBossProjectiles(), actorManager.getPlayers());
-        collisionManager.handleUnitCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
-        collisionManager.handleEnemyPlayerCollisions(actorManager.getEnemyUnits(), actorManager.getPlayers());
-        collisionManager.handleUserProjectileBossCollisions(actorManager.getUserProjectiles(), actorManager.getBossUnits());
-    }
-
-    /**
-     * Gets the current level.
-     *
-     * @return The current LevelParent object, or null if the current state is not a LevelState.
-     */
-    public LevelParent getCurrentLevel() {
-        if (currentState instanceof LevelState) {
-            return ((LevelState) currentState).getLevel();
-        }
-        return null;
     }
 
     /**

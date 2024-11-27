@@ -86,7 +86,7 @@ public abstract class LevelParent {
     private void initializeBackground() {
         background.setFitHeight(GameConstant.GameSettings.SCREEN_HEIGHT);
         background.setFitWidth(GameConstant.GameSettings.SCREEN_WIDTH);
-        background.setOpacity(0.3);
+        // background.setOpacity(0.3);
         root.getChildren().add(background);
     }
 
@@ -94,11 +94,10 @@ public abstract class LevelParent {
         List<UserPlane> players = actorManager.getPlayers();
 
         if (players.isEmpty()) {
-            return; // Early return if there are no players
+            return; 
         }
 
         for (UserPlane player : players) {
-            // int health = player.getHealth();
             levelView.showHeartDisplay(player);
         }
     }

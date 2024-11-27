@@ -34,6 +34,16 @@ public class CollisionManager {
         this.collisionListener = listener;
     }
 
+    public void handleAllCollisions(ActorManager actorManager) {
+        handleUserProjectileEnemyCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
+        handlePlayerEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
+        handlePlayerBossProjectileCollisions(actorManager.getBossProjectiles(), actorManager.getPlayers());
+        handleUnitCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
+        handleEnemyPlayerCollisions(actorManager.getEnemyUnits(), actorManager.getPlayers());
+        handleUserProjectileBossCollisions(actorManager.getUserProjectiles(), actorManager.getBossUnits());
+    }
+
+
     /**
      * Handles collisions between two lists of actors.
      *
@@ -43,27 +53,59 @@ public class CollisionManager {
     private void handleCollisions(
         List<? extends ActiveActorDestructible> sourceActors, 
         List<? extends ActiveActorDestructible> targetActors) {
-        for (ActiveActorDestructible source : sourceActors) {
-            for (ActiveActorDestructible target : targetActors) {
-                if (source.getBoundsInParent().intersects(target.getBoundsInParent())) {
-                    source.takeDamage();
-                    target.takeDamage();
-                    System.out.println("Collision detected: " + source + " hit " + target);
-                    
-                    if (collisionListener != null && source instanceof UserProjectile && ((target instanceof EnemyPlane) || (target instanceof BossPlane))) {
-                        UserProjectile projectile = (UserProjectile) source; 
-                        UserPlane userPlane = getUserPlaneForProjectile(projectile);
-                        System.out.println("Collision detected haha: " + projectile + " hit " + target);
-                    
-                        if (userPlane != null) {
-                            collisionListener.onProjectileHitEnemy(userPlane, target);
-                        }
-                    }  
-                }              
+        
+        sourceActors.stream()
+            .flatMap(source -> targetActors.stream()
+                .filter(target -> source.getBoundsInParent().intersects(target.getBoundsInParent()))
+                .map(target -> new CollisionPair(source, target)))
+            .forEach(this::processCollision);
+    }
+
+    /**
+     * Processes a single collision between a source and a target actor.
+     *
+     * @param pair The collision pair containing source and target actors.
+     */
+    private void processCollision(CollisionPair pair) {
+        ActiveActorDestructible source = pair.source;
+        ActiveActorDestructible target = pair.target;
+        
+        source.takeDamage();
+        target.takeDamage();
+        System.out.println("Collision detected: " + source + " hit " + target);
+        
+        if (collisionListener != null && source instanceof UserProjectile projectile && isEnemy(target)) {
+            UserPlane userPlane = getUserPlaneForProjectile(projectile);
+            System.out.println("Collision detected haha: " + projectile + " hit " + target);
+            
+            if (userPlane != null) {
+                collisionListener.onProjectileHitEnemy(userPlane, target);
             }
         }
     }
 
+    /**
+     * Determines if the target actor is an enemy (EnemyPlane or BossPlane).
+     *
+     * @param target The target actor to check.
+     * @return True if the target is an EnemyPlane or BossPlane, otherwise false.
+     */
+    private boolean isEnemy(ActiveActorDestructible target) {
+        return target instanceof EnemyPlane || target instanceof BossPlane;
+    }
+
+    /**
+     * A simple helper class to hold a pair of actors involved in a collision.
+     */
+    private static class CollisionPair {
+        final ActiveActorDestructible source;
+        final ActiveActorDestructible target;
+
+        CollisionPair(ActiveActorDestructible source, ActiveActorDestructible target) {
+            this.source = source;
+            this.target = target;
+        }
+    }
 
     private UserPlane getUserPlaneForProjectile(UserProjectile projectile) {
         return projectile.getOwner();
