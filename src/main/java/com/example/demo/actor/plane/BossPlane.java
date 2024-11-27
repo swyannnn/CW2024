@@ -25,8 +25,8 @@ public class BossPlane extends FighterPlane {
     private static final int moveFrequencyPerCycle = GameConstant.BossPlane.MOVE_FREQUENCY_PER_CYCLE;
     private static final int zero = GameConstant.BossPlane.ZERO;
     private static final int maxFramesWithSameMove = GameConstant.BossPlane.MAX_FRAMES_WITH_SAME_MOVE;
-    private static final int yPositionUpperBound = GameConstant.BossPlane.Y_POSITION_UPPER_BOUND;
-    private static final int yPositionLowerBound = GameConstant.BossPlane.Y_POSITION_LOWER_BOUND;
+    private static final int yUpperBound = GameConstant.BossPlane.Y_POSITION_UPPER_BOUND;
+    private static final int yLowerBound = GameConstant.BossPlane.Y_POSITION_LOWER_BOUND;
     private static final int maxFramesWithShield = GameConstant.BossShield.MAX_FRAMES_WITH_SHIELD;
     private static final int maxFramesWithoutShield = GameConstant.BossShield.MAX_FRAMES_WITHOUT_SHIELD; 
     private static final int initialHealth = GameConstant.BossPlane.INITIAL_HEALTH;
@@ -56,6 +56,7 @@ public class BossPlane extends FighterPlane {
         // Initialize the shield and add it as a child node
         shield = new ShieldImage();
         actorManager.getRoot().getChildren().add(shield); 
+        setVerticalBounds(yUpperBound, yLowerBound);
     }
 
     /**
@@ -67,7 +68,7 @@ public class BossPlane extends FighterPlane {
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
             BossProjectile projectile = new BossProjectile(projectileY, controller);
             actorManager.addBossProjectile(projectile);
-            System.out.println("Projectile fired by " + this + " at: " + projectileY);
+            // System.out.println("Projectile fired by " + this + " at: " + projectileY);
         }
     }
 
@@ -75,8 +76,7 @@ public class BossPlane extends FighterPlane {
     protected void performMovement(long now) {
         double initialTranslateY = getTranslateY();
         moveVertically(getNextMove());
-        double currentPosition = getLayoutY() + getTranslateY();
-        if (currentPosition < yPositionUpperBound || currentPosition > yPositionLowerBound) {
+        if (isOutOfBounds()) {
             setTranslateY(initialTranslateY); // Revert to initial position if out of bounds
         }
     }

@@ -5,6 +5,11 @@ package com.example.demo.actor;
  */
 public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
     private boolean isDestroyed;
+    // Boundaries for the actor
+    private double xUpperBound = Double.NEGATIVE_INFINITY;
+    private double xLowerBound = Double.POSITIVE_INFINITY;
+    private double yUpperBound = Double.NEGATIVE_INFINITY;
+    private double yLowerBound = Double.POSITIVE_INFINITY;
 
     /**
      * Constructor for ActiveActorDestructible.
@@ -19,13 +24,48 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
         isDestroyed = false;
     }
 
-    // @Override
+    /**
+     * Sets the horizontal bounds for the actor.
+     *
+     * @param upperBound The upper X boundary.
+     * @param lowerBound The lower X boundary.
+     */
+    public void setHorizontalBounds(double upperBound, double lowerBound) {
+        this.xUpperBound = upperBound;
+        this.xLowerBound = lowerBound;
+    }
+
+    /**
+     * Sets the vertical bounds for the actor.
+     *
+     * @param upperBound The upper Y boundary.
+     * @param lowerBound The lower Y boundary.
+     */
+    public void setVerticalBounds(double upperBound, double lowerBound) {
+        this.yUpperBound = upperBound;
+        this.yLowerBound = lowerBound;
+    }
+
+    /**
+     * Checks if the actor is out of bounds based on the set boundaries.
+     *
+     * @return True if out of bounds, otherwise false.
+     */
+    public boolean isOutOfBounds() {
+        double currentX = getLayoutX() + getTranslateX();
+        double currentY = getLayoutY() + getTranslateY();
+        
+        System.out.println("Current position: " + currentX + ", " + currentY + "from " + this.getClass().getSimpleName());
+        boolean outOfHorizontal = currentX < xUpperBound || currentX > xLowerBound;
+        boolean outOfVertical = currentY < yUpperBound || currentY > yLowerBound;
+
+        return outOfHorizontal || outOfVertical;
+    }
+
     public abstract void update(long now);
 
-    // @Override
     public abstract void takeDamage();
 
-    // @Override
     public void destroy() {
         this.isDestroyed = true;
     }

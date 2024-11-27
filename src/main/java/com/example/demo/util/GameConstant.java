@@ -22,8 +22,8 @@ public class GameConstant {
         public static final double INITIAL_X_POSITION = 5.0;
         public static final double INITIAL_Y_POSITION = 300.0;
         public static final double FIRE_RATE = 1.0;
-        public static final double X_UPPER_BOUND = 10;
-        public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
+        public static final double X_UPPER_BOUND = 0;
+        public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 250;
         public static final double Y_UPPER_BOUND = -40;
         public static final double Y_LOWER_BOUND = 600;
         public static final int VERTICAL_VELOCITY_MULTIPLIER = 0;
@@ -49,6 +49,10 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
+        public static final double X_UPPER_BOUND = 0;
+        public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH;
+        public static final double Y_UPPER_BOUND = -40;
+        public static final double Y_LOWER_BOUND = 600;
     }
 
     // EnemyProjectile Settings
@@ -75,8 +79,8 @@ public class GameConstant {
         public static final int MOVE_FREQUENCY_PER_CYCLE = 5;
         public static final int ZERO = 0;
         public static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
-        public static final int Y_POSITION_UPPER_BOUND = -50;
-        public static final int Y_POSITION_LOWER_BOUND = 300;
+        public static final int Y_POSITION_UPPER_BOUND = -40;
+        public static final int Y_POSITION_LOWER_BOUND = 600;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
     }
 
@@ -94,11 +98,32 @@ public class GameConstant {
     public static class BossShield {
         public static final String IMAGE_NAME = "shield.png";
         public static final int IMAGE_HEIGHT = 200;
-        public static final int X_POSITION_OFFSET = -80;
-        public static final int Y_POSITION_OFFSET = 190;
+        public static final int X_POSITION_OFFSET = 930;
+        public static final int Y_POSITION_OFFSET = 200;
         public static final double BOSS_SHIELD_PROBABILITY = 0.04;
         public static final int MAX_FRAMES_WITH_SHIELD = 500;
         public static final int MAX_FRAMES_WITHOUT_SHIELD = 500;
+    }
+
+    // All projectile types
+    public static class Projectile {
+        public static final double X_UPPER_BOUND = 0;
+        public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH;
+    }
+
+    // Level 001 Settings
+    public static class Level001 {
+        public static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
+        public static final int TOTAL_ENEMIES = 1;
+        public static final int KILLS_TO_ADVANCE = 1;
+        public static final double ENEMY_SPAWN_PROBABILITY = 1;
+        public static final int PLAYER_INITIAL_HEALTH = 5;
+    }
+
+    // Level 002 Settings
+    public static class Level002 {
+        public static final String BACKGROUND_IMAGE_NAME = "background2.jpg";
+        public static final int PLAYER_INITIAL_HEALTH = 5;
     }
 
     // File Paths

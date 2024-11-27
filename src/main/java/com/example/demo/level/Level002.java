@@ -9,10 +9,11 @@ import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.ui.LevelView001;
 import com.example.demo.ui.LevelView002;
+import com.example.demo.util.GameConstant;
 
 public class Level002 extends LevelParent {
-    private static final String BACKGROUND_IMAGE_NAME = "background2.jpg";
-    private static final int PLAYER_INITIAL_HEALTH = 5;
+    private static final String BACKGROUND_IMAGE_NAME = GameConstant.Level002.BACKGROUND_IMAGE_NAME;
+    private static final int PLAYER_INITIAL_HEALTH = GameConstant.Level002.PLAYER_INITIAL_HEALTH;
     private int currentLevelNumber;
     private ActorManager actorManager;
 

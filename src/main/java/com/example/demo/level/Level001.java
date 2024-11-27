@@ -13,11 +13,11 @@ import com.example.demo.util.GameConstant;
  * game.
  */
 public class Level001 extends LevelParent {
-    private static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
-    private static final int TOTAL_ENEMIES = 1;
-    private static final int KILLS_TO_ADVANCE = 1;
-    private static final double ENEMY_SPAWN_PROBABILITY = 1;
-    private static final int PLAYER_INITIAL_HEALTH = 5;
+    private static final String BACKGROUND_IMAGE_NAME = GameConstant.Level001.BACKGROUND_IMAGE_NAME;
+    private static final int TOTAL_ENEMIES = GameConstant.Level001.TOTAL_ENEMIES;
+    private static final int KILLS_TO_ADVANCE = GameConstant.Level001.KILLS_TO_ADVANCE;
+    private static final double ENEMY_SPAWN_PROBABILITY = GameConstant.Level001.ENEMY_SPAWN_PROBABILITY;
+    private static final int PLAYER_INITIAL_HEALTH = GameConstant.Level001.PLAYER_INITIAL_HEALTH;
 
     private int currentLevelNumber;
     private ActorManager actorManager;
@@ -26,7 +26,6 @@ public class Level001 extends LevelParent {
      * Constructor for Level001.
      *
      * @param controller       The game controller.
-     * @param gameStateManager The GameStateManager instance.
      * @param levelNumber      The level number for this level.
      */
     public Level001(Controller controller, int levelNumber) {
@@ -47,6 +46,8 @@ public class Level001 extends LevelParent {
     protected void initializeFriendlyUnits() {
         UserPlane player = new UserPlane(PLAYER_INITIAL_HEALTH, controller);
         actorManager.addPlayer(player);
+        System.out.println("Player position: X=" + player.getTranslateX() + ", Y=" + player.getTranslateY());
+
         levelView = instantiateLevelView(); // Instantiate LevelView before adding listener
         player.addHealthChangeListener(levelView); // Register LevelView as listener for health changes
     }
@@ -75,11 +76,7 @@ public class Level001 extends LevelParent {
     public void spawnEnemyUnits() {
         while (actorManager.getEnemyUnits().size() < TOTAL_ENEMIES) {
             if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
-                double newEnemyInitialYPosition = Math.random() * getEnemyMaximumYPosition();
-                if (newEnemyInitialYPosition < getEnemyMinimumYPosition()) {
-                    newEnemyInitialYPosition = getEnemyMinimumYPosition();
-                }
-                ActiveActorDestructible newEnemy = new EnemyPlane(GameConstant.GameSettings.SCREEN_WIDTH, newEnemyInitialYPosition, controller);
+                ActiveActorDestructible newEnemy = new EnemyPlane(controller);
                 System.out.println("Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
                 actorManager.addEnemyUnit(newEnemy);
             }

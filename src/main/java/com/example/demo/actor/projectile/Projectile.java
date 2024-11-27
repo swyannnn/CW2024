@@ -3,6 +3,7 @@ package com.example.demo.actor.projectile;
 import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.util.GameConstant;
 
 /**
  * Abstract Projectile class representing a generic projectile in the game.
@@ -10,7 +11,8 @@ import com.example.demo.manager.ActorManager;
 public abstract class Projectile extends ActiveActorDestructible {
 	private ActorManager actorManager;
     protected double horizontalVelocity;
-    protected double screenWidth = 800.0; // Default screen width, adjust as needed
+    protected double xUpperBound = GameConstant.Projectile.X_UPPER_BOUND;
+    protected double xLowerBound = GameConstant.Projectile.X_LOWER_BOUND;
 
     /**
      * Constructor for Projectile.
@@ -25,6 +27,7 @@ public abstract class Projectile extends ActiveActorDestructible {
         super(imageName, imageHeight, initialXPos, initialYPos);
         this.horizontalVelocity = horizontalVelocity;
 		this.actorManager = controller.getGameStateManager().getActorManager();
+        setHorizontalBounds(xUpperBound, xLowerBound);
     }
 
     @Override
@@ -42,21 +45,15 @@ public abstract class Projectile extends ActiveActorDestructible {
         }
     }
 
-    /**
-     * Checks if the projectile has moved out of the screen bounds.
-     *
-     * @return True if out of bounds, false otherwise.
-     */
-    private boolean isOutOfBounds() {
-        double currentX = getLayoutX() + getTranslateX();
-        double currentScreenWidth = screenWidth; // Default value
-
-        if (getScene() != null) {
-            currentScreenWidth = getScene().getWidth();
-        }
-
-        return currentX < 0 || currentX > currentScreenWidth;
-    }
+    // /**
+    //  * Checks if the projectile has moved out of the screen bounds.
+    //  *
+    //  * @return True if out of bounds, false otherwise.
+    //  */
+    // private boolean isOutOfBounds() {
+    //     double currentX = getLayoutX() + getTranslateX();
+    //     return currentX < 0 || currentX > screenWidth;
+    // }
 
     /**
      * Removes the projectile from the scene graph and the ActorManager.
@@ -69,14 +66,5 @@ public abstract class Projectile extends ActiveActorDestructible {
 		} else if (this instanceof BossProjectile) {
 			actorManager.removeBossProjectile((BossProjectile) this);
 		}
-    }
-
-    /**
-     * Sets the screen width dynamically.
-     *
-     * @param screenWidth The width of the game screen.
-     */
-    public void setScreenWidth(double screenWidth) {
-        this.screenWidth = screenWidth;
     }
 }

@@ -2,8 +2,6 @@ package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActiveActorDestructible;
 
-import javafx.animation.AnimationTimer;
-
 /**
  * FighterPlane class representing a generic fighter plane in the game.
  * Both EnemyPlane and UserPlane extend this class.
@@ -36,13 +34,12 @@ public abstract class FighterPlane extends ActiveActorDestructible {
         this.fireIntervalNanoseconds = fireIntervalNanoseconds;
         this.fireRate = 0.5; // Default firing rate, can be overridden by subclasses
 
-        // Set the initial position
-        setLayoutX(0.0); // Base position
-        setTranslateX(initialXPos); // Dynamic movement
+        setTranslateX(initialXPos);
         setTranslateY(initialYPos);
 
-        // // Start firing
-        // startFiring();
+        // translate properties are set to zero
+        setTranslateX(0);
+        setTranslateY(0);
     }
 
     /**
@@ -127,31 +124,4 @@ public abstract class FighterPlane extends ActiveActorDestructible {
     protected void performAdditionalUpdates(long now) {
         // Default implementation does nothing.
     }
-
-    /**
-    //  * Starts firing projectiles at regular intervals.
-    //  */
-    // public void startFiring() {
-    //     fireTimer = new AnimationTimer() {
-    //         @Override
-    //         public void handle(long now) {
-    //             if (now - lastFireTime >= fireIntervalNanoseconds) {
-    //                 fireProjectile();
-    //                 lastFireTime = now;
-    //             }
-    //         }
-    //     };
-    //     fireTimer.start();
-    //     // System.out.println(getClass().getSimpleName() + " started firing.");
-    // }
-
-    // /**
-    //  * Stops the firing timer.
-    //  */
-    // public void stopFiring() {
-    //     if (fireTimer != null) {
-    //         fireTimer.stop();
-    //         // System.out.println(getClass().getSimpleName() + " stopped firing.");
-    //     }
-    // }
 }

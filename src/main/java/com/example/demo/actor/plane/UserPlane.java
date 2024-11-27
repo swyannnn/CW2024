@@ -48,7 +48,10 @@ public class UserPlane extends FighterPlane {
         this.controller = controller;
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.health = initialHealth;
-        this.score = 0;
+        setHorizontalBounds(xUpperBound, xLowerBound);
+        setVerticalBounds(yUpperBound, yLowerBound);
+        System.out.println("Initial layout position: (" + getLayoutX() + ", " + getLayoutY() + ")");
+        System.out.println("Initial translate position: (" + getTranslateX() + ", " + getTranslateY() + ")");
     }
 
     /**
@@ -61,39 +64,34 @@ public class UserPlane extends FighterPlane {
         UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
         actorManager.addUserProjectile(projectile);
 
-        System.out.println("Projectile fired by " + this + " at: " + currentX + ", " + currentY);
+        // System.out.println("Projectile fired by " + this + " at: " + currentX + ", " + currentY);
     }
 
     @Override
     protected void performMovement(long now) {
+        boolean moved = false; // Flag to track if movement occurred
+        double initialTranslateX = getTranslateX();
+        double initialTranslateY = getTranslateY();
+    
         // Handle vertical movement
         if (verticalVelocityMultiplier != 0) {
-            double initialTranslateY = getTranslateY();
             moveVertically(verticalVelocity * verticalVelocityMultiplier);
-            if (isOutOfVerticalBounds()) {
-                setTranslateY(initialTranslateY); // Revert to the previous position if out of bounds
-                // System.out.println("UserPlane out of vertical bounds, reverting Y position.");
-            } else {
-                // Update positionY
-                positionY = getLayoutY() + getTranslateY();
-            }
+            moved = true;
         }
-
+    
         // Handle horizontal movement
         if (horizontalVelocityMultiplier != 0) {
-            double initialTranslateX = getTranslateX();
             moveHorizontally(horizontalVelocity * horizontalVelocityMultiplier);
-            if (isOutOfHorizontalBounds()) {
-                setTranslateX(initialTranslateX); // Revert to the previous position if out of bounds
-                // System.out.println("UserPlane out of horizontal bounds, reverting X position.");
-            } else {
-                // Update positionX
-                positionX = getLayoutX() + getTranslateX();
-            }
+            moved = true;
         }
-
-        // System.out.println("Current user plane position: " + getTranslateX() + ", " + getTranslateY());
+    
+        // If any movement occurred, check for out-of-bounds
+        if (moved && isOutOfBounds()) {
+            setTranslateX(initialTranslateX);
+            setTranslateY(initialTranslateY);
+        }
     }
+    
 
     @Override
     protected void performAdditionalUpdates(long now) {
@@ -113,40 +111,6 @@ public class UserPlane extends FighterPlane {
             listener.onHealthChange(this, this.health);
         }
     }
-
-    /**
-     * Updates the position of the user plane based on velocity multipliers.
-     */
-    // @Override
-    // public void update(long now) {
-    //     // Handle vertical movement
-    //     if (verticalVelocityMultiplier != 0) {
-    //         double initialTranslateY = getTranslateY();
-    //         moveVertically(verticalVelocity * verticalVelocityMultiplier);
-    //         if (isOutOfVerticalBounds()) {
-    //             setTranslateY(initialTranslateY); // Revert to the previous position if out of bounds
-    //             // System.out.println("UserPlane out of vertical bounds, reverting Y position.");
-    //         } else {
-    //             // Update positionY
-    //             positionY = getLayoutY() + getTranslateY();
-    //         }
-    //     }
-
-    //     // Handle horizontal movement
-    //     if (horizontalVelocityMultiplier != 0) {
-    //         double initialTranslateX = getTranslateX();
-    //         moveHorizontally(horizontalVelocity * horizontalVelocityMultiplier);
-    //         if (isOutOfHorizontalBounds()) {
-    //             setTranslateX(initialTranslateX); // Revert to the previous position if out of bounds
-    //             // System.out.println("UserPlane out of horizontal bounds, reverting X position.");
-    //         } else {
-    //             // Update positionX
-    //             positionX = getLayoutX() + getTranslateX();
-    //         }
-    //     }
-
-    //     // System.out.println("Current user plane position: " + getTranslateX() + ", " + getTranslateY());
-    // }
 
     @Override
     public void takeDamage() {
@@ -193,24 +157,6 @@ public class UserPlane extends FighterPlane {
     // Method to check if the user is destroyed
     public boolean isDestroyed() {
         return health <= 0;
-    }
-
-    /**
-     * Checks if the user plane is out of vertical bounds.
-     * @return True if out of bounds, otherwise false.
-     */
-    private boolean isOutOfVerticalBounds() {
-        double newPositionY = getLayoutY() + getTranslateY();
-        return newPositionY < yUpperBound || newPositionY > yLowerBound;
-    }
-
-    /**
-     * Checks if the user plane is out of horizontal bounds.
-     * @return True if out of bounds, otherwise false.
-     */
-    private boolean isOutOfHorizontalBounds() {
-        double newPositionX = getLayoutX() + getTranslateX();
-        return newPositionX < xUpperBound || newPositionX > xLowerBound;
     }
 
     /**
