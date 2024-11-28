@@ -60,28 +60,6 @@ public class CollisionManager {
             .forEach(this::processCollision);
     }
 
-    /**
-     * Processes a single collision between a source and a target actor.
-     *
-     * @param pair The collision pair containing source and target actors.
-     */
-    // private void processCollision(CollisionPair pair) {
-    //     ActiveActorDestructible source = pair.source;
-    //     ActiveActorDestructible target = pair.target;
-    //     System.out.println("Collision detected: " + source + " hit " + target);
-    //     source.takeDamage();
-    //     target.takeDamage();
-        
-    //     if (collisionListener != null && source instanceof UserProjectile projectile && isEnemy(target)) {
-    //         UserPlane userPlane = projectile.getOwner();
-    //         System.out.println("Collision detected haha: " + projectile + " hit " + target);
-            
-    //         if (userPlane != null) {
-    //             collisionListener.onProjectileHitEnemy(userPlane, target);
-    //         }
-    //     }
-    // }
-
     private void processCollision(CollisionPair pair) {
         ActiveActorDestructible source = pair.source;
         ActiveActorDestructible target = pair.target;

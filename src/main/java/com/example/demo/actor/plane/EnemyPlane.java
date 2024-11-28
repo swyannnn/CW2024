@@ -32,7 +32,7 @@ public class EnemyPlane extends FighterPlane {
      * @param controller  The game controller.
      */
     public EnemyPlane(Controller controller) {
-        super(imageName, imageHeight, xLowerBound, calculateInitialYPos(), initialHealth, fireIntervalNanoseconds);
+        super(controller, imageName, imageHeight, xLowerBound, calculateInitialYPos(), initialHealth, fireIntervalNanoseconds);
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.controller = controller;
         setHorizontalBounds(xUpperBound, xLowerBound);

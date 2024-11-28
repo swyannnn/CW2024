@@ -52,7 +52,7 @@ public class BossPlane extends FighterPlane {
      * @param controller The game controller managing the state.
      */
     public BossPlane(Controller controller) {
-        super(imageName, imageHeight, initialXPosition, initialYPosition, initialHealth, fireIntervalNanoseconds);
+        super(controller, imageName, imageHeight, initialXPosition, initialYPosition, initialHealth, fireIntervalNanoseconds);
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.controller = controller;
         this.movePattern = new ArrayList<>();

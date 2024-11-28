@@ -9,10 +9,12 @@ import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.controller.Controller;
 import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.manager.AudioManager;
 
 public class UserPlane extends FighterPlane {
     private List<HealthChangeListener> healthChangeListeners = new ArrayList<>();
     private ActorManager actorManager;
+    private AudioManager audioManager;
     private Controller controller;
 
     private static final String imageName = GameConstant.UserPlane.IMAGE_NAME;
@@ -42,9 +44,10 @@ public class UserPlane extends FighterPlane {
      * @param initialHealth The initial health of the user plane.
      */
     public UserPlane(int initialHealth, Controller controller) {
-        super(imageName, imageHeight, GameConstant.UserPlane.INITIAL_X_POSITION, GameConstant.UserPlane.INITIAL_Y_POSITION, initialHealth, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS);
+        super(controller, imageName, imageHeight, GameConstant.UserPlane.INITIAL_X_POSITION, GameConstant.UserPlane.INITIAL_Y_POSITION, initialHealth, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS);
         this.controller = controller;
         this.actorManager = controller.getGameStateManager().getActorManager();
+        this.audioManager = controller.getGameStateManager().getAudioManager();
         this.health = initialHealth;
         setHorizontalBounds(xUpperBound, xLowerBound);
         setVerticalBounds(yUpperBound, yLowerBound);
@@ -61,8 +64,7 @@ public class UserPlane extends FighterPlane {
 
         UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
         actorManager.addActor(projectile);
-
-        // System.out.println("Projectile fired by " + this + " at: " + currentX + ", " + currentY);
+        audioManager.playSoundEffect(3);
     }
 
     @Override

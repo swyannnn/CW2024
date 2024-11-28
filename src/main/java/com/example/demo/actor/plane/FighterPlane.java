@@ -1,13 +1,15 @@
 package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.controller.Controller;
+import com.example.demo.manager.AudioManager;
 
 /**
  * FighterPlane class representing a generic fighter plane in the game.
  * Both EnemyPlane and UserPlane extend this class.
  */
 public abstract class FighterPlane extends ActiveActorDestructible {
-
+    private AudioManager audioManager;
     protected int health;
     private long lastFireTime = 0;
     private final long fireIntervalNanoseconds;
@@ -23,9 +25,10 @@ public abstract class FighterPlane extends ActiveActorDestructible {
      * @param health                The initial health.
      * @param fireIntervalNanoseconds The interval between fires in nanoseconds.
      */
-    public FighterPlane(String imageName, int imageHeight, double initialXPos, double initialYPos, int health, long fireIntervalNanoseconds) {
+    public FighterPlane(Controller controller, String imageName, int imageHeight, double initialXPos, double initialYPos, int health, long fireIntervalNanoseconds) {
         super(imageName, imageHeight, initialXPos, initialYPos);
         this.health = health;
+        this.audioManager = controller.getGameStateManager().getAudioManager();
         this.fireIntervalNanoseconds = fireIntervalNanoseconds;
         this.fireRate = 0.5; // Default firing rate, can be overridden by subclasses
 
@@ -48,6 +51,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
         health--;
         System.out.println(getClass().getSimpleName() + " took damage. Health: " + health);
         if (healthAtZero()) {
+            audioManager.playSoundEffect(1);
             this.destroy();
             System.out.println(getClass().getSimpleName() + " destroyed.");
         }
