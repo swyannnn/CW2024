@@ -108,6 +108,15 @@ public class BossPlane extends FighterPlane {
     }
 
     /**
+     * Checks if the BossPlane is currently shielded.
+     *
+     * @return True if the shield is active, false otherwise.
+     */
+    public boolean isShielded() {
+        return shield.isShielded();
+    }
+
+    /**
      * Method to take damage when the boss plane is not shielded.
      */
     @Override

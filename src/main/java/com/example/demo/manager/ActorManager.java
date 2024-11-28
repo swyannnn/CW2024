@@ -49,7 +49,7 @@ public class ActorManager {
     public void addActor(ActiveActorDestructible actor) {
         actors.add(actor);
         root.getChildren().add(actor);
-        System.out.println("Added actor: " + actor + " to the root " + this.root);
+        // System.out.println("Added actor: " + actor + " to the root " + this.root);
     }
 
     // Method to add UI elements to the scene
@@ -158,7 +158,7 @@ public class ActorManager {
     public List<ActiveActorDestructible> getEnemyProjectiles() {
         List<ActiveActorDestructible> enemyProjectiles = new ArrayList<>();
         for (ActiveActorDestructible actor : actors) {
-            if (actor instanceof com.example.demo.actor.projectile.EnemyProjectile || actor instanceof com.example.demo.actor.projectile.BossProjectile) {
+            if (actor instanceof com.example.demo.actor.projectile.EnemyProjectile) {
                 enemyProjectiles.add(actor);
             }
         }

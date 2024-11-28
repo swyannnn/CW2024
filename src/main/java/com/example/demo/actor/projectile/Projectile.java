@@ -35,6 +35,13 @@ public abstract class Projectile extends ActiveActorDestructible {
         this.destroy();
     }
 
+    // @Override
+    // public boolean takeDamage() {
+    //     // Projectiles are destroyed upon impact
+    //     System.out.println("UserProjectile hit and destroyed.");
+    //     return true;
+    // }
+
     /**
      * Moves the projectile horizontally and checks for out-of-bounds conditions.
      */

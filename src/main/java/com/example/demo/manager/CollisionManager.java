@@ -65,16 +65,47 @@ public class CollisionManager {
      *
      * @param pair The collision pair containing source and target actors.
      */
+    // private void processCollision(CollisionPair pair) {
+    //     ActiveActorDestructible source = pair.source;
+    //     ActiveActorDestructible target = pair.target;
+    //     System.out.println("Collision detected: " + source + " hit " + target);
+    //     source.takeDamage();
+    //     target.takeDamage();
+        
+    //     if (collisionListener != null && source instanceof UserProjectile projectile && isEnemy(target)) {
+    //         UserPlane userPlane = projectile.getOwner();
+    //         System.out.println("Collision detected haha: " + projectile + " hit " + target);
+            
+    //         if (userPlane != null) {
+    //             collisionListener.onProjectileHitEnemy(userPlane, target);
+    //         }
+    //     }
+    // }
+
     private void processCollision(CollisionPair pair) {
         ActiveActorDestructible source = pair.source;
         ActiveActorDestructible target = pair.target;
         System.out.println("Collision detected: " + source + " hit " + target);
+        
+        // Apply damage to both source and target
         source.takeDamage();
         target.takeDamage();
         
-        if (collisionListener != null && source instanceof UserProjectile projectile && isEnemy(target)) {
+        // Check if the collision listener should be notified
+        if (collisionListener != null 
+            && source instanceof UserProjectile projectile 
+            && isEnemy(target)) {
+            
+            // If the target is a BossPlane, check if it's shielded
+            if (target instanceof BossPlane boss && boss.isShielded()) {
+                // Shield is active; do not notify the listener
+                System.out.println("BossPlane is shielded. No kill count increment.");
+                return;
+            }
+            
+            // At this point, either the target is an EnemyPlane or an unshielded BossPlane
             UserPlane userPlane = projectile.getOwner();
-            System.out.println("Collision detected haha: " + projectile + " hit " + target);
+            System.out.println("Collision detected: " + projectile + " hit " + target);
             
             if (userPlane != null) {
                 collisionListener.onProjectileHitEnemy(userPlane, target);
@@ -122,7 +153,7 @@ public class CollisionManager {
      * @param players          The list of player entities.
      */
     public void handlePlayerEnemyProjectileCollisions(List<ActiveActorDestructible> enemyProjectiles, List<UserPlane> players) {
-        handleCollisions(players, enemyProjectiles);
+        handleCollisions(enemyProjectiles, players);
     }
 
     /**
@@ -134,6 +165,7 @@ public class CollisionManager {
     public void handleUserProjectileBossCollisions(List<ActiveActorDestructible> userProjectiles, List<ActiveActorDestructible> boss) {
         handleCollisions(userProjectiles, boss);
     }
+
     /**
      * Handles collisions between enemy projectiles and player entities.
      *
@@ -141,7 +173,7 @@ public class CollisionManager {
      * @param players          The list of player entities.
      */
     public void handlePlayerBossProjectileCollisions(List<ActiveActorDestructible> bossProjectiles, List<UserPlane> players) {
-        handleCollisions(players, bossProjectiles);
+        handleCollisions(bossProjectiles, players);
     }
 
     /**

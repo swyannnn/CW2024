@@ -43,15 +43,6 @@ public class Level002 extends LevelParent {
         }
     }
 
-    // @Override
-    // public boolean userHasReachedKillTarget() {
-    //     BossPlane bossPlane = actorManager.getBossUnits();
-    //     if (bossPlane == null) {
-    //         return false;
-    //     }
-    //     return bossPlane.isDestroyed();
-    // }
-
     @Override
     public boolean userHasReachedKillTarget() {
         List<ActiveActorDestructible> bossPlanes = actorManager.getBossUnits();
