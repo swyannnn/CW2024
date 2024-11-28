@@ -21,7 +21,7 @@ import javafx.scene.image.ImageView;
 public abstract class LevelParent {
     protected final Group root;
     protected final Scene scene;
-    protected final ImageView background;
+    protected ImageView[] backgrounds;
 
     protected UserPlane user;
     protected LevelView001 levelView;
@@ -30,6 +30,7 @@ public abstract class LevelParent {
     // Managers are injected to ensure they're properly initialized
     protected final ActorManager actorManager;
     protected final GameStateManager gameStateManager;
+    private final double scrollSpeed = 1.0; // Adjust as needed
     /**
      * Constructs a new LevelParent instance.
      *
@@ -50,9 +51,10 @@ public abstract class LevelParent {
         this.root = new Group();
         this.scene = new Scene(root, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     
-        // Initialize background
-        this.background = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
-        initializeBackground();
+        // // Initialize background
+        // this.background = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
+        // initializeBackground();
+        initializeBackground(backgroundImageName);
 
         // Initialize Managers
         this.gameStateManager = controller.getGameStateManager();
@@ -70,14 +72,53 @@ public abstract class LevelParent {
     }    
     
 
+    // /**
+    //  * Initializes the background image.
+    //  */
+    // private void initializeBackground() {
+    //     background.setFitHeight(GameConstant.GameSettings.SCREEN_HEIGHT);
+    //     background.setFitWidth(GameConstant.GameSettings.SCREEN_WIDTH);
+    //     // background.setOpacity(0.3);
+    //     root.getChildren().add(background);
+    // }
+
     /**
-     * Initializes the background image.
+     * Initializes the background images for scrolling effect.
+     *
+     * @param backgroundImageName The path to the background image.
      */
-    private void initializeBackground() {
-        background.setFitHeight(GameConstant.GameSettings.SCREEN_HEIGHT);
-        background.setFitWidth(GameConstant.GameSettings.SCREEN_WIDTH);
-        // background.setOpacity(0.3);
-        root.getChildren().add(background);
+    private void initializeBackground(String backgroundImageName) {
+        ImageView img1 = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
+        ImageView img2 = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
+
+        img1.setFitHeight(GameConstant.GameSettings.SCREEN_HEIGHT);
+        img1.setFitWidth(GameConstant.GameSettings.SCREEN_WIDTH);
+        img1.setOpacity(0.7);
+        img2.setFitHeight(GameConstant.GameSettings.SCREEN_HEIGHT);
+        img2.setFitWidth(GameConstant.GameSettings.SCREEN_WIDTH);
+        img2.setOpacity(0.7);
+        // Position the second image right after the first
+        img1.setTranslateX(0);
+        img2.setTranslateX(GameConstant.GameSettings.SCREEN_WIDTH);
+
+        backgrounds = new ImageView[] { img1, img2 };
+
+        // Add both images to the root
+        root.getChildren().addAll(backgrounds);
+    }
+
+    /**
+     * Updates the background positions to create a scrolling effect.
+     */
+    public void updateBackground() {
+        for (ImageView img : backgrounds) {
+            img.setTranslateX(img.getTranslateX() - scrollSpeed);
+
+            // If the image has moved completely out of view, reset its position
+            if (img.getTranslateX() + img.getFitWidth() <= 0) {
+                img.setTranslateX(GameConstant.GameSettings.SCREEN_WIDTH - scrollSpeed);
+            }
+        }
     }
 
     public void updateLevelView() {

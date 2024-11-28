@@ -98,6 +98,7 @@ public class LevelState implements GameState {
             level.updateLevelView();
             checkLevelCompletion();
             actorManager.removeDestroyedActors();
+            level.updateBackground();
         }
     }
     
