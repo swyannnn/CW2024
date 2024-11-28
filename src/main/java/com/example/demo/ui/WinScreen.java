@@ -1,5 +1,6 @@
 package com.example.demo.ui;
 
+import com.example.demo.WinImage;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
@@ -17,6 +18,10 @@ import javafx.stage.Stage;
 public class WinScreen {
     private final Stage primaryStage;
     private final GameStateManager gameStateManager;
+    // private static final int WIN_IMAGE_X_POSITION = 355;
+	// private static final int WIN_IMAGE_Y_POSITION = 175;
+    private static final int WIN_IMAGE_X_POSITION = 0;
+	private static final int WIN_IMAGE_Y_POSITION = 0;
 
     /**
      * Constructor initializes the WinScreen with the primary stage and game state manager.
@@ -39,6 +44,7 @@ public class WinScreen {
      * @return The win screen scene.
      */
     public Scene getWinScreenScene() {
+        WinImage winImage = new WinImage(WIN_IMAGE_X_POSITION, WIN_IMAGE_Y_POSITION);
         // Layout for the win screen
         VBox winLayout = new VBox(30); // Spacing of 30 pixels between elements
         winLayout.setAlignment(Pos.CENTER);
@@ -56,7 +62,7 @@ public class WinScreen {
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout
-        winLayout.getChildren().addAll(winText, restartButton, exitButton);
+        winLayout.getChildren().addAll(winImage, winText, restartButton, exitButton);
 
         // Return the constructed scene
         return new Scene(winLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);

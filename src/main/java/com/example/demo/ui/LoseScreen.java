@@ -1,6 +1,7 @@
 package com.example.demo.ui;
 
 import com.example.demo.manager.ButtonManager;
+import com.example.demo.GameOverImage;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
 import javafx.geometry.Pos;
@@ -17,6 +18,10 @@ import javafx.stage.Stage;
 public class LoseScreen {
     private final Stage primaryStage;
     private final GameStateManager gameStateManager;
+    // private static final int LOSS_SCREEN_X_POSITION = -160;
+	// private static final int LOSS_SCREEN_Y_POSITION = -375;
+    private static final int LOSS_SCREEN_X_POSITION = 0;
+	private static final int LOSS_SCREEN_Y_POSITION = 0;
 
     /**
      * Constructor initializes the LoseScreen with the primary stage and game state manager.
@@ -27,10 +32,9 @@ public class LoseScreen {
     public LoseScreen(Stage stage, GameStateManager gameStateManager) {
         this.primaryStage = stage;
         this.gameStateManager = gameStateManager;
-
-        if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().playMusic("losebgm.mp3");
-        }
+        // if (gameStateManager.getAudioManager() != null) {
+        //     gameStateManager.getAudioManager().playMusic("losebgm.mp3");
+        // }
     }
 
     /**
@@ -39,6 +43,7 @@ public class LoseScreen {
      * @return The lose screen scene.
      */
     public Scene getLoseScreenScene() {
+        GameOverImage gameoverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSITION);
         // Layout for the lose screen
         VBox loseLayout = new VBox(30); // Spacing of 30 pixels between elements
         loseLayout.setAlignment(Pos.CENTER);
@@ -56,7 +61,7 @@ public class LoseScreen {
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout
-        loseLayout.getChildren().addAll(loseText, restartButton, exitButton);
+        loseLayout.getChildren().addAll(gameoverImage, loseText, restartButton, exitButton);
 
         // Return the constructed scene
         return new Scene(loseLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);

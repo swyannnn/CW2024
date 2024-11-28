@@ -68,14 +68,13 @@ public class LevelState implements GameState {
 
     @Override
     public void initialize() {
-        this.scene = level.initializeScene();
+        this.scene = level.getScene();
         if (this.scene == null) {
             System.err.println("LevelState: Failed to initialize scene for level " + level.getCurrentLevelNumber());
             return;
         }
 
         setupScene(this.scene);
-        level.startGame();
         stage.show();
         System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
 
@@ -231,7 +230,7 @@ public class LevelState implements GameState {
      * Checks if the level has been completed and triggers the appropriate actions.
      */
     private void checkLevelCompletion() {
-        if (level.allUsersAreDestroyed()) {
+        if (allUsersAreDestroyed()) {
             actorManager.cleanup();
             gameStateManager.goToLoseState();
         } else if (level.userHasReachedKillTarget()) {
@@ -239,6 +238,27 @@ public class LevelState implements GameState {
             onLevelComplete();
         }
     }
+
+    /**
+     * Checks if any user's plane has been destroyed.
+     *
+     * @return true if any user's plane is destroyed; false otherwise.
+     */
+    public boolean userIsDestroyed() {
+        for (UserPlane player : actorManager.getPlayers()) {
+            // System.out.println("Checking player health: " + player.getHealth());
+            if (player.getHealth() <= 0) {
+                // System.out.println("Player destroyed: " + player);
+                return true; // At least one player is destroyed
+            }
+        }
+        return false; 
+    }
+
+    public boolean allUsersAreDestroyed() {
+        return actorManager.getPlayers().stream()
+                .allMatch(player -> player.getHealth() <= 0);
+    }   
 
     /**
      * Handles KeyPressed events and delegates actions to the level's user.

@@ -91,7 +91,7 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY = -5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
         public static final double PROJECTILE_Y_POSITION_OFFSET = 120;
-        public static final double FIRE_RATE = 0.5;
+        public static final double FIRE_RATE = 1;
     }
 
     // BossShield Settings
@@ -100,7 +100,7 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 200;
         public static final int X_POSITION_OFFSET = 930;
         public static final int Y_POSITION_OFFSET = 200;
-        public static final double BOSS_SHIELD_PROBABILITY = 0.04;
+        public static final double BOSS_SHIELD_PROBABILITY = 1;
         public static final int MAX_FRAMES_WITH_SHIELD = 500;
         public static final int MAX_FRAMES_WITHOUT_SHIELD = 500;
     }
@@ -121,7 +121,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
         public static final int TOTAL_ENEMIES = 1;
-        public static final int KILLS_TO_ADVANCE = 3;
+        public static final int KILLS_TO_ADVANCE = 0;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
     }

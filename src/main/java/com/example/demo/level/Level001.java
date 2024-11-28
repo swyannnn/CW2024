@@ -34,12 +34,6 @@ public class Level001 extends LevelParent {
         this.currentLevelNumber = levelNumber;
         this.actorManager = gameStateManager.getActorManager();
         initializeFriendlyUnits();
-        // if (controller == null) {
-        //     System.err.println("Controller is null in Level001");
-        // }
-        // else {
-        //     System.out.println("Controller is not null in Level001");
-        // }
     }
 
     @Override

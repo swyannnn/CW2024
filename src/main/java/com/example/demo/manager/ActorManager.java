@@ -194,5 +194,4 @@ public class ActorManager {
         }
         return bossProjectiles;
         }
-    // Add other getter methods as needed
     }

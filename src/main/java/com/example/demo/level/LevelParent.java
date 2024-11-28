@@ -5,13 +5,11 @@ import java.util.List;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
-import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.manager.ImageManager;
 import com.example.demo.ui.LevelView001;
 import com.example.demo.util.GameConstant;
 
-import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
@@ -29,11 +27,8 @@ public abstract class LevelParent {
     protected LevelView001 levelView;
     protected Controller controller;
 
-    protected int currentNumberOfEnemies;
-
     // Managers are injected to ensure they're properly initialized
     protected final ActorManager actorManager;
-    protected final CollisionManager collisionManager;
     protected final GameStateManager gameStateManager;
     /**
      * Constructs a new LevelParent instance.
@@ -61,7 +56,6 @@ public abstract class LevelParent {
 
         // Initialize Managers
         this.gameStateManager = controller.getGameStateManager();
-        this.collisionManager = gameStateManager.getCollisionManager();
         this.actorManager = gameStateManager.getActorManager();
     
         // Pass the root to ActorManager
@@ -69,9 +63,6 @@ public abstract class LevelParent {
 
         // Initialize LevelView
         this.levelView = instantiateLevelView();
-    
-        // Initialize other components
-        this.currentNumberOfEnemies = 0;
     
         for (UserPlane player : actorManager.getPlayers()) {
             levelView.showHeartDisplay(player);
@@ -120,45 +111,14 @@ public abstract class LevelParent {
 
     public Group getRoot() {
         return this.root;
-    }
-
-/**
-     * Checks if any user's plane has been destroyed.
-     *
-     * @return true if any user's plane is destroyed; false otherwise.
-     */
-    public boolean userIsDestroyed() {
-        for (UserPlane player : actorManager.getPlayers()) {
-            // System.out.println("Checking player health: " + player.getHealth());
-            if (player.getHealth() <= 0) {
-                // System.out.println("Player destroyed: " + player);
-                return true; // At least one player is destroyed
-            }
-        }
-        return false; 
-    }
-
-    public boolean allUsersAreDestroyed() {
-        return actorManager.getPlayers().stream()
-                .allMatch(player -> player.getHealth() <= 0);
-    }    
+    } 
 
     /**
      * Initializes and returns the scene for this level.
      *
      * @return The initialized scene.
      */
-    public Scene initializeScene() {
+    public Scene getScene() {
         return scene;
-    }
-
-    /**
-     * Starts the game by setting up necessary elements.
-     * This method can be called when the level is loaded.
-     */
-    public void startGame() {
-        // It's better to request focus on the scene or root node instead of background
-        Platform.runLater(() -> scene.getRoot().requestFocus());
-        // System.out.println("Game started. Scene focus requested.");
     }
 }
