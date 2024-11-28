@@ -161,20 +161,4 @@ public abstract class LevelParent {
         Platform.runLater(() -> scene.getRoot().requestFocus());
         // System.out.println("Game started. Scene focus requested.");
     }
-
-    /**
-     * Handles the game over state.
-     */
-    public void loseGame() {
-        gameStateManager.goToLoseState();
-        System.out.println("Game lost. Transitioning to LoseState.");
-    }
-
-    /**
-     * Handles the win game state.
-     */
-    public void winGame() {
-        gameStateManager.goToWinState();
-        System.out.println("Game won. Transitioning to WinState.");
-    }
 }
