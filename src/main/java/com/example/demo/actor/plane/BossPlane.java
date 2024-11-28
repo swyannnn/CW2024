@@ -2,65 +2,73 @@ package com.example.demo.actor.plane;
 
 import java.util.*;
 
-import com.example.demo.ShieldImage;
+import com.example.demo.Shield;
 import com.example.demo.actor.projectile.BossProjectile;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
 
+/**
+ * BossPlane class representing the boss enemy in the game.
+ */
 public class BossPlane extends FighterPlane {
-    private ActorManager actorManager;
-    private final ShieldImage shield;
-    private Controller controller;
+    private final ActorManager actorManager;
+    private final Shield shield;
+    private final Controller controller;
+
+    // Constants
     private static final String imageName = GameConstant.BossPlane.IMAGE_NAME;
     private static final int imageHeight = GameConstant.BossPlane.IMAGE_HEIGHT;
     private static final double initialXPosition = GameConstant.BossPlane.INITIAL_X_POSITION;
     private static final double initialYPosition = GameConstant.BossPlane.INITIAL_Y_POSITION;
     private static final double projectileYPositionOffset = GameConstant.BossProjectile.PROJECTILE_Y_POSITION_OFFSET;
     private static final double fireRate = GameConstant.BossProjectile.FIRE_RATE;
+
+    // Shield-related constants
     private static final double BossShieldProbability = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
-    private static final int verticalVelocity = GameConstant.BossPlane.VERTICAL_VELOCITY;
     private static final int shieldXPositionOffset = GameConstant.BossShield.X_POSITION_OFFSET;
     private static final int shieldYPositionOffset = GameConstant.BossShield.Y_POSITION_OFFSET;
+    private static final int maxFramesWithShield = GameConstant.BossShield.MAX_FRAMES_WITH_SHIELD;
+    private static final int maxFramesWithoutShield = GameConstant.BossShield.MAX_FRAMES_WITHOUT_SHIELD;
+
+    // Movement-related constants
+    private static final int verticalVelocity = GameConstant.BossPlane.VERTICAL_VELOCITY;
     private static final int moveFrequencyPerCycle = GameConstant.BossPlane.MOVE_FREQUENCY_PER_CYCLE;
     private static final int zero = GameConstant.BossPlane.ZERO;
     private static final int maxFramesWithSameMove = GameConstant.BossPlane.MAX_FRAMES_WITH_SAME_MOVE;
     private static final int yUpperBound = GameConstant.BossPlane.Y_POSITION_UPPER_BOUND;
     private static final int yLowerBound = GameConstant.BossPlane.Y_POSITION_LOWER_BOUND;
-    private static final int maxFramesWithShield = GameConstant.BossShield.MAX_FRAMES_WITH_SHIELD;
-    private static final int maxFramesWithoutShield = GameConstant.BossShield.MAX_FRAMES_WITHOUT_SHIELD; 
     private static final int initialHealth = GameConstant.BossPlane.INITIAL_HEALTH;
     private static final long fireIntervalNanoseconds = GameConstant.BossPlane.FIRE_INTERVAL_NANOSECONDS;
 
-
-    // Dynamic bounds and position based on screen size
+    // Dynamic movement state
     private final List<Integer> movePattern;
-    private boolean isShielded;
     private int consecutiveMovesInSameDirection;
     private int indexOfCurrentMove;
-    private int framesWithShieldActivated;
-    private int framesSinceLastShield;
 
+    /**
+     * Constructs a BossPlane instance.
+     *
+     * @param controller The game controller managing the state.
+     */
     public BossPlane(Controller controller) {
         super(imageName, imageHeight, initialXPosition, initialYPosition, initialHealth, fireIntervalNanoseconds);
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.controller = controller;
-        movePattern = new ArrayList<>();
-        consecutiveMovesInSameDirection = 0;
-        indexOfCurrentMove = 0;
-        framesWithShieldActivated = 0;
-        framesSinceLastShield = maxFramesWithoutShield;
-        isShielded = false;
+        this.movePattern = new ArrayList<>();
+        this.consecutiveMovesInSameDirection = 0;
+        this.indexOfCurrentMove = 0;
         initializeMovePattern();
 
         // Initialize the shield and add it as a child node
-        shield = new ShieldImage();
-        actorManager.getRoot().getChildren().add(shield); 
+        shield = new Shield(shieldXPositionOffset, shieldYPositionOffset,
+                            BossShieldProbability, maxFramesWithShield, maxFramesWithoutShield);
+        actorManager.getRoot().getChildren().add(shield); // Ensure FighterPlane (parent) extends Pane or similar
         setVerticalBounds(yUpperBound, yLowerBound);
     }
 
     /**
-     * Fires a projectile from the enemy plane's current position.
+     * Fires a projectile from the boss plane's current position.
      */
     @Override
     public void fireProjectile() {
@@ -68,15 +76,16 @@ public class BossPlane extends FighterPlane {
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
             BossProjectile projectile = new BossProjectile(projectileY, controller);
             actorManager.addBossProjectile(projectile);
-            // System.out.println("Projectile fired by " + this + " at: " + projectileY);
+            // Uncomment for debugging:
+            // System.out.println("Projectile fired by BossPlane at: " + projectileY);
         }
     }
 
     /**
-    * Updates the boss plane.
-    *
-    * @param now The current time.
-    */
+     * Performs movement for the boss plane.
+     *
+     * @param now The current time in nanoseconds.
+     */
     @Override
     protected void performMovement(long now) {
         double initialTranslateY = getTranslateY();
@@ -84,16 +93,18 @@ public class BossPlane extends FighterPlane {
         if (isOutOfBounds()) {
             setTranslateY(initialTranslateY); // Revert to initial position if out of bounds
         }
+        // Uncomment for debugging:
+        // System.out.println("BossPlane.performMovement() called, current position: " + (getLayoutX() + getTranslateX()) + ", " + (getLayoutY() + getTranslateY()));
     }
 
     /**
-     * Updates the boss plane and its shield.
+     * Performs additional updates, specifically updating the shield.
      *
-     * @param now The current time.
+     * @param now The current time in nanoseconds.
      */
     @Override
     protected void performAdditionalUpdates(long now) {
-        updateShield();
+        shield.updateShieldState(getTranslateX(), getTranslateY());
     }
 
     /**
@@ -101,11 +112,14 @@ public class BossPlane extends FighterPlane {
      */
     @Override
     public void takeDamage() {
-        if (!isShielded) {
+        if (!shield.isShielded()) {
             super.takeDamage();
         }
     }
     
+    /**
+     * Initializes the movement pattern for the boss plane.
+     */
     private void initializeMovePattern() {
         for (int i = 0; i < moveFrequencyPerCycle; i++) {
             movePattern.add(verticalVelocity);
@@ -115,24 +129,11 @@ public class BossPlane extends FighterPlane {
         Collections.shuffle(movePattern);
     }
 
-    private void updateShield() {
-        if (isShielded) {
-            shield.setTranslateX(getTranslateX() + shieldXPositionOffset);
-            shield.setTranslateY(getTranslateY() + shieldYPositionOffset);
-            framesWithShieldActivated++;
-            if (shieldExhausted()) {
-                deactivateShield();
-            }
-        } else {
-            if (framesSinceLastShield < maxFramesWithoutShield) {
-                framesSinceLastShield++;
-            }
-            if (shieldShouldBeActivated() && framesSinceLastShield >= maxFramesWithoutShield) {
-                activateShield();
-            }
-        }
-    }    
-
+    /**
+     * Determines the next vertical movement for the boss plane.
+     *
+     * @return The vertical movement delta.
+     */
     private int getNextMove() {
         int currentMove = movePattern.get(indexOfCurrentMove);
         consecutiveMovesInSameDirection++;
@@ -147,27 +148,12 @@ public class BossPlane extends FighterPlane {
         return currentMove;
     }
 
+    /**
+     * Determines if the boss should fire a projectile in the current frame.
+     *
+     * @return True if the boss fires, else false.
+     */
     private boolean bossFiresInCurrentFrame() {
         return Math.random() < fireRate;
-    }
-
-    private boolean shieldShouldBeActivated() {
-        return Math.random() < BossShieldProbability;
-    }
-
-    private boolean shieldExhausted() {
-        return framesWithShieldActivated >= maxFramesWithShield;
-    }
-
-    private void activateShield() {
-        isShielded = true;
-        framesSinceLastShield = 0;
-        shield.showShield();
-    }
-
-    private void deactivateShield() {
-        isShielded = false;
-        framesWithShieldActivated = 0;
-        shield.hideShield();
     }
 }
