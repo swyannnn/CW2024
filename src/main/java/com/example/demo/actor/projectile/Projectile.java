@@ -45,16 +45,6 @@ public abstract class Projectile extends ActiveActorDestructible {
         }
     }
 
-    // /**
-    //  * Checks if the projectile has moved out of the screen bounds.
-    //  *
-    //  * @return True if out of bounds, false otherwise.
-    //  */
-    // private boolean isOutOfBounds() {
-    //     double currentX = getLayoutX() + getTranslateX();
-    //     return currentX < 0 || currentX > screenWidth;
-    // }
-
     /**
      * Removes the projectile from the scene graph and the ActorManager.
      */

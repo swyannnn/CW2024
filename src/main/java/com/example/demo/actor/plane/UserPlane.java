@@ -34,8 +34,6 @@ public class UserPlane extends FighterPlane {
     private int horizontalVelocityMultiplier = GameConstant.UserPlane.HORIZONTAL_VELOCITY_MULTIPLIER;
     private int numberOfKills = GameConstant.UserPlane.NUMBER_OF_KILLS;
     private int score;
-    private double positionX;
-    private double positionY;
 
     /**
      * Constructs a UserPlane object with specified stage dimensions and initial health.
@@ -139,19 +137,6 @@ public class UserPlane extends FighterPlane {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public double getPositionX() {
-        return positionX;
-    }
-
-    public double getPositionY() {
-        return positionY;
-    }
-
-    public void setPosition(double positionX, double positionY) {
-        this.positionX = positionX;
-        this.positionY = positionY;
     }
 
     // Method to check if the user is destroyed

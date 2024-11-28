@@ -9,13 +9,8 @@ import com.example.demo.actor.ActiveActorDestructible;
 public abstract class FighterPlane extends ActiveActorDestructible {
 
     protected int health;
-    // private AnimationTimer fireTimer;
     private long lastFireTime = 0;
-
-    // Firing interval in nanoseconds
     private final long fireIntervalNanoseconds;
-
-    // Firing rate probability
     protected final double fireRate;
 
     /**
@@ -72,15 +67,6 @@ public abstract class FighterPlane extends ActiveActorDestructible {
 
     public int getHealth() {
         return health;
-    }
-
-    /**
-     * Retrieves the width of the plane's image.
-     *
-     * @return The width of the plane's image.
-     */
-    public double getWidth() {
-        return getImage().getWidth();
     }
 
     /**

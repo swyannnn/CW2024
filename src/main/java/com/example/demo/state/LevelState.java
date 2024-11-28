@@ -294,13 +294,4 @@ public class LevelState implements GameState {
             Platform.runLater(() -> gameStateManager.goToLevel(nextLevelNumber)); 
         }
     }
-
-    // /**
-    //  * Gets the current LevelParent object.
-    //  *
-    //  * @return The LevelParent object representing the game level.
-    //  */
-    // public LevelParent getLevel() {
-    //     return level;
-    // }
 }

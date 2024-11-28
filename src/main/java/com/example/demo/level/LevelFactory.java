@@ -35,7 +35,6 @@ public class LevelFactory {
     return Optional.empty();
     }
 
-
     /**
      * Registers a new level dynamically.
      *

@@ -71,7 +71,6 @@ public class WinState implements GameState {
 
     @Override
     public void cleanup() {
-        // Cleanup resources if necessary
         if (gameStateManager.getAudioManager() != null) {
             gameStateManager.getAudioManager().stopMusic();
         }

@@ -72,6 +72,11 @@ public class BossPlane extends FighterPlane {
         }
     }
 
+    /**
+    * Updates the boss plane.
+    *
+    * @param now The current time.
+    */
     @Override
     protected void performMovement(long now) {
         double initialTranslateY = getTranslateY();
@@ -81,18 +86,26 @@ public class BossPlane extends FighterPlane {
         }
     }
 
+    /**
+     * Updates the boss plane and its shield.
+     *
+     * @param now The current time.
+     */
     @Override
     protected void performAdditionalUpdates(long now) {
         updateShield();
     }
 
+    /**
+     * Method to take damage when the boss plane is not shielded.
+     */
     @Override
     public void takeDamage() {
         if (!isShielded) {
             super.takeDamage();
         }
     }
-
+    
     private void initializeMovePattern() {
         for (int i = 0; i < moveFrequencyPerCycle; i++) {
             movePattern.add(verticalVelocity);

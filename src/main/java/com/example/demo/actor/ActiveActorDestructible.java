@@ -62,10 +62,22 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
         return outOfHorizontal || outOfVertical;
     }
 
+    /**
+     * Updates the actor.
+     *
+     * @param now The current time.
+     */
     public abstract void update(long now);
 
+    /**
+     * Takes damage.
+     */
     public abstract void takeDamage();
 
+
+    /**
+     * Destroys the actor.
+     */
     public void destroy() {
         this.isDestroyed = true;
     }
