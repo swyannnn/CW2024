@@ -61,7 +61,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
         return getLayoutY() + getTranslateY() + yPositionOffset;
     }
 
-    private boolean healthAtZero() {
+    public boolean healthAtZero() {
         return health <= 0;
     }
 

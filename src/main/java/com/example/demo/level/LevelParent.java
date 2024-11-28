@@ -132,7 +132,7 @@ public abstract class LevelParent {
         for (UserPlane player : actorManager.getPlayers()) {
             // System.out.println("Checking player health: " + player.getHealth());
             if (player.getHealth() <= 0) {
-                System.out.println("Player destroyed: " + player);
+                // System.out.println("Player destroyed: " + player);
                 return true; // At least one player is destroyed
             }
         }
@@ -155,39 +155,41 @@ public abstract class LevelParent {
         return GameConstant.EnemyPlane.MINIMUM_Y_POSITION;
     }
 
-    /**
-     * Handles when enemies penetrate defenses and reach the users.
-     */
-    public void handleEnemyPenetration() {
-        for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
-            if (enemyHasPenetratedDefenses(enemy)) {
-                // Choose the first player to take damage for now
-                List<UserPlane> players = actorManager.getPlayers();
-                if (!players.isEmpty()) {
-                    players.get(0).takeDamage(); // First player takes the damage
-                    enemy.destroy();
-                    System.out.println("Enemy penetrated defenses: " + enemy + ". First user took damage.");
-                }
-            }
-        }
-    }
+    // /**
+    //  * Handles when enemies penetrate defenses and reach the users.
+    //  */
+    // public void handleEnemyPenetration() {
+    //     for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
+    //         if (enemyHasPenetratedDefenses(enemy)) {
+    //             actorManager.removeActor(enemy);
+    //             System.out.println("Enemy penetrated defenses: " + enemy);
+    //             // // Choose the first player to take damage for now
+    //             // List<UserPlane> players = actorManager.getPlayers();
+    //             // if (!players.isEmpty()) {
+    //             //     players.get(0).takeDamage(); // First player takes the damage
+    //             //     enemy.destroy();
+    //             //     System.out.println("Enemy penetrated defenses: " + enemy + ". First user took damage.");
+    //             // }
+    //         }
+    //     }
+    // }
+
+    // /**
+    //  * Checks if an enemy has penetrated defenses based on its position.
+    //  *
+    //  * @param enemy The enemy actor to check.
+    //  * @return True if the enemy has penetrated defenses; false otherwise.
+    //  */
+    // private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
+    //     return Math.abs(enemy.getTranslateX()) > GameConstant.GameSettings.SCREEN_WIDTH;
+    // }
 
     /**
-     * Checks if an enemy has penetrated defenses based on its position.
-     *
-     * @param enemy The enemy actor to check.
-     * @return True if the enemy has penetrated defenses; false otherwise.
-     */
-    private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-        return Math.abs(enemy.getTranslateX()) > GameConstant.GameSettings.SCREEN_WIDTH;
-    }
-
-    /**
-     * Updates the number of current enemies.
-     */
-    public void updateNumberOfEnemies() {
-        currentNumberOfEnemies = actorManager.getEnemyUnits().size();
-    }
+    //  * Updates the number of current enemies.
+    //  */
+    // public void updateNumberOfEnemies() {
+    //     currentNumberOfEnemies = actorManager.getEnemyUnits().size();
+    // }
 
     // Removed update() and render() methods to be managed by GameStateManager
 
@@ -207,7 +209,7 @@ public abstract class LevelParent {
     public void startGame() {
         // It's better to request focus on the scene or root node instead of background
         Platform.runLater(() -> scene.getRoot().requestFocus());
-        System.out.println("Game started. Scene focus requested.");
+        // System.out.println("Game started. Scene focus requested.");
     }
 
     /**

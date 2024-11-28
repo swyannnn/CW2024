@@ -1,13 +1,16 @@
 package com.example.demo;
 
+import com.example.demo.manager.ImageManager;
+import com.example.demo.util.GameConstant;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 public class HeartDisplay {
 
-    private static final String HEART_IMAGE_NAME = "/com/example/demo/images/heart.png";
-    private static final int HEART_HEIGHT = 50;
+    private static final String HEART_IMAGE_NAME = GameConstant.Heart.IMAGE_NAME;
+    private static final int HEART_HEIGHT = GameConstant.Heart.IMAGE_HEIGHT;
     private HBox container;
     private double containerXPosition;
     private double containerYPosition;
@@ -32,12 +35,21 @@ public class HeartDisplay {
      */
     public void setHearts(int heartsRemaining) {
         container.getChildren().clear();
+        ImageManager imageManager = ImageManager.getInstance(); // Get the singleton instance
+
         for (int i = 0; i < heartsRemaining; i++) {
-            ImageView heart = new ImageView(new Image(getClass().getResource(HEART_IMAGE_NAME).toExternalForm()));
+            Image heartImage = imageManager.getImage(HEART_IMAGE_NAME);
+            ImageView heart = new ImageView(heartImage);
             heart.setFitHeight(HEART_HEIGHT);
             heart.setPreserveRatio(true);
-            container.getChildren().add(heart);
-        }
+            container.getChildren().add(heart);}
+        // container.getChildren().clear();
+        // for (int i = 0; i < heartsRemaining; i++) {
+        //     ImageView heart = new ImageView(new Image(getClass().getResource(HEART_IMAGE_NAME).toExternalForm()));
+        //     heart.setFitHeight(HEART_HEIGHT);
+        //     heart.setPreserveRatio(true);
+        //     container.getChildren().add(heart);
+        // }
     }
 
     public HBox getContainer() {

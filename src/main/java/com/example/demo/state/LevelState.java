@@ -32,6 +32,7 @@ public class LevelState implements GameState {
     private final GameStateManager gameStateManager;
     private UserPlane userPlane;
     private final ActorManager actorManager;
+    private final CollisionManager collisionManager;
     private boolean levelCompleted;
     private VBox pauseOverlay;
     private Scene scene;
@@ -52,6 +53,7 @@ public class LevelState implements GameState {
         this.stage = stage;
         this.actorManager = actorManager;
         this.gameStateManager = gameStateManager;
+        this.collisionManager = gameStateManager.getCollisionManager();
         this.levelCompleted = false;
 
         // Initialize userPlanes (handles multiple players)
@@ -93,12 +95,10 @@ public class LevelState implements GameState {
         if (!levelCompleted) {
             level.spawnEnemyUnits();
             actorManager.updateAllActors(now);
-            level.handleEnemyPenetration();
-            handleCollisions();
-            actorManager.removeDestroyedActors();
-            level.updateNumberOfEnemies();
+            collisionManager.handleAllCollisions(actorManager);
             level.updateLevelView();
             checkLevelCompletion();
+            actorManager.removeDestroyedActors();
         }
     }
     
@@ -201,15 +201,6 @@ public class LevelState implements GameState {
         pauseOverlay.setOnKeyReleased(this::handleInput);
     }
 
-    private void handleCollisions() {
-        CollisionManager collisionManager = gameStateManager.getCollisionManager();
-        if (collisionManager != null) {
-            collisionManager.handleAllCollisions(actorManager);
-        } else {
-            System.err.println("LevelState: CollisionManager not available.");
-        }
-    }
-
     /**
      * Displays the pause overlay.
      */
@@ -245,7 +236,6 @@ public class LevelState implements GameState {
             level.loseGame();
         } else if (level.userHasReachedKillTarget()) {
             actorManager.cleanup();
-            System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " completed.");
             onLevelComplete();
         }
     }

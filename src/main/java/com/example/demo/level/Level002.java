@@ -33,7 +33,7 @@ public class Level002 extends LevelParent {
         if (players.isEmpty()) {
             UserPlane user = new UserPlane(PLAYER_INITIAL_HEALTH, controller);
             user.addHealthChangeListener(levelView);
-            actorManager.addPlayer(user);
+            actorManager.addActor(user);
             levelView.showHeartDisplay(user); // Ensure heart display is updated
         } else {
             // Update existing player's state if already present
@@ -43,13 +43,41 @@ public class Level002 extends LevelParent {
         }
     }
 
+    // @Override
+    // public boolean userHasReachedKillTarget() {
+    //     BossPlane bossPlane = actorManager.getBossUnits();
+    //     if (bossPlane == null) {
+    //         return false;
+    //     }
+    //     return bossPlane.isDestroyed();
+    // }
+
     @Override
     public boolean userHasReachedKillTarget() {
-        BossPlane bossPlane = actorManager.getBossPlane();
-        if (bossPlane == null) {
-            return false;
+        List<ActiveActorDestructible> bossPlanes = actorManager.getBossUnits();
+        if (bossPlanes.isEmpty()) {
+            return false; // No boss planes present
         }
-        return bossPlane.isDestroyed();
+        
+        // Option 1: Check if **all** BossPlanes are destroyed
+        boolean allDestroyed = true;
+        for (ActiveActorDestructible actor : bossPlanes) {
+            if (!actor.isDestroyed()) {
+                allDestroyed = false;
+                break;
+            }
+        }
+        return allDestroyed;
+        
+        // Option 2: Check if **any** BossPlane is destroyed
+        // boolean anyDestroyed = false;
+        // for (ActiveActorDestructible actor : bossPlanes) {
+        //     if (actor.isDestroyed()) {
+        //         anyDestroyed = true;
+        //         break;
+        //     }
+        // }
+        // return anyDestroyed;
     }
 
     @Override
@@ -68,7 +96,7 @@ public class Level002 extends LevelParent {
         if (actorManager.getBossUnits().size() == 0) {
             // Create and add the boss plane
             ActiveActorDestructible bossPlane = new BossPlane(controller);
-            actorManager.addBossUnit(bossPlane); // Use ActorManager to add the boss enemy
+            actorManager.addActor(bossPlane); // Use ActorManager to add the boss enemy
         }
     }
 

@@ -38,7 +38,6 @@ public class CollisionManager {
         handleUserProjectileEnemyCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
         handlePlayerEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
         handlePlayerBossProjectileCollisions(actorManager.getBossProjectiles(), actorManager.getPlayers());
-        handleUnitCollisions(actorManager.getFriendlyUnits(), actorManager.getEnemyUnits());
         handleEnemyPlayerCollisions(actorManager.getEnemyUnits(), actorManager.getPlayers());
         handleUserProjectileBossCollisions(actorManager.getUserProjectiles(), actorManager.getBossUnits());
     }
@@ -69,10 +68,9 @@ public class CollisionManager {
     private void processCollision(CollisionPair pair) {
         ActiveActorDestructible source = pair.source;
         ActiveActorDestructible target = pair.target;
-        
+        System.out.println("Collision detected: " + source + " hit " + target);
         source.takeDamage();
         target.takeDamage();
-        System.out.println("Collision detected: " + source + " hit " + target);
         
         if (collisionListener != null && source instanceof UserProjectile projectile && isEnemy(target)) {
             UserPlane userPlane = getUserPlaneForProjectile(projectile);
@@ -140,7 +138,6 @@ public class CollisionManager {
     public void handleUserProjectileBossCollisions(List<ActiveActorDestructible> userProjectiles, List<ActiveActorDestructible> boss) {
         handleCollisions(userProjectiles, boss);
     }
-
     /**
      * Handles collisions between enemy projectiles and player entities.
      *

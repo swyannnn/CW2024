@@ -58,8 +58,8 @@ public class EnemyPlane extends FighterPlane {
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
 
             EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY, controller);
-            System.out.println("EnemyPlane firing projectile at X=" + projectileX + ", Y=" + projectileY);
-            actorManager.addEnemyProjectile(projectile);
+            // System.out.println("EnemyPlane firing projectile at X=" + projectileX + ", Y=" + projectileY);
+            actorManager.addActor(projectile);
             // System.out.println("Projectile fired by " + this + " at: " + projectileX + ", " + projectileY);
         }
     }
@@ -68,7 +68,7 @@ public class EnemyPlane extends FighterPlane {
     protected void performMovement(long now) {
         moveHorizontally(horizontalVelocity);
         if (isOutOfBounds()) {
-            actorManager.removeEnemyUnit(this); // Remove self from ActorManager
+            actorManager.removeActor(this); // Remove self from ActorManager
             System.out.println("EnemyPlane removed for moving off-screen.");
         }
     }

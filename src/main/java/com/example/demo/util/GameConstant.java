@@ -63,7 +63,7 @@ public class GameConstant {
         public static final long FIRE_INTERVAL_NANOSECONDS = 100_000_000L;
         public static final double PROJECTILE_X_POSITION_OFFSET = -100;
         public static final double PROJECTILE_Y_POSITION_OFFSET = 50;
-        public static final double FIRE_RATE = 0.5;
+        public static final double FIRE_RATE = 0.1;
     }
 
     // BossPlane Settings
@@ -111,11 +111,17 @@ public class GameConstant {
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH;
     }
 
+    // Heart 
+    public static class Heart {
+        public static final String IMAGE_NAME = "heart.png";
+        public static final int IMAGE_HEIGHT = 50;
+    }
+    
     // Level 001 Settings
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
         public static final int TOTAL_ENEMIES = 1;
-        public static final int KILLS_TO_ADVANCE = 1;
+        public static final int KILLS_TO_ADVANCE = 3;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
     }

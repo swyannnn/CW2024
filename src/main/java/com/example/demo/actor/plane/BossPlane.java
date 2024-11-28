@@ -63,7 +63,7 @@ public class BossPlane extends FighterPlane {
         // Initialize the shield and add it as a child node
         shield = new Shield(shieldXPositionOffset, shieldYPositionOffset,
                             BossShieldProbability, maxFramesWithShield, maxFramesWithoutShield);
-        actorManager.getRoot().getChildren().add(shield); // Ensure FighterPlane (parent) extends Pane or similar
+        actorManager.addUIElement(shield); // Ensure FighterPlane (parent) extends Pane or similar
         setVerticalBounds(yUpperBound, yLowerBound);
     }
 
@@ -75,7 +75,7 @@ public class BossPlane extends FighterPlane {
         if (bossFiresInCurrentFrame()) { // Use the specified firing probability
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
             BossProjectile projectile = new BossProjectile(projectileY, controller);
-            actorManager.addBossProjectile(projectile);
+            actorManager.addActor(projectile);
             // Uncomment for debugging:
             // System.out.println("Projectile fired by BossPlane at: " + projectileY);
         }

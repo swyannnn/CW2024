@@ -60,7 +60,7 @@ public class UserPlane extends FighterPlane {
         double currentY = getProjectileYPosition(projectileYPositionOffset);
 
         UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
-        actorManager.addUserProjectile(projectile);
+        actorManager.addActor(projectile);
 
         // System.out.println("Projectile fired by " + this + " at: " + currentX + ", " + currentY);
     }
@@ -119,14 +119,14 @@ public class UserPlane extends FighterPlane {
 
         notifyHealthChange(); // Notify listeners of health change
         System.out.println("notifyHealthChange() called in UserPlane.takeDamage().");
-        if (health == 0) {
+        if (super.healthAtZero()) {
             System.out.println("UserPlane destroyed because health zero.");
             destroy();
         }
     }
 
     public void setHealth(int health) {
-        notifyHealthChange();
+        // notifyHealthChange();
         this.health = health;
     }
 
@@ -184,6 +184,7 @@ public class UserPlane extends FighterPlane {
     }
 
     public void incrementKillCount() {
+        System.out.println("UserPlane.incrementKillCount(): " + numberOfKills);
         numberOfKills++;
     }
 }

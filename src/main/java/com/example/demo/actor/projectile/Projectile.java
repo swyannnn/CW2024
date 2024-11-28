@@ -49,12 +49,13 @@ public abstract class Projectile extends ActiveActorDestructible {
      * Removes the projectile from the scene graph and the ActorManager.
      */
     private void removeProjectile() {
-		if (this instanceof EnemyProjectile) {
-			actorManager.removeEnemyProjectile((EnemyProjectile) this);
-		} else if (this instanceof UserProjectile) {
-			actorManager.removeUserProjectile((UserProjectile) this);
-		} else if (this instanceof BossProjectile) {
-			actorManager.removeBossProjectile((BossProjectile) this);
-		}
+		// if (this instanceof EnemyProjectile) {
+		// 	actorManager.removeActor((EnemyProjectile) this);
+		// } else if (this instanceof UserProjectile) {
+		// 	actorManager.removeActor((UserProjectile) this);
+		// } else if (this instanceof BossProjectile) {
+		// 	actorManager.removeActor((BossProjectile) this);
+		// }
+        actorManager.removeActor(this);
     }
 }
