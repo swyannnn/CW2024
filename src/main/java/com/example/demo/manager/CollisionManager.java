@@ -73,7 +73,7 @@ public class CollisionManager {
         target.takeDamage();
         
         if (collisionListener != null && source instanceof UserProjectile projectile && isEnemy(target)) {
-            UserPlane userPlane = getUserPlaneForProjectile(projectile);
+            UserPlane userPlane = projectile.getOwner();
             System.out.println("Collision detected haha: " + projectile + " hit " + target);
             
             if (userPlane != null) {
@@ -103,10 +103,6 @@ public class CollisionManager {
             this.source = source;
             this.target = target;
         }
-    }
-
-    private UserPlane getUserPlaneForProjectile(UserProjectile projectile) {
-        return projectile.getOwner();
     }
 
     /**

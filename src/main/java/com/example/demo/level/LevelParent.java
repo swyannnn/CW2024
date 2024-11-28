@@ -2,7 +2,6 @@ package com.example.demo.level;
 
 import java.util.List;
 
-import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
@@ -145,55 +144,6 @@ public abstract class LevelParent {
     }    
 
     /**
-     * Spawns a new enemy unit at a random position.
-     */ 
-    protected double getEnemyMaximumYPosition() {
-        return GameConstant.EnemyPlane.MAXIMUM_Y_POSITION;
-    }
-
-    protected double getEnemyMinimumYPosition() {
-        return GameConstant.EnemyPlane.MINIMUM_Y_POSITION;
-    }
-
-    // /**
-    //  * Handles when enemies penetrate defenses and reach the users.
-    //  */
-    // public void handleEnemyPenetration() {
-    //     for (ActiveActorDestructible enemy : actorManager.getEnemyUnits()) {
-    //         if (enemyHasPenetratedDefenses(enemy)) {
-    //             actorManager.removeActor(enemy);
-    //             System.out.println("Enemy penetrated defenses: " + enemy);
-    //             // // Choose the first player to take damage for now
-    //             // List<UserPlane> players = actorManager.getPlayers();
-    //             // if (!players.isEmpty()) {
-    //             //     players.get(0).takeDamage(); // First player takes the damage
-    //             //     enemy.destroy();
-    //             //     System.out.println("Enemy penetrated defenses: " + enemy + ". First user took damage.");
-    //             // }
-    //         }
-    //     }
-    // }
-
-    // /**
-    //  * Checks if an enemy has penetrated defenses based on its position.
-    //  *
-    //  * @param enemy The enemy actor to check.
-    //  * @return True if the enemy has penetrated defenses; false otherwise.
-    //  */
-    // private boolean enemyHasPenetratedDefenses(ActiveActorDestructible enemy) {
-    //     return Math.abs(enemy.getTranslateX()) > GameConstant.GameSettings.SCREEN_WIDTH;
-    // }
-
-    /**
-    //  * Updates the number of current enemies.
-    //  */
-    // public void updateNumberOfEnemies() {
-    //     currentNumberOfEnemies = actorManager.getEnemyUnits().size();
-    // }
-
-    // Removed update() and render() methods to be managed by GameStateManager
-
-    /**
      * Initializes and returns the scene for this level.
      *
      * @return The initialized scene.
@@ -226,15 +176,5 @@ public abstract class LevelParent {
     public void winGame() {
         gameStateManager.goToWinState();
         System.out.println("Game won. Transitioning to WinState.");
-    }
-
-    /**
-     * Transitions to the next level by firing a property change event.
-     *
-     * @param nextLevelNumber The number of the next level.
-     */
-    public void goToNextLevel(Integer nextLevelNumber) {
-        gameStateManager.goToLevel(nextLevelNumber);
-        System.out.println("Transitioning to Level " + nextLevelNumber);
     }
 }

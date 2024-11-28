@@ -59,8 +59,7 @@ public class GameStateFactory {
         Optional<LevelParent> optionalLevel = LevelFactory.createLevel(levelNumber, controller);
         if (optionalLevel.isPresent()) {
             LevelParent level = optionalLevel.get();
-            ActorManager actorManager = ActorManager.getInstance(null);
-            return new LevelState(stage, controller, level, actorManager, gameStateManager);
+            return new LevelState(stage, controller, level);
         } else {
             System.out.println("No more levels available. Transitioning to Win State.");
             return createWinState();

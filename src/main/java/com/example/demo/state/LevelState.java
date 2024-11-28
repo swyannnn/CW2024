@@ -48,11 +48,11 @@ public class LevelState implements GameState {
      * @param audioManager The AudioManager handling game audio.
      * @param imageManager The ImageManager handling game images.
      */
-    public LevelState(Stage stage, Controller controller, LevelParent level, ActorManager actorManager, GameStateManager gameStateManager) {
+    public LevelState(Stage stage, Controller controller, LevelParent level) {
         this.level = level;
         this.stage = stage;
-        this.actorManager = actorManager;
-        this.gameStateManager = gameStateManager;
+        this.gameStateManager = controller.getGameStateManager();
+        this.actorManager = gameStateManager.getActorManager();
         this.collisionManager = gameStateManager.getCollisionManager();
         this.levelCompleted = false;
 
@@ -162,7 +162,7 @@ public class LevelState implements GameState {
         pauseButton.setLayoutY(10); // 10 pixels from the top
 
         // Add the button to the scene
-        Platform.runLater(() ->  level.getRoot().getChildren().add(pauseButton));
+        Platform.runLater(() ->  actorManager.addUIElement(pauseButton));
     }
 
     /**
