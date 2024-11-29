@@ -35,13 +35,6 @@ public abstract class Projectile extends ActiveActorDestructible {
         this.destroy();
     }
 
-    // @Override
-    // public boolean takeDamage() {
-    //     // Projectiles are destroyed upon impact
-    //     System.out.println("UserProjectile hit and destroyed.");
-    //     return true;
-    // }
-
     /**
      * Moves the projectile horizontally and checks for out-of-bounds conditions.
      */
@@ -56,13 +49,6 @@ public abstract class Projectile extends ActiveActorDestructible {
      * Removes the projectile from the scene graph and the ActorManager.
      */
     private void removeProjectile() {
-		// if (this instanceof EnemyProjectile) {
-		// 	actorManager.removeActor((EnemyProjectile) this);
-		// } else if (this instanceof UserProjectile) {
-		// 	actorManager.removeActor((UserProjectile) this);
-		// } else if (this instanceof BossProjectile) {
-		// 	actorManager.removeActor((BossProjectile) this);
-		// }
         actorManager.removeActor(this);
     }
 }

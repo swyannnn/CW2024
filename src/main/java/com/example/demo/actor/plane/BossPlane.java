@@ -63,7 +63,7 @@ public class BossPlane extends FighterPlane {
         // Initialize the shield and add it as a child node
         shield = new Shield(shieldXPositionOffset, shieldYPositionOffset,
                             BossShieldProbability, maxFramesWithShield, maxFramesWithoutShield);
-        actorManager.addUIElement(shield); // Ensure FighterPlane (parent) extends Pane or similar
+        actorManager.addUIElement(shield); 
         setVerticalBounds(yUpperBound, yLowerBound);
     }
 

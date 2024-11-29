@@ -6,6 +6,7 @@ import com.example.demo.controller.Controller;
 import com.example.demo.listener.CollisionListener;
 import com.example.demo.state.GameState;
 import com.example.demo.state.GameStateFactory;
+import com.example.demo.state.LevelState;
 
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.BooleanProperty;
@@ -137,18 +138,22 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         setState(stateFactory.createLoseState());
     }
 
-    /**
-     * Sets the current game state, performing any necessary cleanup of the previous state.
-     *
-     * @param newState The new GameState to transition to.
-     */
     public void setState(GameState newState) {
         if (currentState != null) {
             currentState.cleanup();
             System.out.println("GameStateManager: Cleaned up previous state: " + currentState.getClass().getSimpleName());
+            
+            // Unregister as listener if the previous state was LevelState
+            if (currentState instanceof LevelState) {
+                ((LevelState) currentState).removePropertyChangeListener(this);
+            }
         }
         currentState = newState;
         if (currentState != null) {
+            // Register as listener if the new state is LevelState
+            if (newState instanceof LevelState) {
+                ((LevelState) newState).addPropertyChangeListener(this);
+            }
             currentState.initialize();
             setupInputHandlers();
             System.out.println("GameStateManager: Initialized new state: " + currentState.getClass().getSimpleName());
@@ -159,6 +164,7 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
             isPaused.set(false);
         }
     }
+
 
     /**
      * Updates the current game state with the current timestamp.

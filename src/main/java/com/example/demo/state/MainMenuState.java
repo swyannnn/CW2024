@@ -27,7 +27,7 @@ public class MainMenuState implements GameState {
     public MainMenuState(Stage stage, Controller controller) {
         this.stage = stage;
         this.controller = controller;
-        this.gameStateManager = GameStateManager.getInstance(stage, controller);
+        this.gameStateManager = controller.getGameStateManager();
     }
 
     @Override

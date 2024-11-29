@@ -22,11 +22,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 
 /**
  * LevelState manages the game logic and rendering for a specific level.
  */
 public class LevelState implements GameState {
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final LevelParent level;
     private final Stage stage;
     private final GameStateManager gameStateManager;
@@ -147,6 +151,15 @@ public class LevelState implements GameState {
         addPauseButton(scene);
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        pcs.addPropertyChangeListener(listener);
+    }
+    
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        pcs.removePropertyChangeListener(listener);
+    }
+    
+
     /**
      * Adds a pause button to the scene.
      *
@@ -227,18 +240,16 @@ public class LevelState implements GameState {
         System.out.println("Pause overlay hidden.");
     }
 
-    /**
-     * Checks if the level has been completed and triggers the appropriate actions.
-     */
     private void checkLevelCompletion() {
         if (allUsersAreDestroyed()) {
             actorManager.cleanup();
-            gameStateManager.goToLoseState();
+            pcs.firePropertyChange("lose", false, true);
         } else if (level.userHasReachedKillTarget()) {
             actorManager.cleanup();
             onLevelComplete();
         }
     }
+    
 
     /**
      * Checks if any user's plane has been destroyed.
@@ -294,15 +305,12 @@ public class LevelState implements GameState {
         }
     }
 
-    /**
-     * Called when the level is complete, transitioning to the next level.
-     */
     public void onLevelComplete() {
         if (!levelCompleted) {
             levelCompleted = true;
             int nextLevelNumber = level.getCurrentLevelNumber() + 1;
             System.out.println("LevelState: Transitioning to Level " + nextLevelNumber);
-            Platform.runLater(() -> gameStateManager.goToLevel(nextLevelNumber)); 
+            pcs.firePropertyChange("level", level.getCurrentLevelNumber(), nextLevelNumber);
         }
-    }
+    }    
 }

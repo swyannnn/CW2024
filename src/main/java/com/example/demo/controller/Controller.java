@@ -38,13 +38,7 @@ public class Controller {
      */
     public void initializeGame() {
         gameStateManager = GameStateManager.getInstance(stage, this);
-        
         gameStateManager.goToMainMenu(); // Transition to the main menu
-
-        // Set up key event handlers for input
-        stage.getScene().setOnKeyPressed(event -> gameStateManager.handleInput(event));
-        stage.getScene().setOnKeyReleased(event -> gameStateManager.handleInput(event));
-        stage.getScene().getRoot().requestFocus();
     }
 
     /**
