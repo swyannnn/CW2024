@@ -48,6 +48,26 @@ public class ImageManager {
     }
 
     /**
+     * Loads and caches a series of images based on a pattern.
+     *
+     * @param baseFilename The base name of the file, e.g., "explosion".
+     * @param count        The number of images in the sequence, e.g., 7 for explosion0.png to explosion6.png.
+     * @return An array of Images, or null if any file in the sequence is missing.
+     */
+    public Image[] getImageSequence(String baseFilename, int count) {
+        Image[] images = new Image[count];
+        for (int i = 0; i < count; i++) {
+            String filename = baseFilename + i + ".png"; // Construct filenames like explosion0.png
+            images[i] = getImage(filename);
+
+            if (images[i] == null) {
+                System.err.println("Missing image in sequence: " + filename);
+            }
+        }
+        return images;
+    }
+
+    /**
      * Preloads all images specified in GameConstant.
      */
     private void preloadImages() {

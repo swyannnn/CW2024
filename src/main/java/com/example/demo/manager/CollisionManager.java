@@ -5,6 +5,7 @@ import com.example.demo.actor.plane.BossPlane;
 import com.example.demo.actor.plane.EnemyPlane;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.projectile.UserProjectile;
+import com.example.demo.effect.ExplosionEffect;
 import com.example.demo.listener.CollisionListener;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 public class CollisionManager {
     private static CollisionManager instance;
     private CollisionListener collisionListener;
-    // Private constructor to enforce Singleton pattern
+    private ActorManager actorManager;
     private CollisionManager() {}
 
     /**
@@ -35,6 +36,7 @@ public class CollisionManager {
     }
 
     public void handleAllCollisions(ActorManager actorManager) {
+        this.actorManager = actorManager;
         handleUserProjectileEnemyCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
         handlePlayerEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
         handlePlayerBossProjectileCollisions(actorManager.getBossProjectiles(), actorManager.getPlayers());
@@ -64,6 +66,13 @@ public class CollisionManager {
         ActiveActorDestructible source = pair.source;
         ActiveActorDestructible target = pair.target;
         System.out.println("Collision detected: " + source + " hit " + target);
+
+        // Create an explosion effect at the collision position
+        double explosionX = target.getLayoutX() + target.getTranslateX();
+        double explosionY = target.getLayoutY() + target.getTranslateY() + target.getImageHeight() / 2;
+        ExplosionEffect explosion = new ExplosionEffect(explosionX, explosionY);
+        actorManager.addUIElement(explosion.getExplosionView());
+        explosion.play();
         
         // Apply damage to both source and target
         source.takeDamage();

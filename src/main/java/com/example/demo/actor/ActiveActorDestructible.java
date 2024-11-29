@@ -5,7 +5,7 @@ package com.example.demo.actor;
  */
 public abstract class ActiveActorDestructible extends ActiveActor implements Destructible {
     private boolean isDestroyed;
-    // Boundaries for the actor
+    private int imageHeight;
     private double xUpperBound = Double.NEGATIVE_INFINITY;
     private double xLowerBound = Double.POSITIVE_INFINITY;
     private double yUpperBound = Double.NEGATIVE_INFINITY;
@@ -22,6 +22,7 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
     public ActiveActorDestructible(String imageName, int imageHeight, double initialXPos, double initialYPos) {
         super(imageName, imageHeight, initialXPos, initialYPos);
         isDestroyed = false;
+        this.imageHeight = imageHeight;
     }
 
     /**
@@ -60,6 +61,10 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
         boolean outOfVertical = currentY < yUpperBound || currentY > yLowerBound;
 
         return outOfHorizontal || outOfVertical;
+    }
+
+    public int getImageHeight() {
+        return this.imageHeight;
     }
 
     /**

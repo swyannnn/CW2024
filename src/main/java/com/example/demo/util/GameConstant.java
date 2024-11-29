@@ -121,7 +121,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
         public static final int TOTAL_ENEMIES = 1;
-        public static final int KILLS_TO_ADVANCE = 1;
+        public static final int KILLS_TO_ADVANCE = 20;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
     }
