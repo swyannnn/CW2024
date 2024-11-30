@@ -10,6 +10,7 @@ public class GameConstant {
         public static final String TITLE = "Sky Battle";
         public static final int SCREEN_WIDTH = 1300;
         public static final int SCREEN_HEIGHT = 750;
+        public static final double COLLISION_SHRINK_PERCENTAGE = 0.5;
     }
 
     // Main Menu Settings
@@ -78,7 +79,7 @@ public class GameConstant {
     public static class EnemyPlane2 {
         public static final String IMAGE_NAME = "enemy1.png";
         public static final int IMAGE_HEIGHT = 60;
-        public static final int INITIAL_HEALTH = 1;
+        public static final int INITIAL_HEALTH = 2;
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
@@ -92,7 +93,7 @@ public class GameConstant {
     public static class EnemyPlane3 {
         public static final String IMAGE_NAME = "enemy2.png";
         public static final int IMAGE_HEIGHT = 70;
-        public static final int INITIAL_HEALTH = 1;
+        public static final int INITIAL_HEALTH = 3;
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
@@ -182,7 +183,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 1;
-        public static final int KILLS_TO_ADVANCE = 0;
+        public static final int KILLS_TO_ADVANCE = 2;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm001.wav";

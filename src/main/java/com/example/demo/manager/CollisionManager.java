@@ -5,6 +5,10 @@ import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.effect.ExplosionEffect;
 import com.example.demo.listener.CollisionListener;
+import com.example.demo.util.GameConstant;
+
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 
 import java.util.List;
 
@@ -15,6 +19,7 @@ public class CollisionManager {
     private static CollisionManager instance;
     private CollisionListener collisionListener;
     private ActorManager actorManager;
+    private final double shrinkPercentage = GameConstant.GameSettings.COLLISION_SHRINK_PERCENTAGE;
     private CollisionManager() {}
 
     /**
@@ -48,6 +53,18 @@ public class CollisionManager {
         // Handle player collisions with all enemies (including bosses)
         handleCollisions(actorManager.getPlayers(), actorManager.getEnemyUnits());
     }
+
+    private Bounds getShrunkenBounds(ActiveActorDestructible actor) {
+        Bounds original = actor.getBoundsInParent();
+        
+        double width = original.getWidth() * shrinkPercentage;
+        double height = original.getHeight() * shrinkPercentage;
+        
+        double minX = original.getMinX() + (original.getWidth() - width) / 2;
+        double minY = original.getMinY() + (original.getHeight() - height) / 2;
+        
+        return new BoundingBox(minX, minY, width, height);
+    }
     
     /**
      * Handles collisions between two lists of actors.
@@ -61,7 +78,11 @@ public class CollisionManager {
         
         sourceActors.stream()
             .flatMap(source -> targetActors.stream()
-                .filter(target -> source.getBoundsInParent().intersects(target.getBoundsInParent()))
+                .filter(target -> {
+                    Bounds sourceBounds = getShrunkenBounds(source);
+                    Bounds targetBounds = getShrunkenBounds(target);
+                    return sourceBounds.intersects(targetBounds);
+                })
                 .map(target -> new CollisionPair(source, target)))
             .forEach(this::processCollision);
     }

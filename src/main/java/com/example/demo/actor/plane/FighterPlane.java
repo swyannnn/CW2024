@@ -56,7 +56,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
             System.out.println(getClass().getSimpleName() + " destroyed.");
             return true; // Indicates that destruction occurred
         }
-        return true; // Damage was applied, but not necessarily destruction
+        return false; // Damage was applied, but not necessarily destruction
     }
 
     protected double getProjectileXPosition(double xPositionOffset) {

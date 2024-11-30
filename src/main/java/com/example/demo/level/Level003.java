@@ -91,12 +91,12 @@ public class Level003 extends LevelParent {
         double spawnfactor = elapsedTime / SURVIVAL_TIME * (3 - 1) + 1;
         double randomValue = Math.random(); // Generates a number between 0.0 and 1.0
     
-        if (randomValue < 0.002 * spawnfactor) {
+        if (randomValue < 0.003 * spawnfactor) {
             newEnemy = new EnemyPlane1(controller);
             actorManager.addActor(newEnemy);
-        } else if (randomValue < 0.003 * spawnfactor) {
+        } else if (randomValue < 0.006 * spawnfactor) {
             newEnemy = new EnemyPlane2(controller);
-        } else if (randomValue < 0.004 * spawnfactor) {
+        } else if (randomValue < 0.009 * spawnfactor) {
             newEnemy = new EnemyPlane3(controller);
             actorManager.addActor(newEnemy);
         }

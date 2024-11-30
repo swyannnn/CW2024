@@ -150,7 +150,7 @@ public class ActorManager {
     public List<ActiveActorDestructible> getEnemyUnits() {
         List<ActiveActorDestructible> enemyUnits = new ArrayList<>();
         for (ActiveActorDestructible actor : actors) {
-            if (actor instanceof com.example.demo.actor.plane.EnemyPlane || actor instanceof com.example.demo.actor.plane.BossPlane) {
+            if (actor instanceof com.example.demo.actor.plane.FighterPlane && !(actor instanceof com.example.demo.actor.plane.UserPlane)) {
                 enemyUnits.add(actor);
             }
         }
