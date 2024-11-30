@@ -21,6 +21,7 @@ public class BossPlane extends FighterPlane {
     private static final int imageHeight = GameConstant.BossPlane.IMAGE_HEIGHT;
     private static final double initialXPosition = GameConstant.BossPlane.INITIAL_X_POSITION;
     private static final double initialYPosition = GameConstant.BossPlane.INITIAL_Y_POSITION;
+    private static final double projectileXPositionOffset = GameConstant.BossProjectile.PROJECTILE_X_POSITION_OFFSET;
     private static final double projectileYPositionOffset = GameConstant.BossProjectile.PROJECTILE_Y_POSITION_OFFSET;
     private static final double fireRate = GameConstant.BossProjectile.FIRE_RATE;
 
@@ -73,8 +74,9 @@ public class BossPlane extends FighterPlane {
     @Override
     public void fireProjectile() {
         if (bossFiresInCurrentFrame()) { // Use the specified firing probability
+            double projectileX = getProjectileXPosition(projectileXPositionOffset);
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
-            BossProjectile projectile = new BossProjectile(projectileY, controller);
+            BossProjectile projectile = new BossProjectile(projectileX, projectileY, controller);
             actorManager.addActor(projectile);
             // Uncomment for debugging:
             // System.out.println("Projectile fired by BossPlane at: " + projectileY);

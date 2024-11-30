@@ -155,12 +155,41 @@ public class GameConstant {
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
     }
 
+    public static class MultiPhaseBossPlane {
+        public static final String IMAGE_NAME_PHASE1 = "enemy1.png";
+        public static final String IMAGE_NAME_PHASE2 = "enemy2.png";
+        public static final String IMAGE_NAME_PHASE3 = "enemy3.png";
+        public static final int IMAGE_HEIGHT = 200;
+        public static final int INITIAL_HEALTH_PHASE1 = 1000;
+        public static final int INITIAL_HEALTH_PHASE2 = 1500;
+        public static final int INITIAL_HEALTH_PHASE3 = 2000;
+        public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
+        public static final double FIRE_RATE = 0.1; // 50% chance to fire
+        public static final double Y_POSITION = 50;
+        public static final double X_POSITION = 400;
+        public static final double HORIZONTAL_VELOCITY_PHASE1 = 2.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE2 = 2.5;
+        public static final double HORIZONTAL_VELOCITY_PHASE3 = 3.0;
+        public static final double Y_UPPER_BOUND = 0;
+        public static final double Y_LOWER_BOUND = 600;
+        public static final double X_UPPER_BOUND = 800;
+        public static final double X_LOWER_BOUND = 0;
+        public static final long AREA_ATTACK_COOLDOWN_PHASE1 = 0;
+        public static final long AREA_ATTACK_COOLDOWN_PHASE2 = 5_000_000_000L; // 5 seconds
+        public static final long AREA_ATTACK_COOLDOWN_PHASE3 = 4_000_000_000L; // 4 seconds
+        public static final long SUMMON_COOLDOWN_PHASE1 = 0;
+        public static final long SUMMON_COOLDOWN_PHASE2 = 0;
+        public static final long SUMMON_COOLDOWN_PHASE3 = 10_000_000_000L; // 10 seconds
+    }
+
+
     // BossProjectile Settings
     public static class BossProjectile {
         public static final String IMAGE_NAME = "fireball.png";
         public static final int IMAGE_HEIGHT = 100;
         public static final int HORIZONTAL_VELOCITY = -5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
+        public static final double PROJECTILE_X_POSITION_OFFSET = 20;
         public static final double PROJECTILE_Y_POSITION_OFFSET = 120;
         public static final double FIRE_RATE = 0;
     }
@@ -210,13 +239,13 @@ public class GameConstant {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm003.mp3";
-        public static final int SURVIVAL_TIME = 5; // in seconds
+        public static final int SURVIVAL_TIME = 2; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 
     // Level 004Settings
     public static class Level004 {
-        public static final String BACKGROUND_IMAGE_NAME = "background001.png";
+        public static final String BACKGROUND_IMAGE_NAME = "background002.jpeg";
         public static final String BACKGROUND_MUSIC = "bgm004.mp3";
         public static final int PLAYER_INITIAL_HEALTH = 5;
     }

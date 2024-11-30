@@ -1,6 +1,5 @@
 package com.example.demo.level;
 
-import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.actor.plane.MultiPhaseBossPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;

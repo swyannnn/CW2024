@@ -18,7 +18,7 @@ public class LevelFactory {
         levelMap.put(1, controller -> new Level001(controller, 1));
         levelMap.put(2, controller -> new Level002(controller, 2));
         levelMap.put(3, controller -> new Level003(controller, 3));
-        // levelMap.put(4, controller -> new Level004(controller, 4));
+        levelMap.put(4, controller -> new Level004(controller, 4));
         // Add more levels as needed
     }
 

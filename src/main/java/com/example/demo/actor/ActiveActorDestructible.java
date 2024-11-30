@@ -66,6 +66,10 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
     public int getImageHeight() {
         return this.imageHeight;
     }
+
+    public int getImageWidth() {
+        return (int) this.getBoundsInLocal().getWidth();
+    }
     
     /**
      * Updates the actor.

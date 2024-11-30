@@ -8,7 +8,7 @@ public class BossProjectile extends Projectile {
 	private static final double HORIZONTAL_VELOCITY = -7.5;
 	private static final int INITIAL_X_POSITION = 950;
 
-	public BossProjectile(double initialYPos, Controller controller) {
+	public BossProjectile(double initialXPos, double initialYPos, Controller controller) {
 		super(IMAGE_NAME, IMAGE_HEIGHT, INITIAL_X_POSITION, initialYPos, HORIZONTAL_VELOCITY, controller);
 	}
 }

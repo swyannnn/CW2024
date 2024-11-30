@@ -197,6 +197,10 @@ public class UserPlane extends FighterPlane {
         setLayoutY(initialYPosition);
     }
 
+    public int getCurrentXPosition() {
+        return (int) getLayoutX();
+    }
+
     // Movement methods
     public void moveUp() {
         verticalVelocityMultiplier = -1;
