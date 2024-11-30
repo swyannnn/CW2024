@@ -11,6 +11,7 @@ import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameStateManager;
+import com.example.demo.ui.PauseOverlay;
 import com.example.demo.util.GameConstant;
 
 import javafx.application.Platform;
@@ -32,6 +33,12 @@ import java.beans.PropertyChangeSupport;
  * LevelState manages the game logic and rendering for a specific level.
  */
 public class LevelState implements GameState, CollisionListener {
+    private final String BUTTON_IMAGE_NAME = GameConstant.PauseButton.IMAGE_NAME;
+    private final int BUTTON_IMAGE_WIDTH = GameConstant.PauseButton.IMAGE_WIDTH;
+    private final int BUTTON_IMAGE_HEIGHT = GameConstant.PauseButton.IMAGE_HEIGHT;
+    private final int BUTTON_X_POSITION = GameConstant.PauseButton.X_POSITION;
+    private final int BUTTON_Y_POSITION = GameConstant.PauseButton.Y_POSITION;
+    
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final LevelParent level;
     private final Stage stage;
@@ -40,7 +47,7 @@ public class LevelState implements GameState, CollisionListener {
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
     private boolean levelCompleted;
-    private VBox pauseOverlay;
+    private PauseOverlay pauseOverlay;
     private Scene scene;
     private boolean isExplosionActive = false;
 
@@ -184,12 +191,12 @@ public class LevelState implements GameState, CollisionListener {
      */
     private void addPauseButton(Scene scene) {
         // Create the pause button with an icon
-        Button pauseButton = ButtonManager.createImageButton("setting.png", 35, 35); 
+        Button pauseButton = ButtonManager.createImageButton(BUTTON_IMAGE_NAME, BUTTON_IMAGE_WIDTH, BUTTON_IMAGE_HEIGHT);
 
         // Set the action for the pause button
         pauseButton.setOnAction(e -> gameStateManager.pauseGame());
-        pauseButton.setLayoutX(1250); // 10 pixels from the left
-        pauseButton.setLayoutY(10); // 10 pixels from the top
+        pauseButton.setLayoutX(BUTTON_X_POSITION); // 10 pixels from the left
+        pauseButton.setLayoutY(BUTTON_Y_POSITION); // 10 pixels from the top
 
         // Add the button to the scene
         Platform.runLater(() ->  actorManager.addUIElement(pauseButton));
@@ -199,36 +206,7 @@ public class LevelState implements GameState, CollisionListener {
      * Creates the pause overlay UI.
      */
     private void createPauseOverlay() {
-        pauseOverlay = new VBox(20);
-        pauseOverlay.setAlignment(Pos.CENTER);
-        pauseOverlay.setPrefSize(GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
-        pauseOverlay.setStyle("-fx-background-color: rgba(0, 0, 0, 0.5);"); // Semi-transparent background
-
-        // Pause Label
-        Text pauseLabel = new Text("Game Paused");
-        pauseLabel.setFont(Font.font("Arial", 36));
-        pauseLabel.setFill(Color.WHITE);
-
-        // Resume Button
-        Button resumeButton = new Button("Resume");
-        resumeButton.setPrefSize(200, 50);
-        resumeButton.setStyle("-fx-font-size: 18px;");
-        resumeButton.setOnAction(e -> gameStateManager.resumeGame());
-
-        // Exit to Main Menu Button
-        Button exitButton = new Button("Exit to Main Menu");
-        exitButton.setPrefSize(200, 50);
-        exitButton.setStyle("-fx-font-size: 18px;");
-        exitButton.setOnAction(e -> gameStateManager.goToMainMenu());
-
-        // Add all components to the layout
-        pauseOverlay.getChildren().addAll(pauseLabel, resumeButton, exitButton);
-        pauseOverlay.setLayoutX(0);
-        pauseOverlay.setLayoutY(0);
-
-        pauseOverlay.setFocusTraversable(true);
-        pauseOverlay.setOnKeyPressed(this::handleInput);
-        pauseOverlay.setOnKeyReleased(this::handleInput);
+        pauseOverlay = new PauseOverlay(gameStateManager);
     }
 
     /**
@@ -237,9 +215,9 @@ public class LevelState implements GameState, CollisionListener {
     @Override
     public void handlePause() {
         Platform.runLater(() -> {
-            if (!level.getRoot().getChildren().contains(pauseOverlay)) {
-                level.getRoot().getChildren().add(pauseOverlay);
-                pauseOverlay.requestFocus();
+            if (!level.getRoot().getChildren().contains(pauseOverlay.getOverlay())) {
+                level.getRoot().getChildren().add(pauseOverlay.getOverlay());
+                pauseOverlay.getOverlay().requestFocus();
             }
         });
         System.out.println("Pause overlay displayed.");
@@ -251,7 +229,7 @@ public class LevelState implements GameState, CollisionListener {
     @Override
     public void handleResume() {
         Platform.runLater(() -> {
-            level.getRoot().getChildren().remove(pauseOverlay);
+            level.getRoot().getChildren().remove(pauseOverlay.getOverlay());
             level.getRoot().requestFocus();
         });
         System.out.println("Pause overlay hidden.");

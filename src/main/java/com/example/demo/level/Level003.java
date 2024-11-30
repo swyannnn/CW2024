@@ -7,6 +7,13 @@ import com.example.demo.actor.plane.EnemyPlane3;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
+
+import javafx.application.Platform;
+import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,9 +31,11 @@ public class Level003 extends LevelParent {
     private ActorManager actorManager;
     private Timer enemySpawnTimer;
     private Timer levelTimer;
+    private Group root;
     private double startTime; // Start time in milliseconds
     ActiveActorDestructible newEnemy;
     private boolean levelCompleted;
+    private Label timeLabel;
 
     public Level003(Controller controller, int levelNumber) {
         super(controller, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
@@ -34,8 +43,27 @@ public class Level003 extends LevelParent {
         this.currentLevelNumber = levelNumber;
         this.actorManager = gameStateManager.getActorManager();
         this.levelCompleted = false;
+        this.root = super.getRoot();
         initializeFriendlyUnits();
+        initializeTimeLabel();
         startLevelTimers();
+    }
+
+    /**
+     * Initializes the time display label and adds it to the UI root.
+     */
+    private void initializeTimeLabel() {
+        Platform.runLater(() -> {
+            timeLabel = new Label();
+            timeLabel.setTextFill(Color.WHITE);
+            timeLabel.setFont(new Font("Arial", 24));
+            timeLabel.setStyle("-fx-font-weight: bold;");
+            // Position the label at the top-right corner with some padding
+            timeLabel.setLayoutX(GameConstant.GameSettings.SCREEN_WIDTH - 550); // Adjust width as needed
+            timeLabel.setLayoutY(10); // 10 pixels from the top
+            timeLabel.setText("Time Left: " + SURVIVAL_TIME + "s");
+            root.getChildren().add(timeLabel);
+        });
     }
 
     /**
@@ -61,6 +89,42 @@ public class Level003 extends LevelParent {
                 enemySpawnTimer.cancel(); // Stop spawning enemies
             }
         }, SURVIVAL_TIME * 1000);
+
+        // Timer for updating the remaining time display every second
+        Timer timeUpdateTimer = new Timer();
+        timeUpdateTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                updateRemainingTime();
+            }
+        }, 0, 1000);
+    }
+
+    /**
+     * Updates the remaining time label.
+     */
+    private void updateRemainingTime() {
+        if (levelCompleted) {
+            Platform.runLater(() -> {
+                if (timeLabel != null) {
+                    timeLabel.setText("Time Left: 0s");
+                }
+            });
+            return;
+        }
+
+        double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0; // in seconds
+        double remainingTime = SURVIVAL_TIME - elapsedTime;
+        remainingTime = Math.max(remainingTime, 0); // Ensure it doesn't go below zero
+    
+        final double finalRemainingTime = remainingTime; 
+    
+        Platform.runLater(() -> {
+            if (timeLabel != null) {
+                // Optionally, format to display as integer seconds
+                timeLabel.setText("Time Left: " + (int) finalRemainingTime + "s");
+            }
+        });
     }
 
     @Override
