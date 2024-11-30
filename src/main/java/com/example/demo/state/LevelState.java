@@ -113,12 +113,7 @@ public class LevelState implements GameState, CollisionListener {
             collisionManager.handleAllCollisions(actorManager);
             level.updateLevelView();
             level.updateBackground();
-
-            if (!isExplosionActive) {
-                checkLevelCompletion();
-            }else{
-                System.out.println("explosion is tsill going on, skip checkLevelCompletion()");
-            }
+            checkLevelCompletion();
         }
     }
     
@@ -266,7 +261,7 @@ public class LevelState implements GameState, CollisionListener {
         if (allUsersAreDestroyed()) {
             actorManager.cleanup();
             pcs.firePropertyChange("lose", false, true);
-        } else if (level.userHasReachedKillTarget()) {
+        } else if (level.userHasReachedTarget()) {
             actorManager.cleanup();
             onLevelComplete();
         }

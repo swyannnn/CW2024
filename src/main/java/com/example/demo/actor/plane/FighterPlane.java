@@ -75,6 +75,10 @@ public abstract class FighterPlane extends ActiveActorDestructible {
         return health;
     }
 
+    public boolean CanFire(FighterPlane plane) {
+        return (plane instanceof UserPlane) || (plane instanceof EnemyPlane)|| (plane instanceof BossPlane);
+    }
+
     /**
      * Template method to update the FighterPlane's state.
      * Handles firing logic and delegates movement to subclasses.
@@ -82,7 +86,9 @@ public abstract class FighterPlane extends ActiveActorDestructible {
      * @param now The current timestamp in nanoseconds.
      */
     public final void update(long now) {
-        handleFiring(now);
+        if (CanFire(this)) {
+            handleFiring(now);
+        }
         performMovement(now);
         performAdditionalUpdates(now); // Hook for subclasses to add extra behavior
     }

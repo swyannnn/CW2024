@@ -20,6 +20,7 @@ public class MainMenu {
     private final Stage primaryStage;
     private final GameStateManager gameStateManager;
     private final AudioManager audioManager;
+    private static final String BACKGROUND_MUSIC_NAME = GameConstant.MainMenu.BACKGROUND_MUSIC;
 
     /**
      * Constructor initializes the MainMenu with the primary stage and controller.
@@ -34,7 +35,7 @@ public class MainMenu {
         audioManager = gameStateManager.getAudioManager();
         System.out.println("audiomanager in main menu:" + audioManager);
         if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().playMusic("bgm_medium.mp3");
+            gameStateManager.getAudioManager().playMusic(BACKGROUND_MUSIC_NAME);
         }
     }
 

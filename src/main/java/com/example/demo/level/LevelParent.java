@@ -124,7 +124,7 @@ public abstract class LevelParent {
 
     protected abstract void setCurrentLevelNumber(int levelNumber);
 
-    public abstract boolean userHasReachedKillTarget();
+    public abstract boolean userHasReachedTarget();
 
     public abstract void spawnEnemyUnits();
 }

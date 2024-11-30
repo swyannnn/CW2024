@@ -12,6 +12,11 @@ public class GameConstant {
         public static final int SCREEN_HEIGHT = 750;
     }
 
+    // Main Menu Settings
+    public static class MainMenu {
+        public static final String BACKGROUND_MUSIC = "menubgm.mp3";
+    }
+
     // UserPlane Settings
     public static class UserPlane {
         public static final String IMAGE_NAME = "userplane.png";
@@ -55,6 +60,62 @@ public class GameConstant {
         public static final double Y_LOWER_BOUND = 600;
     }
 
+    // EnemyPlane1 Settings
+    public static class EnemyPlane1 {
+        public static final String IMAGE_NAME = "enemy0.png";
+        public static final int IMAGE_HEIGHT = 50;
+        public static final int INITIAL_HEALTH = 1;
+        public static final int HORIZONTAL_VELOCITY = -3;
+        public static final double MAXIMUM_Y_POSITION = 250.0;
+        public static final double MINIMUM_Y_POSITION = -40.0;
+        public static final double X_UPPER_BOUND = 0;
+        public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
+        public static final double Y_UPPER_BOUND = -40;
+        public static final double Y_LOWER_BOUND = 600;
+    }
+
+    // EnemyPlane2 Settings
+    public static class EnemyPlane2 {
+        public static final String IMAGE_NAME = "enemy1.png";
+        public static final int IMAGE_HEIGHT = 60;
+        public static final int INITIAL_HEALTH = 1;
+        public static final int HORIZONTAL_VELOCITY = -3;
+        public static final double MAXIMUM_Y_POSITION = 250.0;
+        public static final double MINIMUM_Y_POSITION = -40.0;
+        public static final double X_UPPER_BOUND = 0;
+        public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
+        public static final double Y_UPPER_BOUND = -40;
+        public static final double Y_LOWER_BOUND = 600;
+    }
+
+    // EnemyPlane3 Settings
+    public static class EnemyPlane3 {
+        public static final String IMAGE_NAME = "enemy2.png";
+        public static final int IMAGE_HEIGHT = 70;
+        public static final int INITIAL_HEALTH = 1;
+        public static final int HORIZONTAL_VELOCITY = -3;
+        public static final double MAXIMUM_Y_POSITION = 250.0;
+        public static final double MINIMUM_Y_POSITION = -40.0;
+        public static final double X_UPPER_BOUND = 0;
+        public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
+        public static final double Y_UPPER_BOUND = -40;
+        public static final double Y_LOWER_BOUND = 600;
+    }
+    
+    // EnemyPlane4 Settings
+    public static class EnemyPlane4 {
+        public static final String IMAGE_NAME = "enemy3.png";
+        public static final int IMAGE_HEIGHT = 50;
+        public static final int INITIAL_HEALTH = 1;
+        public static final int HORIZONTAL_VELOCITY = -3;
+        public static final double MAXIMUM_Y_POSITION = 250.0;
+        public static final double MINIMUM_Y_POSITION = -40.0;
+        public static final double X_UPPER_BOUND = 0;
+        public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
+        public static final double Y_UPPER_BOUND = -40;
+        public static final double Y_LOWER_BOUND = 600;
+    }
+
     // EnemyProjectile Settings
     public static class EnemyProjectile {
         public static final String IMAGE_NAME = "enemyFire.png";
@@ -70,7 +131,7 @@ public class GameConstant {
     public static class BossPlane {
         public static final String IMAGE_NAME = "bossplane.png";
         public static final int IMAGE_HEIGHT = 300;
-        public static final int INITIAL_HEALTH = 5;
+        public static final int INITIAL_HEALTH = 2;
         public static final double HORIZONTAL_VELOCITY = 4.0;
         public static final int VERTICAL_VELOCITY = 4;
         public static final double INITIAL_X_POSITION = 1000.0;
@@ -91,7 +152,7 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY = -5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
         public static final double PROJECTILE_Y_POSITION_OFFSET = 120;
-        public static final double FIRE_RATE = 1;
+        public static final double FIRE_RATE = 0;
     }
 
     // BossShield Settings
@@ -100,7 +161,7 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 200;
         public static final int X_POSITION_OFFSET = 930;
         public static final int Y_POSITION_OFFSET = 200;
-        public static final double BOSS_SHIELD_PROBABILITY = 1;
+        public static final double BOSS_SHIELD_PROBABILITY = 0;
         public static final int MAX_FRAMES_WITH_SHIELD = 500;
         public static final int MAX_FRAMES_WITHOUT_SHIELD = 500;
     }
@@ -119,26 +180,35 @@ public class GameConstant {
     
     // Level 001 Settings
     public static class Level001 {
-        public static final String BACKGROUND_IMAGE_NAME = "background1.jpg";
+        public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 1;
         public static final int KILLS_TO_ADVANCE = 0;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
-        public static final String BACKGROUND_MUSIC = "bgm_easy.wav";
+        public static final String BACKGROUND_MUSIC = "bgm001.wav";
     }
 
     // Level 002 Settings
     public static class Level002 {
-        public static final String BACKGROUND_IMAGE_NAME = "background2.jpeg";
+        public static final String BACKGROUND_IMAGE_NAME = "background002.jpeg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
-        public static final String BACKGROUND_MUSIC = "bgm_medium.mp3";
+        public static final String BACKGROUND_MUSIC = "bgm002.mp3";
     }
 
-    // Level 002 Settings
+    // Level 003 Settings
     public static class Level003 {
-        public static final String BACKGROUND_IMAGE_NAME = "background3.jpeg";
+        public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
-        public static final String BACKGROUND_MUSIC = "bgm_hard.mp3";
+        public static final String BACKGROUND_MUSIC = "bgm003.mp3";
+        public static final int SURVIVAL_TIME = 30; // in seconds
+        public static final int ENEMY_SPAWN_INTERVAL = 1000;
+    }
+
+    // Level 004Settings
+    public static class Level004 {
+        public static final String BACKGROUND_IMAGE_NAME = "background001.png";
+        public static final String BACKGROUND_MUSIC = "bgm004.mp3";
+        public static final int PLAYER_INITIAL_HEALTH = 5;
     }
 
     // File Paths
@@ -158,16 +228,16 @@ public class GameConstant {
         // Background Music
         public static final String[] BACKGROUND_MUSIC = {
             "menubgm.mp3",
-            "bgm_easy.wav",
-            "bgm_medium.mp3",
-            "bgm_hard.mp3"
+            "bgm001.wav",
+            "bgm002.mp3",
+            "bgm003.mp3"
             // Add more background music filenames here as needed
         };
 
         // Images
         public static final String[] IMAGES = {
-            "background1.jpg",
-            "background2.jpeg",
+            "background001.jpg",
+            "background002.jpeg",
             "bossplane.png",
             "enemyFire.png",
             "enemyplane.png",

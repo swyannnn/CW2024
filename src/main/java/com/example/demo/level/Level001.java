@@ -40,7 +40,7 @@ public class Level001 extends LevelParent {
      *
      * @return true if all players' kill counts are greater than or equal to the kill target; false otherwise.
      */
-    public boolean userHasReachedKillTarget() {
+    public boolean userHasReachedTarget() {
         return  actorManager.getPlayers().stream()
                 .allMatch(player -> player.getNumberOfKills() >= KILLS_TO_ADVANCE);
     }

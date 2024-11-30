@@ -21,11 +21,10 @@ public class Level002 extends LevelParent {
         this.actorManager = gameStateManager.getActorManager();
         this.currentLevelNumber = levelNumber;
         initializeFriendlyUnits();
-        System.out.println("Controller is not null in Level002");
     }
 
     @Override
-    public boolean userHasReachedKillTarget() {
+    public boolean userHasReachedTarget() {
         List<ActiveActorDestructible> bossPlanes = actorManager.getBossUnits();
         if (bossPlanes.isEmpty()) {
             return false; // No boss planes present

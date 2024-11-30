@@ -1,8 +1,6 @@
 package com.example.demo.manager;
 
 import com.example.demo.actor.ActiveActorDestructible;
-import com.example.demo.actor.plane.BossPlane;
-import com.example.demo.actor.plane.EnemyPlane;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.effect.ExplosionEffect;
@@ -47,11 +45,8 @@ public class CollisionManager {
         // Handle boss projectiles hitting players
         handleCollisions(actorManager.getBossProjectiles(), actorManager.getPlayers());
     
-        // Handle player collisions with enemy units
+        // Handle player collisions with all enemies (including bosses)
         handleCollisions(actorManager.getPlayers(), actorManager.getEnemyUnits());
-    
-        // Handle player collisions with bosses
-        handleCollisions(actorManager.getPlayers(), actorManager.getBossUnits());
     }
     
     /**
@@ -79,7 +74,6 @@ public class CollisionManager {
         boolean targetDamaged = false;
         source.takeDamage();
         targetDamaged = target.takeDamage();
-        System.out.println("isEnemy(target) = " + isEnemy(target) + ", targetDamaged = " + targetDamaged);
         
         if (targetDamaged && !(target instanceof UserPlane)){
             createExplosionAt(target);
@@ -104,16 +98,6 @@ public class CollisionManager {
             collisionListener.onExplosionFinished();
         });
         explosion.play();
-    }
-
-    /**
-     * Determines if the target actor is an enemy (EnemyPlane or BossPlane).
-     *
-     * @param target The target actor to check.
-     * @return True if the target is an EnemyPlane or BossPlane, otherwise false.
-     */
-    private boolean isEnemy(ActiveActorDestructible target) {
-        return target instanceof EnemyPlane || target instanceof BossPlane;
     }
 
     /**
