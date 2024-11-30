@@ -23,7 +23,7 @@ import java.beans.PropertyChangeListener;
  * GameStateManager handles the transitions and management of different game states.
  * It uses the Singleton pattern to ensure only one instance is used throughout the application.
  */
-public class GameStateManager implements PropertyChangeListener, CollisionListener {
+public class GameStateManager implements PropertyChangeListener {
     private static GameStateManager instance;
     private GameState currentState;
     private final GameStateFactory stateFactory;
@@ -56,9 +56,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
 
         // Initialize GameStateFactory
         this.stateFactory = new GameStateFactory(stage, controller, this);
-
-        // Set collision listener
-        collisionManager.setCollisionListener(this);
 
         // Setup game loop
         setupGameLoop();
@@ -215,18 +212,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
         }
         gameLoop.stop();
         System.out.println("GameStateManager: Cleanup completed.");
-    }
-
-    /**
-     * Handles projectile collisions with enemies.
-     *
-     * @param userPlane The user plane involved in the collision.
-     * @param enemy     The enemy involved in the collision.
-     */
-    @Override
-    public void onProjectileHitEnemy(UserPlane userPlane, ActiveActorDestructible enemy) {
-        userPlane.incrementKillCount();
-        System.out.println("Kill count for user updated: " + userPlane.getNumberOfKills());
     }
 
     // Getters for other managers

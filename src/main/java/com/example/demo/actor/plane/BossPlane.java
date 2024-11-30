@@ -120,10 +120,13 @@ public class BossPlane extends FighterPlane {
      * Method to take damage when the boss plane is not shielded.
      */
     @Override
-    public void takeDamage() {
-        if (!shield.isShielded()) {
-            super.takeDamage();
+    public boolean takeDamage() {
+        System.out.println("BossPlane.takeDamage() called.");
+        if (shield.isShielded()) {
+            System.out.println("BossPlane is shielded. No damage taken.");
+            return false; // Damage not applied
         }
+        return super.takeDamage(); // Delegate to base class
     }
     
     /**

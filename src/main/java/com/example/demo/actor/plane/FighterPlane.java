@@ -47,14 +47,16 @@ public abstract class FighterPlane extends ActiveActorDestructible {
     public abstract void fireProjectile();
 
     @Override
-    public void takeDamage() {
+    public boolean takeDamage() {
         health--;
         System.out.println(getClass().getSimpleName() + " took damage. Health: " + health);
         if (healthAtZero()) {
             audioManager.playSoundEffect(1);
             this.destroy();
             System.out.println(getClass().getSimpleName() + " destroyed.");
+            return true; // Indicates that destruction occurred
         }
+        return true; // Damage was applied, but not necessarily destruction
     }
 
     protected double getProjectileXPosition(double xPositionOffset) {

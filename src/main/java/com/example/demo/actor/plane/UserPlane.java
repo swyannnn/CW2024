@@ -4,6 +4,10 @@ import com.example.demo.util.GameConstant;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.animation.FadeTransition;
+import javafx.animation.SequentialTransition;
+import javafx.application.Platform;
+import javafx.util.Duration;
 
 import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.controller.Controller;
@@ -36,6 +40,7 @@ public class UserPlane extends FighterPlane {
     private int horizontalVelocityMultiplier = GameConstant.UserPlane.HORIZONTAL_VELOCITY_MULTIPLIER;
     private int numberOfKills = GameConstant.UserPlane.NUMBER_OF_KILLS;
     private int score;
+    private boolean isFlickering = false; 
 
     /**
      * Constructs a UserPlane object with specified stage dimensions and initial health.
@@ -64,7 +69,7 @@ public class UserPlane extends FighterPlane {
 
         UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
         actorManager.addActor(projectile);
-        // audioManager.playSoundEffect(3);
+        audioManager.playSoundEffect(3);
     }
 
     @Override
@@ -113,18 +118,56 @@ public class UserPlane extends FighterPlane {
     }
 
     @Override
-    public void takeDamage() {
+    public boolean takeDamage() {
         health--;
-        if (health < 0) {
-            health = 0;
+        notifyHealthChange();
+        System.out.println("notifyHealthChange() called in UserPlane.takeDamage().");
+
+        if (!isDestroyed()) {
+            audioManager.playSoundEffect(0);
+            Platform.runLater(() -> flicker(3)); // Flicker two times
         }
 
-        notifyHealthChange(); // Notify listeners of health change
-        System.out.println("notifyHealthChange() called in UserPlane.takeDamage().");
-        if (super.healthAtZero()) {
+        if (healthAtZero()) {
             System.out.println("UserPlane destroyed because health zero.");
             destroy();
+            return true; // Destruction occurred
         }
+        return true; // Damage applied
+    }
+
+        /**
+     * Makes the UserPlane flicker a specified number of times.
+     *
+     * @param times The number of flickers.
+     */
+    private void flicker(int times) {
+        if (isFlickering) {
+            return; // Already flickering, skip
+        }
+
+        isFlickering = true;
+
+        SequentialTransition flickerTransition = new SequentialTransition();
+
+        for (int i = 0; i < times; i++) {
+            // Fade out
+            FadeTransition fadeOut = new FadeTransition(Duration.millis(100), this);
+            fadeOut.setFromValue(1.0);
+            fadeOut.setToValue(0.0);
+
+            // Fade in
+            FadeTransition fadeIn = new FadeTransition(Duration.millis(100), this);
+            fadeIn.setFromValue(0.0);
+            fadeIn.setToValue(1.0);
+
+            // Add both fade transitions to the sequential transition
+            flickerTransition.getChildren().addAll(fadeOut, fadeIn);
+        }
+
+        // Reset the flicker flag once the animation completes
+        flickerTransition.setOnFinished(event -> isFlickering = false);
+        flickerTransition.play();
     }
 
     public void setHealth(int health) {

@@ -37,14 +37,23 @@ public class CollisionManager {
 
     public void handleAllCollisions(ActorManager actorManager) {
         this.actorManager = actorManager;
-        handleUserProjectileEnemyCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
-        handlePlayerEnemyProjectileCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
-        handlePlayerBossProjectileCollisions(actorManager.getBossProjectiles(), actorManager.getPlayers());
-        handleEnemyPlayerCollisions(actorManager.getEnemyUnits(), actorManager.getPlayers());
-        handleUserProjectileBossCollisions(actorManager.getUserProjectiles(), actorManager.getBossUnits());
+    
+        // Handle user projectiles hitting all enemies (including bosses)
+        handleCollisions(actorManager.getUserProjectiles(), actorManager.getEnemyUnits());
+    
+        // Handle enemy projectiles hitting players
+        handleCollisions(actorManager.getEnemyProjectiles(), actorManager.getPlayers());
+    
+        // Handle boss projectiles hitting players
+        handleCollisions(actorManager.getBossProjectiles(), actorManager.getPlayers());
+    
+        // Handle player collisions with enemy units
+        handleCollisions(actorManager.getPlayers(), actorManager.getEnemyUnits());
+    
+        // Handle player collisions with bosses
+        handleCollisions(actorManager.getPlayers(), actorManager.getBossUnits());
     }
-
-
+    
     /**
      * Handles collisions between two lists of actors.
      *
@@ -66,38 +75,35 @@ public class CollisionManager {
         ActiveActorDestructible source = pair.source;
         ActiveActorDestructible target = pair.target;
         System.out.println("Collision detected: " + source + " hit " + target);
+    
+        boolean targetDamaged = false;
+        source.takeDamage();
+        targetDamaged = target.takeDamage();
+        System.out.println("isEnemy(target) = " + isEnemy(target) + ", targetDamaged = " + targetDamaged);
+        
+        if (targetDamaged && !(target instanceof UserPlane)){
+            createExplosionAt(target);
+            if (source instanceof UserProjectile) {
+                UserProjectile projectile = (UserProjectile) source;
+                UserPlane userPlane = projectile.getOwner();
+                collisionListener.onProjectileHitEnemy(userPlane, target);
+            }
+        }
+    }
 
-        // Create an explosion effect at the collision position
+    private void createExplosionAt(ActiveActorDestructible target) {
         double explosionX = target.getLayoutX() + target.getTranslateX();
         double explosionY = target.getLayoutY() + target.getTranslateY() + target.getImageHeight() / 2;
         ExplosionEffect explosion = new ExplosionEffect(explosionX, explosionY);
         actorManager.addUIElement(explosion.getExplosionView());
+        // Notify that an explosion has started
+        collisionListener.onExplosionStarted();
+        // Set a callback to notify when the explosion has finished
+        explosion.setOnFinished(event -> {
+            actorManager.removeUIElement(explosion.getExplosionView());
+            collisionListener.onExplosionFinished();
+        });
         explosion.play();
-        
-        // Apply damage to both source and target
-        source.takeDamage();
-        target.takeDamage();
-        
-        // Check if the collision listener should be notified
-        if (collisionListener != null 
-            && source instanceof UserProjectile projectile 
-            && isEnemy(target)) {
-            
-            // If the target is a BossPlane, check if it's shielded
-            if (target instanceof BossPlane boss && boss.isShielded()) {
-                // Shield is active; do not notify the listener
-                System.out.println("BossPlane is shielded. No kill count increment.");
-                return;
-            }
-            
-            // At this point, either the target is an EnemyPlane or an unshielded BossPlane
-            UserPlane userPlane = projectile.getOwner();
-            System.out.println("Collision detected: " + projectile + " hit " + target);
-            
-            if (userPlane != null) {
-                collisionListener.onProjectileHitEnemy(userPlane, target);
-            }
-        }
     }
 
     /**
@@ -121,65 +127,5 @@ public class CollisionManager {
             this.source = source;
             this.target = target;
         }
-    }
-
-    /**
-     * Handles collisions between projectiles and enemy units.
-     *
-     * @param projectiles The list of projectiles.
-     * @param enemies     The list of enemy units.
-     */
-    public void handleUserProjectileEnemyCollisions(List<ActiveActorDestructible> userProjectiles, List<ActiveActorDestructible> enemies) {
-        handleCollisions(userProjectiles, enemies);
-    }
-
-    /**
-     * Handles collisions between enemy projectiles and player entities.
-     *
-     * @param enemyProjectiles The list of enemy projectiles.
-     * @param players          The list of player entities.
-     */
-    public void handlePlayerEnemyProjectileCollisions(List<ActiveActorDestructible> enemyProjectiles, List<UserPlane> players) {
-        handleCollisions(enemyProjectiles, players);
-    }
-
-    /**
-     * Handles collisions between projectiles and enemy units.
-     *
-     * @param projectiles The list of projectiles.
-     * @param enemies     The list of enemy units.
-     */
-    public void handleUserProjectileBossCollisions(List<ActiveActorDestructible> userProjectiles, List<ActiveActorDestructible> boss) {
-        handleCollisions(userProjectiles, boss);
-    }
-
-    /**
-     * Handles collisions between enemy projectiles and player entities.
-     *
-     * @param enemyProjectiles The list of enemy projectiles.
-     * @param players          The list of player entities.
-     */
-    public void handlePlayerBossProjectileCollisions(List<ActiveActorDestructible> bossProjectiles, List<UserPlane> players) {
-        handleCollisions(bossProjectiles, players);
-    }
-
-    /**
-     * Handles collisions between enemy projectiles and player entities.
-     *
-     * @param enemyProjectiles The list of enemy.
-     * @param players          The list of player entities.
-     */
-    public void handleEnemyPlayerCollisions(List<ActiveActorDestructible> enemies, List<UserPlane> players) {
-        handleCollisions(enemies, players);
-    }  
-
-    /**
-     * Handles collisions between friendly and enemy units.
-     *
-     * @param friendlyUnits The list of friendly units.
-     * @param enemyUnits    The list of enemy units.
-     */
-    public void handleUnitCollisions(List<ActiveActorDestructible> friendlyUnits, List<ActiveActorDestructible> enemyUnits) {
-        handleCollisions(friendlyUnits, enemyUnits);
     }
 }

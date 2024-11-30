@@ -77,7 +77,7 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
     /**
      * Takes damage.
      */
-    public abstract void takeDamage();
+    public abstract boolean takeDamage();
 
     /**
      * Destroys the actor.

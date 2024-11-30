@@ -2,11 +2,12 @@ package com.example.demo.state;
 
 import java.util.List;
 
+import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
+import com.example.demo.listener.CollisionListener;
 import com.example.demo.manager.ActorManager;
-import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameStateManager;
@@ -30,7 +31,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * LevelState manages the game logic and rendering for a specific level.
  */
-public class LevelState implements GameState {
+public class LevelState implements GameState, CollisionListener {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final LevelParent level;
     private final Stage stage;
@@ -38,10 +39,10 @@ public class LevelState implements GameState {
     private UserPlane userPlane;
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
-    private final AudioManager audioManager;
     private boolean levelCompleted;
     private VBox pauseOverlay;
     private Scene scene;
+    private boolean isExplosionActive = false;
 
     /**
      * Constructor for LevelState.
@@ -60,7 +61,7 @@ public class LevelState implements GameState {
         this.gameStateManager = controller.getGameStateManager();
         this.actorManager = gameStateManager.getActorManager();
         this.collisionManager = gameStateManager.getCollisionManager();
-        this.audioManager = gameStateManager.getAudioManager();
+        collisionManager.setCollisionListener(this);
         this.levelCompleted = false;
 
         // Initialize userPlanes (handles multiple players)
@@ -95,16 +96,29 @@ public class LevelState implements GameState {
         return scene;
     }
 
-    @Override
+    public void onExplosionStarted() {
+        isExplosionActive = true;
+    }
+
+    public void onExplosionFinished() {
+        isExplosionActive = false;
+    }
+
+
     public void update(long now) {
         if (!levelCompleted) {
             level.spawnEnemyUnits();
             actorManager.updateAllActors(now);
+            actorManager.removeDestroyedActors(); // Move this before collision detection
             collisionManager.handleAllCollisions(actorManager);
             level.updateLevelView();
-            checkLevelCompletion();
-            actorManager.removeDestroyedActors();
             level.updateBackground();
+
+            if (!isExplosionActive) {
+                checkLevelCompletion();
+            }else{
+                System.out.println("explosion is tsill going on, skip checkLevelCompletion()");
+            }
         }
     }
     
@@ -155,8 +169,19 @@ public class LevelState implements GameState {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         pcs.removePropertyChangeListener(listener);
     }
-    
 
+    /**
+     * Handles projectile collisions with enemies.
+     *
+     * @param userPlane The user plane involved in the collision.
+     * @param enemy     The enemy involved in the collision.
+     */
+    @Override
+    public void onProjectileHitEnemy(UserPlane userPlane, ActiveActorDestructible enemy) {
+        userPlane.incrementKillCount();
+        System.out.println("Kill count for user updated: " + userPlane.getNumberOfKills());
+    }
+    
     /**
      * Adds a pause button to the scene.
      *

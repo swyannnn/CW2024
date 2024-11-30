@@ -1,41 +1,77 @@
 package com.example.demo.effect;
 
 import com.example.demo.manager.ImageManager;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+/**
+ * Represents an explosion effect using a sequence of images.
+ */
 public class ExplosionEffect {
     private final ImageView explosionView;
     private final Timeline timeline;
 
     /**
-     * Constructs an ExplosionEffect.
+     * Constructs an ExplosionEffect at the specified coordinates.
      *
      * @param x The X position of the explosion.
      * @param y The Y position of the explosion.
-     * @param explosionImages Array of explosion images.
      */
     public ExplosionEffect(double x, double y) {
-        Image[] explosionImages = ImageManager.getInstance().getImageSequence("explosion", 7);
-        explosionView = new ImageView(explosionImages[0]); // Set the first frame
-        explosionView.setTranslateX(x);
-        explosionView.setTranslateY(y);
-        explosionView.setFitWidth(50);
-        explosionView.setFitHeight(50);
+        this.explosionView = initializeExplosionView(x, y);
+        this.timeline = createExplosionAnimation();
+    }
 
-        timeline = new Timeline();
+    /**
+     * Initializes the ImageView for the explosion.
+     *
+     * @param x The X position of the explosion.
+     * @param y The Y position of the explosion.
+     * @return The initialized ImageView.
+     */
+    private ImageView initializeExplosionView(double x, double y) {
+        Image[] explosionImages = ImageManager.getInstance().getImageSequence("explosion", 7);
+
+        // Initialize the ImageView with the first explosion frame
+        ImageView imageView = new ImageView(explosionImages[0]);
+        imageView.setTranslateX(x);
+        imageView.setTranslateY(y);
+        imageView.setFitWidth(50); // Adjust size as needed
+        imageView.setFitHeight(50); // Adjust size as needed
+
+        return imageView;
+    }
+
+    /**
+     * Creates the explosion animation timeline.
+     *
+     * @return The configured Timeline for the explosion animation.
+     */
+    private Timeline createExplosionAnimation() {
+        // Retrieve the explosion image sequence
+        Image[] explosionImages = ImageManager.getInstance().getImageSequence("explosion", 7);
+
+        Timeline explosionTimeline = new Timeline();
+
+        // Add KeyFrames to the timeline for each explosion image
         for (int i = 0; i < explosionImages.length; i++) {
-            int frameIndex = i;
-            timeline.getKeyFrames().add(new KeyFrame(Duration.millis(100 * i), e -> {
-                explosionView.setImage(explosionImages[frameIndex]);
-            }));
+            final int frameIndex = i;
+            KeyFrame keyFrame = new KeyFrame(
+                Duration.millis(100 * i), // 100 ms per frame
+                event -> explosionView.setImage(explosionImages[frameIndex])
+            );
+            explosionTimeline.getKeyFrames().add(keyFrame);
         }
-        timeline.setCycleCount(1);
-        timeline.setOnFinished(e -> explosionView.setVisible(false));
+
+        // Ensure the timeline plays only once
+        explosionTimeline.setCycleCount(1);
+
+        return explosionTimeline;
     }
 
     /**
@@ -43,6 +79,15 @@ public class ExplosionEffect {
      */
     public void play() {
         timeline.play();
+    }
+
+    /**
+     * Sets a callback to be executed when the explosion animation finishes.
+     *
+     * @param handler The event handler to execute on animation completion.
+     */
+    public void setOnFinished(EventHandler<ActionEvent> handler) {
+        timeline.setOnFinished(handler);
     }
 
     /**

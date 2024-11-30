@@ -5,7 +5,7 @@ public interface Destructible {
 	/**
 	 * Method to take damage.
 	 */
-	void takeDamage();
+	boolean takeDamage();
 
 
 	/**

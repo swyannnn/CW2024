@@ -31,8 +31,9 @@ public abstract class Projectile extends ActiveActorDestructible {
     }
 
     @Override
-    public void takeDamage() {
+    public boolean takeDamage() {
         this.destroy();
+        return true;
     }
 
     /**

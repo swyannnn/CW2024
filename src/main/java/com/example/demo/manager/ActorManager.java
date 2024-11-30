@@ -59,6 +59,13 @@ public class ActorManager {
         }
     }
 
+    // Method to remove UI elements from the scene
+    public void removeUIElement(Node element) {
+        if (this.root.getChildren().contains(element)) {
+            this.root.getChildren().remove(element);
+        }
+    }
+
     public void removeActor(ActiveActorDestructible actor) {
         Platform.runLater(() -> {
             actors.remove(actor);
