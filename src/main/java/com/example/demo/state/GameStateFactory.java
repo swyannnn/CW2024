@@ -5,7 +5,6 @@ import java.util.Optional;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelFactory;
 import com.example.demo.level.LevelParent;
-import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.GameStateManager;
 import javafx.stage.Stage;
 
@@ -16,7 +15,6 @@ public class GameStateFactory {
     private final Stage stage;
     private Controller controller;
     private final GameStateManager gameStateManager;
-    private ActorManager actorManager;
 
     /**
      * Constructor initializes the GameStateFactory with necessary dependencies.
@@ -29,15 +27,6 @@ public class GameStateFactory {
         this.stage = stage;
         this.controller = controller;
         this.gameStateManager = gameStateManager;
-    }
-
-    /**
-     * Sets the ActorManager.
-     *
-     * @param actorManager The ActorManager instance.
-     */
-    public void setActorManager(ActorManager actorManager) {
-        this.actorManager = actorManager;
     }
 
     /**

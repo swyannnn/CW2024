@@ -49,10 +49,7 @@ public interface GameState {
      * Handles actions to perform when the game is resumed.
      * Default implementation does nothing.
      */
-    default void handleResume() {
-        // Default implementation: do nothing.
-        // Implementing classes can override if needed.
-    }
+    default void handleResume() {}
 
     /**
      * Retrieves the current Scene of the state.

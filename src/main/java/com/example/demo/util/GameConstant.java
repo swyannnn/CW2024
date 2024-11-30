@@ -124,12 +124,21 @@ public class GameConstant {
         public static final int KILLS_TO_ADVANCE = 3;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
+        public static final String BACKGROUND_MUSIC = "bgm_easy.wav";
     }
 
     // Level 002 Settings
     public static class Level002 {
         public static final String BACKGROUND_IMAGE_NAME = "background2.jpeg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
+        public static final String BACKGROUND_MUSIC = "bgm_medium.mp3";
+    }
+
+    // Level 002 Settings
+    public static class Level003 {
+        public static final String BACKGROUND_IMAGE_NAME = "background3.jpeg";
+        public static final int PLAYER_INITIAL_HEALTH = 5;
+        public static final String BACKGROUND_MUSIC = "bgm_hard.mp3";
     }
 
     // File Paths
@@ -148,14 +157,17 @@ public class GameConstant {
 
         // Background Music
         public static final String[] BACKGROUND_MUSIC = {
-            "menubgm.mp3"
+            "menubgm.mp3",
+            "bgm_easy.wav",
+            "bgm_medium.mp3",
+            "bgm_hard.mp3"
             // Add more background music filenames here as needed
         };
 
         // Images
         public static final String[] IMAGES = {
             "background1.jpg",
-            "background2.jpg",
+            "background2.jpeg",
             "bossplane.png",
             "enemyFire.png",
             "enemyplane.png",

@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.GameStateManager;
+import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 
 /**
@@ -18,6 +19,7 @@ import com.example.demo.util.GameConstant;
 public class MainMenu {
     private final Stage primaryStage;
     private final GameStateManager gameStateManager;
+    private final AudioManager audioManager;
 
     /**
      * Constructor initializes the MainMenu with the primary stage and controller.
@@ -29,8 +31,10 @@ public class MainMenu {
         this.primaryStage = stage;
 
         gameStateManager = controller.getGameStateManager();
+        audioManager = gameStateManager.getAudioManager();
+        System.out.println("audiomanager in main menu:" + audioManager);
         if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().playMusic("menubgm.mp3");
+            gameStateManager.getAudioManager().playMusic("bgm_medium.mp3");
         }
     }
 
@@ -79,7 +83,7 @@ public class MainMenu {
      * Handles the action of exiting the game.
      */
     private void exitGame() {
-        gameStateManager.getAudioManager().stopMusic(); 
+        // gameStateManager.getAudioManager().stopMusic(); 
         primaryStage.close(); // Close the application
     }
 }

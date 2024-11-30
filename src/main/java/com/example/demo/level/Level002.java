@@ -4,43 +4,24 @@ import java.util.List;
 
 import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.actor.plane.BossPlane;
-import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
-import com.example.demo.ui.LevelView001;
-import com.example.demo.ui.LevelView002;
 import com.example.demo.util.GameConstant;
 
 public class Level002 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = GameConstant.Level002.BACKGROUND_IMAGE_NAME;
+    private static final String BACKGROUND_MUSIC_NAME = GameConstant.Level002.BACKGROUND_MUSIC;
     private static final int PLAYER_INITIAL_HEALTH = GameConstant.Level002.PLAYER_INITIAL_HEALTH;
     private int currentLevelNumber;
     private ActorManager actorManager;
 
     public Level002(Controller controller, int levelNumber) {
-        super(controller, BACKGROUND_IMAGE_NAME, PLAYER_INITIAL_HEALTH);
+        super(controller, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
         this.controller = controller;
         this.actorManager = gameStateManager.getActorManager();
         this.currentLevelNumber = levelNumber;
         initializeFriendlyUnits();
         System.out.println("Controller is not null in Level002");
-    }
-
-    @Override
-    protected void initializeFriendlyUnits() {
-        // Re-add the UserPlane for Level 2
-        List<UserPlane> players = actorManager.getPlayers();
-        if (players.isEmpty()) {
-            UserPlane user = new UserPlane(PLAYER_INITIAL_HEALTH, controller);
-            user.addHealthChangeListener(levelView);
-            actorManager.addActor(user);
-            levelView.showHeartDisplay(user); // Ensure heart display is updated
-        } else {
-            // Update existing player's state if already present
-            for (UserPlane player : players) {
-                levelView.showHeartDisplay(player);
-            }
-        }
     }
 
     @Override
@@ -89,10 +70,5 @@ public class Level002 extends LevelParent {
             ActiveActorDestructible bossPlane = new BossPlane(controller);
             actorManager.addActor(bossPlane); // Use ActorManager to add the boss enemy
         }
-    }
-
-    @Override
-    public LevelView001 instantiateLevelView() {
-        return new LevelView002(controller.getGameStateManager().getActorManager(), PLAYER_INITIAL_HEALTH);
     }
 }

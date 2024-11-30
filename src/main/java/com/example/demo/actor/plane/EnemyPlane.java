@@ -58,9 +58,7 @@ public class EnemyPlane extends FighterPlane {
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
 
             EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY, controller);
-            // System.out.println("EnemyPlane firing projectile at X=" + projectileX + ", Y=" + projectileY);
             actorManager.addActor(projectile);
-            // System.out.println("Projectile fired by " + this + " at: " + projectileX + ", " + projectileY);
         }
     }
 

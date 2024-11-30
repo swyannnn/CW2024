@@ -6,6 +6,7 @@ import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameStateManager;
@@ -37,6 +38,7 @@ public class LevelState implements GameState {
     private UserPlane userPlane;
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
+    private final AudioManager audioManager;
     private boolean levelCompleted;
     private VBox pauseOverlay;
     private Scene scene;
@@ -58,6 +60,7 @@ public class LevelState implements GameState {
         this.gameStateManager = controller.getGameStateManager();
         this.actorManager = gameStateManager.getActorManager();
         this.collisionManager = gameStateManager.getCollisionManager();
+        this.audioManager = gameStateManager.getAudioManager();
         this.levelCompleted = false;
 
         // Initialize userPlanes (handles multiple players)
@@ -84,7 +87,6 @@ public class LevelState implements GameState {
 
         // Play background music for this level
         System.out.println("LevelState:" + gameStateManager);
-        gameStateManager.getAudioManager().playMusic("menubgm.mp3");
         createPauseOverlay();
     }
 
@@ -109,9 +111,7 @@ public class LevelState implements GameState {
 
     @Override
     public void render() {
-        if (!levelCompleted) {
-            level.getLevelView().updateView();
-        }
+        // No rendering needed for LevelState
     }
 
     @Override
@@ -134,10 +134,7 @@ public class LevelState implements GameState {
 
     @Override
     public void cleanup() {
-        if (actorManager != null) {
-            actorManager.removeDestroyedActors();
-        }
-        // audioManager.stopMusic(); // Stop music when level is cleaned up
+        // no cleanup needed for LevelState
     }
 
     /**

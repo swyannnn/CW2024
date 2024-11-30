@@ -64,7 +64,7 @@ public class UserPlane extends FighterPlane {
 
         UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
         actorManager.addActor(projectile);
-        audioManager.playSoundEffect(3);
+        // audioManager.playSoundEffect(3);
     }
 
     @Override

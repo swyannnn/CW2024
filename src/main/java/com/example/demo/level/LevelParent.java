@@ -5,9 +5,10 @@ import java.util.List;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.manager.ImageManager;
-import com.example.demo.ui.LevelView001;
+import com.example.demo.ui.LevelView;
 import com.example.demo.util.GameConstant;
 
 import javafx.scene.Group;
@@ -22,13 +23,15 @@ public abstract class LevelParent {
     protected final Group root;
     protected final Scene scene;
     protected ImageView[] backgrounds;
+    protected final int playerInitialHealth;
 
     protected UserPlane user;
-    protected LevelView001 levelView;
+    protected LevelView levelView;
     protected Controller controller;
 
     // Managers are injected to ensure they're properly initialized
     protected final ActorManager actorManager;
+    protected final AudioManager audioManager;
     protected final GameStateManager gameStateManager;
     private final double scrollSpeed = 1.0; // Adjust as needed
     /**
@@ -38,49 +41,28 @@ public abstract class LevelParent {
      * @param backgroundImageName The path to the background image.
      * @param playerInitialHealth The initial health of the player.
      */
-    public LevelParent(Controller controller, String backgroundImageName, int playerInitialHealth) {
-
-        if (controller == null) {
-            System.err.println("Controller is null in LevelParent");
-        }
-        else {
-            System.out.println("Controller is not null in LevelParent");
-        }
+    public LevelParent(Controller controller, String backgroundImageName, String backgroundMusicName, int playerInitialHealth) {
         this.controller = controller;
-    
+        this.playerInitialHealth = playerInitialHealth;
         this.root = new Group();
         this.scene = new Scene(root, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
-    
-        // // Initialize background
-        // this.background = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
-        // initializeBackground();
-        initializeBackground(backgroundImageName);
 
-        // Initialize Managers
+        // Retrieve singleton Managers
         this.gameStateManager = controller.getGameStateManager();
         this.actorManager = gameStateManager.getActorManager();
-    
+        this.audioManager = gameStateManager.getAudioManager();
         // Pass the root to ActorManager
         this.actorManager.updateRoot(this.root);
-
         // Initialize LevelView
         this.levelView = instantiateLevelView();
+
+        initializeBackground(backgroundImageName);
+        initializeBackgroundMusic(backgroundMusicName);
     
         for (UserPlane player : actorManager.getPlayers()) {
             levelView.showHeartDisplay(player);
         }
     }    
-    
-
-    // /**
-    //  * Initializes the background image.
-    //  */
-    // private void initializeBackground() {
-    //     background.setFitHeight(GameConstant.GameSettings.SCREEN_HEIGHT);
-    //     background.setFitWidth(GameConstant.GameSettings.SCREEN_WIDTH);
-    //     // background.setOpacity(0.3);
-    //     root.getChildren().add(background);
-    // }
 
     /**
      * Initializes the background images for scrolling effect.
@@ -121,6 +103,23 @@ public abstract class LevelParent {
         }
     }
 
+    private void initializeBackgroundMusic(String backgroundMusicName) {
+        audioManager.playMusic(backgroundMusicName);
+    }
+
+    public LevelView instantiateLevelView() {
+        return new LevelView(controller.getGameStateManager().getActorManager(), playerInitialHealth);
+    }
+
+    protected void initializeFriendlyUnits() {
+        UserPlane player = new UserPlane(playerInitialHealth, controller);
+        actorManager.addActor(player);
+        System.out.println("Player position: X=" + player.getTranslateX() + ", Y=" + player.getTranslateY());
+
+        levelView = instantiateLevelView(); // Instantiate LevelView before adding listener
+        player.addHealthChangeListener(levelView); // Register LevelView as listener for health changes
+    }
+
     public void updateLevelView() {
         List<UserPlane> players = actorManager.getPlayers();
 
@@ -131,23 +130,6 @@ public abstract class LevelParent {
         for (UserPlane player : players) {
             levelView.showHeartDisplay(player);
         }
-    }
-
-    // Abstract methods to be implemented by subclasses
-    public abstract int getCurrentLevelNumber();
-
-    protected abstract void setCurrentLevelNumber(int levelNumber);
-
-    public abstract boolean userHasReachedKillTarget();
-
-    protected abstract void initializeFriendlyUnits();
-
-    public abstract void spawnEnemyUnits();
-
-    public abstract LevelView001 instantiateLevelView();
-
-    public LevelView001 getLevelView() {
-        return this.levelView;
     }
 
     public Group getRoot() {
@@ -162,4 +144,15 @@ public abstract class LevelParent {
     public Scene getScene() {
         return scene;
     }
+
+    // Abstract methods to be implemented by subclasses
+    public abstract int getCurrentLevelNumber();
+
+    protected abstract void setCurrentLevelNumber(int levelNumber);
+
+    public abstract boolean userHasReachedKillTarget();
+
+    // protected abstract void initializeFriendlyUnits();
+
+    public abstract void spawnEnemyUnits();
 }

@@ -72,9 +72,7 @@ public class MainMenuState implements GameState {
 
     @Override
     public void cleanup() {
-        if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().stopMusic();
-        }
+        // No cleanup needed for the main menu
     }
 
     /**

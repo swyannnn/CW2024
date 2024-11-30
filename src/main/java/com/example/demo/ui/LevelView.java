@@ -8,16 +8,13 @@ import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ActorManager;
 
-public class LevelView001 implements HealthChangeListener {
+public class LevelView implements HealthChangeListener {
 	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 25;
 	private final ActorManager actorManager;
 	
-	public LevelView001(ActorManager actorManager, int heartsToDisplay) {
-		if (actorManager == null) {
-			throw new IllegalArgumentException("ActorManager cannot be null.");
-		}
+	public LevelView(ActorManager actorManager, int heartsToDisplay) {
 		this.actorManager = actorManager;
 	}
 	
@@ -35,7 +32,6 @@ public class LevelView001 implements HealthChangeListener {
             HeartDisplay hd = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, player.getHealth());
             heartDisplays.put(player, hd);
             actorManager.addUIElement(hd.getContainer());
-            // System.out.println("Added heart display for player: " + player + "to" + actorManager.getRoot());
         }
     }
 	

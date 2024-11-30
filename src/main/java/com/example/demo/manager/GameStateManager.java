@@ -56,7 +56,6 @@ public class GameStateManager implements PropertyChangeListener, CollisionListen
 
         // Initialize GameStateFactory
         this.stateFactory = new GameStateFactory(stage, controller, this);
-        this.stateFactory.setActorManager(actorManager);
 
         // Set collision listener
         collisionManager.setCollisionListener(this);

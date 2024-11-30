@@ -115,6 +115,7 @@ public class AudioManager {
         stopMusic();
         Media media = loadMedia(filename);
         if (media != null) {
+            System.out.println("Playing music: " + filename);
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setVolume(0.5);
