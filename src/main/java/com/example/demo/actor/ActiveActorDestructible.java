@@ -56,7 +56,6 @@ public abstract class ActiveActorDestructible extends ActiveActor implements Des
         double currentX = getLayoutX() + getTranslateX();
         double currentY = getLayoutY() + getTranslateY();
         
-        // System.out.println("Current position: " + currentX + ", " + currentY + "from " + this.getClass().getSimpleName());
         boolean outOfHorizontal = currentX < xUpperBound || currentX > xLowerBound;
         boolean outOfVertical = currentY < yUpperBound || currentY > yLowerBound;
 

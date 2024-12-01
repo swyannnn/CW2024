@@ -43,7 +43,7 @@ public class Level004 extends LevelParent {
 
     @Override
     public void spawnEnemyUnits() {
-        if (actorManager.getBossUnits().isEmpty()) {
+        if (actorManager.getEnemyUnits().isEmpty()) {
             MultiPhaseBossPlane bossPlane = new MultiPhaseBossPlane(controller, this);
             actorManager.addActor(bossPlane);
         }

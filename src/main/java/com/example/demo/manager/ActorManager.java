@@ -49,6 +49,9 @@ public class ActorManager {
     public void addActor(ActiveActorDestructible actor) {
         actors.add(actor);
         root.getChildren().add(actor);
+        if (actor instanceof com.example.demo.actor.projectile.BossProjectile) {
+            System.out.println("Added actor: " + actor + " to the root " + this.root);
+        }
         // System.out.println("Added actor: " + actor + " to the root " + this.root);
     }
 

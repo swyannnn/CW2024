@@ -115,15 +115,15 @@ public class GameConstant {
     // EnemyPlane4 Settings
     public static class EnemyPlane4 {
         public static final String IMAGE_NAME = "enemy3.png";
-        public static final int IMAGE_HEIGHT = 50;
+        public static final int IMAGE_HEIGHT = 70;
         public static final int INITIAL_HEALTH = 1;
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
         public static final double X_UPPER_BOUND = 0;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
-        public static final double Y_UPPER_BOUND = -40;
-        public static final double Y_LOWER_BOUND = 600;
+        public static final double Y_UPPER_BOUND = 10;
+        public static final double Y_LOWER_BOUND = 700;
     }
 
     // EnemyProjectile Settings
@@ -156,40 +156,40 @@ public class GameConstant {
     }
 
     public static class MultiPhaseBossPlane {
-        public static final String IMAGE_NAME_PHASE1 = "enemy1.png";
-        public static final String IMAGE_NAME_PHASE2 = "enemy2.png";
-        public static final String IMAGE_NAME_PHASE3 = "enemy3.png";
+        public static final String IMAGE_NAME = "enemy3.png";
+        public static final int MINI_SIZE = 4;
+        public static final int GIANT_SIZE = 1;
         public static final int IMAGE_HEIGHT = 200;
-        public static final int INITIAL_HEALTH_PHASE1 = 1000;
-        public static final int INITIAL_HEALTH_PHASE2 = 1500;
-        public static final int INITIAL_HEALTH_PHASE3 = 2000;
+        public static final int REMAINING_HEALTH_PHASE1 = 60;
+        public static final int REMAINING_HEALTH_PHASE2 = 59;
+        public static final int REMAINING_HEALTH_PHASE3 = 58;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
         public static final double FIRE_RATE = 0.1; // 50% chance to fire
-        public static final double Y_POSITION = 50;
+        public static final double Y_POSITION = (GameSettings.SCREEN_HEIGHT / 2) - 100;
         public static final double X_POSITION = 400;
-        public static final double HORIZONTAL_VELOCITY_PHASE1 = 2.0;
-        public static final double HORIZONTAL_VELOCITY_PHASE2 = 2.5;
-        public static final double HORIZONTAL_VELOCITY_PHASE3 = 3.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE1 = 3.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE2 = 4.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE3 = 5.0;
         public static final double Y_UPPER_BOUND = 0;
         public static final double Y_LOWER_BOUND = 600;
-        public static final double X_UPPER_BOUND = 800;
-        public static final double X_LOWER_BOUND = 0;
+        public static final double X_UPPER_BOUND = GameSettings.SCREEN_HEIGHT / 2;
+        public static final double X_LOWER_BOUND = 1150;
         public static final long AREA_ATTACK_COOLDOWN_PHASE1 = 0;
         public static final long AREA_ATTACK_COOLDOWN_PHASE2 = 5_000_000_000L; // 5 seconds
         public static final long AREA_ATTACK_COOLDOWN_PHASE3 = 4_000_000_000L; // 4 seconds
-        public static final long SUMMON_COOLDOWN_PHASE1 = 0;
-        public static final long SUMMON_COOLDOWN_PHASE2 = 0;
-        public static final long SUMMON_COOLDOWN_PHASE3 = 10_000_000_000L; // 10 seconds
+        public static final long SUMMON_COOLDOWN = 1_000_000_000L; //1_000_000_000L
+        public static final int PROJECTILE_X_POSITION_OFFSET = -130;
+        public static final int PROJECTILE_Y_POSITION_OFFSET = 75;
     }
 
 
     // BossProjectile Settings
     public static class BossProjectile {
         public static final String IMAGE_NAME = "fireball.png";
-        public static final int IMAGE_HEIGHT = 100;
+        public static final int IMAGE_HEIGHT = 70;
         public static final int HORIZONTAL_VELOCITY = -5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
-        public static final double PROJECTILE_X_POSITION_OFFSET = 20;
+        public static final double PROJECTILE_X_POSITION_OFFSET = -100;
         public static final double PROJECTILE_Y_POSITION_OFFSET = 120;
         public static final double FIRE_RATE = 0;
     }
@@ -239,7 +239,7 @@ public class GameConstant {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm003.mp3";
-        public static final int SURVIVAL_TIME = 2; // in seconds
+        public static final int SURVIVAL_TIME = 0; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 

@@ -53,6 +53,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
     public boolean takeDamage() {
         health--;
         System.out.println(getClass().getSimpleName() + " took damage. Health: " + health);
+        System.out.println(getClass().getSimpleName() + " took damage. Health: " + getHealth());
         if (healthAtZero()) {
             audioManager.playSoundEffect(1);
             this.destroy();
@@ -63,6 +64,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
     }
 
     protected double getProjectileXPosition(double xPositionOffset) {
+        System.out.println("getLayoutX() + getTranslateX() + xPositionOffset: " + (getLayoutX() + getTranslateX() + xPositionOffset));
         return getLayoutX() + getTranslateX() + xPositionOffset;
     }
 
