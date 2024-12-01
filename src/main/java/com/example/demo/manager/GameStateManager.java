@@ -1,9 +1,6 @@
 package com.example.demo.manager;
 
-import com.example.demo.actor.ActiveActorDestructible;
-import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
-import com.example.demo.listener.CollisionListener;
 import com.example.demo.state.GameState;
 import com.example.demo.state.GameStateFactory;
 import com.example.demo.state.LevelState;
@@ -37,6 +34,7 @@ public class GameStateManager implements PropertyChangeListener {
 
     // Pause control
     private final BooleanProperty isPaused = new SimpleBooleanProperty(false);
+    private int numberOfPlayers;
 
     /**
      * Private constructor to enforce the Singleton pattern.
@@ -284,5 +282,23 @@ public class GameStateManager implements PropertyChangeListener {
 
     public Boolean isPaused() {
         return isPaused.get();
+    }
+
+    /**
+     * Sets the number of players for the game.
+     *
+     * @param numberOfPlayers The number of players (1 or 2).
+     */
+    public void setNumberOfPlayers(int numberOfPlayers) {
+        this.numberOfPlayers = numberOfPlayers;
+    }
+
+    /**
+     * Retrieves the current number of players.
+     *
+     * @return The number of players.
+     */
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 }

@@ -53,15 +53,24 @@ public class MainMenu {
         // Title text
         Text title = createTitle("Sky Battle");
 
-        // Buttons using ButtonManager
-        Button startButton = ButtonManager.createButton("Start Game", 200, 50, 20);
-        startButton.setOnAction(e -> gameStateManager.startGame());
+        // Initialize number of players based on selection
+        Button onePlayerButton = ButtonManager.createButton("1 Player", 200, 50, 20);
+        onePlayerButton.setOnAction(e -> {
+            gameStateManager.setNumberOfPlayers(1);
+            gameStateManager.startGame();
+        });
+
+        Button twoPlayerButton = ButtonManager.createButton("2 Players", 200, 50, 20);
+        twoPlayerButton.setOnAction(e -> {
+            gameStateManager.setNumberOfPlayers(2);
+            gameStateManager.startGame();
+        });
 
         Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout
-        menuLayout.getChildren().addAll(title, startButton, exitButton);
+        menuLayout.getChildren().addAll(title, onePlayerButton, twoPlayerButton, exitButton);
 
         // Return the constructed scene
         return new Scene(menuLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);

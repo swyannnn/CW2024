@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
 public class LevelView implements HealthChangeListener {
 	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
-	private static final double HEART_DISPLAY_Y_POSITION = 25;
+	private static final double HEART_DISPLAY_Y_POSITION = 10;
 	private final Group root;
     protected ImageView[] backgrounds;
 	
@@ -73,12 +73,20 @@ public class LevelView implements HealthChangeListener {
         }
     }
 
-	public void showHeartDisplay(UserPlane player) {
+	public void showHeartDisplay(UserPlane player, int playerIndex) {
         if (!heartDisplays.containsKey(player)) {
-            HeartDisplay hd = new HeartDisplay(HEART_DISPLAY_X_POSITION, HEART_DISPLAY_Y_POSITION, player.getHealth());
+            double xPosition = HEART_DISPLAY_X_POSITION;
+            double yPosition = calculateYPosition(playerIndex);; // You can keep y fixed or adjust as needed
+            HeartDisplay hd = new HeartDisplay(xPosition, yPosition, player.getHealth());
             heartDisplays.put(player, hd);
             root.getChildren().add(hd.getContainer());
         }
+    }
+    
+    private double calculateYPosition(int playerIndex) {
+        double baseX = HEART_DISPLAY_Y_POSITION;
+        double offset = 25; // Adjust the offset as needed to prevent overlapping
+        return baseX + (playerIndex * offset);
     }
 	
 	public void updateView() {

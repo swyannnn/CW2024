@@ -58,8 +58,9 @@ public abstract class LevelParent {
         initializeBackground(backgroundImageName);
         initializeBackgroundMusic(backgroundMusicName);
     
-        for (UserPlane player : actorManager.getPlayers()) {
-            levelView.showHeartDisplay(player);
+        List<UserPlane> players = actorManager.getPlayers();
+        for (int i = 0; i < players.size(); i++) {
+            levelView.showHeartDisplay(players.get(i), i);
         }
     }    
 
@@ -86,12 +87,23 @@ public abstract class LevelParent {
     public LevelView instantiateLevelView() {
         return new LevelView(this.root);
     }
-
+    
     protected void initializeFriendlyUnits() {
-        UserPlane player = new UserPlane(playerInitialHealth, controller);
-        actorManager.addActor(player);
-        System.out.println("Player position: X=" + player.getTranslateX() + ", Y=" + player.getTranslateY());
-        player.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes
+        int numberOfPlayers = gameStateManager.getNumberOfPlayers();
+    
+        // Initialize player 1
+        UserPlane player1 = new UserPlane(playerInitialHealth, controller);
+        actorManager.addActor(player1);
+        System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
+        player1.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes
+    
+        // If two-player mode, initialize player 2
+        if (numberOfPlayers == 2) {
+            UserPlane player2 = new UserPlane(playerInitialHealth, controller);
+            actorManager.addActor(player2);
+            System.out.println("Player 2 position: X=" + player2.getTranslateX() + ", Y=" + player2.getTranslateY());
+            player2.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes
+        }
     }
 
     public void updateLevelView() {
@@ -101,8 +113,8 @@ public abstract class LevelParent {
             return; 
         }
 
-        for (UserPlane player : players) {
-            levelView.showHeartDisplay(player);
+        for (int i = 0; i < players.size(); i++) {
+            levelView.showHeartDisplay(players.get(i), i);
         }
     }
 

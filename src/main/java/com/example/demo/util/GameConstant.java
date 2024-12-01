@@ -214,14 +214,14 @@ public class GameConstant {
     // Heart 
     public static class Heart {
         public static final String IMAGE_NAME = "heart.png";
-        public static final int IMAGE_HEIGHT = 50;
+        public static final int IMAGE_HEIGHT = 25;
     }
     
     // Level 001 Settings
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
-        public static final int TOTAL_ENEMIES = 1;
-        public static final int KILLS_TO_ADVANCE = 3;
+        public static final int TOTAL_ENEMIES = 3;
+        public static final int KILLS_TO_ADVANCE = 300;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm001.wav";
