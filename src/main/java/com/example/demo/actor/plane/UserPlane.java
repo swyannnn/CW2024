@@ -21,11 +21,12 @@ public class UserPlane extends FighterPlane {
     private AudioManager audioManager;
     private Controller controller;
 
-    private static final String imageName = GameConstant.UserPlane.IMAGE_NAME;
+    private static final String ImageName1 = GameConstant.UserPlane.ID1_IMAGE_NAME;
+    private static final String ImageName2 = GameConstant.UserPlane.ID2_IMAGE_NAME;
     private static final int imageHeight = GameConstant.UserPlane.IMAGE_HEIGHT; 
-    private final double initialXPosition = GameConstant.UserPlane.INITIAL_X_POSITION;
-    private final double initialYPosition = GameConstant.UserPlane.INITIAL_Y_POSITION;
-
+    private static double initialXPosition = GameConstant.UserPlane.INITIAL_X_POSITION;
+    private static double initialYPosition = GameConstant.UserPlane.INITIAL_Y_POSITION;
+    
     private static final double verticalVelocity = GameConstant.UserPlane.VERTICAL_VELOCITY;
     private static final double horizontalVelocity = GameConstant.UserPlane.HORIZONTAL_VELOCITY;
     private static final int projectileXPositionOffset = GameConstant.UserProjectile.PROJECTILE_X_POSITION_OFFSET;
@@ -41,23 +42,48 @@ public class UserPlane extends FighterPlane {
     private int numberOfKills = GameConstant.UserPlane.NUMBER_OF_KILLS;
     private int score;
     private boolean isFlickering = false; 
-
+    private static int numberOfPlayers;
+    
     /**
      * Constructs a UserPlane object with specified stage dimensions and initial health.
      * @param stageHeight The height of the stage.
      * @param stageWidth The width of the stage.
      * @param initialHealth The initial health of the user plane.
      */
-    public UserPlane(int initialHealth, Controller controller) {
-        super(controller, imageName, imageHeight, GameConstant.UserPlane.INITIAL_X_POSITION, GameConstant.UserPlane.INITIAL_Y_POSITION, initialHealth, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS);
+    public UserPlane(int initialHealth, Controller controller, int playerId) {
+        super(controller, getImageName(playerId), imageHeight, initialXPosition, getInitialYPosition(playerId) , initialHealth, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS);
         this.controller = controller;
+        this.health = initialHealth;
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.audioManager = controller.getGameStateManager().getAudioManager();
-        this.health = initialHealth;
         setHorizontalBounds(xUpperBound, xLowerBound);
         setVerticalBounds(yUpperBound, yLowerBound);
         System.out.println("Initial layout position: (" + getLayoutX() + ", " + getLayoutY() + ")");
         System.out.println("Initial translate position: (" + getTranslateX() + ", " + getTranslateY() + ")");
+    }
+
+    private static String getImageName (int playerId){
+        switch(playerId){
+            case 1:
+                return ImageName1;
+            case 2:
+                return ImageName2;
+            default:
+                return null;
+        }
+    }
+    
+    public static double getInitialYPosition(int playerId) {
+        if (numberOfPlayers == 1) {
+            return initialYPosition;
+        } else {
+            if (playerId == 1) {
+                return initialYPosition - 100;
+            } else if (playerId == 2) {
+                return initialYPosition + 100;
+            }
+            return initialYPosition;        
+        }
     }
 
     /**

@@ -76,8 +76,8 @@ public class LevelView implements HealthChangeListener {
 	public void showHeartDisplay(UserPlane player, int playerIndex) {
         if (!heartDisplays.containsKey(player)) {
             double xPosition = HEART_DISPLAY_X_POSITION;
-            double yPosition = calculateYPosition(playerIndex);; // You can keep y fixed or adjust as needed
-            HeartDisplay hd = new HeartDisplay(xPosition, yPosition, player.getHealth());
+            double yPosition = calculateYPosition(playerIndex);; 
+            HeartDisplay hd = new HeartDisplay(playerIndex, xPosition, yPosition, player.getHealth());
             heartDisplays.put(player, hd);
             root.getChildren().add(hd.getContainer());
         }
@@ -85,7 +85,7 @@ public class LevelView implements HealthChangeListener {
     
     private double calculateYPosition(int playerIndex) {
         double baseX = HEART_DISPLAY_Y_POSITION;
-        double offset = 25; // Adjust the offset as needed to prevent overlapping
+        double offset = 40; // Adjust the offset as needed to prevent overlapping
         return baseX + (playerIndex * offset);
     }
 	

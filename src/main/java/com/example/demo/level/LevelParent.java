@@ -92,14 +92,14 @@ public abstract class LevelParent {
         int numberOfPlayers = gameStateManager.getNumberOfPlayers();
     
         // Initialize player 1
-        UserPlane player1 = new UserPlane(playerInitialHealth, controller);
+        UserPlane player1 = new UserPlane(playerInitialHealth, controller, 1);
         actorManager.addActor(player1);
         System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
         player1.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes
     
         // If two-player mode, initialize player 2
         if (numberOfPlayers == 2) {
-            UserPlane player2 = new UserPlane(playerInitialHealth, controller);
+            UserPlane player2 = new UserPlane(playerInitialHealth, controller, 2);
             actorManager.addActor(player2);
             System.out.println("Player 2 position: X=" + player2.getTranslateX() + ", Y=" + player2.getTranslateY());
             player2.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes

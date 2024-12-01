@@ -29,8 +29,11 @@ public class GameConstant {
 
     // UserPlane Settings
     public static class UserPlane {
-        public static final String IMAGE_NAME = "userplane.png";
-        public static final int IMAGE_HEIGHT = 150;
+        public static final String ID1_IMAGE_NAME = "userplane1.png";
+        public static final String ID2_IMAGE_NAME = "userplane2.png";
+        public static final String ID1_IMAGE_NAME_DISPLAY = "userplane1_icon.png";
+        public static final String ID2_IMAGE_NAME_DISPLAY = "user.png";
+        public static final int IMAGE_HEIGHT = 100;
         public static final int INITIAL_HEALTH = 5;
         public static final double HORIZONTAL_VELOCITY = 8.0;
         public static final double VERTICAL_VELOCITY = 8.0;
@@ -51,8 +54,8 @@ public class GameConstant {
         public static final String IMAGE_NAME = "userfire.png";
         public static final int IMAGE_HEIGHT = 125;
         public static final int HORIZONTAL_VELOCITY = 15;
-        public static final int PROJECTILE_X_POSITION_OFFSET = 90;
-        public static final int PROJECTILE_Y_POSITION_OFFSET = 20;
+        public static final int PROJECTILE_X_POSITION_OFFSET = -8;
+        public static final int PROJECTILE_Y_POSITION_OFFSET = -10;
         public static final long FIRE_INTERVAL_NANOSECONDS = 500_000_000L;
     }
 
@@ -214,7 +217,7 @@ public class GameConstant {
     // Heart 
     public static class Heart {
         public static final String IMAGE_NAME = "heart.png";
-        public static final int IMAGE_HEIGHT = 25;
+        public static final int IMAGE_HEIGHT = 35;
     }
     
     // Level 001 Settings
