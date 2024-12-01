@@ -206,7 +206,8 @@ public class LevelState implements GameState, CollisionListener {
      * Creates the pause overlay UI.
      */
     private void createPauseOverlay() {
-        pauseOverlay = new PauseOverlay(gameStateManager);
+        System.out.println("Creating PauseOverlay for Level " + level.getCurrentLevelNumber());
+        pauseOverlay = new PauseOverlay(gameStateManager, level.getCurrentLevelNumber());
     }
 
     /**

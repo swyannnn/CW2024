@@ -187,7 +187,7 @@ public class GameConstant {
     public static class BossProjectile {
         public static final String IMAGE_NAME = "fireball.png";
         public static final int IMAGE_HEIGHT = 70;
-        public static final int HORIZONTAL_VELOCITY = -5;
+        public static final double HORIZONTAL_VELOCITY = -7.5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
         public static final double PROJECTILE_X_POSITION_OFFSET = -100;
         public static final double PROJECTILE_Y_POSITION_OFFSET = 120;
@@ -221,7 +221,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 1;
-        public static final int KILLS_TO_ADVANCE = 0;
+        public static final int KILLS_TO_ADVANCE = 3;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm001.wav";

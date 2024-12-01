@@ -2,6 +2,7 @@ package com.example.demo.ui;
 
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
+import com.example.demo.util.GameConstant.GameSettings;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -16,15 +17,18 @@ import javafx.scene.text.Text;
 public class PauseOverlay {
     private final VBox overlay;
     private final GameStateManager gameStateManager;
+    private int currentLevel;
 
     /**
      * Constructor for PauseOverlay.
      *
      * @param gameStateManager The GameStateManager to handle game state transitions.
      */
-    public PauseOverlay(GameStateManager gameStateManager) {
+    public PauseOverlay(GameStateManager gameStateManager, int currentLevel) {
         this.gameStateManager = gameStateManager;
+        this.currentLevel = currentLevel;
         this.overlay = createPauseOverlay();
+        System.out.println("Current Level in pauseoverlay constructor: " + currentLevel);
     }
 
     /**
@@ -43,6 +47,13 @@ public class PauseOverlay {
         pauseLabel.setFont(Font.font("Arial", 36));
         pauseLabel.setFill(Color.WHITE);
 
+        // Instruction Text
+        System.out.println("Current Level in pauseoverlay: " + currentLevel);
+        Text instructionText = new Text(getInstructionsForLevel(currentLevel));
+        instructionText.setFont(Font.font("Arial", 16));
+        instructionText.setFill(Color.LIGHTGRAY);
+        instructionText.setWrappingWidth(GameConstant.GameSettings.SCREEN_WIDTH * 0.8); // Adjust width as needed
+        
         // Resume Button
         Button resumeButton = new Button("Resume");
         resumeButton.setPrefSize(200, 50);
@@ -56,9 +67,30 @@ public class PauseOverlay {
         exitButton.setOnAction(e -> gameStateManager.goToMainMenu());
 
         // Add all components to the VBox
-        pauseBox.getChildren().addAll(pauseLabel, resumeButton, exitButton);
+        pauseBox.getChildren().addAll(instructionText, resumeButton, exitButton);
 
         return pauseBox;
+    }
+
+        /**
+     * Retrieves instructions based on the current level number.
+     *
+     * @param level The current level number.
+     * @return A string containing instructions for the level.
+     */
+    private String getInstructionsForLevel(int level) {
+        switch (level) {
+            case 1:
+                return String.format("Level %d:\n-Kill %d enemies!.", level, GameConstant.Level001.KILLS_TO_ADVANCE);
+            case 2:
+                return String.format("Level %d:\n-Kill the boss!", level, GameConstant.Level001.KILLS_TO_ADVANCE);
+            case 3:
+                return String.format("Level %d:\n- Survive %d seconds!", level, GameConstant.Level003.SURVIVAL_TIME);
+            case 4:
+                return String.format("Level %d:\n- Kill the ULTIMATE BOSS!", level);
+            default:
+                return "Good luck on your adventure!";
+        }
     }
 
     /**
