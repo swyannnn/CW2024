@@ -3,7 +3,6 @@ package com.example.demo.ui;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.example.demo.HeartDisplay;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.listener.HealthChangeListener;
 import com.example.demo.manager.ImageManager;

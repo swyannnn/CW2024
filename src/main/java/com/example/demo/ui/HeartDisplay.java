@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.ui;
 
 import com.example.demo.manager.ImageManager;
 import com.example.demo.util.GameConstant;
@@ -18,6 +18,14 @@ public class HeartDisplay {
     private double containerXPosition;
     private double containerYPosition;
 
+    /**
+     * Constructs a HeartDisplay instance with specified parameters.
+     *
+     * @param playerIndex The index of the player.
+     * @param xPosition   The x-coordinate of the heart display.
+     * @param yPosition   The y-coordinate of the heart display.
+     * @param initialHearts The initial number of hearts to display.
+     */
     public HeartDisplay(int playerIndex, double xPosition, double yPosition, int initialHearts) {
         this.containerXPosition = xPosition;
         this.containerYPosition = yPosition;
@@ -26,6 +34,10 @@ public class HeartDisplay {
         setHearts(initialHearts); // Set initial hearts dynamically
     }
 
+
+    /**
+     * Initializes the container for the heart display.
+     */
     private void initializeContainer() {
         container = new HBox(5);
         container.setLayoutX(containerXPosition);
@@ -39,7 +51,14 @@ public class HeartDisplay {
         container.getChildren().add(planeIcon);
     }
 
-    private String getImageName(int playerIndex) {
+    /**
+     * Returns the image name for the player icon.
+     * 
+     * @param playerIndex
+     * 
+     * @return The image name for the player icon.
+     */
+    public String getImageName(int playerIndex) {
         System.out.println("playerIndex: " + playerIndex);
         switch (playerIndex) {
             case 0:
@@ -74,6 +93,10 @@ public class HeartDisplay {
         });
     }
 
+    /**
+     * Returns the container for the heart display.
+     * @return The container for the heart display.
+     */
     public HBox getContainer() {
         return container;
     }
