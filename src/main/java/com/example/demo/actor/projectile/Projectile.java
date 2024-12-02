@@ -1,7 +1,6 @@
 package com.example.demo.actor.projectile;
 
 import com.example.demo.actor.ActiveActorDestructible;
-import com.example.demo.controller.Controller;
 import com.example.demo.util.GameConstant;
 
 /**
@@ -21,7 +20,7 @@ public abstract class Projectile extends ActiveActorDestructible {
      * @param initialYPos       The initial Y position of the projectile.
      * @param horizontalVelocity The horizontal velocity of the projectile.
      */
-    public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, double horizontalVelocity, Controller controller) {
+    public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, double horizontalVelocity) {
         super(imageName, imageHeight, initialXPos, initialYPos);
         this.horizontalVelocity = horizontalVelocity;
         setHorizontalBounds(xUpperBound, xLowerBound);

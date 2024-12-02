@@ -15,20 +15,20 @@ public class Level004 extends LevelParent {
 
     private int currentLevelNumber;
     private ActorManager actorManager;
-    private boolean bossDefeated;
+    private MultiPhaseBossPlane bossPlane;
 
     public Level004(Controller controller, int levelNumber) {
         super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
         this.actorManager = gameStateManager.getActorManager();
-        this.bossDefeated = false;
         initializeFriendlyUnits();
     }
 
     @Override
     public boolean userHasReachedTarget() {
-        return bossDefeated;
+        // return bossDefeated;
+        return bossPlane.isDestroyed();
     }
 
     @Override
@@ -46,13 +46,7 @@ public class Level004 extends LevelParent {
         if (actorManager.getEnemyUnits().isEmpty()) {
             MultiPhaseBossPlane bossPlane = new MultiPhaseBossPlane(controller, this);
             actorManager.addActor(bossPlane);
+            this.bossPlane = bossPlane;
         }
-    }
-
-    /**
-     * Called by the boss plane when it is defeated.
-     */
-    public void onBossDefeated() {
-        bossDefeated = true;
     }
 }

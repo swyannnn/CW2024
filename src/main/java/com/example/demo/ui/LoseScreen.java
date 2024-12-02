@@ -1,15 +1,14 @@
 package com.example.demo.ui;
 
 import com.example.demo.manager.ButtonManager;
-import com.example.demo.GameOverImage;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -18,10 +17,9 @@ import javafx.stage.Stage;
 public class LoseScreen {
     private final Stage primaryStage;
     private final GameStateManager gameStateManager;
-    // private static final int LOSS_SCREEN_X_POSITION = -160;
-	// private static final int LOSS_SCREEN_Y_POSITION = -375;
-    private static final int LOSS_SCREEN_X_POSITION = 0;
-	private static final int LOSS_SCREEN_Y_POSITION = 0;
+    private static final int iconHeight = GameConstant.GameOver.IMAGE_HEIGHT;
+	private static final int iconWidth = GameConstant.GameOver.IMAGE_WIDTH;
+    private static final String imageName = GameConstant.GameOver.IMAGE_PATH;
 
     /**
      * Constructor initializes the LoseScreen with the primary stage and game state manager.
@@ -43,7 +41,10 @@ public class LoseScreen {
      * @return The lose screen scene.
      */
     public Scene getLoseScreenScene() {
-        GameOverImage gameoverImage = new GameOverImage(LOSS_SCREEN_X_POSITION, LOSS_SCREEN_Y_POSITION);
+        ImageView gameoverImage = new ImageView(new Image(getClass().getResource(imageName).toExternalForm()));
+		gameoverImage.setFitHeight(iconHeight);
+		gameoverImage.setFitWidth(iconWidth);
+
         // Layout for the lose screen
         VBox loseLayout = new VBox(30); // Spacing of 30 pixels between elements
         loseLayout.setAlignment(Pos.CENTER);
@@ -62,19 +63,6 @@ public class LoseScreen {
 
         // Return the constructed scene
         return new Scene(loseLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
-    }
-
-    /**
-     * Creates and returns the title text for the lose screen.
-     *
-     * @param titleText The text to display as the title.
-     * @return A Text object styled as the title.
-     */
-    private Text createTitle(String titleText) {
-        Text title = new Text(titleText);
-        title.setFont(Font.font("Arial", 60)); // Font size 60
-        title.setStyle("-fx-fill: white;"); // White text color
-        return title;
     }
 
     /**

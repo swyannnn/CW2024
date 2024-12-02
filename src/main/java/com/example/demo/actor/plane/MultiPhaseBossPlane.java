@@ -7,8 +7,6 @@ import com.example.demo.level.Level004;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
 
-import javafx.geometry.Bounds;
-
 /**
  * MultiPhaseBossPlane class representing a boss aircraft with multiple phases.
  */
@@ -37,7 +35,6 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
 
     private Controller controller;
     private ActorManager actorManager;
-    private Level004 level; 
     private long spawnTime;
     private double horizontalVelocity; 
     private double verticalVelocity; 
@@ -65,7 +62,6 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
         public MultiPhaseBossPlane(Controller controller, Level004 level) {
             super(controller, imageName, imageHeight, xPosition, yPosition, totalHealth, fireIntervalNanoseconds);
             this.controller = controller;
-            this.level = level;
             this.actorManager = controller.getGameStateManager().getActorManager();
             this.currentPhase = 1;
             this.lastFireTime = System.nanoTime();
@@ -139,7 +135,7 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
                     double projectileX = getProjectileXPosition(projectileXPositionOffset);
                     double projectileY = getProjectileYPosition(projectileYPositionOffset);
     
-                    BossProjectile projectile = new BossProjectile(projectileX, projectileY, controller);
+                    BossProjectile projectile = new BossProjectile(projectileX, projectileY);
                     actorManager.addActor(projectile);
                     lastFireTime = System.nanoTime();
                 }
@@ -196,8 +192,7 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
             if (healthAtZero()){
                 // Boss defeated
                 System.out.println("Boss defeated");
-                actorManager.removeActor(this);
-                level.onBossDefeated();
+                this.destroy();
             } else {
                 switch (currentPhase) {
                     case 1:

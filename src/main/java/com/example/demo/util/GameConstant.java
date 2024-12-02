@@ -27,6 +27,20 @@ public class GameConstant {
         public static final int Y_POSITION = 690;
     }
 
+    // game over settings
+    public static class GameOver {
+        public static final String IMAGE_PATH = FilePaths.IMAGE_LOCATION + "gameover.png";
+        public static final int IMAGE_WIDTH = 600;
+        public static final int IMAGE_HEIGHT = 500;
+    }
+
+    // you win settings
+    public static class WinGame {
+        public static final String IMAGE_PATH = FilePaths.IMAGE_LOCATION + "youwin.png";
+        public static final int IMAGE_WIDTH = 500;
+        public static final int IMAGE_HEIGHT = 400;
+    }
+    
     // UserPlane Settings
     public static class UserPlane {
         public static final String ID1_IMAGE_NAME = "userplane1.png";

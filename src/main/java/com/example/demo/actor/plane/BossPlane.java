@@ -14,7 +14,6 @@ import com.example.demo.util.GameConstant;
 public class BossPlane extends FighterPlane {
     private final ActorManager actorManager;
     private Shield shield;
-    private final Controller controller;
 
     // Constants
     private static final String imageName = GameConstant.BossPlane.IMAGE_NAME;
@@ -51,7 +50,6 @@ public class BossPlane extends FighterPlane {
     public BossPlane(Controller controller) {
         super(controller, imageName, imageHeight, initialXPosition, initialYPosition, initialHealth, fireIntervalNanoseconds);
         this.actorManager = controller.getGameStateManager().getActorManager();
-        this.controller = controller;
         this.movePattern = new ArrayList<>();
         this.consecutiveMovesInSameDirection = 0;
         this.indexOfCurrentMove = 0;
@@ -73,7 +71,7 @@ public class BossPlane extends FighterPlane {
         if (bossFiresInCurrentFrame()) { // Use the specified firing probability
             double projectileX = getProjectileXPosition(projectileXPositionOffset);
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
-            BossProjectile projectile = new BossProjectile(projectileX, projectileY, controller);
+            BossProjectile projectile = new BossProjectile(projectileX, projectileY);
             actorManager.addActor(projectile);
             // Uncomment for debugging:
             // System.out.println("Projectile fired by BossPlane at: " + projectileY);

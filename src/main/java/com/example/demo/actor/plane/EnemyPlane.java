@@ -57,7 +57,7 @@ public class EnemyPlane extends FighterPlane {
             double projectileX = getProjectileXPosition(projectileXPositionOffset);
             double projectileY = getProjectileYPosition(projectileYPositionOffset);
 
-            EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY, controller);
+            EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY);
             actorManager.addActor(projectile);
         }
     }

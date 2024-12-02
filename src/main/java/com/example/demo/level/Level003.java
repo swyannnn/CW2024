@@ -22,11 +22,11 @@ import javafx.scene.text.Font;
  * Level003: Timed Survival Challenge.
  */
 public class Level003 extends LevelParent {
-    private static final String BACKGROUND_IMAGE_NAME = GameConstant.Level003.BACKGROUND_IMAGE_NAME;
-    private static final String BACKGROUND_MUSIC_NAME = GameConstant.Level003.BACKGROUND_MUSIC;
-    private static final int PLAYER_INITIAL_HEALTH = GameConstant.Level003.PLAYER_INITIAL_HEALTH;
-    private static final int SURVIVAL_TIME = GameConstant.Level003.SURVIVAL_TIME; // in seconds
-    private static final int ENEMY_SPAWN_INTERVAL = GameConstant.Level003.ENEMY_SPAWN_INTERVAL; // in milliseconds
+    private static final String backgroundImageName = GameConstant.Level003.BACKGROUND_IMAGE_NAME;
+    private static final String backgroundMusicName = GameConstant.Level003.BACKGROUND_MUSIC;
+    private static final int playerInitialHealth = GameConstant.Level003.PLAYER_INITIAL_HEALTH;
+    private static final int survivalTime = GameConstant.Level003.SURVIVAL_TIME; // in seconds
+    private static final int enemySpawnInterval = GameConstant.Level003.ENEMY_SPAWN_INTERVAL; // in milliseconds
 
     private int currentLevelNumber;
     private ActorManager actorManager;
@@ -41,7 +41,7 @@ public class Level003 extends LevelParent {
     private Label timeLabel;
 
     public Level003(Controller controller, int levelNumber) {
-        super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
+        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
         this.gameStateManager = controller.getGameStateManager();
@@ -65,7 +65,7 @@ public class Level003 extends LevelParent {
             // Position the label at the top-right corner with some padding
             timeLabel.setLayoutX(GameConstant.GameSettings.SCREEN_WIDTH - 180); // Adjust width as needed
             timeLabel.setLayoutY(8); // 10 pixels from the top
-            timeLabel.setText("Time Left: " + SURVIVAL_TIME + "s");
+            timeLabel.setText("Time Left: " + survivalTime + "s");
             root.getChildren().add(timeLabel);
         });
     }
@@ -85,7 +85,7 @@ public class Level003 extends LevelParent {
                     spawnEnemyUnits();
                 }
             }
-        }, 0, ENEMY_SPAWN_INTERVAL);
+        }, 0, enemySpawnInterval);
 
         // Timer for level duration
         levelTimer = new Timer(true); // Daemon thread
@@ -97,7 +97,7 @@ public class Level003 extends LevelParent {
                     enemySpawnTimer.cancel(); // Stop spawning enemies
                 }
             }
-        }, SURVIVAL_TIME * 1000);
+        }, survivalTime * 1000);
 
         // Timer for updating the remaining time display every second
         timeUpdateTimer = new Timer(true); // Daemon thread
@@ -125,7 +125,7 @@ public class Level003 extends LevelParent {
         }
 
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000.0; // in seconds
-        double remainingTime = SURVIVAL_TIME - elapsedTime;
+        double remainingTime = survivalTime - elapsedTime;
         remainingTime = Math.max(remainingTime, 0); // Ensure it doesn't go below zero
     
         final double finalRemainingTime = remainingTime; 
@@ -163,7 +163,7 @@ public class Level003 extends LevelParent {
 
         // normalize the elapsed time to a value between 1 and 3
         // input = (input - min) / (max - min) * (new_range_max - new_range_min) + new_range_min
-        double spawnfactor = elapsedTime / SURVIVAL_TIME * (3 - 1) + 1;
+        double spawnfactor = elapsedTime / survivalTime * (3 - 1) + 1;
         double randomValue = Math.random(); // Generates a number between 0.0 and 1.0
     
         if (randomValue < 0.003 * spawnfactor) {

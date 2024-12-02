@@ -11,12 +11,12 @@ import com.example.demo.util.GameConstant;
  * game.
  */
 public class Level001 extends LevelParent {
-    private static final String BACKGROUND_IMAGE_NAME = GameConstant.Level001.BACKGROUND_IMAGE_NAME;
-    private static final String BACKGROUND_MUSIC_NAME = GameConstant.Level001.BACKGROUND_MUSIC;
-    private static final int TOTAL_ENEMIES = GameConstant.Level001.TOTAL_ENEMIES;
-    private static final int KILLS_TO_ADVANCE = GameConstant.Level001.KILLS_TO_ADVANCE;
-    private static final double ENEMY_SPAWN_PROBABILITY = GameConstant.Level001.ENEMY_SPAWN_PROBABILITY;
-    private static final int PLAYER_INITIAL_HEALTH = GameConstant.Level001.PLAYER_INITIAL_HEALTH;
+    private static final String backgroundImageName = GameConstant.Level001.BACKGROUND_IMAGE_NAME;
+    private static final String backgroundMusicName = GameConstant.Level001.BACKGROUND_MUSIC;
+    private static final int totalEnemies = GameConstant.Level001.TOTAL_ENEMIES;
+    private static final int killsToAdvance = GameConstant.Level001.KILLS_TO_ADVANCE;
+    private static final double enemySpawnProbability = GameConstant.Level001.ENEMY_SPAWN_PROBABILITY;
+    private static final int playerInitialHealth = GameConstant.Level001.PLAYER_INITIAL_HEALTH;
 
     private int currentLevelNumber;
     private ActorManager actorManager;
@@ -28,7 +28,7 @@ public class Level001 extends LevelParent {
      * @param levelNumber      The level number for this level.
      */
     public Level001(Controller controller, int levelNumber) {
-        super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
+        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
         this.actorManager = gameStateManager.getActorManager();
@@ -42,7 +42,7 @@ public class Level001 extends LevelParent {
      */
     public boolean userHasReachedTarget() {
         return  actorManager.getPlayers().stream()
-                .allMatch(player -> player.getNumberOfKills() >= KILLS_TO_ADVANCE);
+                .allMatch(player -> player.getNumberOfKills() >= killsToAdvance);
     }
 
     @Override
@@ -57,8 +57,8 @@ public class Level001 extends LevelParent {
 
     @Override
     public void spawnEnemyUnits() {
-        while (actorManager.getEnemyUnits().size() < TOTAL_ENEMIES) {
-            if (Math.random() < ENEMY_SPAWN_PROBABILITY) {
+        while (actorManager.getEnemyUnits().size() < totalEnemies) {
+            if (Math.random() < enemySpawnProbability) {
                 ActiveActorDestructible newEnemy = new EnemyPlane(controller);
                 // System.out.println("Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
                 actorManager.addActor(newEnemy);

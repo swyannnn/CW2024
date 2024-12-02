@@ -19,7 +19,6 @@ public class UserPlane extends FighterPlane {
     private List<HealthChangeListener> healthChangeListeners = new ArrayList<>();
     private ActorManager actorManager;
     private AudioManager audioManager;
-    private Controller controller;
 
     private static final String ImageName1 = GameConstant.UserPlane.ID1_IMAGE_NAME;
     private static final String ImageName2 = GameConstant.UserPlane.ID2_IMAGE_NAME;
@@ -52,7 +51,6 @@ public class UserPlane extends FighterPlane {
      */
     public UserPlane(int initialHealth, Controller controller, int playerId) {
         super(controller, getImageName(playerId), imageHeight, initialXPosition, getInitialYPosition(playerId) , initialHealth, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS);
-        this.controller = controller;
         this.health = initialHealth;
         this.actorManager = controller.getGameStateManager().getActorManager();
         this.audioManager = controller.getGameStateManager().getAudioManager();
@@ -93,7 +91,7 @@ public class UserPlane extends FighterPlane {
         double currentX =  getProjectileXPosition(projectileXPositionOffset);
         double currentY = getProjectileYPosition(projectileYPositionOffset);
 
-        UserProjectile projectile = new UserProjectile(currentX, currentY, this, controller);
+        UserProjectile projectile = new UserProjectile(currentX, currentY, this);
         actorManager.addActor(projectile);
         audioManager.playSoundEffect(3);
     }

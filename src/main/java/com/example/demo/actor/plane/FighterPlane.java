@@ -3,7 +3,6 @@ package com.example.demo.actor.plane;
 import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.AudioManager;
-import com.example.demo.manager.ImageManager;
 
 /**
  * FighterPlane class representing a generic fighter plane in the game.
@@ -11,7 +10,6 @@ import com.example.demo.manager.ImageManager;
  */
 public abstract class FighterPlane extends ActiveActorDestructible {
     private AudioManager audioManager;
-    private ImageManager imageManager;
     protected int health;
     private long lastFireTime = 0;
     private final long fireIntervalNanoseconds;
@@ -31,7 +29,6 @@ public abstract class FighterPlane extends ActiveActorDestructible {
         super(imageName, imageHeight, initialXPos, initialYPos);
         this.health = health;
         this.audioManager = controller.getGameStateManager().getAudioManager();
-        this.imageManager = controller.getGameStateManager().getImageManager();
         this.fireIntervalNanoseconds = fireIntervalNanoseconds;
         this.fireRate = 0.5; // Default firing rate, can be overridden by subclasses
 
@@ -82,11 +79,6 @@ public abstract class FighterPlane extends ActiveActorDestructible {
     public void setHealth(int health) {
         this.health = health;
     }
-
-    protected void setImage(String imageName) {
-        imageManager.getImage(imageName);
-    }
-    
 
     public boolean CanFire(FighterPlane plane) {
         return (plane instanceof UserPlane) || (plane instanceof EnemyPlane)|| (plane instanceof BossPlane);
