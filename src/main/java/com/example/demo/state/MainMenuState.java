@@ -53,8 +53,7 @@ public class MainMenuState implements GameState {
     @Override
     public void handleInput(KeyEvent event) {
         switch (event.getCode()) {
-            case ENTER:
-                System.out.println("pressed enter");
+            case SPACE:
                 gameStateManager.startGame(); 
                 break;
             case ESCAPE:

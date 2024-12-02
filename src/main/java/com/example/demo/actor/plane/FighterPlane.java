@@ -64,7 +64,6 @@ public abstract class FighterPlane extends ActiveActorDestructible {
     }
 
     protected double getProjectileXPosition(double xPositionOffset) {
-        System.out.println("getLayoutX() + getTranslateX() + xPositionOffset: " + (getLayoutX() + getTranslateX() + xPositionOffset));
         return getLayoutX() + getTranslateX() + xPositionOffset;
     }
 
@@ -104,7 +103,7 @@ public abstract class FighterPlane extends ActiveActorDestructible {
             handleFiring(now);
         }
         performMovement(now);
-        performAdditionalUpdates(now); // Hook for subclasses to add extra behavior
+        performAdditionalUpdates(now); 
     }
 
     /**

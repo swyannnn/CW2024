@@ -2,14 +2,12 @@ package com.example.demo.actor.projectile;
 
 import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
 
 /**
  * Abstract Projectile class representing a generic projectile in the game.
  */
 public abstract class Projectile extends ActiveActorDestructible {
-	private ActorManager actorManager;
     protected double horizontalVelocity;
     protected double xUpperBound = GameConstant.Projectile.X_UPPER_BOUND;
     protected double xLowerBound = GameConstant.Projectile.X_LOWER_BOUND;
@@ -26,7 +24,6 @@ public abstract class Projectile extends ActiveActorDestructible {
     public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, double horizontalVelocity, Controller controller) {
         super(imageName, imageHeight, initialXPos, initialYPos);
         this.horizontalVelocity = horizontalVelocity;
-		this.actorManager = controller.getGameStateManager().getActorManager();
         setHorizontalBounds(xUpperBound, xLowerBound);
     }
 
@@ -42,14 +39,7 @@ public abstract class Projectile extends ActiveActorDestructible {
     public void update(long now) {
         moveHorizontally(horizontalVelocity);
         if (isOutOfBounds()) {
-            removeProjectile();
+            this.destroy();
         }
-    }
-
-    /**
-     * Removes the projectile from the scene graph and the ActorManager.
-     */
-    private void removeProjectile() {
-        actorManager.removeActor(this);
     }
 }

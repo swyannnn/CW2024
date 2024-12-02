@@ -33,6 +33,7 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
     private static final double xUpperBound = GameConstant.MultiPhaseBossPlane.X_UPPER_BOUND;
     private static final double xLowerBound = GameConstant.MultiPhaseBossPlane.X_LOWER_BOUND;
     private static final long summonCooldown = GameConstant.MultiPhaseBossPlane.SUMMON_COOLDOWN;
+    private static final int maxFramWithSameMove = GameConstant.MultiPhaseBossPlane.MAX_FRAMES_WITH_SAME_MOVE;
 
     private Controller controller;
     private ActorManager actorManager;
@@ -46,6 +47,15 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
     private long lastSummonTime;
     private double sineWaveBaseX;
     private static double ySpeedPhase2 = 100; // Pixels per second,
+
+    private int movementFrameCount;
+    private MovementState movementState;
+
+    // Enum to represent movement states
+    private enum MovementState {
+        HORIZONTAL,
+        SINE
+    }
             
         /**
          * Constructs a MultiPhaseBossPlane at the specified position.
@@ -61,6 +71,8 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
             this.lastFireTime = System.nanoTime();
             this.lastSummonTime = System.nanoTime();
             this.spawnTime = System.nanoTime();
+            this.movementState = MovementState.HORIZONTAL;
+            this.movementFrameCount = 0;
             this.horizontalVelocity = horizontalVelocityPhase1;
             setHorizontalBounds(xUpperBound, xLowerBound);
             setVerticalBounds(yUpperBound, yLowerBound);
@@ -82,12 +94,24 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
                     break;
                 case 3:
                 moveHorizontally(horizontalVelocity);
-                    // if (Math.random() < 0.5) {
-                    //     moveHorizontally(horizontalVelocity);
-                    // } else {
-                    //     moveInSineWavePattern(now);
-                    // }
-                    break;
+                    if (movementState == MovementState.HORIZONTAL) {
+                        moveHorizontally(horizontalVelocity);
+                    } else if (movementState == MovementState.SINE) {
+                        moveInSineWavePattern(now);
+                    }
+                    System.out.println("Current movement state: " + movementState + "movementFrameCount: " + movementFrameCount);
+
+                    // Increment frame counter
+                    movementFrameCount++;
+
+                    // Check if it's time to switch movement state
+                    if (movementState == MovementState.HORIZONTAL && movementFrameCount >= maxFramWithSameMove) {
+                        movementState = MovementState.SINE;
+                        movementFrameCount = 0;
+                    } else if (movementState == MovementState.SINE && movementFrameCount >= maxFramWithSameMove) {
+                        movementState = MovementState.HORIZONTAL;
+                        movementFrameCount = 0;
+                    }
                 default:
                     break;
             }

@@ -25,6 +25,21 @@ public class ButtonManager {
         button.setPrefWidth(width);
         button.setPrefHeight(height);
         button.setFont(Font.font("Arial", fontSize)); // Set font style and size
+
+        // Apply corrected JavaFX CSS styles
+        String style = """
+            -fx-border-color: transparent;
+            -fx-background-color: #239b56;
+            -fx-padding: 10px 20px;
+            -fx-font-size: 25px;
+            -fx-font-weight: bold;
+            -fx-text-fill: #ffffff;
+            -fx-background-radius: 5px;
+            -fx-effect: dropshadow(three-pass-box, #f9e79f, 10, 0, 0, 0);
+            -fx-cursor: hand;
+            -fx-font-family: 'Impact';
+            """;
+        button.setStyle(style);
         return button;
     }
 

@@ -42,7 +42,6 @@ public class LevelState implements GameState, CollisionListener {
     private final LevelParent level;
     private final Stage stage;
     private final GameStateManager gameStateManager;
-    private UserPlane userPlane;
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
     private boolean levelCompleted;

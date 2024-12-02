@@ -1,11 +1,15 @@
 package com.example.demo.level;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.example.demo.actor.ActiveActorDestructible;
 import com.example.demo.actor.plane.EnemyPlane1;
 import com.example.demo.actor.plane.EnemyPlane2;
 import com.example.demo.actor.plane.EnemyPlane3;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
 
 import javafx.application.Platform;
@@ -13,9 +17,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * Level003: Timed Survival Challenge.
@@ -29,8 +30,10 @@ public class Level003 extends LevelParent {
 
     private int currentLevelNumber;
     private ActorManager actorManager;
+    private GameStateManager gameStateManager;
     private Timer enemySpawnTimer;
     private Timer levelTimer;
+    private Timer timeUpdateTimer;
     private Group root;
     private double startTime; // Start time in milliseconds
     ActiveActorDestructible newEnemy;
@@ -38,9 +41,10 @@ public class Level003 extends LevelParent {
     private Label timeLabel;
 
     public Level003(Controller controller, int levelNumber) {
-        super(controller, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
+        super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
+        this.gameStateManager = controller.getGameStateManager();
         this.actorManager = gameStateManager.getActorManager();
         this.levelCompleted = false;
         this.root = super.getRoot();
@@ -59,8 +63,8 @@ public class Level003 extends LevelParent {
             timeLabel.setFont(new Font("Arial", 24));
             timeLabel.setStyle("-fx-font-weight: bold;");
             // Position the label at the top-right corner with some padding
-            timeLabel.setLayoutX(GameConstant.GameSettings.SCREEN_WIDTH - 550); // Adjust width as needed
-            timeLabel.setLayoutY(10); // 10 pixels from the top
+            timeLabel.setLayoutX(GameConstant.GameSettings.SCREEN_WIDTH - 180); // Adjust width as needed
+            timeLabel.setLayoutY(8); // 10 pixels from the top
             timeLabel.setText("Time Left: " + SURVIVAL_TIME + "s");
             root.getChildren().add(timeLabel);
         });
@@ -71,31 +75,38 @@ public class Level003 extends LevelParent {
      */
     private void startLevelTimers() {
         this.startTime = System.currentTimeMillis(); // Record the start time
+
         // Timer for spawning enemies
-        enemySpawnTimer = new Timer();
+        enemySpawnTimer = new Timer(true); // Daemon thread
         enemySpawnTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                spawnEnemyUnits();
+                if (!gameStateManager.isPaused() && !levelCompleted) {
+                    spawnEnemyUnits();
+                }
             }
         }, 0, ENEMY_SPAWN_INTERVAL);
 
         // Timer for level duration
-        levelTimer = new Timer();
+        levelTimer = new Timer(true); // Daemon thread
         levelTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                levelCompleted = true;
-                enemySpawnTimer.cancel(); // Stop spawning enemies
+                if (!gameStateManager.isPaused()) {
+                    levelCompleted = true;
+                    enemySpawnTimer.cancel(); // Stop spawning enemies
+                }
             }
         }, SURVIVAL_TIME * 1000);
 
         // Timer for updating the remaining time display every second
-        Timer timeUpdateTimer = new Timer();
+        timeUpdateTimer = new Timer(true); // Daemon thread
         timeUpdateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                updateRemainingTime();
+                if (!gameStateManager.isPaused()) {
+                    updateRemainingTime();
+                }
             }
         }, 0, 1000);
     }

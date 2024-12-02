@@ -96,7 +96,6 @@ public class ActorManager {
     public void removeDestroyedActors() {
         actors.removeIf(actor -> {
             if (actor.isDestroyed()) {
-                System.out.println("Removing destroyed actor: " + actor + " from the root " + this.root);
                 root.getChildren().remove(actor);
                 return true;
             }

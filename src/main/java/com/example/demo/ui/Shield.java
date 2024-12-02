@@ -1,6 +1,8 @@
 package com.example.demo.ui;
 
 import com.example.demo.manager.ImageManager;
+import com.example.demo.util.GameConstant;
+
 import javafx.scene.image.ImageView;
 
 /**
@@ -13,13 +15,13 @@ public class Shield extends ImageView {
     private static final int SHIELD_SIZE = 150;
 
     // Position offsets relative to BossPlane
-    private final int shieldXPositionOffset;
-    private final int shieldYPositionOffset;
+    private static final int shieldXPositionOffset = GameConstant.BossShield.X_POSITION_OFFSET;
+    private static final int shieldYPositionOffset = GameConstant.BossShield.Y_POSITION_OFFSET;
 
     // Shield activation parameters
     private final double shieldActivationProbability;
-    private final int maxFramesWithShield;
-    private final int maxFramesWithoutShield;
+    private static final int maxFramesWithShield = GameConstant.BossShield.MAX_FRAMES_WITH_SHIELD;
+    private static final int maxFramesWithoutShield = GameConstant.BossShield.MAX_FRAMES_WITHOUT_SHIELD;
 
     // Shield state
     private boolean isShielded;
@@ -35,18 +37,13 @@ public class Shield extends ImageView {
      * @param maxFramesWithShield    Maximum frames the shield remains active
      * @param maxFramesWithoutShield Maximum frames before shield can be reactivated
      */
-    public Shield(int shieldXPositionOffset, int shieldYPositionOffset,
-                  double shieldActivationProbability, int maxFramesWithShield, int maxFramesWithoutShield) {
+    public Shield(double shieldActivationProbability) {
         super();
         this.setImage(ImageManager.getInstance().getImage(IMAGE_PATH));
         this.setVisible(false);
         this.setFitHeight(SHIELD_SIZE);
         this.setFitWidth(SHIELD_SIZE);
-        this.shieldXPositionOffset = shieldXPositionOffset;
-        this.shieldYPositionOffset = shieldYPositionOffset;
         this.shieldActivationProbability = shieldActivationProbability;
-        this.maxFramesWithShield = maxFramesWithShield;
-        this.maxFramesWithoutShield = maxFramesWithoutShield;
 
         this.isShielded = false;
         this.framesWithShieldActivated = 0;

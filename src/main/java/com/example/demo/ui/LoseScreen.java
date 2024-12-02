@@ -49,9 +49,6 @@ public class LoseScreen {
         loseLayout.setAlignment(Pos.CENTER);
         loseLayout.setStyle("-fx-background-color: #8B0000;"); // Background color for the lose screen
 
-        // Lose Text
-        Text loseText = createTitle("You Lose!");
-
         // Restart Button
         Button restartButton = ButtonManager.createButton("Restart Game", 200, 50, 20);
         restartButton.setOnAction(e -> gameStateManager.goToLevel(1));
@@ -61,7 +58,7 @@ public class LoseScreen {
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout
-        loseLayout.getChildren().addAll(gameoverImage, loseText, restartButton, exitButton);
+        loseLayout.getChildren().addAll(gameoverImage, restartButton, exitButton);
 
         // Return the constructed scene
         return new Scene(loseLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);

@@ -27,11 +27,7 @@ public class BossPlane extends FighterPlane {
 
     // Shield-related constants
     private static final double BossShieldProbability = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
-    private static final int shieldXPositionOffset = GameConstant.BossShield.X_POSITION_OFFSET;
-    private static final int shieldYPositionOffset = GameConstant.BossShield.Y_POSITION_OFFSET;
-    private static final int maxFramesWithShield = GameConstant.BossShield.MAX_FRAMES_WITH_SHIELD;
-    private static final int maxFramesWithoutShield = GameConstant.BossShield.MAX_FRAMES_WITHOUT_SHIELD;
-
+    
     // Movement-related constants
     private static final int verticalVelocity = GameConstant.BossPlane.VERTICAL_VELOCITY;
     private static final int moveFrequencyPerCycle = GameConstant.BossPlane.MOVE_FREQUENCY_PER_CYCLE;
@@ -62,8 +58,7 @@ public class BossPlane extends FighterPlane {
         initializeMovePattern();
 
         // Initialize the shield and add it as a child node
-        shield = new Shield(shieldXPositionOffset, shieldYPositionOffset,
-                            BossShieldProbability, maxFramesWithShield, maxFramesWithoutShield);
+        shield = new Shield(BossShieldProbability);
         actorManager.addUIElement(shield); 
         setVerticalBounds(yUpperBound, yLowerBound);
     }

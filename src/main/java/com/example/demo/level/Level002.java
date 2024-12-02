@@ -8,6 +8,11 @@ import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
 
+import javafx.application.Platform;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
 public class Level002 extends LevelParent {
     private static final String BACKGROUND_IMAGE_NAME = GameConstant.Level002.BACKGROUND_IMAGE_NAME;
     private static final String BACKGROUND_MUSIC_NAME = GameConstant.Level002.BACKGROUND_MUSIC;
@@ -16,10 +21,9 @@ public class Level002 extends LevelParent {
     private ActorManager actorManager;
 
     public Level002(Controller controller, int levelNumber) {
-        super(controller, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
+        super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
         this.controller = controller;
-        this.actorManager = gameStateManager.getActorManager();
-        this.currentLevelNumber = levelNumber;
+        this.actorManager = controller.getGameStateManager().getActorManager();
         initializeFriendlyUnits();
     }
 
@@ -39,26 +43,6 @@ public class Level002 extends LevelParent {
             }
         }
         return allDestroyed;
-        
-        // Option 2: Check if **any** BossPlane is destroyed
-        // boolean anyDestroyed = false;
-        // for (ActiveActorDestructible actor : bossPlanes) {
-        //     if (actor.isDestroyed()) {
-        //         anyDestroyed = true;
-        //         break;
-        //     }
-        // }
-        // return anyDestroyed;
-    }
-
-    @Override
-    public int getCurrentLevelNumber() {
-        return currentLevelNumber;
-    }
-
-    @Override
-    public void setCurrentLevelNumber(int levelNumber) {
-        this.currentLevelNumber = levelNumber;
     }
 
     @Override

@@ -28,7 +28,7 @@ public class Level001 extends LevelParent {
      * @param levelNumber      The level number for this level.
      */
     public Level001(Controller controller, int levelNumber) {
-        super(controller, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
+        super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
         this.actorManager = gameStateManager.getActorManager();

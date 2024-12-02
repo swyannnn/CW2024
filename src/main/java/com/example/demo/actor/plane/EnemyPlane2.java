@@ -14,7 +14,7 @@ public class EnemyPlane2 extends FighterPlane {
     private static final int horizontalVelocity = GameConstant.EnemyPlane2.HORIZONTAL_VELOCITY; 
 	private static final double projectileXPositionOffset = GameConstant.EnemyProjectile.PROJECTILE_X_POSITION_OFFSET;
 	private static final double projectileYPositionOffset = GameConstant.EnemyProjectile.PROJECTILE_Y_POSITION_OFFSET;
-    private static final int initialHealth = GameConstant.EnemyPlane.INITIAL_HEALTH;
+    private static final int initialHealth = GameConstant.EnemyPlane2.INITIAL_HEALTH;
     private static final long fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS; 
     private static final double fireRate = GameConstant.EnemyProjectile.FIRE_RATE;
     private static final double yUpperBound = GameConstant.EnemyPlane2.Y_UPPER_BOUND;

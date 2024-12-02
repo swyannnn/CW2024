@@ -1,5 +1,7 @@
 package com.example.demo.ui;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,8 +12,11 @@ import com.example.demo.util.GameConstant;
 
 import javafx.scene.Group;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
-public class LevelView implements HealthChangeListener {
+public class LevelView implements HealthChangeListener, PropertyChangeListener {
 	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 10;
@@ -45,6 +50,38 @@ public class LevelView implements HealthChangeListener {
 
         // Add both images to the UI layer
         root.getChildren().addAll(backgrounds);
+    }
+
+    public void showInstructions(int currentLevel) {
+        System.out.println("Showing instructions for level: " + currentLevel);
+        Text instructionText = new Text(getInstructionsForLevel(currentLevel));
+        instructionText.setFont(Font.font("Comic Sans MS", 35));
+        instructionText.setFill(Color.BLACK);
+        instructionText.setLayoutX(GameConstant.GameSettings.SCREEN_WIDTH - 850); // Adjust width as needed
+        instructionText.setLayoutY(35); // 10 pixels from the top
+        instructionText.setWrappingWidth(GameConstant.GameSettings.SCREEN_WIDTH * 0.8); // Adjust width as needed
+        root.getChildren().add(instructionText);
+    }
+
+    /**
+     * Retrieves instructions based on the current level number.
+     *
+     * @param level The current level number.
+     * @return A string containing instructions for the level.
+     */
+    private String getInstructionsForLevel(int level) {
+        switch (level) {
+            case 1:
+                return String.format("Level %d: Kill %d enemies!.", level, GameConstant.Level001.KILLS_TO_ADVANCE);
+            case 2:
+                return String.format("Level %d: Kill the boss!", level, GameConstant.Level001.KILLS_TO_ADVANCE);
+            case 3:
+                return String.format("Level %d: Survive %d seconds!", level, GameConstant.Level003.SURVIVAL_TIME);
+            case 4:
+                return String.format("Level %d: Kill the ULTIMATE BOSS!", level);
+            default:
+                return "Good luck on your adventure!";
+        }
     }
 
     /**
@@ -86,6 +123,24 @@ public class LevelView implements HealthChangeListener {
         double baseX = HEART_DISPLAY_Y_POSITION;
         double offset = 40; // Adjust the offset as needed to prevent overlapping
         return baseX + (playerIndex * offset);
+    }
+
+    /**
+     * Handles property change events.
+     *
+     * @param evt The property change event.
+     */
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+            case "level":
+                int newLevelNumber = (int) evt.getNewValue();
+                showInstructions(newLevelNumber);
+                break;
+            // Handle other events if necessary
+            default:
+                break;
+        }
     }
 	
 	public void updateView() {

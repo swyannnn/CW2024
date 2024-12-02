@@ -33,6 +33,7 @@ public abstract class LevelParent {
     protected final AudioManager audioManager;
     protected final GameStateManager gameStateManager;
     private final double scrollSpeed = 1.0; // Adjust as needed
+    private int currentLevelNumber;
     /**
      * Constructs a new LevelParent instance.
      *
@@ -40,7 +41,8 @@ public abstract class LevelParent {
      * @param backgroundImageName The path to the background image.
      * @param playerInitialHealth The initial health of the player.
      */
-    public LevelParent(Controller controller, String backgroundImageName, String backgroundMusicName, int playerInitialHealth) {
+    public LevelParent(Controller controller, int currentLevelNumber, String backgroundImageName, String backgroundMusicName, int playerInitialHealth) {
+        setCurrentLevelNumber(currentLevelNumber);
         this.controller = controller;
         this.playerInitialHealth = playerInitialHealth;
         this.root = new Group();
@@ -54,6 +56,7 @@ public abstract class LevelParent {
         this.actorManager.updateRoot(this.root);
         // Initialize LevelView
         this.levelView = instantiateLevelView();
+        levelView.showInstructions(currentLevelNumber);
 
         initializeBackground(backgroundImageName);
         initializeBackgroundMusic(backgroundMusicName);
@@ -131,11 +134,15 @@ public abstract class LevelParent {
         return scene;
     }
 
+    public int getCurrentLevelNumber() {
+        return currentLevelNumber;
+    }
+
+    public void setCurrentLevelNumber(int levelNumber) {
+        this.currentLevelNumber = levelNumber;
+    }
+
     // Abstract methods to be implemented by subclasses
-    public abstract int getCurrentLevelNumber();
-
-    protected abstract void setCurrentLevelNumber(int levelNumber);
-
     public abstract boolean userHasReachedTarget();
 
     public abstract void spawnEnemyUnits();

@@ -32,7 +32,7 @@ public class GameConstant {
         public static final String ID1_IMAGE_NAME = "userplane1.png";
         public static final String ID2_IMAGE_NAME = "userplane2.png";
         public static final String ID1_IMAGE_NAME_DISPLAY = "userplane1_icon.png";
-        public static final String ID2_IMAGE_NAME_DISPLAY = "user.png";
+        public static final String ID2_IMAGE_NAME_DISPLAY = "userplane2_icon.png";
         public static final int IMAGE_HEIGHT = 100;
         public static final int INITIAL_HEALTH = 5;
         public static final double HORIZONTAL_VELOCITY = 8.0;
@@ -42,7 +42,7 @@ public class GameConstant {
         public static final double FIRE_RATE = 1.0;
         public static final double X_UPPER_BOUND = 0;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 250;
-        public static final double Y_UPPER_BOUND = -40;
+        public static final double Y_UPPER_BOUND = 0;
         public static final double Y_LOWER_BOUND = 600;
         public static final int VERTICAL_VELOCITY_MULTIPLIER = 0;
         public static final int HORIZONTAL_VELOCITY_MULTIPLIER = 0;
@@ -76,7 +76,7 @@ public class GameConstant {
     // EnemyPlane1 Settings
     public static class EnemyPlane1 {
         public static final String IMAGE_NAME = "enemy0.png";
-        public static final int IMAGE_HEIGHT = 50;
+        public static final int IMAGE_HEIGHT = 60;
         public static final int INITIAL_HEALTH = 1;
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
@@ -90,7 +90,7 @@ public class GameConstant {
     // EnemyPlane2 Settings
     public static class EnemyPlane2 {
         public static final String IMAGE_NAME = "enemy1.png";
-        public static final int IMAGE_HEIGHT = 60;
+        public static final int IMAGE_HEIGHT = 70;
         public static final int INITIAL_HEALTH = 2;
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
@@ -104,7 +104,7 @@ public class GameConstant {
     // EnemyPlane3 Settings
     public static class EnemyPlane3 {
         public static final String IMAGE_NAME = "enemy2.png";
-        public static final int IMAGE_HEIGHT = 70;
+        public static final int IMAGE_HEIGHT = 80;
         public static final int INITIAL_HEALTH = 3;
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
@@ -183,6 +183,7 @@ public class GameConstant {
         public static final long SUMMON_COOLDOWN = 1_000_000_000L; //1_000_000_000L
         public static final int PROJECTILE_X_POSITION_OFFSET = -130;
         public static final int PROJECTILE_Y_POSITION_OFFSET = 75;
+        public static final int MAX_FRAMES_WITH_SAME_MOVE = 500;
     }
 
 
@@ -224,7 +225,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 3;
-        public static final int KILLS_TO_ADVANCE = 300;
+        public static final int KILLS_TO_ADVANCE = 0;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm001.wav";
@@ -242,7 +243,7 @@ public class GameConstant {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm003.mp3";
-        public static final int SURVIVAL_TIME = 0; // in seconds
+        public static final int SURVIVAL_TIME = 20; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 

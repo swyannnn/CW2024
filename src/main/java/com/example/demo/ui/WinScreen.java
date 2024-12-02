@@ -50,9 +50,6 @@ public class WinScreen {
         winLayout.setAlignment(Pos.CENTER);
         winLayout.setStyle("-fx-background-color: #2E8B57;"); // Background color for the win screen
 
-        // Win Text
-        Text winText = createTitle("You Win!");
-
         // Restart Button
         Button restartButton = ButtonManager.createButton("Restart Game", 200, 50, 20);
         restartButton.setOnAction(e -> gameStateManager.goToLevel(1));
@@ -62,7 +59,7 @@ public class WinScreen {
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout
-        winLayout.getChildren().addAll(winImage, winText, restartButton, exitButton);
+        winLayout.getChildren().addAll(winImage, restartButton, exitButton);
 
         // Return the constructed scene
         return new Scene(winLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
