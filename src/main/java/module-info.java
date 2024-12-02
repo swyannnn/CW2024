@@ -4,6 +4,7 @@ module com.example.demo {
     requires transitive javafx.graphics;
     requires transitive javafx.media;
     requires transitive java.desktop;
+    requires transitive javafx.swing;
 
     // Export your packages so other modules can access them
     exports com.example.demo;

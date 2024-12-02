@@ -163,9 +163,9 @@ public class GameConstant {
         public static final int MINI_SIZE = 4;
         public static final int GIANT_SIZE = 1;
         public static final int IMAGE_HEIGHT = 200;
-        public static final int REMAINING_HEALTH_PHASE1 = 60;
-        public static final int REMAINING_HEALTH_PHASE2 = 59;
-        public static final int REMAINING_HEALTH_PHASE3 = 58;
+        public static final int REMAINING_HEALTH_PHASE1 = 6;
+        public static final int REMAINING_HEALTH_PHASE2 = 5;
+        public static final int REMAINING_HEALTH_PHASE3 = 4;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
         public static final double FIRE_RATE = 0.1; // 50% chance to fire
         public static final double Y_POSITION = (GameSettings.SCREEN_HEIGHT / 2) - 100;
@@ -204,7 +204,7 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 200;
         public static final int X_POSITION_OFFSET = 930;
         public static final int Y_POSITION_OFFSET = 200;
-        public static final double BOSS_SHIELD_PROBABILITY = 0;
+        public static final double BOSS_SHIELD_PROBABILITY = 0.0;
         public static final int MAX_FRAMES_WITH_SHIELD = 500;
         public static final int MAX_FRAMES_WITHOUT_SHIELD = 500;
     }
@@ -243,7 +243,7 @@ public class GameConstant {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm003.mp3";
-        public static final int SURVIVAL_TIME = 20; // in seconds
+        public static final int SURVIVAL_TIME = 0; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 

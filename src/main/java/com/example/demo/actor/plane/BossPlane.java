@@ -13,7 +13,7 @@ import com.example.demo.util.GameConstant;
  */
 public class BossPlane extends FighterPlane {
     private final ActorManager actorManager;
-    private final Shield shield;
+    private Shield shield;
     private final Controller controller;
 
     // Constants
@@ -56,11 +56,13 @@ public class BossPlane extends FighterPlane {
         this.consecutiveMovesInSameDirection = 0;
         this.indexOfCurrentMove = 0;
         initializeMovePattern();
+        initializeShield();
+        setVerticalBounds(yUpperBound, yLowerBound);
+    }
 
-        // Initialize the shield and add it as a child node
+    private void initializeShield() {
         shield = new Shield(BossShieldProbability);
         actorManager.addUIElement(shield); 
-        setVerticalBounds(yUpperBound, yLowerBound);
     }
 
     /**
