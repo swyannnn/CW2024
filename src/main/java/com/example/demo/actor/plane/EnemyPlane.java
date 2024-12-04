@@ -22,7 +22,6 @@ public class EnemyPlane extends FighterPlane {
     private static final double xUpperBound = GameConstant.EnemyPlane.X_UPPER_BOUND;
     private static final double xLowerBound = GameConstant.EnemyPlane.X_LOWER_BOUND;
     private ActorManager actorManager;
-    private Controller controller;
 
     /**
      * Constructs an EnemyPlane at the specified initial position.
@@ -34,7 +33,6 @@ public class EnemyPlane extends FighterPlane {
     public EnemyPlane(Controller controller) {
         super(controller, imageName, imageHeight, xLowerBound, calculateInitialYPos(), initialHealth, fireIntervalNanoseconds);
         this.actorManager = controller.getGameStateManager().getActorManager();
-        this.controller = controller;
         setHorizontalBounds(xUpperBound, xLowerBound);
         setVerticalBounds(yUpperBound, yLowerBound);
     }

@@ -55,7 +55,7 @@ public class GameStateFactory {
         }
     }
 
-        /**
+    /**
      * Creates an instance of WinState.
      *
      * @return A new WinState.

@@ -32,11 +32,11 @@ import java.beans.PropertyChangeSupport;
  * LevelState manages the game logic and rendering for a specific level.
  */
 public class LevelState implements GameState, CollisionListener {
-    private final String BUTTON_IMAGE_NAME = GameConstant.PauseButton.IMAGE_NAME;
-    private final int BUTTON_IMAGE_WIDTH = GameConstant.PauseButton.IMAGE_WIDTH;
-    private final int BUTTON_IMAGE_HEIGHT = GameConstant.PauseButton.IMAGE_HEIGHT;
-    private final int BUTTON_X_POSITION = GameConstant.PauseButton.X_POSITION;
-    private final int BUTTON_Y_POSITION = GameConstant.PauseButton.Y_POSITION;
+    private final String buttonImageName = GameConstant.PauseButton.IMAGE_NAME;
+    private final int buttonImageWidth = GameConstant.PauseButton.IMAGE_WIDTH;
+    private final int buttonImageHeight = GameConstant.PauseButton.IMAGE_HEIGHT;
+    private final int buttonXPosition = GameConstant.PauseButton.X_POSITION;
+    private final int buttonYPosition = GameConstant.PauseButton.Y_POSITION;
     
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final LevelParent level;
@@ -194,12 +194,12 @@ public class LevelState implements GameState, CollisionListener {
      */
     private void addPauseButton(Scene scene) {
         // Create the pause button with an icon
-        Button pauseButton = ButtonManager.createImageButton(BUTTON_IMAGE_NAME, BUTTON_IMAGE_WIDTH, BUTTON_IMAGE_HEIGHT);
+        Button pauseButton = ButtonManager.createImageButton(buttonImageName, buttonImageWidth, buttonImageHeight);
 
         // Set the action for the pause button
         pauseButton.setOnAction(e -> gameStateManager.pauseGame());
-        pauseButton.setLayoutX(BUTTON_X_POSITION); // 10 pixels from the left
-        pauseButton.setLayoutY(BUTTON_Y_POSITION); // 10 pixels from the top
+        pauseButton.setLayoutX(buttonXPosition); // 10 pixels from the left
+        pauseButton.setLayoutY(buttonYPosition); // 10 pixels from the top
 
         // Add the button to the scene
         Platform.runLater(() ->  actorManager.addUIElement(pauseButton));
