@@ -23,7 +23,6 @@ public abstract class Projectile extends ActiveActor {
     public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, double horizontalVelocity) {
         super(imageName, imageHeight, initialXPos, initialYPos);
         this.horizontalVelocity = horizontalVelocity;
-        setHorizontalBounds(xUpperBound, xLowerBound);
     }
 
     @Override
@@ -37,7 +36,8 @@ public abstract class Projectile extends ActiveActor {
      */
     public void update(long now) {
         moveHorizontally(horizontalVelocity);
-        if (isOutOfBounds()) {
+        double currentX = getLayoutX() + getTranslateX();
+        if (currentX < xUpperBound || currentX > xLowerBound ) {
             this.destroy();
         }
     }

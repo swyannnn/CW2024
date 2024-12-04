@@ -7,10 +7,10 @@ import javafx.scene.image.ImageView;
 public abstract class ActiveActor extends ImageView{
     private boolean isDestroyed;
     private int imageHeight;
-    private double xUpperBound = Double.NEGATIVE_INFINITY;
-    private double xLowerBound = Double.POSITIVE_INFINITY;
-    private double yUpperBound = Double.NEGATIVE_INFINITY;
-    private double yLowerBound = Double.POSITIVE_INFINITY;
+    // private double xUpperBound = Double.NEGATIVE_INFINITY;
+    // private double xLowerBound = Double.POSITIVE_INFINITY;
+    // private double yUpperBound = Double.NEGATIVE_INFINITY;
+    // private double yLowerBound = Double.POSITIVE_INFINITY;
 
     public ActiveActor(String imageName, int imageHeight, double initialXPos, double initialYPos) {
         this.setImage(ImageManager.getImage(imageName));
@@ -22,32 +22,17 @@ public abstract class ActiveActor extends ImageView{
         this.imageHeight = imageHeight;
     }
 
+    public void move(double deltaX, double deltaY) {
+        this.setTranslateX(getTranslateX() + deltaX);
+        this.setTranslateY(getTranslateY() + deltaY);
+    }
+
     protected void moveHorizontally(double horizontalMove) {
         this.setTranslateX(getTranslateX() + horizontalMove);
     }
 
     protected void moveVertically(double verticalMove) {
         this.setTranslateY(getTranslateY() + verticalMove);
-    }
-
-    public void setHorizontalBounds(double upperBound, double lowerBound) {
-        this.xUpperBound = upperBound;
-        this.xLowerBound = lowerBound;
-    }
-
-    public void setVerticalBounds(double upperBound, double lowerBound) {
-        this.yUpperBound = upperBound;
-        this.yLowerBound = lowerBound;
-    }
-
-    public boolean isOutOfBounds() {
-        double currentX = getLayoutX() + getTranslateX();
-        double currentY = getLayoutY() + getTranslateY();
-
-        boolean outOfHorizontal = currentX < xUpperBound || currentX > xLowerBound;
-        boolean outOfVertical = currentY < yUpperBound || currentY > yLowerBound;
-
-        return outOfHorizontal || outOfVertical;
     }
 
     public int getImageHeight() {

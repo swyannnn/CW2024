@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelFactory;
 import com.example.demo.level.LevelParent;
+import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.GameStateManager;
 import javafx.stage.Stage;
 
@@ -44,8 +45,8 @@ public class GameStateFactory {
      * @param levelNumber The level number.
      * @return A new LevelState, WinState if the level does not exist.
      */
-    public GameState createLevelState(int levelNumber) {
-        Optional<LevelParent> optionalLevel = LevelFactory.createLevel(levelNumber, controller);
+    public GameState createLevelState(int levelNumber, ActorManager actorManager) {
+        Optional<LevelParent> optionalLevel = LevelFactory.createLevel(levelNumber, controller, actorManager);
         if (optionalLevel.isPresent()) {
             LevelParent level = optionalLevel.get();
             return new LevelState(stage, controller, level);

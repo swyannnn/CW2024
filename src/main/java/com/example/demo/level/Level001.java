@@ -1,25 +1,25 @@
 package com.example.demo.level;
 
 import com.example.demo.actor.ActiveActor;
-import com.example.demo.actor.plane.EnemyPlane;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
 import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
 
 /**
  * Level001 defines the behavior and configuration for the first level of the
  * game.
  */
-public class Level001 extends LevelParent {
+public class Level001 extends LevelParent{
     private static final String backgroundImageName = GameConstant.Level001.BACKGROUND_IMAGE_NAME;
     private static final String backgroundMusicName = GameConstant.Level001.BACKGROUND_MUSIC;
     private static final int totalEnemies = GameConstant.Level001.TOTAL_ENEMIES;
     private static final int killsToAdvance = GameConstant.Level001.KILLS_TO_ADVANCE;
     private static final double enemySpawnProbability = GameConstant.Level001.ENEMY_SPAWN_PROBABILITY;
     private static final int playerInitialHealth = GameConstant.Level001.PLAYER_INITIAL_HEALTH;
-
-    private int currentLevelNumber;
-    private ActorManager actorManager;
+    private PlaneFactory planeFactory;
+    private final ActorSpawner actorSpawn;
 
     /**
      * Constructor for Level001.
@@ -27,11 +27,11 @@ public class Level001 extends LevelParent {
      * @param controller       The game controller.
      * @param levelNumber      The level number for this level.
      */
-    public Level001(Controller controller, int levelNumber) {
-        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth);
+    public Level001(Controller controller, int levelNumber, ActorSpawner actorSpawner) {
+        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner);
         this.controller = controller;
-        this.currentLevelNumber = levelNumber;
-        this.actorManager = gameStateManager.getActorManager();
+        this.actorSpawn = actorSpawner;
+        this.planeFactory = new PlaneFactory(controller, actorManager);
         initializeFriendlyUnits();
     }
 
@@ -46,22 +46,11 @@ public class Level001 extends LevelParent {
     }
 
     @Override
-    public int getCurrentLevelNumber() {
-        return currentLevelNumber;
-    }
-
-    @Override
-    public void setCurrentLevelNumber(int levelNumber) {
-        this.currentLevelNumber = levelNumber;
-    }
-
-    @Override
     public void spawnEnemyUnits() {
         while (actorManager.getEnemyUnits().size() < totalEnemies) {
             if (Math.random() < enemySpawnProbability) {
-                ActiveActor newEnemy = new EnemyPlane(controller);
-                // System.out.println("Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
-                actorManager.addActor(newEnemy);
+                ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE);
+                actorSpawn.spawnActor(newEnemy);
             }
         }
     }

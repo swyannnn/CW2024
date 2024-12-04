@@ -1,7 +1,12 @@
 package com.example.demo.level;
 
+import java.util.EnumSet;
 import java.util.List;
 
+import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
@@ -9,10 +14,12 @@ import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.ui.LevelView;
 import com.example.demo.util.GameConstant;
+import com.example.demo.util.PlayerKeyBindings;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 
 /**
  * Abstract base class for game levels.
@@ -32,6 +39,8 @@ public abstract class LevelParent {
     protected final ActorManager actorManager;
     protected final AudioManager audioManager;
     protected final GameStateManager gameStateManager;
+    protected final PlaneFactory planeFactory;
+    protected final ActorSpawner actorSpawn;
     private final double scrollSpeed = 1.0; // Adjust as needed
     private int currentLevelNumber;
     /**
@@ -41,12 +50,14 @@ public abstract class LevelParent {
      * @param backgroundImageName The path to the background image.
      * @param playerInitialHealth The initial health of the player.
      */
-    public LevelParent(Controller controller, int currentLevelNumber, String backgroundImageName, String backgroundMusicName, int playerInitialHealth) {
+    public LevelParent(Controller controller, int currentLevelNumber, String backgroundImageName, String backgroundMusicName, int playerInitialHealth, ActorSpawner actorSpawner) {
         setCurrentLevelNumber(currentLevelNumber);
         this.controller = controller;
         this.playerInitialHealth = playerInitialHealth;
         this.root = new Group();
         this.scene = new Scene(root, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
+        this.planeFactory = new PlaneFactory(controller, actorSpawner);
+        this.actorSpawn = actorSpawner;
 
         // Retrieve singleton Managers
         this.gameStateManager = controller.getGameStateManager();
@@ -95,17 +106,19 @@ public abstract class LevelParent {
         int numberOfPlayers = gameStateManager.getNumberOfPlayers();
     
         // Initialize player 1
-        UserPlane player1 = new UserPlane(playerInitialHealth, controller, 1);
-        actorManager.addActor(player1);
+        int playerId1 = 1;
+        ActiveActor player1 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId1);
+        actorSpawn.spawnActor(player1);
         System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
-        player1.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes
+        ((UserPlane) player1).addHealthChangeListener(this.levelView);
     
         // If two-player mode, initialize player 2
         if (numberOfPlayers == 2) {
-            UserPlane player2 = new UserPlane(playerInitialHealth, controller, 2);
-            actorManager.addActor(player2);
+            int playerId2 = 2;
+            ActiveActor player2 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId2);
+            actorSpawn.spawnActor(player2);
             System.out.println("Player 2 position: X=" + player2.getTranslateX() + ", Y=" + player2.getTranslateY());
-            player2.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes
+            ((UserPlane) player2).addHealthChangeListener(this.levelView);
         }
     }
 

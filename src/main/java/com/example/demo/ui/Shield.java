@@ -1,5 +1,6 @@
 package com.example.demo.ui;
 
+import com.example.demo.controller.Controller;
 import com.example.demo.manager.ImageManager;
 import com.example.demo.util.GameConstant;
 
@@ -37,7 +38,7 @@ public class Shield extends ImageView {
      * @param maxFramesWithShield    Maximum frames the shield remains active
      * @param maxFramesWithoutShield Maximum frames before shield can be reactivated
      */
-    public Shield(double shieldActivationProbability) {
+    public Shield(Controller controller, double shieldActivationProbability) {
         super();
         this.setImage(ImageManager.getImage(IMAGE_PATH));
         this.setVisible(false);
@@ -48,6 +49,7 @@ public class Shield extends ImageView {
         this.isShielded = false;
         this.framesWithShieldActivated = 0;
         this.framesSinceLastShield = maxFramesWithoutShield; // Initialize to allow immediate activation
+        controller.getGameStateManager().getActorManager().addUIElement(this);
     }
 
     /**
@@ -56,11 +58,13 @@ public class Shield extends ImageView {
      * @param translateX Current translateX of BossPlane
      * @param translateY Current translateY of BossPlane
      */
-    public void updateShieldState(double translateX, double translateY) {
+    public void updateShieldState(double layoutX, double layoutY) {
         if (isShielded) {
             // Position the shield relative to BossPlane
-            setTranslateX(translateX + shieldXPositionOffset);
-            setTranslateY(translateY + shieldYPositionOffset);
+            double newShieldX = layoutX + shieldXPositionOffset;
+            double newShieldY = layoutY + shieldYPositionOffset;
+            setLayoutX(newShieldX);
+            setLayoutY(newShieldY);
             framesWithShieldActivated++;
 
             // Check if shield duration is exhausted

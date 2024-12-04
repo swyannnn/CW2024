@@ -1,6 +1,7 @@
 package com.example.demo.manager;
 
 import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -13,7 +14,7 @@ import java.util.List;
  * ActorManager manages all active actors in the game.
  * It handles updating, rendering, and cleaning up actors.
  */
-public class ActorManager {
+public class ActorManager implements ActorSpawner {
     private static ActorManager instance;
     private final List<ActiveActor> actors;
     private Group root;
@@ -34,6 +35,15 @@ public class ActorManager {
             instance = new ActorManager(root);
         }
         return instance;
+    }
+
+    public ActorSpawner getActorSpawner() {
+        return this;
+    }    
+
+    @Override
+    public void spawnActor(ActiveActor actor) {
+        addActor(actor); // Use your existing method to add actors
     }
 
     public void updateRoot(Group newRoot) {

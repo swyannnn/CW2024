@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
@@ -15,8 +16,11 @@ import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameStateManager;
+import com.example.demo.strategy.UserFiringStrategy;
+import com.example.demo.strategy.UserMovementStrategy;
 import com.example.demo.ui.PauseOverlay;
 import com.example.demo.util.GameConstant;
+import com.example.demo.util.PlayerKeyBindings;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -46,6 +50,7 @@ public class LevelState implements GameState, CollisionListener {
     private final CollisionManager collisionManager;
     private boolean levelCompleted;
     private PauseOverlay pauseOverlay;
+    private final ActorSpawner actorSpawner;
     private Scene scene;
     private boolean isExplosionActive = false;
     // Map to hold each player's key bindings
@@ -69,6 +74,7 @@ public class LevelState implements GameState, CollisionListener {
         this.stage = stage;
         this.gameStateManager = controller.getGameStateManager();
         this.actorManager = gameStateManager.getActorManager();
+        this.actorSpawner = actorManager.getActorSpawner();
         this.collisionManager = gameStateManager.getCollisionManager();
         collisionManager.setCollisionListener(this);
         this.levelCompleted = false;
@@ -128,7 +134,7 @@ public class LevelState implements GameState, CollisionListener {
     @Override
     public void handleInput(KeyEvent event) {
         if (gameStateManager.isPaused()) {
-            // When paused, only ESCAPE key resumes the game
+            // When paused, only SPACE key resumes the game
             if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.SPACE) {
                 gameStateManager.resumeGame();
             }
@@ -142,12 +148,10 @@ public class LevelState implements GameState, CollisionListener {
             } else {
                 // Add other keys to activeKeys for movement
                 activeKeys.add(event.getCode());
-                processActiveKeys();
             }
         } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
             // Remove keys from activeKeys when released
             activeKeys.remove(event.getCode());
-            processActiveKeys();
         }
     }
 
@@ -263,8 +267,8 @@ public class LevelState implements GameState, CollisionListener {
         }
     } 
     
-        /**
-     * Assigns key bindings to each player based on the number of players.
+    /**
+     * Assigns key bindings to each player and sets up their movement and firing strategies.
      */
     private void assignPlayerKeyBindings() {
         List<UserPlane> players = actorManager.getPlayers();
@@ -275,14 +279,22 @@ public class LevelState implements GameState, CollisionListener {
             PlayerKeyBindings bindings;
 
             if (i == 0) {
-                // Player 1: W, A, S, D for movement
+                // Player 1: W, A, S, D for movement, SPACE for firing
                 bindings = new PlayerKeyBindings(
-                    EnumSet.of(KeyCode.UP, KeyCode.LEFT, KeyCode.DOWN, KeyCode.RIGHT)
+                    EnumSet.of(KeyCode.UP),
+                    EnumSet.of(KeyCode.DOWN),
+                    EnumSet.of(KeyCode.LEFT),
+                    EnumSet.of(KeyCode.RIGHT),
+                    KeyCode.ENTER
                 );
             } else if (i == 1) {
-                // Player 2: Arrow keys for movement
+                // Player 2: Arrow keys for movement, ENTER for firing
                 bindings = new PlayerKeyBindings(
-                    EnumSet.of(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D)
+                    EnumSet.of(KeyCode.W),
+                    EnumSet.of(KeyCode.S),
+                    EnumSet.of(KeyCode.A),
+                    EnumSet.of(KeyCode.D),
+                    KeyCode.SPACE
                 );
             } else {
                 // Additional players can be added here with their own bindings
@@ -291,59 +303,11 @@ public class LevelState implements GameState, CollisionListener {
 
             playerKeyBindingsMap.put(player, bindings);
             System.out.println("Assigned key bindings for Player " + (i + 1));
-        }
-    }
 
-    /**
-     * Processes all active keys and updates each player's state accordingly.
-     */
-    private void processActiveKeys() {
-        for (Map.Entry<UserPlane, PlayerKeyBindings> entry : playerKeyBindingsMap.entrySet()) {
-            UserPlane player = entry.getKey();
-            PlayerKeyBindings bindings = entry.getValue();
-
-            // Handle vertical movement
-            boolean movingUp = bindings.getMovementKeys().contains(KeyCode.UP) && activeKeys.contains(KeyCode.UP) ||
-                                bindings.getMovementKeys().contains(KeyCode.W) && activeKeys.contains(KeyCode.W);
-            boolean movingDown = bindings.getMovementKeys().contains(KeyCode.DOWN) && activeKeys.contains(KeyCode.DOWN) ||
-                                  bindings.getMovementKeys().contains(KeyCode.S) && activeKeys.contains(KeyCode.S);
-
-            if (movingUp) {
-                player.moveUp();
-            } else if (movingDown) {
-                player.moveDown();
-            } else {
-                player.stopVertical();
-            }
-
-            // Handle horizontal movement
-            boolean movingLeft = bindings.getMovementKeys().contains(KeyCode.LEFT) && activeKeys.contains(KeyCode.LEFT) ||
-                                 bindings.getMovementKeys().contains(KeyCode.A) && activeKeys.contains(KeyCode.A);
-            boolean movingRight = bindings.getMovementKeys().contains(KeyCode.RIGHT) && activeKeys.contains(KeyCode.RIGHT) ||
-                                  bindings.getMovementKeys().contains(KeyCode.D) && activeKeys.contains(KeyCode.D);
-
-            if (movingLeft) {
-                player.moveLeft();
-            } else if (movingRight) {
-                player.moveRight();
-            } else {
-                player.stopHorizontal();
-            }
-        }
-    }
-
-    /**
-     * Inner class to define key bindings for a player.
-     */
-    private static class PlayerKeyBindings {
-        private final Set<KeyCode> movementKeys;
-
-        public PlayerKeyBindings(Set<KeyCode> movementKeys) {
-            this.movementKeys = movementKeys;
-        }
-
-        public Set<KeyCode> getMovementKeys() {
-            return movementKeys;
+            // Assign MovementStrategy and FiringStrategy to the UserPlane
+            double planeSpeed = GameConstant.UserPlane.VERTICAL_VELOCITY; // Ensure this constant is defined
+            player.setMovementStrategy(new UserMovementStrategy(activeKeys, bindings, planeSpeed));
+            player.setFiringStrategy(new UserFiringStrategy(actorSpawner, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS));
         }
     }
 }

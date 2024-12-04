@@ -113,7 +113,7 @@ public class GameStateManager implements PropertyChangeListener {
      * @param levelNumber The number of the level to transition to.
      */
     public void goToLevel(int levelNumber) {
-        setState(stateFactory.createLevelState(levelNumber));
+        setState(stateFactory.createLevelState(levelNumber, actorManager));
     }
 
     /**

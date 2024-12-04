@@ -3,21 +3,24 @@ package com.example.demo.level;
 import java.util.List;
 
 import com.example.demo.actor.ActiveActor;
-import com.example.demo.actor.plane.BossPlane;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
 import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
 
 public class Level002 extends LevelParent {
     private static final String backgroundImageName = GameConstant.Level002.BACKGROUND_IMAGE_NAME;
     private static final String backgroundMusicName = GameConstant.Level002.BACKGROUND_MUSIC;
     private static final int playerInitialHealth = GameConstant.Level002.PLAYER_INITIAL_HEALTH;
-    private ActorManager actorManager;
+    private PlaneFactory planeFactory;
+    private final ActorSpawner actorSpawn;
 
-    public Level002(Controller controller, int levelNumber) {
-        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth);
+    public Level002(Controller controller, int levelNumber, ActorSpawner actorSpawner) {
+        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner);
         this.controller = controller;
-        this.actorManager = controller.getGameStateManager().getActorManager();
+        this.actorSpawn = actorSpawner;
+        this.planeFactory = new PlaneFactory(controller, actorManager);
         initializeFriendlyUnits();
     }
 
@@ -44,8 +47,8 @@ public class Level002 extends LevelParent {
         // Check if there are no current enemies
         if (actorManager.getBossUnits().size() == 0) {
             // Create and add the boss plane
-            ActiveActor bossPlane = new BossPlane(controller);
-            actorManager.addActor(bossPlane); // Use ActorManager to add the boss enemy
+            ActiveActor newEnemy = planeFactory.createPlane(PlaneType.BOSS_PLANE);
+            actorSpawn.spawnActor(newEnemy);
         }
     }
 }

@@ -4,11 +4,10 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.example.demo.actor.ActiveActor;
-import com.example.demo.actor.plane.EnemyPlane1;
-import com.example.demo.actor.plane.EnemyPlane2;
-import com.example.demo.actor.plane.EnemyPlane3;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
 import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
 
@@ -29,23 +28,24 @@ public class Level003 extends LevelParent {
     private static final int enemySpawnInterval = GameConstant.Level003.ENEMY_SPAWN_INTERVAL; // in milliseconds
 
     private int currentLevelNumber;
-    private ActorManager actorManager;
+    private PlaneFactory planeFactory;
+    private final ActorSpawner actorSpawn;
     private GameStateManager gameStateManager;
     private Timer enemySpawnTimer;
     private Timer levelTimer;
     private Timer timeUpdateTimer;
     private Group root;
-    private double startTime; // Start time in milliseconds
-    ActiveActor newEnemy;
+    private double startTime; 
     private boolean levelCompleted;
     private Label timeLabel;
 
-    public Level003(Controller controller, int levelNumber) {
-        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth);
+    public Level003(Controller controller, int levelNumber, ActorSpawner actorSpawner) {
+        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
         this.gameStateManager = controller.getGameStateManager();
-        this.actorManager = gameStateManager.getActorManager();
+        this.actorSpawn = actorSpawner;
+        this.planeFactory = new PlaneFactory(controller, actorManager);
         this.levelCompleted = false;
         this.root = super.getRoot();
         initializeFriendlyUnits();
@@ -163,18 +163,24 @@ public class Level003 extends LevelParent {
 
         // normalize the elapsed time to a value between 1 and 3
         // input = (input - min) / (max - min) * (new_range_max - new_range_min) + new_range_min
-        double spawnfactor = elapsedTime / survivalTime * (3 - 1) + 1;
+        double spawnFactor = elapsedTime / survivalTime * (3 - 1) + 1;
         double randomValue = Math.random(); // Generates a number between 0.0 and 1.0
     
-        if (randomValue < 0.003 * spawnfactor) {
-            newEnemy = new EnemyPlane1(controller);
-            actorManager.addActor(newEnemy);
-        } else if (randomValue < 0.006 * spawnfactor) {
-            newEnemy = new EnemyPlane2(controller);
-        } else if (randomValue < 0.009 * spawnfactor) {
-            newEnemy = new EnemyPlane3(controller);
-            actorManager.addActor(newEnemy);
-        }
+        Platform.runLater(() -> {
+            if (randomValue < 0.003 * spawnFactor) {
+                System.out.println("Spawning Enemy1");
+                ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE1);
+                actorSpawn.spawnActor(newEnemy);
+            } else if (randomValue < 0.006 * spawnFactor) {
+                System.out.println("Spawning Enemy2");
+                ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE2);
+                actorSpawn.spawnActor(newEnemy);
+            } else if (randomValue < 0.009 * spawnFactor) {
+                System.out.println("Spawning Enemy3");
+                ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE3);
+                actorSpawn.spawnActor(newEnemy);
+            }
+        });
     }    
 
     public void cleanup() {

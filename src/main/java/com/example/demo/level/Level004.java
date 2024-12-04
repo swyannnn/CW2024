@@ -1,5 +1,6 @@
 package com.example.demo.level;
 
+import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.MultiPhaseBossPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
@@ -17,8 +18,8 @@ public class Level004 extends LevelParent {
     private ActorManager actorManager;
     private MultiPhaseBossPlane bossPlane;
 
-    public Level004(Controller controller, int levelNumber) {
-        super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
+    public Level004(Controller controller, int levelNumber, ActorSpawner actorSpawner) {
+        super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH, actorSpawner);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
         this.actorManager = gameStateManager.getActorManager();
