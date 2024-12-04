@@ -1,8 +1,12 @@
 module com.example.demo {
-    requires javafx.controls;
-    requires javafx.fxml;
+    // Use 'requires transitive' for JavaFX modules whose types are exposed in exported packages
+    requires transitive javafx.controls;
+    requires transitive javafx.graphics;
+    requires transitive javafx.media;
+    requires transitive java.desktop;
+    requires transitive javafx.swing;
 
-
-    opens com.example.demo to javafx.fxml;
+    // Export your packages so other modules can access them
+    exports com.example.demo;
     exports com.example.demo.controller;
 }

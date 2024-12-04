@@ -1,54 +1,77 @@
 package com.example.demo.controller;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Observable;
-import java.util.Observer;
+import com.example.demo.manager.GameStateManager;
+import com.example.demo.util.GameConstant;
 
+import javafx.animation.AnimationTimer;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import com.example.demo.LevelParent;
 
-public class Controller implements Observer {
+/**
+ * Controller class manages the main game flow, including state transitions,
+ * game loop, and interactions with the GameStateManager.
+ */
+public class Controller {
+    private final Stage stage;
+    private final Group rootGroup;
+    private AnimationTimer gameLoop;
+    private GameStateManager gameStateManager;
 
-	private static final String LEVEL_ONE_CLASS_NAME = "com.example.demo.LevelOne";
-	private final Stage stage;
+    /**
+     * Constructor initializes the Controller with the main stage and sets up the game.
+     *
+     * @param stage The main Stage object used for rendering scenes.
+     * @param gameStateManager The GameStateManager instance for managing game states.
+     */
+    public Controller(Stage stage) {
+        this.stage = stage;
+        this.rootGroup = new Group(); 
+        Scene scene = new Scene(rootGroup, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT); 
+        stage.setScene(scene);
+        stage.setTitle(GameConstant.GameSettings.TITLE);
+        stage.show();
+    }
 
-	public Controller(Stage stage) {
-		this.stage = stage;
-	}
+    /**
+     * Initializes the game by setting up input handling and transitioning to the main menu.
+     */
+    public void initializeGame() {
+        gameStateManager = GameStateManager.getInstance(stage, this);
+        gameStateManager.goToMainMenu(); // Transition to the main menu
+    }
 
-	public void launchGame() throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException  {
+    /**
+     * Stops the game loop if it is running.
+     */
+    public void stopGameLoop() {
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+    }
 
-			stage.show();
-			goToLevel(LEVEL_ONE_CLASS_NAME);
-	}
+    /**
+     * Returns the root Group of the scene, used for adding visual elements.
+     *
+     * @return The root Group object.
+     */
+    public Group getRootGroup() {
+        return this.rootGroup;
+    }
 
-	private void goToLevel(String className) throws ClassNotFoundException, NoSuchMethodException, SecurityException,
-			InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-			Class<?> myClass = Class.forName(className);
-			Constructor<?> constructor = myClass.getConstructor(double.class, double.class);
-			LevelParent myLevel = (LevelParent) constructor.newInstance(stage.getHeight(), stage.getWidth());
-			myLevel.addObserver(this);
-			Scene scene = myLevel.initializeScene();
-			stage.setScene(scene);
-			myLevel.startGame();
+    public GameStateManager getGameStateManager() {
+        return gameStateManager;
+    }
 
-	}
-
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		try {
-			goToLevel((String) arg1);
-		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException
-				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			Alert alert = new Alert(AlertType.ERROR);
-			alert.setContentText(e.getClass().toString());
-			alert.show();
-		}
-	}
-
+    /**
+     * Cleanup method to stop the game loop and cleanup the GameStateManager.
+     */
+    public void cleanup() {
+        if (gameLoop != null) {
+            gameLoop.stop();
+        }
+        if (gameStateManager != null) {
+            gameStateManager.cleanup();
+        }
+    }
 }
