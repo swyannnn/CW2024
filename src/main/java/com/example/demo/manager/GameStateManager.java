@@ -28,7 +28,6 @@ public class GameStateManager implements PropertyChangeListener {
 
     // Managers
     private final AudioManager audioManager;
-    private final ImageManager imageManager;
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
 
@@ -45,7 +44,6 @@ public class GameStateManager implements PropertyChangeListener {
     private GameStateManager(Stage stage, Controller controller) {
         // Initialize managers
         this.audioManager = AudioManager.getInstance();
-        this.imageManager = ImageManager.getInstance();
         this.collisionManager = CollisionManager.getInstance();
 
         // Initialize ActorManager using the Controller's root group
@@ -216,11 +214,7 @@ public class GameStateManager implements PropertyChangeListener {
     public AudioManager getAudioManager() {
         return audioManager;
     }
-
-    public ImageManager getImageManager() {
-        return imageManager;
-    }
-
+    
     public ActorManager getActorManager() {
         return actorManager;
     }

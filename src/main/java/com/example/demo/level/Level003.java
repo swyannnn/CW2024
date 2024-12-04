@@ -3,7 +3,7 @@ package com.example.demo.level;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.EnemyPlane1;
 import com.example.demo.actor.plane.EnemyPlane2;
 import com.example.demo.actor.plane.EnemyPlane3;
@@ -36,7 +36,7 @@ public class Level003 extends LevelParent {
     private Timer timeUpdateTimer;
     private Group root;
     private double startTime; // Start time in milliseconds
-    ActiveActorDestructible newEnemy;
+    ActiveActor newEnemy;
     private boolean levelCompleted;
     private Label timeLabel;
 

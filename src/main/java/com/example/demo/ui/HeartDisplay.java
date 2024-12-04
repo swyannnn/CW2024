@@ -12,7 +12,6 @@ public class HeartDisplay {
 
     private static final String HEART_IMAGE_NAME = GameConstant.Heart.IMAGE_NAME;
     private static final int HEART_HEIGHT = GameConstant.Heart.IMAGE_HEIGHT;
-    private ImageManager imageManager = ImageManager.getInstance();
     private HBox container;
     private int playerIndex;
     private double containerXPosition;
@@ -44,7 +43,7 @@ public class HeartDisplay {
         container.setLayoutY(containerYPosition);
 
         String planeIconImageName = getImageName(playerIndex);
-        Image planeIconImage = imageManager.getImage(planeIconImageName);
+        Image planeIconImage = ImageManager.getImage(planeIconImageName);
         ImageView planeIcon = new ImageView(planeIconImage);
         planeIcon.setFitHeight(HEART_HEIGHT);
         planeIcon.setPreserveRatio(true);
@@ -84,7 +83,7 @@ public class HeartDisplay {
 
             // Add heart icons
             for (int i = 0; i < heartsRemaining; i++) {
-                Image heartImage = imageManager.getImage(HEART_IMAGE_NAME);
+                Image heartImage = ImageManager.getImage(HEART_IMAGE_NAME);
                 ImageView heart = new ImageView(heartImage);
                 heart.setFitHeight(HEART_HEIGHT);
                 heart.setPreserveRatio(true);

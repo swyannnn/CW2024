@@ -1,6 +1,6 @@
 package com.example.demo.level;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.EnemyPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
@@ -59,7 +59,7 @@ public class Level001 extends LevelParent {
     public void spawnEnemyUnits() {
         while (actorManager.getEnemyUnits().size() < totalEnemies) {
             if (Math.random() < enemySpawnProbability) {
-                ActiveActorDestructible newEnemy = new EnemyPlane(controller);
+                ActiveActor newEnemy = new EnemyPlane(controller);
                 // System.out.println("Enemy spawned at X: " + newEnemy.getTranslateX() + ", Y: " + newEnemy.getTranslateY());
                 actorManager.addActor(newEnemy);
             }

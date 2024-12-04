@@ -1,6 +1,6 @@
 package com.example.demo.actor.plane;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.AudioManager;
 
@@ -8,7 +8,7 @@ import com.example.demo.manager.AudioManager;
  * FighterPlane class representing a generic fighter plane in the game.
  * Both EnemyPlane and UserPlane extend this class.
  */
-public abstract class FighterPlane extends ActiveActorDestructible {
+public abstract class FighterPlane extends ActiveActor {
     private AudioManager audioManager;
     protected int health;
     private long lastFireTime = 0;

@@ -1,6 +1,6 @@
 package com.example.demo.manager;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.effect.ExplosionEffect;
@@ -54,7 +54,7 @@ public class CollisionManager {
         handleCollisions(actorManager.getPlayers(), actorManager.getEnemyUnits());
     }
 
-    private Bounds getShrunkenBounds(ActiveActorDestructible actor) {
+    private Bounds getShrunkenBounds(ActiveActor actor) {
         Bounds original = actor.getBoundsInParent();
         
         double width = original.getWidth() * shrinkPercentage;
@@ -73,8 +73,8 @@ public class CollisionManager {
      * @param targetActors The list of target actors (e.g., players).
      */
     private void handleCollisions(
-        List<? extends ActiveActorDestructible> sourceActors, 
-        List<? extends ActiveActorDestructible> targetActors) {
+        List<? extends ActiveActor> sourceActors, 
+        List<? extends ActiveActor> targetActors) {
         
         sourceActors.stream()
             .flatMap(source -> targetActors.stream()
@@ -88,8 +88,8 @@ public class CollisionManager {
     }
 
     private void processCollision(CollisionPair pair) {
-        ActiveActorDestructible source = pair.source;
-        ActiveActorDestructible target = pair.target;
+        ActiveActor source = pair.source;
+        ActiveActor target = pair.target;
         System.out.println("Collision detected: " + source + " hit " + target);
     
         boolean targetDamaged = false;
@@ -106,7 +106,7 @@ public class CollisionManager {
         }
     }
 
-    private void createExplosionAt(ActiveActorDestructible target) {
+    private void createExplosionAt(ActiveActor target) {
         double explosionX = target.getLayoutX() + target.getTranslateX();
         double explosionY = target.getLayoutY() + target.getTranslateY() + target.getImageHeight() / 2;
         ExplosionEffect explosion = new ExplosionEffect(explosionX, explosionY);
@@ -125,10 +125,10 @@ public class CollisionManager {
      * A simple helper class to hold a pair of actors involved in a collision.
      */
     private static class CollisionPair {
-        final ActiveActorDestructible source;
-        final ActiveActorDestructible target;
+        final ActiveActor source;
+        final ActiveActor target;
 
-        CollisionPair(ActiveActorDestructible source, ActiveActorDestructible target) {
+        CollisionPair(ActiveActor source, ActiveActor target) {
             this.source = source;
             this.target = target;
         }

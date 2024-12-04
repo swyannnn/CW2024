@@ -95,8 +95,6 @@ private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_N
                     } else if (movementState == MovementState.SINE) {
                         moveInSineWavePattern(now);
                     }
-                    System.out.println("Current movement state: " + movementState + "movementFrameCount: " + movementFrameCount);
-
                     // Increment frame counter
                     movementFrameCount++;
 

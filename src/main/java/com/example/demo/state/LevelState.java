@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
@@ -182,7 +182,7 @@ public class LevelState implements GameState, CollisionListener {
      * @param enemy     The enemy involved in the collision.
      */
     @Override
-    public void onProjectileHitEnemy(UserPlane userPlane, ActiveActorDestructible enemy) {
+    public void onProjectileHitEnemy(UserPlane userPlane, ActiveActor enemy) {
         userPlane.incrementKillCount();
         System.out.println("Kill count for user updated: " + userPlane.getNumberOfKills());
     }

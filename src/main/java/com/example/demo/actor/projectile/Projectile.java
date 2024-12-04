@@ -1,12 +1,12 @@
 package com.example.demo.actor.projectile;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.util.GameConstant;
 
 /**
  * Abstract Projectile class representing a generic projectile in the game.
  */
-public abstract class Projectile extends ActiveActorDestructible {
+public abstract class Projectile extends ActiveActor {
     protected double horizontalVelocity;
     protected double xUpperBound = GameConstant.Projectile.X_UPPER_BOUND;
     protected double xLowerBound = GameConstant.Projectile.X_LOWER_BOUND;

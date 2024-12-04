@@ -2,7 +2,7 @@ package com.example.demo.level;
 
 import java.util.List;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.BossPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
@@ -23,14 +23,14 @@ public class Level002 extends LevelParent {
 
     @Override
     public boolean userHasReachedTarget() {
-        List<ActiveActorDestructible> bossPlanes = actorManager.getBossUnits();
+        List<ActiveActor> bossPlanes = actorManager.getBossUnits();
         if (bossPlanes.isEmpty()) {
             return false; // No boss planes present
         }
         
         // Option 1: Check if **all** BossPlanes are destroyed
         boolean allDestroyed = true;
-        for (ActiveActorDestructible actor : bossPlanes) {
+        for (ActiveActor actor : bossPlanes) {
             if (!actor.isDestroyed()) {
                 allDestroyed = false;
                 break;
@@ -44,7 +44,7 @@ public class Level002 extends LevelParent {
         // Check if there are no current enemies
         if (actorManager.getBossUnits().size() == 0) {
             // Create and add the boss plane
-            ActiveActorDestructible bossPlane = new BossPlane(controller);
+            ActiveActor bossPlane = new BossPlane(controller);
             actorManager.addActor(bossPlane); // Use ActorManager to add the boss enemy
         }
     }

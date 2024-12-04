@@ -39,7 +39,7 @@ public class Shield extends ImageView {
      */
     public Shield(double shieldActivationProbability) {
         super();
-        this.setImage(ImageManager.getInstance().getImage(IMAGE_PATH));
+        this.setImage(ImageManager.getImage(IMAGE_PATH));
         this.setVisible(false);
         this.setFitHeight(SHIELD_SIZE);
         this.setFitWidth(SHIELD_SIZE);
