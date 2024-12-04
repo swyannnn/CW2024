@@ -106,7 +106,7 @@ public class ActorManager implements ActorSpawner {
     public void removeDestroyedActors() {
         actors.removeIf(actor -> {
             if (actor.isDestroyed()) {
-                System.out.println("Removing actor: " + actor);
+                // System.out.println("Removing actor: " + actor);
                 root.getChildren().remove(actor);
                 return true;
             }

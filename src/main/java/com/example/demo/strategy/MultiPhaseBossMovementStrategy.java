@@ -1,113 +1,106 @@
 package com.example.demo.strategy;
 
 import com.example.demo.actor.plane.FighterPlane;
-import com.example.demo.actor.plane.MultiPhaseBossPlane;
 import com.example.demo.util.GameConstant;
 
 /**
- * Handles movement logic for MultiPhaseBossPlane across different phases.
+ * Strategy for moving the MultiPhaseBossPlane with phase-specific behaviors.
  */
 public class MultiPhaseBossMovementStrategy implements MovementStrategy {
+    private double horizontalVelocity;
+    private double verticalVelocity;
     private int currentPhase;
-    private long phaseStartTime;
-    
-    // Constants for movement
-    private final double horizontalVelocityPhase1;
-    private final double horizontalVelocityPhase2;
-    private final double horizontalVelocityPhase3;
-    private final double ySpeedPhase2;
-    private final int maxFramesWithSameMove;
-    
-    // Movement State for Phase 3
-    private MultiPhaseBossPlane.MovementState movementState;
-    private int movementFrameCount;
+    private long spawnTime;
+    private double sineWaveBaseX;
 
-    public MultiPhaseBossMovementStrategy(MultiPhaseBossPlane bossPlane) {
+    private int movementFrameCount;
+    private MovementState movementState;
+
+    // Enum to represent movement states
+    private enum MovementState {
+        HORIZONTAL,
+        SINE
+    }
+
+    public MultiPhaseBossMovementStrategy() {
         this.currentPhase = 1;
-        this.phaseStartTime = System.nanoTime();
-        this.horizontalVelocityPhase1 = bossPlane.getHorizontalVelocityPhase1();
-        this.horizontalVelocityPhase2 = bossPlane.getHorizontalVelocityPhase2();
-        this.horizontalVelocityPhase3 = bossPlane.getHorizontalVelocityPhase3();
-        this.ySpeedPhase2 = bossPlane.getYSpeedPhase2();
-        this.maxFramesWithSameMove = bossPlane.getMaxFramesWithSameMove();
-        this.movementState = MultiPhaseBossPlane.MovementState.HORIZONTAL;
+        this.spawnTime = System.nanoTime();
+        this.movementState = MovementState.HORIZONTAL;
         this.movementFrameCount = 0;
+        this.horizontalVelocity = GameConstant.MultiPhaseBossPlane.HORIZONTAL_VELOCITY_PHASE1;
+        this.verticalVelocity = GameConstant.MultiPhaseBossPlane.VERTICAL_VELOCITY_PHASE1;
+        this.sineWaveBaseX = 0;
     }
 
     @Override
     public void move(FighterPlane plane, long now) {
-        MultiPhaseBossPlane boss = (MultiPhaseBossPlane) plane;
+        // Update current phase based on plane's health if needed
+        // For simplicity, assume the phase is managed externally
 
         switch (currentPhase) {
             case 1:
-                // Phase 1: Simple horizontal movement
-                moveHorizontally(boss, boss.getHorizontalVelocityPhase1());
+                moveHorizontally(plane);
                 break;
-
             case 2:
-                // Phase 2: Sine wave movement
-                moveInSineWave(boss, now);
+                moveInSineWavePattern(plane, now);
                 break;
-
             case 3:
-                // Phase 3: Alternating between horizontal and sine wave movement
-                alternateMovement(boss, now);
+                handlePhase3Movement(plane, now);
                 break;
-
             default:
                 break;
         }
 
         // Boundary checking
-        boss.constrainWithinBounds();
+        if (isOutOfBounds(plane)) {
+            constrainWithinBounds(plane);
+        }
     }
 
     /**
-     * Handles horizontal movement.
+     * Handles horizontal movement for Phase 1.
      */
-    private void moveHorizontally(MultiPhaseBossPlane boss, double velocity) {
-        double newX = boss.getLayoutX() - velocity;
-        boss.setLayoutX(newX);
+    private void moveHorizontally(FighterPlane plane) {
+        plane.setTranslateX(plane.getTranslateX() + horizontalVelocity);
     }
 
     /**
      * Handles sine wave movement for Phase 2.
      */
-    private void moveInSineWave(MultiPhaseBossPlane boss, long now) {
-        // Calculate time elapsed since Phase 2 started
-        double timeInSeconds = (now - phaseStartTime) / 1_000_000_000.0;
-
+    private void moveInSineWavePattern(FighterPlane plane, long now) {
+        // Calculate time elapsed since sine movement started
+        double timeInSeconds = (now - spawnTime) / 1_000_000_000.0;
+    
         double amplitude = 100; // Horizontal oscillation amplitude in pixels
         double frequency = 0.5; // Oscillation frequency in Hz
-
+    
         // Calculate new X position based on sine wave
         double sineValue = Math.sin(2 * Math.PI * frequency * timeInSeconds);
-        double newX = boss.getSineWaveBaseX() + amplitude * sineValue;
-
-        // Update Y position based on vertical velocity
+        double newX = sineWaveBaseX + amplitude * sineValue;
+    
+        // Calculate new Y position based on vertical velocity
         double deltaTime = 0.016; // Approximate time between frames (assuming ~60 FPS)
-        double newY = boss.getLayoutY() + ySpeedPhase2 * deltaTime;
-
-        boss.setLayoutX(newX);
-        boss.setLayoutY(newY);
+        double newY = plane.getTranslateY() + verticalVelocity * deltaTime;
+        plane.setTranslateX(newX);
+        plane.setTranslateY(newY);
     }
+    
 
     /**
-     * Handles alternating movement for Phase 3.
+     * Handles movement logic for Phase 3, toggling between horizontal and sine wave patterns.
      */
-    private void alternateMovement(MultiPhaseBossPlane boss, long now) {
-        // Perform movement based on current movement state
-        if (movementState == MultiPhaseBossPlane.MovementState.HORIZONTAL) {
-            moveHorizontally(boss, horizontalVelocityPhase3);
-        } else if (movementState == MultiPhaseBossPlane.MovementState.SINE) {
-            moveInSineWave(boss, now);
+    private void handlePhase3Movement(FighterPlane plane, long now) {
+        if (movementState == MovementState.HORIZONTAL) {
+            moveHorizontally(plane);
+        } else if (movementState == MovementState.SINE) {
+            moveInSineWavePattern(plane, now);
         }
 
         // Increment frame counter
         movementFrameCount++;
 
         // Check if it's time to switch movement state
-        if (movementFrameCount >= maxFramesWithSameMove) {
+        if (movementFrameCount >= GameConstant.MultiPhaseBossPlane.MAX_FRAMES_WITH_SAME_MOVE) {
             toggleMovementState();
             movementFrameCount = 0;
         }
@@ -117,22 +110,62 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
      * Toggles the movement state between HORIZONTAL and SINE.
      */
     private void toggleMovementState() {
-        if (movementState == MultiPhaseBossPlane.MovementState.HORIZONTAL) {
-            movementState = MultiPhaseBossPlane.MovementState.SINE;
-        } else {
-            movementState = MultiPhaseBossPlane.MovementState.HORIZONTAL;
+        movementState = (movementState == MovementState.HORIZONTAL) ? MovementState.SINE : MovementState.HORIZONTAL;
+    }
+
+    /**
+     * Checks if the plane is out of defined bounds.
+     */
+    private boolean isOutOfBounds(FighterPlane plane) {
+        double currentX = plane.getLayoutX() + plane.getTranslateX();
+        double currentY = plane.getLayoutY() + plane.getTranslateY();
+
+        boolean outOfHorizontal = currentX < GameConstant.MultiPhaseBossPlane.X_UPPER_BOUND
+                || currentX > GameConstant.MultiPhaseBossPlane.X_LOWER_BOUND;
+        boolean outOfVertical = currentY < GameConstant.MultiPhaseBossPlane.Y_UPPER_BOUND
+                || currentY > GameConstant.MultiPhaseBossPlane.Y_LOWER_BOUND;
+        return outOfHorizontal || outOfVertical;
+    }
+
+    /**
+     * Constrains the plane within bounds and reverses direction if necessary.
+     */
+    private void constrainWithinBounds(FighterPlane plane) {
+        double currentX = plane.getLayoutX() + plane.getTranslateX();
+        double currentY = plane.getLayoutY() + plane.getTranslateY();
+
+        if (currentX < GameConstant.MultiPhaseBossPlane.X_UPPER_BOUND
+                || currentX > GameConstant.MultiPhaseBossPlane.X_LOWER_BOUND) {
+            horizontalVelocity = -horizontalVelocity;
+        }
+        if (currentY < GameConstant.MultiPhaseBossPlane.Y_UPPER_BOUND
+                || currentY > GameConstant.MultiPhaseBossPlane.Y_LOWER_BOUND) {
+            verticalVelocity = -verticalVelocity;
         }
     }
 
     /**
-     * Transitions to the next phase.
+     * Updates the current phase and adjusts velocities accordingly.
+     *
+     * @param newPhase The new phase to transition into.
      */
-    public void transitionToNextPhase() {
-        currentPhase++;
-        phaseStartTime = System.nanoTime();
-    }
-
-    public int getCurrentPhase() {
-        return currentPhase;
+    public void updatePhase(int newPhase) {
+        this.currentPhase = newPhase;
+        switch (newPhase) {
+            case 2:
+                this.horizontalVelocity = GameConstant.MultiPhaseBossPlane.HORIZONTAL_VELOCITY_PHASE2;
+                this.verticalVelocity = GameConstant.MultiPhaseBossPlane.VERTICAL_VELOCITY_PHASE2;
+                this.sineWaveBaseX = 0; // Reset for sine movement
+                this.spawnTime = System.nanoTime(); // Reset spawn time for sine calculation
+                break;
+            case 3:
+                this.horizontalVelocity = GameConstant.MultiPhaseBossPlane.HORIZONTAL_VELOCITY_PHASE3;
+                // Additional adjustments for phase 3 if necessary
+                break;
+            default:
+                this.horizontalVelocity = GameConstant.MultiPhaseBossPlane.HORIZONTAL_VELOCITY_PHASE1;
+                this.verticalVelocity = 0;
+                break;
+        }
     }
 }

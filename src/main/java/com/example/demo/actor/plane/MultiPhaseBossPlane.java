@@ -1,285 +1,155 @@
 package com.example.demo.actor.plane;
 
-// import com.example.demo.effect.AreaEffect;
-import com.example.demo.actor.projectile.BossProjectile;
+import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.PlaneConfig;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
 import com.example.demo.controller.Controller;
-import com.example.demo.level.Level004;
 import com.example.demo.manager.ActorManager;
+import com.example.demo.strategy.MultiPhaseBossMovementStrategy;
 import com.example.demo.util.GameConstant;
 
 /**
  * MultiPhaseBossPlane class representing a boss aircraft with multiple phases.
  */
 public class MultiPhaseBossPlane extends FighterPlane {
-private static final String imageName = GameConstant.MultiPhaseBossPlane.IMAGE_NAME;
-    private static final int imageHeight = GameConstant.MultiPhaseBossPlane.IMAGE_HEIGHT;
-    private static final int remainingHealthPhase1 = GameConstant.MultiPhaseBossPlane.REMAINING_HEALTH_PHASE1;
-    private static final int totalHealth = remainingHealthPhase1;
-    private static final int remainingHealthPhase2 = GameConstant.MultiPhaseBossPlane.REMAINING_HEALTH_PHASE2;
-    private static final int remainingHealthPhase3 = GameConstant.MultiPhaseBossPlane.REMAINING_HEALTH_PHASE3;
-    private static final long fireIntervalNanoseconds = GameConstant.MultiPhaseBossPlane.FIRE_INTERVAL_NANOSECONDS;
-    private static final double fireRate = GameConstant.MultiPhaseBossPlane.FIRE_RATE;
-    private static final double yPosition = GameConstant.MultiPhaseBossPlane.Y_POSITION;
-    private static final double xPosition = GameConstant.MultiPhaseBossPlane.X_POSITION;
-    private static final double projectileXPositionOffset = GameConstant.MultiPhaseBossPlane.PROJECTILE_X_POSITION_OFFSET;
-    private static final double projectileYPositionOffset = GameConstant.MultiPhaseBossPlane.PROJECTILE_Y_POSITION_OFFSET;
-    private static final double horizontalVelocityPhase1 = GameConstant.MultiPhaseBossPlane.HORIZONTAL_VELOCITY_PHASE1;
-    private static final double horizontalVelocityPhase2 = GameConstant.MultiPhaseBossPlane.HORIZONTAL_VELOCITY_PHASE2;
-    private static final double horizontalVelocityPhase3 = GameConstant.MultiPhaseBossPlane.HORIZONTAL_VELOCITY_PHASE3;
-    private static final double yUpperBound = GameConstant.MultiPhaseBossPlane.Y_UPPER_BOUND;
-    private static final double yLowerBound = GameConstant.MultiPhaseBossPlane.Y_LOWER_BOUND;
-    private static final double xUpperBound = GameConstant.MultiPhaseBossPlane.X_UPPER_BOUND;
-    private static final double xLowerBound = GameConstant.MultiPhaseBossPlane.X_LOWER_BOUND;
-    private static final long summonCooldown = GameConstant.MultiPhaseBossPlane.SUMMON_COOLDOWN;
-    private static final int maxFramWithSameMove = GameConstant.MultiPhaseBossPlane.MAX_FRAMES_WITH_SAME_MOVE;
-
-    private Controller controller;
+    private static final long SUMMON_COOLDOWN = GameConstant.MultiPhaseBossPlane.SUMMON_COOLDOWN;
+    private ActorSpawner actorSpawner;
     private ActorManager actorManager;
-    private long spawnTime;
-    private double horizontalVelocity; 
-    private double verticalVelocity; 
-    private int currentPhase;
-    private int currentHealth;
-    private long lastFireTime;
+    private PlaneFactory planeFactory;
     private long lastSummonTime;
-    private double sineWaveBaseX;
-    private static double ySpeedPhase2 = 100; // Pixels per second,
+    private int currentPhase;
+    private int remainingHealthPhase2;
+    private int remainingHealthPhase3;
 
-    private int movementFrameCount;
-    private MovementState movementState;
-
-    // Enum to represent movement states
-    private enum MovementState {
-        HORIZONTAL,
-        SINE
+    public MultiPhaseBossPlane(Controller controller, PlaneConfig config, ActorSpawner actorSpawner) {
+        super(controller, config);
+        this.actorManager = controller.getGameStateManager().getActorManager();
+        this.planeFactory = new PlaneFactory(controller, actorManager);
+        this.actorSpawner = actorSpawner;
+        this.currentPhase = 1;
+        this.lastSummonTime = System.nanoTime();
+        this.remainingHealthPhase2 = GameConstant.MultiPhaseBossPlane.REMAINING_HEALTH_PHASE2;
+        this.remainingHealthPhase3 = GameConstant.MultiPhaseBossPlane.REMAINING_HEALTH_PHASE3;
     }
-            
-        /**
-         * Constructs a MultiPhaseBossPlane at the specified position.
-         *
-         * @param controller The game controller.
-         */
-        public MultiPhaseBossPlane(Controller controller, Level004 level) {
-            super(controller, imageName, imageHeight, xPosition, yPosition, totalHealth, fireIntervalNanoseconds);
-            this.controller = controller;
-            this.actorManager = controller.getGameStateManager().getActorManager();
-            this.currentPhase = 1;
-            this.lastFireTime = System.nanoTime();
-            this.lastSummonTime = System.nanoTime();
-            this.spawnTime = System.nanoTime();
-            this.movementState = MovementState.HORIZONTAL;
-            this.movementFrameCount = 0;
-            this.horizontalVelocity = horizontalVelocityPhase1;
-            setHorizontalBounds(xUpperBound, xLowerBound);
-            setVerticalBounds(yUpperBound, yLowerBound);
-        }
-    
-        /**
-         * Updates the boss plane's state.
-         *
-         * @param now The current timestamp in nanoseconds.
-         */
-        @Override
-        protected void performMovement(long now) {
-            switch (currentPhase) {
-                case 1:
-                    moveHorizontally(horizontalVelocity);
-                    break;
-                case 2:
-                    moveInSineWavePattern(now);
-                    break;
-                case 3:
-                moveHorizontally(horizontalVelocity);
-                    if (movementState == MovementState.HORIZONTAL) {
-                        moveHorizontally(horizontalVelocity);
-                    } else if (movementState == MovementState.SINE) {
-                        moveInSineWavePattern(now);
-                    }
-                    // Increment frame counter
-                    movementFrameCount++;
 
-                    // Check if it's time to switch movement state
-                    if (movementState == MovementState.HORIZONTAL && movementFrameCount >= maxFramWithSameMove) {
-                        movementState = MovementState.SINE;
-                        movementFrameCount = 0;
-                    } else if (movementState == MovementState.SINE && movementFrameCount >= maxFramWithSameMove) {
-                        movementState = MovementState.HORIZONTAL;
-                        movementFrameCount = 0;
-                    }
-                default:
-                    break;
-            }
-        
-            // Boundary checking
-            if (isOutOfBounds()) {
-                constrainWithinBounds();
-            }
+    /**
+     * Updates the boss plane's state each frame.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
+    @Override
+    public void update(long now) {
+        super.update(now); // Handles movement and firing via strategies
+        performAdditionalUpdates(now);
+    }
+
+    /**
+     * Performs additional updates such as summoning minions and handling phase transitions.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
+    protected void performAdditionalUpdates(long now) {
+        performPhaseAttacks(now);
+        checkPhaseTransition(now);
+    }
+
+    /**
+     * Handles attacks specific to the current phase.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
+    private void performPhaseAttacks(long now) {
+        // Basic firing is handled by the firing strategy
+        // Summon minions in phases 2 and 3
+        if (currentPhase >= 2) {
+            summonMinions(now);
         }
-        
-    
-        @Override
-        protected void performAdditionalUpdates(long now) {
-            performPhaseAttacks(now);
-            checkPhaseTransition(now);
+    }
+
+    /**
+     * Summons minions if the cooldown period has elapsed.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
+    private void summonMinions(long now) {
+        if ((now - lastSummonTime) >= SUMMON_COOLDOWN) {
+            ActiveActor minion1 = planeFactory.createPlane(PlaneType.ENEMY_PLANE4);
+            ActiveActor minion2 = planeFactory.createPlane(PlaneType.ENEMY_PLANE4);
+            System.out.println("Summoning minions: " + minion1 + " and " + minion2);
+
+            actorSpawner.spawnActor(minion1);
+            actorSpawner.spawnActor(minion2);
+
+            lastSummonTime = now;
         }
-    
-        /**
-         * Fires a projectile from the boss plane's current position.
-         */
-        @Override
-        public void fireProjectile() {
-            if (System.nanoTime() - lastFireTime >= fireIntervalNanoseconds) {
-                if (Math.random() < fireRate) {
-                    double projectileX = getProjectileXPosition(projectileXPositionOffset);
-                    double projectileY = getProjectileYPosition(projectileYPositionOffset);
-    
-                    BossProjectile projectile = new BossProjectile(projectileX, projectileY);
-                    actorManager.addActor(projectile);
-                    lastFireTime = System.nanoTime();
+    }
+
+    /**
+     * Checks and handles phase transitions based on the plane's current health.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
+    private void checkPhaseTransition(long now) {
+        int currentHealth = getHealth();
+        if (currentHealth <= 0) {
+            // Boss defeated
+            System.out.println("Boss defeated");
+            this.destroy();
+            return;
+        }
+        switch (currentPhase) {
+            case 1:
+                if (currentHealth <= remainingHealthPhase2) {
+                    currentPhase = 2;
+                    transitionToPhase2(now);
                 }
-            }
-        }
-    
-        /**
-         * Performs attacks specific to the current phase.
-         *
-         * @param now The current timestamp in nanoseconds.
-         */
-        private void performPhaseAttacks(long now) {
-            fireProjectile(); // Basic attack available in all phases
-            // System.out.println("Performing phase attacks for phase " + currentPhase);
-            switch (currentPhase) {
-                case 1:
-                    // Additional behaviors for phase 1
-                    break;
-                case 2:
-                    summonMinions(now);
-                    break;
-                case 3:
-                    summonMinions(now);
-                    break;
-                default:
-                    break;
-            }
-        }
-    
-        /**
-         * Summons minions if cooldown allows.
-         *
-         * @param now The current timestamp in nanoseconds.
-         */
-        private void summonMinions(long now) {
-            if ((now - lastSummonTime) >= summonCooldown) {
-                EnemyPlane4 minion1 = new EnemyPlane4(controller);
-                EnemyPlane4 minion2 = new EnemyPlane4(controller);
-                System.out.println("Summoning minions" + minion1 + " and " + minion2);
-    
-                actorManager.addActor(minion1);
-                actorManager.addActor(minion2);
-    
-                lastSummonTime = now;
-            }
-        }
-    
-        /**
-         * Checks if the boss should transition to the next phase.
-         */
-        private void checkPhaseTransition(long now) {
-            // System.out.println("getHealth() = " + getHealth() + "at phase " + currentPhase);
-            currentHealth = getHealth();
-            if (healthAtZero()){
-                // Boss defeated
-                System.out.println("Boss defeated");
-                this.destroy();
-            } else {
-                switch (currentPhase) {
-                    case 1:
-                        if (currentHealth <= remainingHealthPhase2) {
-                            currentPhase++;
-                            transitionToNextPhase(now);
-                        }
-                        break;
-                    case 2:
-                        if (currentHealth <= remainingHealthPhase3) {
-                            currentPhase++;
-                            transitionToNextPhase(now);
-                        }
-                        break;
-                    default:
-                        break;
+                break;
+            case 2:
+                if (currentHealth <= remainingHealthPhase3) {
+                    currentPhase = 3;
+                    transitionToPhase3(now);
                 }
-            }
-        }
-    
-        /**
-         * Transitions the boss to the next phase.
-         */
-        private void transitionToNextPhase(long now) {
-            switch (currentPhase) {
-                case 2:
-                    horizontalVelocity = horizontalVelocityPhase2;
-                    verticalVelocity = ySpeedPhase2;
-                    // areaAttackCooldown = GameConstant.MultiPhaseBossPlane.AREA_ATTACK_COOLDOWN_PHASE2;
-                    sineWaveBaseX = getTranslateX(); // Store current X position
-                    spawnTime = now; // Reset spawnTime to current time for accurate sine wave calculation
                 break;
             case 3:
-                horizontalVelocity = horizontalVelocityPhase3;
-                // areaAttackCooldown = GameConstant.MultiPhaseBossPlane.AREA_ATTACK_COOLDOWN_PHASE3;
                 break;
             default:
                 break;
         }
-        // Reset timers
-        // lastAreaAttackTime = now;
-        lastSummonTime = now;
     }
 
     /**
-     * Moves the boss in a sine wave pattern (Phase 2).
+     * Transitions the boss to phase 2 by updating necessary properties.
      *
      * @param now The current timestamp in nanoseconds.
      */
-    private void moveInSineWavePattern(long now) {
-        // Calculate time elapsed since Phase 2 started
-        double timeInSeconds = (now - spawnTime) / 1_000_000_000.0;
-    
-        double amplitude = 100; // Horizontal oscillation amplitude in pixels
-        double frequency = 0.5; // Oscillation frequency in Hz
-    
-        // Calculate new X position based on sine wave
-        double sineValue = Math.sin(2 * Math.PI * frequency * timeInSeconds);
-        double newX = sineWaveBaseX + amplitude * sineValue;
-    
-        // Calculate new Y position based on vertical velocity
-        double deltaTime = 0.016; // Approximate time between frames (assuming ~60 FPS)
-        double newY = getTranslateY() + verticalVelocity * deltaTime;
-        setTranslateX(newX);
-        setTranslateY(newY);
-    }    
-
-    /**
-     * Constrains the boss within the screen bounds and reverses direction if needed.
-     */
-    private void constrainWithinBounds() {
-        double currentX = getLayoutX() + getTranslateX();
-        double currentY = getLayoutY() + getTranslateY();
-        
-        boolean outOfHorizontal = currentX < xUpperBound || currentX > xLowerBound;
-        boolean outOfVertical = currentY < yUpperBound || currentY > yLowerBound;
-        
-        if (outOfHorizontal) {
-            horizontalVelocity = -horizontalVelocity; // Reverse horizontal direction
-        }
-        
-        if (outOfVertical) {
-            verticalVelocity = -verticalVelocity; // Reverse vertical direction
+    private void transitionToPhase2(long now) {
+        System.out.println("Transitioning to Phase 2");
+        if (movementStrategy instanceof MultiPhaseBossMovementStrategy) {
+            ((MultiPhaseBossMovementStrategy) movementStrategy).updatePhase(2);
         }
     }
 
+    /**
+     * Transitions the boss to phase 3 by updating necessary properties.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
+    private void transitionToPhase3(long now) {
+        System.out.println("Transitioning to Phase 3");
+        if (movementStrategy instanceof MultiPhaseBossMovementStrategy) {
+            ((MultiPhaseBossMovementStrategy) movementStrategy).updatePhase(3);
+        }
+    }
+
+    /**
+     * Handles damage taken by the boss plane.
+     *
+     * @param damage The amount of damage inflicted.
+     */
     public void onDamage(int damage) {
         setHealth(getHealth() - damage);
-        // Check for phase transitions or boss defeat
         checkPhaseTransition(System.nanoTime());
     }
 }

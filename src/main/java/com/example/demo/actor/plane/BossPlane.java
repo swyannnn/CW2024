@@ -2,7 +2,6 @@ package com.example.demo.actor.plane;
 
 import com.example.demo.actor.PlaneConfig;
 import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
 import com.example.demo.ui.Shield;
 import com.example.demo.util.GameConstant;
 

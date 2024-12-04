@@ -8,6 +8,8 @@ import com.example.demo.strategy.BossFiringStrategy;
 import com.example.demo.strategy.BossMovementStrategy;
 import com.example.demo.strategy.EnemyFiringStrategy;
 import com.example.demo.strategy.EnemyMovementStrategy;
+import com.example.demo.strategy.MultiPhaseBossFiringStrategy;
+import com.example.demo.strategy.MultiPhaseBossMovementStrategy;
 import com.example.demo.util.GameConstant;
 
 
@@ -46,7 +48,7 @@ public class PlaneFactory {
             case BOSS_PLANE:
                 return createBossPlane();
             case MULTI_PHASE_BOSS_PLANE:
-                return new MultiPhaseBossPlane();
+                return createMultiPhaseBossPlane();
             default:
                 throw new IllegalArgumentException("Unknown plane type: " + type);
         }
@@ -183,6 +185,21 @@ public class PlaneFactory {
         config.firingStrategy = new BossFiringStrategy(actorSpawner, config.fireRate);
         config.movementStrategy = new BossMovementStrategy();
         return new BossPlane(controller, config);
+    }
+    
+    private MultiPhaseBossPlane createMultiPhaseBossPlane() {
+        // Set up MultiPhaseBossPlane-specific properties
+        PlaneConfig config = new PlaneConfig();
+        config.imageName = GameConstant.MultiPhaseBossPlane.IMAGE_NAME;
+        config.imageHeight = GameConstant.MultiPhaseBossPlane.IMAGE_HEIGHT;
+        config.initialXPos = GameConstant.MultiPhaseBossPlane.X_POSITION;
+        config.initialYPos = GameConstant.MultiPhaseBossPlane.Y_POSITION;
+        config.health = GameConstant.MultiPhaseBossPlane.REMAINING_HEALTH_PHASE1;
+        config.fireRate = GameConstant.MultiPhaseBossPlane.FIRE_RATE;
+        config.fireIntervalNanoseconds = GameConstant.MultiPhaseBossPlane.FIRE_INTERVAL_NANOSECONDS;
+        config.firingStrategy = new MultiPhaseBossFiringStrategy(actorSpawner, config.fireRate);
+        config.movementStrategy = new MultiPhaseBossMovementStrategy();
+        return new MultiPhaseBossPlane(controller, config, actorSpawner);
     }
 
     // Helper method to calculate initial Y position

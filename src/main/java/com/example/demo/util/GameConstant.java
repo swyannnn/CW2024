@@ -175,23 +175,26 @@ public class GameConstant {
     public static class MultiPhaseBossPlane {
         public static final String IMAGE_NAME = "enemy3.png";
         public static final int IMAGE_HEIGHT = 200;
-        public static final int REMAINING_HEALTH_PHASE1 = 6;
-        public static final int REMAINING_HEALTH_PHASE2 = 5;
-        public static final int REMAINING_HEALTH_PHASE3 = 4;
+        public static final int REMAINING_HEALTH_PHASE1 = 60;
+        public static final int REMAINING_HEALTH_PHASE2 = 59;
+        public static final int REMAINING_HEALTH_PHASE3 = 1;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
-        public static final double FIRE_RATE = 0.1; // 50% chance to fire
+        public static final double FIRE_RATE = 0.5; // 50% chance to fire
         public static final double Y_POSITION = (GameSettings.SCREEN_HEIGHT / 2) - 100;
         public static final double X_POSITION = 400;
         public static final int PROJECTILE_X_POSITION_OFFSET = -130;
         public static final int PROJECTILE_Y_POSITION_OFFSET = 75;
-        public static final double HORIZONTAL_VELOCITY_PHASE1 = 3.0;
-        public static final double HORIZONTAL_VELOCITY_PHASE2 = 4.0;
-        public static final double HORIZONTAL_VELOCITY_PHASE3 = 5.0;
-        public static final double Y_UPPER_BOUND = 0;
+        public static final double VERTICAL_VELOCITY_PHASE1 = 150.0;
+        public static final double VERTICAL_VELOCITY_PHASE2 = 200.0;
+        public static final double VERTICAL_VELOCITY_PHASE3 = 300.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE1 = 5.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE2 = 10.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE3 = 15.0;
+        public static final double Y_UPPER_BOUND = -40;
         public static final double Y_LOWER_BOUND = 600;
         public static final double X_UPPER_BOUND = GameSettings.SCREEN_HEIGHT / 2;
         public static final double X_LOWER_BOUND = 1150;
-        public static final long SUMMON_COOLDOWN = 1_000_000_000L; //1_000_000_000L
+        public static final long SUMMON_COOLDOWN = 10_000_000_000L; //1_000_000_000L
         public static final int MAX_FRAMES_WITH_SAME_MOVE = 500;
     }
 
@@ -252,7 +255,7 @@ public class GameConstant {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm003.mp3";
-        public static final int SURVIVAL_TIME = 100; // in seconds
+        public static final int SURVIVAL_TIME = 1; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 

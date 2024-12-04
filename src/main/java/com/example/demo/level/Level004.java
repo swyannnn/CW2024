@@ -1,7 +1,9 @@
 package com.example.demo.level;
 
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
-import com.example.demo.actor.plane.MultiPhaseBossPlane;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.util.GameConstant;
@@ -16,13 +18,17 @@ public class Level004 extends LevelParent {
 
     private int currentLevelNumber;
     private ActorManager actorManager;
-    private MultiPhaseBossPlane bossPlane;
+    private PlaneFactory planeFactory;
+    private final ActorSpawner actorSpawn;
+    private ActiveActor bossPlane;
 
     public Level004(Controller controller, int levelNumber, ActorSpawner actorSpawner) {
         super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH, actorSpawner);
         this.controller = controller;
         this.currentLevelNumber = levelNumber;
         this.actorManager = gameStateManager.getActorManager();
+        this.actorSpawn = actorSpawner;
+        this.planeFactory = new PlaneFactory(controller, actorManager);
         initializeFriendlyUnits();
     }
 
@@ -45,8 +51,8 @@ public class Level004 extends LevelParent {
     @Override
     public void spawnEnemyUnits() {
         if (actorManager.getEnemyUnits().isEmpty()) {
-            MultiPhaseBossPlane bossPlane = new MultiPhaseBossPlane(controller, this);
-            actorManager.addActor(bossPlane);
+            ActiveActor bossPlane = planeFactory.createPlane(PlaneType.MULTI_PHASE_BOSS_PLANE);
+            actorSpawn.spawnActor(bossPlane);
             this.bossPlane = bossPlane;
         }
     }
