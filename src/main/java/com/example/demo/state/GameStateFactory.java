@@ -55,6 +55,7 @@ public class GameStateFactory {
      * @return A new MainMenuState.
      */
     public IGameState createMainMenuState() {
+        gameLoopManager.resumeGame();
         return new MainMenuState(stage, stateTransitioner, audioManager);
     }
 

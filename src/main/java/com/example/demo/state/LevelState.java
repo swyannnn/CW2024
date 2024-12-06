@@ -165,7 +165,9 @@ public class LevelState implements IGameState, CollisionListener {
 
     @Override
     public void cleanup() {
-        // no cleanup needed for LevelState
+        System.out.println("LevelState: Cleaning up Level " + level.getCurrentLevelNumber());
+        actorManager.cleanup();
+        System.out.println("LevelState: Cleanup completed.");
     }
 
     /**

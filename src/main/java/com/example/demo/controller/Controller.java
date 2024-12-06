@@ -114,6 +114,10 @@ public class Controller {
             audioManager.stopMusic();
         }
 
+        if (actorManager != null) {
+            actorManager.cleanup();
+        }
+
         // Additional cleanups if necessary
         System.out.println("Controller: Cleanup completed.");
     }

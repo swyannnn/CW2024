@@ -158,7 +158,7 @@ public class GameConstant {
     public static class BossPlane {
         public static final String IMAGE_NAME = "bossplane.png";
         public static final int IMAGE_HEIGHT = 300;
-        public static final int INITIAL_HEALTH = 1;
+        public static final int INITIAL_HEALTH = 5;
         public static final double HORIZONTAL_VELOCITY = 4.0;
         public static final int VERTICAL_VELOCITY = 4;
         public static final double INITIAL_X_POSITION = 1000.0;
@@ -237,7 +237,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 3;
-        public static final int KILLS_TO_ADVANCE = 10;
+        public static final int KILLS_TO_ADVANCE = 3;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm001.wav";
@@ -255,15 +255,22 @@ public class GameConstant {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm003.mp3";
-        public static final int SURVIVAL_TIME = 1; // in seconds
+        public static final int SURVIVAL_TIME = 20; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 
     // Level 004Settings
     public static class Level004 {
         public static final String BACKGROUND_IMAGE_NAME = "background002.jpeg";
-        public static final String BACKGROUND_MUSIC = "bgm004.mp3";
+        public static final String BACKGROUND_MUSIC = "bgm001.mp3";
         public static final int PLAYER_INITIAL_HEALTH = 5;
+    }
+
+    public enum SoundEffect {
+        PLAYER_HIT,
+        EXPLOSION,
+        SCREEN_TRANSITION,
+        PLAYER_SHOOT
     }
 
     // File Paths

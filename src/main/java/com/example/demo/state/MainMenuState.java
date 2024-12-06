@@ -67,7 +67,6 @@ public class MainMenuState implements IGameState {
 
     @Override
     public void cleanup() {
-        // No cleanup needed for the main menu
     }
 
     /**

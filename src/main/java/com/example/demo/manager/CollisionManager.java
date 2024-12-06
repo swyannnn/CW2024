@@ -18,9 +18,13 @@ import java.util.List;
 public class CollisionManager {
     private static CollisionManager instance;
     private CollisionListener collisionListener;
+    private AudioManager audioManager;
     private ActorManager actorManager;
     private final double shrinkPercentage = GameConstant.GameSettings.COLLISION_SHRINK_PERCENTAGE;
-    private CollisionManager() {}
+    
+    private CollisionManager() {
+        this.audioManager = AudioManager.getInstance();
+    }
 
     /**
      * Retrieves the singleton instance of CollisionManager.
@@ -102,6 +106,8 @@ public class CollisionManager {
                 UserPlane userPlane = projectile.getOwner();
                 collisionListener.onProjectileHitEnemy(userPlane, target);
             }
+        } else {
+            audioManager.playSoundEffect(GameConstant.SoundEffect.PLAYER_HIT.ordinal());
         }
     }
 
@@ -110,6 +116,7 @@ public class CollisionManager {
         double explosionY = target.getLayoutY() + target.getTranslateY() + target.getImageHeight() / 2;
         ExplosionEffect explosion = new ExplosionEffect(explosionX, explosionY);
         actorManager.addUIElement(explosion.getExplosionView());
+        audioManager.playSoundEffect(GameConstant.SoundEffect.EXPLOSION.ordinal());
         // Notify that an explosion has started
         collisionListener.onExplosionStarted();
         // Set a callback to notify when the explosion has finished
