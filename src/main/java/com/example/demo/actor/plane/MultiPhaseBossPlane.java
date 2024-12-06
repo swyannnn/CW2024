@@ -16,7 +16,6 @@ import com.example.demo.util.GameConstant;
 public class MultiPhaseBossPlane extends FighterPlane {
     private static final long SUMMON_COOLDOWN = GameConstant.MultiPhaseBossPlane.SUMMON_COOLDOWN;
     private ActorSpawner actorSpawner;
-    private ActorManager actorManager;
     private PlaneFactory planeFactory;
     private long lastSummonTime;
     private int currentPhase;
@@ -25,8 +24,7 @@ public class MultiPhaseBossPlane extends FighterPlane {
 
     public MultiPhaseBossPlane(Controller controller, PlaneConfig config, ActorSpawner actorSpawner) {
         super(controller, config);
-        this.actorManager = controller.getGameStateManager().getActorManager();
-        this.planeFactory = new PlaneFactory(controller, actorManager);
+        this.planeFactory = new PlaneFactory(controller, controller.getGameStateManager().getActorManager());
         this.actorSpawner = actorSpawner;
         this.currentPhase = 1;
         this.lastSummonTime = System.nanoTime();

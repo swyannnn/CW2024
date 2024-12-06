@@ -92,11 +92,10 @@ public class CollisionManager {
         ActiveActor target = pair.target;
         System.out.println("Collision detected: " + source + " hit " + target);
     
-        boolean targetDamaged = false;
         source.takeDamage();
-        targetDamaged = target.takeDamage();
+        target.takeDamage();
         
-        if (targetDamaged && !(target instanceof UserPlane)){
+        if (!(target instanceof UserPlane)){
             createExplosionAt(target);
             if (source instanceof UserProjectile) {
                 UserProjectile projectile = (UserProjectile) source;

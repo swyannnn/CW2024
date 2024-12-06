@@ -1,6 +1,5 @@
 package com.example.demo.level;
 
-import java.util.EnumSet;
 import java.util.List;
 
 import com.example.demo.actor.ActiveActor;
@@ -14,12 +13,10 @@ import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.GameStateManager;
 import com.example.demo.ui.LevelView;
 import com.example.demo.util.GameConstant;
-import com.example.demo.util.PlayerKeyBindings;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 
 /**
  * Abstract base class for game levels.
