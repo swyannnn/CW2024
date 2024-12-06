@@ -1,7 +1,5 @@
 package com.example.demo.manager;
 
-import com.example.demo.util.GameConstant;
-
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

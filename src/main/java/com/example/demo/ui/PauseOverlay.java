@@ -1,8 +1,8 @@
 package com.example.demo.ui;
 
-import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.GameLoopManager;
+import com.example.demo.state.StateTransitioner;
 import com.example.demo.util.GameConstant;
 
 import javafx.geometry.Pos;

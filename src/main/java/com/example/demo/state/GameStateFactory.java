@@ -5,7 +5,6 @@ import java.util.Optional;
 import com.example.demo.level.LevelConfig;
 import com.example.demo.level.LevelFactory;
 import com.example.demo.level.LevelParent;
-import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameLoopManager;
@@ -54,7 +53,7 @@ public class GameStateFactory {
      *
      * @return A new MainMenuState.
      */
-    public IGameState createMainMenuState() {
+    public GameState createMainMenuState() {
         gameLoopManager.resumeGame();
         return new MainMenuState(stage, stateTransitioner, audioManager);
     }
@@ -65,7 +64,7 @@ public class GameStateFactory {
      * @param levelNumber The level number.
      * @return A new LevelState, WinState if the level does not exist.
      */
-    public IGameState createLevelState(int levelNumber) {
+    public GameState createLevelState(int levelNumber) {
         LevelConfig config = new LevelConfig(
             stateTransitioner.getNumberOfPlayers(),
             actorManager,
@@ -93,7 +92,7 @@ public class GameStateFactory {
      *
      * @return A new WinState.
      */
-    public IGameState createWinState() {
+    public GameState createWinState() {
         return new WinState(stage, stateTransitioner);
     }
 
@@ -102,7 +101,7 @@ public class GameStateFactory {
      *
      * @return A new LoseState.
      */
-    public IGameState createLoseState() {
+    public GameState createLoseState() {
         return new LoseState(stage, stateTransitioner);
     }
 }

@@ -13,6 +13,7 @@ import javafx.animation.AnimationTimer;
  * It also handles pausing and resuming the game.
  */
 public class GameLoopManager implements PauseHandler {
+    private static volatile GameLoopManager instance;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private AnimationTimer gameLoop;
     private GameLoopUpdater updater;
@@ -21,9 +22,27 @@ public class GameLoopManager implements PauseHandler {
     /**
      * Constructor for GameLoopManager.
      */
-    public GameLoopManager() {
+    private GameLoopManager() {
         this.paused = false;
     }
+
+    /**
+     * Retrieves the singleton instance of GameLoopManager.
+     * Implements double-checked locking for thread safety and performance.
+     *
+     * @return The singleton instance of GameLoopManager.
+     */
+    public static GameLoopManager getInstance() {
+        if (instance == null) {
+            synchronized (GameLoopManager.class) {
+                if (instance == null) {
+                    instance = new GameLoopManager();
+                }
+            }
+        }
+        return instance;
+    }
+
 
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);

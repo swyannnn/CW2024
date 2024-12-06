@@ -1,9 +1,9 @@
 package com.example.demo.manager;
 
-import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.state.GameStateFactory;
-import com.example.demo.state.IGameState;
+import com.example.demo.state.GameState;
 import com.example.demo.state.LevelState;
+import com.example.demo.state.StateTransitioner;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,7 +16,7 @@ import java.beans.PropertyChangeListener;
  * It implements StateTransitioner and listens for property changes from game states.
  */
 public class StateManager implements StateTransitioner, PropertyChangeListener {
-    private IGameState currentState;
+    private GameState currentState;
     private final GameStateFactory stateFactory;
     private int numberOfPlayers;
 
@@ -92,9 +92,9 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
     /**
      * Sets the current game state to a new state, performing cleanup on the old state and initialization on the new one.
      *
-     * @param newState The new IGameState to transition to.
+     * @param newState The new GameState to transition to.
      */
-    private void setState(IGameState newState) {
+    private void setState(GameState newState) {
         currentState = newState;
         if (currentState != null) {
             if (newState instanceof LevelState) {
@@ -147,9 +147,9 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
     /**
      * Retrieves the current game state.
      *
-     * @return The current IGameState.
+     * @return The current GameState.
      */
-    public IGameState getCurrentState() {
+    public GameState getCurrentState() {
         return currentState;
     }
 

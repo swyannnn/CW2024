@@ -1,4 +1,4 @@
-package com.example.demo.listeners;
+package com.example.demo.state;
 
 public interface StateTransitioner {
     void setNumberOfPlayers(int numberOfPlayers);

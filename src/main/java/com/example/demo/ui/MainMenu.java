@@ -7,8 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import com.example.demo.listeners.StateTransitioner;
+
 import com.example.demo.manager.ButtonManager;
+import com.example.demo.state.StateTransitioner;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 

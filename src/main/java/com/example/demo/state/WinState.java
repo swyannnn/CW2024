@@ -1,6 +1,5 @@
 package com.example.demo.state;
 
-import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.ui.WinScreen;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -10,7 +9,7 @@ import javafx.stage.Stage;
 /**
  * WinState class manages the win screen state of the game.
  */
-public class WinState implements IGameState {
+public class WinState implements GameState {
     private final Stage stage;
     private final StateTransitioner stateTransitioner;
     private WinScreen winScreen;

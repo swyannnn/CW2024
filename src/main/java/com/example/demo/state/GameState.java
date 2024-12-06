@@ -6,7 +6,7 @@ import javafx.scene.input.KeyEvent;
 /**
  * GameState interface defines the basic structure for all game states.
  */
-public interface IGameState {
+public interface GameState {
     /**
      * Initializes the game state. This method is called when the state is first loaded.
      */

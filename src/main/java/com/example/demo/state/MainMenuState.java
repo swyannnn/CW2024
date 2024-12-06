@@ -1,6 +1,5 @@
 package com.example.demo.state;
 
-import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.ui.MainMenu;
 
@@ -11,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * MainMenuState class manages the main menu state of the game.
  */
-public class MainMenuState implements IGameState {
+public class MainMenuState implements GameState {
     private final Stage stage;
     private final StateTransitioner stateTransitioner;
     private final AudioManager audioManager;

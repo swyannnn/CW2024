@@ -12,7 +12,6 @@ import javafx.stage.Stage;
  * between different components.
  */
 public class Controller {
-    private final Stage stage;
     private final Group rootGroup;
     private final Scene scene;
 
@@ -30,7 +29,6 @@ public class Controller {
      * @param stage The main Stage object used for rendering scenes.
      */
     public Controller(Stage stage) {
-        this.stage = stage;
         this.rootGroup = new Group();
         this.scene = new Scene(rootGroup, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
         stage.setScene(scene);
@@ -41,9 +39,7 @@ public class Controller {
         this.audioManager = AudioManager.getInstance();
         this.actorManager = ActorManager.getInstance(rootGroup);
         this.collisionManager = CollisionManager.getInstance();
-
-        // Initialize GameLoopManager first
-        this.gameLoopManager = new GameLoopManager();
+        this.gameLoopManager = GameLoopManager.getInstance();
 
         // Initialize StateManager
         this.stateManager = new StateManager(

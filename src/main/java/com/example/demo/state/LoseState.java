@@ -1,6 +1,5 @@
 package com.example.demo.state;
 
-import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.ui.LoseScreen;
 import javafx.scene.Scene;
@@ -11,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * LoseState class manages the lose screen state of the game.
  */
-public class LoseState implements IGameState {
+public class LoseState implements GameState {
     private final Stage stage;
     private final StateTransitioner stateTransitioner;
     private LoseScreen loseScreen;
