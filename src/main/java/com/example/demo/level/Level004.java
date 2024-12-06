@@ -1,27 +1,29 @@
 package com.example.demo.level;
 
-import com.example.demo.actor.plane.MultiPhaseBossPlane;
-import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
+import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
+import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 
 /**
  * Level004: Multi-Phase Boss Battle.
  */
 public class Level004 extends LevelParent {
-    private static final String BACKGROUND_IMAGE_NAME = GameConstant.Level004.BACKGROUND_IMAGE_NAME;
-    private static final String BACKGROUND_MUSIC_NAME = GameConstant.Level004.BACKGROUND_MUSIC;
-    private static final int PLAYER_INITIAL_HEALTH = GameConstant.Level004.PLAYER_INITIAL_HEALTH;
+    private static final String backgroundImageName = GameConstant.Level004.BACKGROUND_IMAGE_NAME;
+    private static final String backgroundMusicName = GameConstant.Level004.BACKGROUND_MUSIC;
+    private static final int playerInitialHealth = GameConstant.Level004.PLAYER_INITIAL_HEALTH;
 
     private int currentLevelNumber;
-    private ActorManager actorManager;
-    private MultiPhaseBossPlane bossPlane;
+    private PlaneFactory planeFactory;
+    private final ActorSpawner actorSpawn;
+    private ActiveActor bossPlane;
 
-    public Level004(Controller controller, int levelNumber) {
-        super(controller, levelNumber, BACKGROUND_IMAGE_NAME, BACKGROUND_MUSIC_NAME, PLAYER_INITIAL_HEALTH);
-        this.controller = controller;
-        this.currentLevelNumber = levelNumber;
-        this.actorManager = gameStateManager.getActorManager();
+    public Level004(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
+        super(4, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
+        this.actorSpawn = actorSpawner;
+        this.planeFactory = new PlaneFactory(actorSpawner);
         initializeFriendlyUnits();
     }
 
@@ -43,9 +45,9 @@ public class Level004 extends LevelParent {
 
     @Override
     public void spawnEnemyUnits() {
-        if (actorManager.getEnemyUnits().isEmpty()) {
-            MultiPhaseBossPlane bossPlane = new MultiPhaseBossPlane(controller, this);
-            actorManager.addActor(bossPlane);
+        if (actorSpawn.getEnemyUnits().isEmpty()) {
+            ActiveActor bossPlane = planeFactory.createPlane(PlaneType.MULTI_PHASE_BOSS_PLANE);
+            actorSpawn.spawnActor(bossPlane);
             this.bossPlane = bossPlane;
         }
     }

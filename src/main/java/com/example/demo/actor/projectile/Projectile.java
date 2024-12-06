@@ -1,12 +1,12 @@
 package com.example.demo.actor.projectile;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.util.GameConstant;
 
 /**
  * Abstract Projectile class representing a generic projectile in the game.
  */
-public abstract class Projectile extends ActiveActorDestructible {
+public abstract class Projectile extends ActiveActor {
     protected double horizontalVelocity;
     protected double xUpperBound = GameConstant.Projectile.X_UPPER_BOUND;
     protected double xLowerBound = GameConstant.Projectile.X_LOWER_BOUND;
@@ -23,7 +23,6 @@ public abstract class Projectile extends ActiveActorDestructible {
     public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, double horizontalVelocity) {
         super(imageName, imageHeight, initialXPos, initialYPos);
         this.horizontalVelocity = horizontalVelocity;
-        setHorizontalBounds(xUpperBound, xLowerBound);
     }
 
     @Override
@@ -37,7 +36,8 @@ public abstract class Projectile extends ActiveActorDestructible {
      */
     public void update(long now) {
         moveHorizontally(horizontalVelocity);
-        if (isOutOfBounds()) {
+        double currentX = getLayoutX() + getTranslateX();
+        if (currentX < xUpperBound || currentX > xLowerBound ) {
             this.destroy();
         }
     }

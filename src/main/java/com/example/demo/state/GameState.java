@@ -19,11 +19,6 @@ public interface GameState {
     void update(long now);
 
     /**
-     * Renders the game state. This method is called in the game loop to render graphics or UI elements.
-     */
-    void render();
-
-    /**
      * Handles input events specific to the game state.
      *
      * @param event The KeyEvent to be processed.
@@ -36,7 +31,7 @@ public interface GameState {
      */
     void cleanup();
 
-        /**
+    /**
      * Handles actions to perform when the game is paused.
      * Default implementation does nothing.
      */

@@ -1,9 +1,9 @@
 package com.example.demo.ui;
 
 import com.example.demo.manager.ButtonManager;
-import com.example.demo.manager.GameStateManager;
+import com.example.demo.manager.GameLoopManager;
+import com.example.demo.state.StateTransitioner;
 import com.example.demo.util.GameConstant;
-import com.example.demo.util.GameConstant.GameSettings;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -17,19 +17,18 @@ import javafx.scene.text.Text;
  */
 public class PauseOverlay {
     private final VBox overlay;
-    private final GameStateManager gameStateManager;
-    private int currentLevel;
+    private final GameLoopManager gameLoopManager;
+    private final StateTransitioner stateTransitioner;
 
     /**
      * Constructor for PauseOverlay.
      *
      * @param gameStateManager The GameStateManager to handle game state transitions.
      */
-    public PauseOverlay(GameStateManager gameStateManager, int currentLevel) {
-        this.gameStateManager = gameStateManager;
-        this.currentLevel = currentLevel;
+    public PauseOverlay(GameLoopManager gameLoopManager, StateTransitioner stateTransitioner) {
         this.overlay = createPauseOverlay();
-        System.out.println("Current Level in pauseoverlay constructor: " + currentLevel);
+        this.gameLoopManager = gameLoopManager;
+        this.stateTransitioner = stateTransitioner;
     }
 
     /**
@@ -50,11 +49,11 @@ public class PauseOverlay {
 
         // Resume Button
         Button resumeButton = ButtonManager.createButton("Resume", 200, 50, 20);
-        resumeButton.setOnAction(e -> gameStateManager.resumeGame());
+        resumeButton.setOnAction(e -> gameLoopManager.resumeGame());
 
         // Exit to Main Menu Button
         Button exitButton =  ButtonManager.createButton("Exit to Main Menu", 280, 50, 20);
-        exitButton.setOnAction(e -> gameStateManager.goToMainMenu());
+        exitButton.setOnAction(e -> stateTransitioner.goToMainMenu());
 
         // Add all components to the VBox
         pauseBox.getChildren().addAll(pauseLabel, resumeButton, exitButton);

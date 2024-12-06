@@ -7,9 +7,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import com.example.demo.controller.Controller;
+
 import com.example.demo.manager.ButtonManager;
-import com.example.demo.manager.GameStateManager;
+import com.example.demo.state.StateTransitioner;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 
@@ -18,8 +18,7 @@ import com.example.demo.util.GameConstant;
  */
 public class MainMenu {
     private final Stage primaryStage;
-    private final GameStateManager gameStateManager;
-    private final AudioManager audioManager;
+    private final StateTransitioner stateTransitioner;
     private static final String BACKGROUND_MUSIC_NAME = GameConstant.MainMenu.BACKGROUND_MUSIC;
 
     /**
@@ -28,15 +27,11 @@ public class MainMenu {
      * @param stage      The primary stage of the application.
      * @param controller The Controller for managing game actions.
      */
-    public MainMenu(Stage stage, Controller controller) {
+    public MainMenu(Stage stage, StateTransitioner stateTransitioner, AudioManager audioManager) {
         this.primaryStage = stage;
-
-        gameStateManager = controller.getGameStateManager();
-        audioManager = gameStateManager.getAudioManager();
-        System.out.println("audiomanager in main menu:" + audioManager);
-        if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().playMusic(BACKGROUND_MUSIC_NAME);
-        }
+        this.stateTransitioner = stateTransitioner;
+        // Play background music
+        audioManager.playMusic(BACKGROUND_MUSIC_NAME);
     }
 
     /**
@@ -45,34 +40,29 @@ public class MainMenu {
      * @return The main menu scene.
      */
     public Scene getHomeMenuScene() {
-        // Layout for the menu
-        VBox menuLayout = new VBox(30); // Spacing of 30 pixels between elements
+        VBox menuLayout = new VBox(30);
         menuLayout.setAlignment(Pos.CENTER);
-        menuLayout.setStyle("-fx-background-color: #1E1E1E;"); // Background color
+        menuLayout.setStyle("-fx-background-color: #1E1E1E;");
 
-        // Title text
         Text title = createTitle("Sky Battle");
 
-        // Initialize number of players based on selection
         Button onePlayerButton = ButtonManager.createButton("1 Player", 200, 50, 20);
         onePlayerButton.setOnAction(e -> {
-            gameStateManager.setNumberOfPlayers(1);
-            gameStateManager.startGame();
+            stateTransitioner.setNumberOfPlayers(1);
+            stateTransitioner.goToLevel(1);
         });
 
         Button twoPlayerButton = ButtonManager.createButton("2 Players", 200, 50, 20);
         twoPlayerButton.setOnAction(e -> {
-            gameStateManager.setNumberOfPlayers(2);
-            gameStateManager.startGame();
+            stateTransitioner.setNumberOfPlayers(2);
+            stateTransitioner.goToLevel(1);
         });
 
         Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
         exitButton.setOnAction(e -> exitGame());
 
-        // Add elements to the layout
         menuLayout.getChildren().addAll(title, onePlayerButton, twoPlayerButton, exitButton);
 
-        // Return the constructed scene
         return new Scene(menuLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     }
 

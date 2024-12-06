@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.listener.HealthChangeListener;
+import com.example.demo.listeners.HealthChangeListener;
 import com.example.demo.manager.ImageManager;
 import com.example.demo.util.GameConstant;
 
@@ -33,8 +33,8 @@ public class LevelView implements HealthChangeListener, PropertyChangeListener {
      * @param backgroundImageName The path to the background image.
      */
     public void initializeBackground(String backgroundImageName) {
-        ImageView img1 = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
-        ImageView img2 = new ImageView(ImageManager.getInstance().getImage(backgroundImageName));
+        ImageView img1 = new ImageView(ImageManager.getImage(backgroundImageName));
+        ImageView img2 = new ImageView(ImageManager.getImage(backgroundImageName));
 
         img1.setFitHeight(GameConstant.GameSettings.SCREEN_HEIGHT);
         img1.setFitWidth(GameConstant.GameSettings.SCREEN_WIDTH);

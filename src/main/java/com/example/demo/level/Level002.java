@@ -2,35 +2,37 @@ package com.example.demo.level;
 
 import java.util.List;
 
-import com.example.demo.actor.ActiveActorDestructible;
-import com.example.demo.actor.plane.BossPlane;
-import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
+import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
+import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 
 public class Level002 extends LevelParent {
     private static final String backgroundImageName = GameConstant.Level002.BACKGROUND_IMAGE_NAME;
     private static final String backgroundMusicName = GameConstant.Level002.BACKGROUND_MUSIC;
     private static final int playerInitialHealth = GameConstant.Level002.PLAYER_INITIAL_HEALTH;
-    private ActorManager actorManager;
-
-    public Level002(Controller controller, int levelNumber) {
-        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth);
-        this.controller = controller;
-        this.actorManager = controller.getGameStateManager().getActorManager();
+    private PlaneFactory planeFactory;
+    private final ActorSpawner actorSpawn;
+    
+    public Level002(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
+        super(2, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
+        this.actorSpawn = actorSpawner;
+        this.planeFactory = new PlaneFactory(actorSpawn);
         initializeFriendlyUnits();
     }
 
     @Override
     public boolean userHasReachedTarget() {
-        List<ActiveActorDestructible> bossPlanes = actorManager.getBossUnits();
+        List<ActiveActor> bossPlanes = actorSpawn.getBossUnits();
         if (bossPlanes.isEmpty()) {
             return false; // No boss planes present
         }
         
-        // Option 1: Check if **all** BossPlanes are destroyed
+        // Check if **all** BossPlanes are destroyed
         boolean allDestroyed = true;
-        for (ActiveActorDestructible actor : bossPlanes) {
+        for (ActiveActor actor : bossPlanes) {
             if (!actor.isDestroyed()) {
                 allDestroyed = false;
                 break;
@@ -42,10 +44,10 @@ public class Level002 extends LevelParent {
     @Override
     public void spawnEnemyUnits() {
         // Check if there are no current enemies
-        if (actorManager.getBossUnits().size() == 0) {
+        if (actorSpawn.getBossUnits().size() == 0) {
             // Create and add the boss plane
-            ActiveActorDestructible bossPlane = new BossPlane(controller);
-            actorManager.addActor(bossPlane); // Use ActorManager to add the boss enemy
+            ActiveActor newEnemy = planeFactory.createPlane(PlaneType.BOSS_PLANE);
+            actorSpawn.spawnActor(newEnemy);
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.example.demo.manager;
 
-import com.example.demo.util.GameConstant;
-
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -69,7 +67,7 @@ public class ButtonManager {
         button.setPrefHeight(height);
         button.setStyle("-fx-background-color: transparent;"); // Optional: Make background transparent
 
-        Image image = ImageManager.getInstance().getImage(imagePath);
+        Image image = ImageManager.getImage(imagePath);
         if (image != null) {
             ImageView imageView = new ImageView(image);
             imageView.setFitWidth(width);

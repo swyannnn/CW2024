@@ -39,7 +39,7 @@ public class Shield extends ImageView {
      */
     public Shield(double shieldActivationProbability) {
         super();
-        this.setImage(ImageManager.getInstance().getImage(IMAGE_PATH));
+        this.setImage(ImageManager.getImage(IMAGE_PATH));
         this.setVisible(false);
         this.setFitHeight(SHIELD_SIZE);
         this.setFitWidth(SHIELD_SIZE);
@@ -56,11 +56,13 @@ public class Shield extends ImageView {
      * @param translateX Current translateX of BossPlane
      * @param translateY Current translateY of BossPlane
      */
-    public void updateShieldState(double translateX, double translateY) {
+    public void updateShieldState(double layoutX, double layoutY) {
         if (isShielded) {
             // Position the shield relative to BossPlane
-            setTranslateX(translateX + shieldXPositionOffset);
-            setTranslateY(translateY + shieldYPositionOffset);
+            double newShieldX = layoutX + shieldXPositionOffset;
+            double newShieldY = layoutY + shieldYPositionOffset;
+            setLayoutX(newShieldX);
+            setLayoutY(newShieldY);
             framesWithShieldActivated++;
 
             // Check if shield duration is exhausted

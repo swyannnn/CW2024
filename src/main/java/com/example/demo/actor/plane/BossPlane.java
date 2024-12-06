@@ -1,97 +1,37 @@
 package com.example.demo.actor.plane;
 
-import java.util.*;
-
-import com.example.demo.actor.projectile.BossProjectile;
-import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
+import com.example.demo.actor.ActorSpawner;
 import com.example.demo.ui.Shield;
 import com.example.demo.util.GameConstant;
+import com.example.demo.util.PlaneConfig;
 
 /**
  * BossPlane class representing the boss enemy in the game.
  */
 public class BossPlane extends FighterPlane {
-    private final ActorManager actorManager;
     private Shield shield;
-
-    // Constants
-    private static final String imageName = GameConstant.BossPlane.IMAGE_NAME;
-    private static final int imageHeight = GameConstant.BossPlane.IMAGE_HEIGHT;
-    private static final double initialXPosition = GameConstant.BossPlane.INITIAL_X_POSITION;
-    private static final double initialYPosition = GameConstant.BossPlane.INITIAL_Y_POSITION;
-    private static final double projectileXPositionOffset = GameConstant.BossProjectile.PROJECTILE_X_POSITION_OFFSET;
-    private static final double projectileYPositionOffset = GameConstant.BossProjectile.PROJECTILE_Y_POSITION_OFFSET;
-    private static final double fireRate = GameConstant.BossProjectile.FIRE_RATE;
-
-    // Shield-related constants
-    private static final double BossShieldProbability = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
-    
-    // Movement-related constants
-    private static final int verticalVelocity = GameConstant.BossPlane.VERTICAL_VELOCITY;
-    private static final int moveFrequencyPerCycle = GameConstant.BossPlane.MOVE_FREQUENCY_PER_CYCLE;
-    private static final int zero = GameConstant.BossPlane.ZERO;
-    private static final int maxFramesWithSameMove = GameConstant.BossPlane.MAX_FRAMES_WITH_SAME_MOVE;
-    private static final int yUpperBound = GameConstant.BossPlane.Y_POSITION_UPPER_BOUND;
-    private static final int yLowerBound = GameConstant.BossPlane.Y_POSITION_LOWER_BOUND;
-    private static final int initialHealth = GameConstant.BossPlane.INITIAL_HEALTH;
-    private static final long fireIntervalNanoseconds = GameConstant.BossPlane.FIRE_INTERVAL_NANOSECONDS;
-
-    // Dynamic movement state
-    private final List<Integer> movePattern;
-    private int consecutiveMovesInSameDirection;
-    private int indexOfCurrentMove;
+    private static final double BOSS_SHIELD_PROBABILITY = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
 
     /**
      * Constructs a BossPlane instance.
      *
      * @param controller The game controller managing the state.
+     * @param config     The PlaneConfig containing configuration.
      */
-    public BossPlane(Controller controller) {
-        super(controller, imageName, imageHeight, initialXPosition, initialYPosition, initialHealth, fireIntervalNanoseconds);
-        this.actorManager = controller.getGameStateManager().getActorManager();
-        this.movePattern = new ArrayList<>();
-        this.consecutiveMovesInSameDirection = 0;
-        this.indexOfCurrentMove = 0;
-        initializeMovePattern();
-        initializeShield();
-        setVerticalBounds(yUpperBound, yLowerBound);
-    }
-
-    private void initializeShield() {
-        shield = new Shield(BossShieldProbability);
-        actorManager.addUIElement(shield); 
+    public BossPlane(PlaneConfig config, ActorSpawner actorSpawner) {
+        super(config);
+        initializeShield(actorSpawner);
     }
 
     /**
-     * Fires a projectile from the boss plane's current position.
-     */
-    @Override
-    public void fireProjectile() {
-        if (bossFiresInCurrentFrame()) { // Use the specified firing probability
-            double projectileX = getProjectileXPosition(projectileXPositionOffset);
-            double projectileY = getProjectileYPosition(projectileYPositionOffset);
-            BossProjectile projectile = new BossProjectile(projectileX, projectileY);
-            actorManager.addActor(projectile);
-            // Uncomment for debugging:
-            // System.out.println("Projectile fired by BossPlane at: " + projectileY);
-        }
-    }
-
-    /**
-     * Performs movement for the boss plane.
+     * Initializes BossPlane-specific configurations.
      *
-     * @param now The current time in nanoseconds.
+     * @param config The PlaneConfig containing configuration.
      */
-    @Override
-    protected void performMovement(long now) {
-        double initialTranslateY = getTranslateY();
-        moveVertically(getNextMove());
-        if (isOutOfBounds()) {
-            setTranslateY(initialTranslateY); // Revert to initial position if out of bounds
-        }
-        // Uncomment for debugging:
-        // System.out.println("BossPlane.performMovement() called, current position: " + (getLayoutX() + getTranslateX()) + ", " + (getLayoutY() + getTranslateY()));
+    private void initializeShield(ActorSpawner actorSpawner) {
+        // Initialize Shield
+        shield = new Shield(BOSS_SHIELD_PROBABILITY);
+        actorSpawner.addUIElement(shield);
     }
 
     /**
@@ -101,7 +41,7 @@ public class BossPlane extends FighterPlane {
      */
     @Override
     protected void performAdditionalUpdates(long now) {
-        shield.updateShieldState(getTranslateX(), getTranslateY());
+        shield.updateShieldState(getLayoutX(), getLayoutY());
     }
 
     /**
@@ -118,51 +58,10 @@ public class BossPlane extends FighterPlane {
      */
     @Override
     public boolean takeDamage() {
-        System.out.println("BossPlane.takeDamage() called.");
         if (shield.isShielded()) {
             System.out.println("BossPlane is shielded. No damage taken.");
             return false; // Damage not applied
         }
         return super.takeDamage(); // Delegate to base class
-    }
-    
-    /**
-     * Initializes the movement pattern for the boss plane.
-     */
-    private void initializeMovePattern() {
-        for (int i = 0; i < moveFrequencyPerCycle; i++) {
-            movePattern.add(verticalVelocity);
-            movePattern.add(-verticalVelocity);
-            movePattern.add(zero);
-        }
-        Collections.shuffle(movePattern);
-    }
-
-    /**
-     * Determines the next vertical movement for the boss plane.
-     *
-     * @return The vertical movement delta.
-     */
-    private int getNextMove() {
-        int currentMove = movePattern.get(indexOfCurrentMove);
-        consecutiveMovesInSameDirection++;
-        if (consecutiveMovesInSameDirection == maxFramesWithSameMove) {
-            Collections.shuffle(movePattern);
-            consecutiveMovesInSameDirection = 0;
-            indexOfCurrentMove++;
-        }
-        if (indexOfCurrentMove == movePattern.size()) {
-            indexOfCurrentMove = 0;
-        }
-        return currentMove;
-    }
-
-    /**
-     * Determines if the boss should fire a projectile in the current frame.
-     *
-     * @return True if the boss fires, else false.
-     */
-    private boolean bossFiresInCurrentFrame() {
-        return Math.random() < fireRate;
     }
 }

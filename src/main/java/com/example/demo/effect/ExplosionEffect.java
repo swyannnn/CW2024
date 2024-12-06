@@ -35,7 +35,7 @@ public class ExplosionEffect {
      * @return The initialized ImageView.
      */
     private ImageView initializeExplosionView(double x, double y) {
-        Image[] explosionImages = ImageManager.getInstance().getImageSequence("explosion", 7);
+        Image[] explosionImages = ImageManager.getImageSequence("explosion", 7);
 
         // Initialize the ImageView with the first explosion frame
         ImageView imageView = new ImageView(explosionImages[0]);
@@ -54,7 +54,7 @@ public class ExplosionEffect {
      */
     private Timeline createExplosionAnimation() {
         // Retrieve the explosion image sequence
-        Image[] explosionImages = ImageManager.getInstance().getImageSequence("explosion", 7);
+        Image[] explosionImages = ImageManager.getImageSequence("explosion", 7);
 
         Timeline explosionTimeline = new Timeline();
 

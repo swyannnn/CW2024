@@ -6,17 +6,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
-import com.example.demo.listener.CollisionListener;
+import com.example.demo.listeners.CollisionListener;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
-import com.example.demo.manager.GameStateManager;
+import com.example.demo.manager.GameLoopManager;
+import com.example.demo.strategy.UserFiringStrategy;
+import com.example.demo.strategy.UserMovementStrategy;
 import com.example.demo.ui.PauseOverlay;
 import com.example.demo.util.GameConstant;
+import com.example.demo.util.PlayerKeyBindings;
 
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -24,6 +27,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -41,11 +46,13 @@ public class LevelState implements GameState, CollisionListener {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final LevelParent level;
     private final Stage stage;
-    private final GameStateManager gameStateManager;
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
+    private final GameLoopManager gameLoopManager;
+    private final StateTransitioner stateTransitioner;
     private boolean levelCompleted;
     private PauseOverlay pauseOverlay;
+    private final ActorSpawner actorSpawner;
     private Scene scene;
     private boolean isExplosionActive = false;
     // Map to hold each player's key bindings
@@ -64,16 +71,30 @@ public class LevelState implements GameState, CollisionListener {
      * @param audioManager The AudioManager handling game audio.
      * @param imageManager The ImageManager handling game images.
      */
-    public LevelState(Stage stage, Controller controller, LevelParent level) {
+    public LevelState(Stage stage, LevelParent level, ActorManager actorManager, CollisionManager collisionManager, GameLoopManager gameLoopManager, StateTransitioner stateTransitioner) {
         this.level = level;
         this.stage = stage;
-        this.gameStateManager = controller.getGameStateManager();
-        this.actorManager = gameStateManager.getActorManager();
-        this.collisionManager = gameStateManager.getCollisionManager();
+        this.actorManager = actorManager;
+        this.actorSpawner = actorManager.getActorSpawner();
+        this.collisionManager = collisionManager;
         collisionManager.setCollisionListener(this);
+        this.gameLoopManager = gameLoopManager;
+        this.stateTransitioner = stateTransitioner;
         this.levelCompleted = false;
         // Assign key bindings to each player
         assignPlayerKeyBindings();
+        this.gameLoopManager.addPropertyChangeListener(this::onGameLoopChange);
+    }
+
+    private void onGameLoopChange(PropertyChangeEvent evt) {
+    if ("paused".equals(evt.getPropertyName())) {
+        boolean isPaused = (boolean) evt.getNewValue();
+        if (isPaused) {
+            handlePause();
+        } else {
+            handleResume();
+        }
+    }
     }
 
     @Override
@@ -88,8 +109,6 @@ public class LevelState implements GameState, CollisionListener {
         stage.show();
         System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
 
-        // Play background music for this level
-        System.out.println("LevelState:" + gameStateManager);
         createPauseOverlay();
     }
 
@@ -119,18 +138,12 @@ public class LevelState implements GameState, CollisionListener {
         }
     }
     
-
-    @Override
-    public void render() {
-        // No rendering needed for LevelState
-    }
-
     @Override
     public void handleInput(KeyEvent event) {
-        if (gameStateManager.isPaused()) {
-            // When paused, only ESCAPE key resumes the game
+        if (gameLoopManager.isPaused()) {
+            // When paused, only SPACE key resumes the game
             if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.SPACE) {
-                gameStateManager.resumeGame();
+                gameLoopManager.resumeGame();
             }
             return; // Ignore other inputs when paused
         }
@@ -138,22 +151,22 @@ public class LevelState implements GameState, CollisionListener {
         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
             if (event.getCode() == KeyCode.SPACE) {
                 // SPACE key pauses the game
-                gameStateManager.pauseGame();
+                gameLoopManager.pauseGame();
             } else {
                 // Add other keys to activeKeys for movement
                 activeKeys.add(event.getCode());
-                processActiveKeys();
             }
         } else if (event.getEventType() == KeyEvent.KEY_RELEASED) {
             // Remove keys from activeKeys when released
             activeKeys.remove(event.getCode());
-            processActiveKeys();
         }
     }
 
     @Override
     public void cleanup() {
-        // no cleanup needed for LevelState
+        System.out.println("LevelState: Cleaning up Level " + level.getCurrentLevelNumber());
+        actorManager.cleanup();
+        System.out.println("LevelState: Cleanup completed.");
     }
 
     /**
@@ -182,7 +195,7 @@ public class LevelState implements GameState, CollisionListener {
      * @param enemy     The enemy involved in the collision.
      */
     @Override
-    public void onProjectileHitEnemy(UserPlane userPlane, ActiveActorDestructible enemy) {
+    public void onProjectileHitEnemy(UserPlane userPlane, ActiveActor enemy) {
         userPlane.incrementKillCount();
         System.out.println("Kill count for user updated: " + userPlane.getNumberOfKills());
     }
@@ -197,7 +210,7 @@ public class LevelState implements GameState, CollisionListener {
         Button pauseButton = ButtonManager.createImageButton(buttonImageName, buttonImageWidth, buttonImageHeight);
 
         // Set the action for the pause button
-        pauseButton.setOnAction(e -> gameStateManager.pauseGame());
+        pauseButton.setOnAction(e -> gameLoopManager.pauseGame());
         pauseButton.setLayoutX(buttonXPosition); // 10 pixels from the left
         pauseButton.setLayoutY(buttonYPosition); // 10 pixels from the top
 
@@ -210,7 +223,7 @@ public class LevelState implements GameState, CollisionListener {
      */
     private void createPauseOverlay() {
         System.out.println("Creating PauseOverlay for Level " + level.getCurrentLevelNumber());
-        pauseOverlay = new PauseOverlay(gameStateManager, level.getCurrentLevelNumber());
+        pauseOverlay = new PauseOverlay(gameLoopManager, stateTransitioner);
     }
 
     /**
@@ -263,26 +276,34 @@ public class LevelState implements GameState, CollisionListener {
         }
     } 
     
-        /**
-     * Assigns key bindings to each player based on the number of players.
+    /**
+     * Assigns key bindings to each player and sets up their movement and firing strategies.
      */
     private void assignPlayerKeyBindings() {
         List<UserPlane> players = actorManager.getPlayers();
-        int numPlayers = gameStateManager.getNumberOfPlayers();
+        int numPlayers = stateTransitioner.getNumberOfPlayers();
 
         for (int i = 0; i < numPlayers; i++) {
             UserPlane player = players.get(i);
             PlayerKeyBindings bindings;
 
             if (i == 0) {
-                // Player 1: W, A, S, D for movement
+                // Player 1: W, A, S, D for movement, SPACE for firing
                 bindings = new PlayerKeyBindings(
-                    EnumSet.of(KeyCode.UP, KeyCode.LEFT, KeyCode.DOWN, KeyCode.RIGHT)
+                    EnumSet.of(KeyCode.UP),
+                    EnumSet.of(KeyCode.DOWN),
+                    EnumSet.of(KeyCode.LEFT),
+                    EnumSet.of(KeyCode.RIGHT),
+                    KeyCode.ENTER
                 );
             } else if (i == 1) {
-                // Player 2: Arrow keys for movement
+                // Player 2: Arrow keys for movement, ENTER for firing
                 bindings = new PlayerKeyBindings(
-                    EnumSet.of(KeyCode.W, KeyCode.A, KeyCode.S, KeyCode.D)
+                    EnumSet.of(KeyCode.W),
+                    EnumSet.of(KeyCode.S),
+                    EnumSet.of(KeyCode.A),
+                    EnumSet.of(KeyCode.D),
+                    KeyCode.SPACE
                 );
             } else {
                 // Additional players can be added here with their own bindings
@@ -291,59 +312,11 @@ public class LevelState implements GameState, CollisionListener {
 
             playerKeyBindingsMap.put(player, bindings);
             System.out.println("Assigned key bindings for Player " + (i + 1));
-        }
-    }
 
-    /**
-     * Processes all active keys and updates each player's state accordingly.
-     */
-    private void processActiveKeys() {
-        for (Map.Entry<UserPlane, PlayerKeyBindings> entry : playerKeyBindingsMap.entrySet()) {
-            UserPlane player = entry.getKey();
-            PlayerKeyBindings bindings = entry.getValue();
-
-            // Handle vertical movement
-            boolean movingUp = bindings.getMovementKeys().contains(KeyCode.UP) && activeKeys.contains(KeyCode.UP) ||
-                                bindings.getMovementKeys().contains(KeyCode.W) && activeKeys.contains(KeyCode.W);
-            boolean movingDown = bindings.getMovementKeys().contains(KeyCode.DOWN) && activeKeys.contains(KeyCode.DOWN) ||
-                                  bindings.getMovementKeys().contains(KeyCode.S) && activeKeys.contains(KeyCode.S);
-
-            if (movingUp) {
-                player.moveUp();
-            } else if (movingDown) {
-                player.moveDown();
-            } else {
-                player.stopVertical();
-            }
-
-            // Handle horizontal movement
-            boolean movingLeft = bindings.getMovementKeys().contains(KeyCode.LEFT) && activeKeys.contains(KeyCode.LEFT) ||
-                                 bindings.getMovementKeys().contains(KeyCode.A) && activeKeys.contains(KeyCode.A);
-            boolean movingRight = bindings.getMovementKeys().contains(KeyCode.RIGHT) && activeKeys.contains(KeyCode.RIGHT) ||
-                                  bindings.getMovementKeys().contains(KeyCode.D) && activeKeys.contains(KeyCode.D);
-
-            if (movingLeft) {
-                player.moveLeft();
-            } else if (movingRight) {
-                player.moveRight();
-            } else {
-                player.stopHorizontal();
-            }
-        }
-    }
-
-    /**
-     * Inner class to define key bindings for a player.
-     */
-    private static class PlayerKeyBindings {
-        private final Set<KeyCode> movementKeys;
-
-        public PlayerKeyBindings(Set<KeyCode> movementKeys) {
-            this.movementKeys = movementKeys;
-        }
-
-        public Set<KeyCode> getMovementKeys() {
-            return movementKeys;
+            // Assign MovementStrategy and FiringStrategy to the UserPlane
+            double planeSpeed = GameConstant.UserPlane.VERTICAL_VELOCITY; // Ensure this constant is defined
+            player.setMovementStrategy(new UserMovementStrategy(activeKeys, bindings, planeSpeed));
+            player.setFiringStrategy(new UserFiringStrategy(actorSpawner, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS));
         }
     }
 }

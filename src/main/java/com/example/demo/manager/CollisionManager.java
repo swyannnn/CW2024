@@ -1,10 +1,10 @@
 package com.example.demo.manager;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.effect.ExplosionEffect;
-import com.example.demo.listener.CollisionListener;
+import com.example.demo.listeners.CollisionListener;
 import com.example.demo.util.GameConstant;
 
 import javafx.geometry.BoundingBox;
@@ -18,9 +18,13 @@ import java.util.List;
 public class CollisionManager {
     private static CollisionManager instance;
     private CollisionListener collisionListener;
+    private AudioManager audioManager;
     private ActorManager actorManager;
     private final double shrinkPercentage = GameConstant.GameSettings.COLLISION_SHRINK_PERCENTAGE;
-    private CollisionManager() {}
+    
+    private CollisionManager() {
+        this.audioManager = AudioManager.getInstance();
+    }
 
     /**
      * Retrieves the singleton instance of CollisionManager.
@@ -54,7 +58,7 @@ public class CollisionManager {
         handleCollisions(actorManager.getPlayers(), actorManager.getEnemyUnits());
     }
 
-    private Bounds getShrunkenBounds(ActiveActorDestructible actor) {
+    private Bounds getShrunkenBounds(ActiveActor actor) {
         Bounds original = actor.getBoundsInParent();
         
         double width = original.getWidth() * shrinkPercentage;
@@ -73,8 +77,8 @@ public class CollisionManager {
      * @param targetActors The list of target actors (e.g., players).
      */
     private void handleCollisions(
-        List<? extends ActiveActorDestructible> sourceActors, 
-        List<? extends ActiveActorDestructible> targetActors) {
+        List<? extends ActiveActor> sourceActors, 
+        List<? extends ActiveActor> targetActors) {
         
         sourceActors.stream()
             .flatMap(source -> targetActors.stream()
@@ -88,29 +92,32 @@ public class CollisionManager {
     }
 
     private void processCollision(CollisionPair pair) {
-        ActiveActorDestructible source = pair.source;
-        ActiveActorDestructible target = pair.target;
+        ActiveActor source = pair.source;
+        ActiveActor target = pair.target;
         System.out.println("Collision detected: " + source + " hit " + target);
     
-        boolean targetDamaged = false;
         source.takeDamage();
-        targetDamaged = target.takeDamage();
+        target.takeDamage();
         
-        if (targetDamaged && !(target instanceof UserPlane)){
+        if (!(target instanceof UserPlane)){
             createExplosionAt(target);
             if (source instanceof UserProjectile) {
                 UserProjectile projectile = (UserProjectile) source;
                 UserPlane userPlane = projectile.getOwner();
                 collisionListener.onProjectileHitEnemy(userPlane, target);
+                actorManager.removeActor(projectile);
             }
+        } else {
+            audioManager.playSoundEffect(GameConstant.SoundEffect.PLAYER_HIT.ordinal());
         }
     }
 
-    private void createExplosionAt(ActiveActorDestructible target) {
+    private void createExplosionAt(ActiveActor target) {
         double explosionX = target.getLayoutX() + target.getTranslateX();
         double explosionY = target.getLayoutY() + target.getTranslateY() + target.getImageHeight() / 2;
         ExplosionEffect explosion = new ExplosionEffect(explosionX, explosionY);
         actorManager.addUIElement(explosion.getExplosionView());
+        audioManager.playSoundEffect(GameConstant.SoundEffect.EXPLOSION.ordinal());
         // Notify that an explosion has started
         collisionListener.onExplosionStarted();
         // Set a callback to notify when the explosion has finished
@@ -125,10 +132,10 @@ public class CollisionManager {
      * A simple helper class to hold a pair of actors involved in a collision.
      */
     private static class CollisionPair {
-        final ActiveActorDestructible source;
-        final ActiveActorDestructible target;
+        final ActiveActor source;
+        final ActiveActor target;
 
-        CollisionPair(ActiveActorDestructible source, ActiveActorDestructible target) {
+        CollisionPair(ActiveActor source, ActiveActor target) {
             this.source = source;
             this.target = target;
         }

@@ -1,6 +1,5 @@
 package com.example.demo.state;
 
-import com.example.demo.manager.GameStateManager;
 import com.example.demo.ui.WinScreen;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -12,7 +11,7 @@ import javafx.stage.Stage;
  */
 public class WinState implements GameState {
     private final Stage stage;
-    private final GameStateManager gameStateManager;
+    private final StateTransitioner stateTransitioner;
     private WinScreen winScreen;
     private Scene scene;
 
@@ -22,16 +21,16 @@ public class WinState implements GameState {
      * @param stage The primary stage of the application.
      * @param gameStateManager The GameStateManager instance.
      */
-    public WinState(Stage stage, GameStateManager gameStateManager) {
+    public WinState(Stage stage,  StateTransitioner stateTransitioner) {
         this.stage = stage;
-        this.gameStateManager = gameStateManager;
+        this.stateTransitioner = stateTransitioner;
     }
 
     @Override
     public void initialize() {
         // Initialize the WinScreen and set the scene
         System.out.println("Initializing Win State");
-        winScreen = new WinScreen(stage, gameStateManager);
+        winScreen = new WinScreen(stage, stateTransitioner);
         this.scene = winScreen.getWinScreenScene();
         stage.setScene(this.scene);
         stage.show();
@@ -48,17 +47,12 @@ public class WinState implements GameState {
     }
 
     @Override
-    public void render() {
-        // Rendering is handled by JavaFX's scene graph
-    }
-
-    @Override
     public void handleInput(KeyEvent event) {
         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
             KeyCode keyCode = event.getCode();
             switch (keyCode) {
                 case ENTER:
-                    gameStateManager.goToMainMenu(); // Return to main menu
+                    stateTransitioner.goToMainMenu(); // Return to main menu
                     break;
                 case ESCAPE:
                     stage.close(); // Exit the game
@@ -71,8 +65,6 @@ public class WinState implements GameState {
 
     @Override
     public void cleanup() {
-        if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().stopMusic();
-        }
+        // No cleanup needed for static win screen
     }
 }

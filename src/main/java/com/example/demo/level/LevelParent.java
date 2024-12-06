@@ -2,11 +2,14 @@ package com.example.demo.level;
 
 import java.util.List;
 
+import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.PlaneFactory;
+import com.example.demo.actor.PlaneFactory.PlaneType;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.AudioManager;
-import com.example.demo.manager.GameStateManager;
 import com.example.demo.ui.LevelView;
 import com.example.demo.util.GameConstant;
 
@@ -29,11 +32,12 @@ public abstract class LevelParent {
     protected Controller controller;
 
     // Managers are injected to ensure they're properly initialized
-    protected final ActorManager actorManager;
+    protected final ActorSpawner actorSpawn;
     protected final AudioManager audioManager;
-    protected final GameStateManager gameStateManager;
-    private final double scrollSpeed = 1.0; // Adjust as needed
+    protected final PlaneFactory planeFactory;
+    private final double scrollSpeed = 1.0; 
     private int currentLevelNumber;
+    private int numberOfPlayers;
     /**
      * Constructs a new LevelParent instance.
      *
@@ -41,31 +45,25 @@ public abstract class LevelParent {
      * @param backgroundImageName The path to the background image.
      * @param playerInitialHealth The initial health of the player.
      */
-    public LevelParent(Controller controller, int currentLevelNumber, String backgroundImageName, String backgroundMusicName, int playerInitialHealth) {
+    public LevelParent(int currentLevelNumber, int numberOfPlayers, String backgroundImageName, String backgroundMusicName, int playerInitialHealth, ActorSpawner actorSpawner, AudioManager audioManager) {
         setCurrentLevelNumber(currentLevelNumber);
-        this.controller = controller;
         this.playerInitialHealth = playerInitialHealth;
+        this.numberOfPlayers = numberOfPlayers;
         this.root = new Group();
         this.scene = new Scene(root, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
+        this.planeFactory = new PlaneFactory(actorSpawner);
+        this.actorSpawn = actorSpawner;
+        this.audioManager = audioManager;
 
-        // Retrieve singleton Managers
-        this.gameStateManager = controller.getGameStateManager();
-        this.actorManager = gameStateManager.getActorManager();
-        this.audioManager = gameStateManager.getAudioManager();
         // Pass the root to ActorManager
-        this.actorManager.updateRoot(this.root);
+        actorSpawner.updateRoot(this.root);
         // Initialize LevelView
         this.levelView = instantiateLevelView();
         levelView.showInstructions(currentLevelNumber);
 
         initializeBackground(backgroundImageName);
         initializeBackgroundMusic(backgroundMusicName);
-    
-        List<UserPlane> players = actorManager.getPlayers();
-        for (int i = 0; i < players.size(); i++) {
-            levelView.showHeartDisplay(players.get(i), i);
-        }
-    }    
+    }
 
     /**
      * Initializes the background images for scrolling effect.
@@ -92,25 +90,25 @@ public abstract class LevelParent {
     }
     
     protected void initializeFriendlyUnits() {
-        int numberOfPlayers = gameStateManager.getNumberOfPlayers();
-    
         // Initialize player 1
-        UserPlane player1 = new UserPlane(playerInitialHealth, controller, 1);
-        actorManager.addActor(player1);
+        int playerId1 = 1;
+        ActiveActor player1 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId1);
+        actorSpawn.spawnActor(player1);
         System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
-        player1.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes
+        ((UserPlane) player1).addHealthChangeListener(this.levelView);
     
         // If two-player mode, initialize player 2
         if (numberOfPlayers == 2) {
-            UserPlane player2 = new UserPlane(playerInitialHealth, controller, 2);
-            actorManager.addActor(player2);
+            int playerId2 = 2;
+            ActiveActor player2 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId2);
+            actorSpawn.spawnActor(player2);
             System.out.println("Player 2 position: X=" + player2.getTranslateX() + ", Y=" + player2.getTranslateY());
-            player2.addHealthChangeListener(this.levelView); // Register LevelView as listener for health changes
+            ((UserPlane) player2).addHealthChangeListener(this.levelView);
         }
     }
 
     public void updateLevelView() {
-        List<UserPlane> players = actorManager.getPlayers();
+        List<UserPlane> players = actorSpawn.getPlayers();
 
         if (players.isEmpty()) {
             return; 

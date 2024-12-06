@@ -78,7 +78,7 @@ public class GameConstant {
         public static final String IMAGE_NAME = "enemyplane.png";
         public static final int IMAGE_HEIGHT = 150;
         public static final int INITIAL_HEALTH = 1;
-        public static final int HORIZONTAL_VELOCITY = -3;
+        public static final int HORIZONTAL_VELOCITY = 3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
         public static final double X_UPPER_BOUND = 0;
@@ -158,7 +158,7 @@ public class GameConstant {
     public static class BossPlane {
         public static final String IMAGE_NAME = "bossplane.png";
         public static final int IMAGE_HEIGHT = 300;
-        public static final int INITIAL_HEALTH = 0;
+        public static final int INITIAL_HEALTH = 5;
         public static final double HORIZONTAL_VELOCITY = 4.0;
         public static final int VERTICAL_VELOCITY = 4;
         public static final double INITIAL_X_POSITION = 1000.0;
@@ -174,29 +174,27 @@ public class GameConstant {
 
     public static class MultiPhaseBossPlane {
         public static final String IMAGE_NAME = "enemy3.png";
-        public static final int MINI_SIZE = 4;
-        public static final int GIANT_SIZE = 1;
         public static final int IMAGE_HEIGHT = 200;
-        public static final int REMAINING_HEALTH_PHASE1 = 6;
-        public static final int REMAINING_HEALTH_PHASE2 = 5;
-        public static final int REMAINING_HEALTH_PHASE3 = 4;
+        public static final int REMAINING_HEALTH_PHASE1 = 60;
+        public static final int REMAINING_HEALTH_PHASE2 = 59;
+        public static final int REMAINING_HEALTH_PHASE3 = 1;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
-        public static final double FIRE_RATE = 0.1; // 50% chance to fire
+        public static final double FIRE_RATE = 0.5; // 50% chance to fire
         public static final double Y_POSITION = (GameSettings.SCREEN_HEIGHT / 2) - 100;
         public static final double X_POSITION = 400;
-        public static final double HORIZONTAL_VELOCITY_PHASE1 = 3.0;
-        public static final double HORIZONTAL_VELOCITY_PHASE2 = 4.0;
-        public static final double HORIZONTAL_VELOCITY_PHASE3 = 5.0;
-        public static final double Y_UPPER_BOUND = 0;
+        public static final int PROJECTILE_X_POSITION_OFFSET = -130;
+        public static final int PROJECTILE_Y_POSITION_OFFSET = 75;
+        public static final double VERTICAL_VELOCITY_PHASE1 = 150.0;
+        public static final double VERTICAL_VELOCITY_PHASE2 = 200.0;
+        public static final double VERTICAL_VELOCITY_PHASE3 = 300.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE1 = 5.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE2 = 10.0;
+        public static final double HORIZONTAL_VELOCITY_PHASE3 = 15.0;
+        public static final double Y_UPPER_BOUND = -40;
         public static final double Y_LOWER_BOUND = 600;
         public static final double X_UPPER_BOUND = GameSettings.SCREEN_HEIGHT / 2;
         public static final double X_LOWER_BOUND = 1150;
-        public static final long AREA_ATTACK_COOLDOWN_PHASE1 = 0;
-        public static final long AREA_ATTACK_COOLDOWN_PHASE2 = 5_000_000_000L; // 5 seconds
-        public static final long AREA_ATTACK_COOLDOWN_PHASE3 = 4_000_000_000L; // 4 seconds
-        public static final long SUMMON_COOLDOWN = 1_000_000_000L; //1_000_000_000L
-        public static final int PROJECTILE_X_POSITION_OFFSET = -130;
-        public static final int PROJECTILE_Y_POSITION_OFFSET = 75;
+        public static final long SUMMON_COOLDOWN = 10_000_000_000L; //1_000_000_000L
         public static final int MAX_FRAMES_WITH_SAME_MOVE = 500;
     }
 
@@ -209,16 +207,16 @@ public class GameConstant {
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
         public static final double PROJECTILE_X_POSITION_OFFSET = -100;
         public static final double PROJECTILE_Y_POSITION_OFFSET = 120;
-        public static final double FIRE_RATE = 0;
+        public static final double FIRE_RATE = 1;
     }
 
     // BossShield Settings
     public static class BossShield {
         public static final String IMAGE_NAME = "shield.png";
         public static final int IMAGE_HEIGHT = 200;
-        public static final int X_POSITION_OFFSET = 930;
-        public static final int Y_POSITION_OFFSET = 200;
-        public static final double BOSS_SHIELD_PROBABILITY = 0.0;
+        public static final int X_POSITION_OFFSET = -80;
+        public static final int Y_POSITION_OFFSET = 90;
+        public static final double BOSS_SHIELD_PROBABILITY = 0;
         public static final int MAX_FRAMES_WITH_SHIELD = 500;
         public static final int MAX_FRAMES_WITHOUT_SHIELD = 500;
     }
@@ -239,7 +237,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 3;
-        public static final int KILLS_TO_ADVANCE = 0;
+        public static final int KILLS_TO_ADVANCE = 30;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm001.wav";
@@ -257,15 +255,22 @@ public class GameConstant {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm003.mp3";
-        public static final int SURVIVAL_TIME = 0; // in seconds
+        public static final int SURVIVAL_TIME = 20; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 
     // Level 004Settings
     public static class Level004 {
         public static final String BACKGROUND_IMAGE_NAME = "background002.jpeg";
-        public static final String BACKGROUND_MUSIC = "bgm004.mp3";
+        public static final String BACKGROUND_MUSIC = "bgm001.mp3";
         public static final int PLAYER_INITIAL_HEALTH = 5;
+    }
+
+    public enum SoundEffect {
+        PLAYER_HIT,
+        EXPLOSION,
+        SCREEN_TRANSITION,
+        PLAYER_SHOOT
     }
 
     // File Paths

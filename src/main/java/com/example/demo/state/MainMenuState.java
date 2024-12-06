@@ -1,7 +1,6 @@
 package com.example.demo.state;
 
-import com.example.demo.controller.Controller;
-import com.example.demo.manager.GameStateManager;
+import com.example.demo.manager.AudioManager;
 import com.example.demo.ui.MainMenu;
 
 import javafx.scene.Scene;
@@ -13,9 +12,9 @@ import javafx.stage.Stage;
  */
 public class MainMenuState implements GameState {
     private final Stage stage;
-    private final Controller controller;
+    private final StateTransitioner stateTransitioner;
+    private final AudioManager audioManager;
     private MainMenu mainMenu;
-    GameStateManager gameStateManager;
     private Scene scene;
 
     /**
@@ -24,17 +23,17 @@ public class MainMenuState implements GameState {
      * @param primaryStage The primary stage of the application.
      * @param controller   The game controller.
      */
-    public MainMenuState(Stage stage, Controller controller) {
+    public MainMenuState(Stage stage, StateTransitioner stateTransitioner, AudioManager audioManager) {
         this.stage = stage;
-        this.controller = controller;
-        this.gameStateManager = controller.getGameStateManager();
+        this.stateTransitioner = stateTransitioner;
+        this.audioManager = audioManager;
     }
 
     @Override
     public void initialize() {
         // Initialize the HomeMenu and set the scene
         System.out.println("Initializing Main Menu State");
-        mainMenu = new MainMenu(stage, controller);
+        mainMenu = new MainMenu(stage, stateTransitioner, audioManager);
         this.scene = mainMenu.getHomeMenuScene();
         stage.setScene(this.scene);
         stage.show();
@@ -45,16 +44,12 @@ public class MainMenuState implements GameState {
         // No update logic needed for the static main menu
     }
 
-    @Override
-    public void render() {
-        // Rendering is handled by JavaFX's scene graph, so no custom rendering needed
-    }
 
     @Override
     public void handleInput(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
-                gameStateManager.startGame(); 
+                stateTransitioner.goToLevel(1); 
                 break;
             case ESCAPE:
                 exitGame(); 
@@ -71,7 +66,6 @@ public class MainMenuState implements GameState {
 
     @Override
     public void cleanup() {
-        // No cleanup needed for the main menu
     }
 
     /**

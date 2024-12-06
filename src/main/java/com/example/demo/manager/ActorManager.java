@@ -1,6 +1,13 @@
 package com.example.demo.manager;
 
-import com.example.demo.actor.ActiveActorDestructible;
+import com.example.demo.actor.ActiveActor;
+import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.plane.BossPlane;
+import com.example.demo.actor.plane.FighterPlane;
+import com.example.demo.actor.plane.UserPlane;
+import com.example.demo.actor.projectile.BossProjectile;
+import com.example.demo.actor.projectile.EnemyProjectile;
+import com.example.demo.actor.projectile.UserProjectile;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -11,11 +18,11 @@ import java.util.List;
 
 /**
  * ActorManager manages all active actors in the game.
- * It handles updating, rendering, and cleaning up actors.
+ * It handles updating and cleaning up actors.
  */
-public class ActorManager {
+public class ActorManager implements ActorSpawner {
     private static ActorManager instance;
-    private final List<ActiveActorDestructible> actors;
+    private final List<ActiveActor> actors;
     private Group root;
 
     private ActorManager(Group root) {
@@ -36,6 +43,15 @@ public class ActorManager {
         return instance;
     }
 
+    public ActorSpawner getActorSpawner() {
+        return this;
+    }    
+
+    @Override
+    public void spawnActor(ActiveActor actor) {
+        addActor(actor); // Use your existing method to add actors
+    }
+
     public void updateRoot(Group newRoot) {
         System.out.println("ActorManager: Updating root to " + newRoot);
         this.root = newRoot;
@@ -46,10 +62,10 @@ public class ActorManager {
      *
      * @param actor The actor to add.
      */
-    public void addActor(ActiveActorDestructible actor) {
+    public void addActor(ActiveActor actor) {
         actors.add(actor);
         root.getChildren().add(actor);
-        if (actor instanceof com.example.demo.actor.projectile.BossProjectile) {
+        if (actor instanceof BossProjectile) {
             System.out.println("Added actor: " + actor + " to the root " + this.root);
         }
         // System.out.println("Added actor: " + actor + " to the root " + this.root);
@@ -69,7 +85,7 @@ public class ActorManager {
         }
     }
 
-    public void removeActor(ActiveActorDestructible actor) {
+    public void removeActor(ActiveActor actor) {
         Platform.runLater(() -> {
             actors.remove(actor);
             root.getChildren().remove(actor);
@@ -84,8 +100,8 @@ public class ActorManager {
      */
     public void updateAllActors(long now) {
         // Create a copy to avoid ConcurrentModificationException
-        List<ActiveActorDestructible> actorsCopy = new ArrayList<>(actors);
-        for (ActiveActorDestructible actor : actorsCopy) {
+        List<ActiveActor> actorsCopy = new ArrayList<>(actors);
+        for (ActiveActor actor : actorsCopy) {
             actor.update(now);
         }
     }
@@ -96,7 +112,7 @@ public class ActorManager {
     public void removeDestroyedActors() {
         actors.removeIf(actor -> {
             if (actor.isDestroyed()) {
-                System.out.println("Removing actor: " + actor);
+                // System.out.println("Removing actor: " + actor);
                 root.getChildren().remove(actor);
                 return true;
             }
@@ -108,7 +124,7 @@ public class ActorManager {
      * Cleans up all actors by removing them from the manager and scene graph.
      */
     public void cleanup() {
-        for (ActiveActorDestructible actor : new ArrayList<>(actors)) {
+        for (ActiveActor actor : new ArrayList<>(actors)) {
             actor.destroy();
             root.getChildren().remove(actor);
             actors.remove(actor);
@@ -120,11 +136,11 @@ public class ActorManager {
      *
      * @return The list of players.
      */
-    public List<com.example.demo.actor.plane.UserPlane> getPlayers() {
-        List<com.example.demo.actor.plane.UserPlane> players = new ArrayList<>();
-        for (ActiveActorDestructible actor : actors) {
-            if (actor instanceof com.example.demo.actor.plane.UserPlane) {
-                players.add((com.example.demo.actor.plane.UserPlane) actor);
+    public List<UserPlane> getPlayers() {
+        List<UserPlane> players = new ArrayList<>();
+        for (ActiveActor actor : actors) {
+            if (actor instanceof UserPlane) {
+                players.add((UserPlane) actor);
             }
         }
         return players;
@@ -135,10 +151,10 @@ public class ActorManager {
      *
      * @return The list of user projectiles.
      */
-    public List<ActiveActorDestructible> getUserProjectiles() {
-        List<ActiveActorDestructible> userProjectiles = new ArrayList<>();
-        for (ActiveActorDestructible actor : actors) {
-            if (actor instanceof com.example.demo.actor.projectile.UserProjectile) {
+    public List<ActiveActor> getUserProjectiles() {
+        List<ActiveActor> userProjectiles = new ArrayList<>();
+        for (ActiveActor actor : actors) {
+            if (actor instanceof UserProjectile) {
                 userProjectiles.add(actor);
             }
         }
@@ -150,10 +166,10 @@ public class ActorManager {
      *
      * @return The list of enemy units.
      */
-    public List<ActiveActorDestructible> getEnemyUnits() {
-        List<ActiveActorDestructible> enemyUnits = new ArrayList<>();
-        for (ActiveActorDestructible actor : actors) {
-            if (actor instanceof com.example.demo.actor.plane.FighterPlane && !(actor instanceof com.example.demo.actor.plane.UserPlane)) {
+    public List<ActiveActor> getEnemyUnits() {
+        List<ActiveActor> enemyUnits = new ArrayList<>();
+        for (ActiveActor actor : actors) {
+            if (actor instanceof FighterPlane && !(actor instanceof UserPlane)) {
                 enemyUnits.add(actor);
             }
         }
@@ -165,10 +181,10 @@ public class ActorManager {
      *
      * @return The list of enemy projectiles.
      */
-    public List<ActiveActorDestructible> getEnemyProjectiles() {
-        List<ActiveActorDestructible> enemyProjectiles = new ArrayList<>();
-        for (ActiveActorDestructible actor : actors) {
-            if (actor instanceof com.example.demo.actor.projectile.EnemyProjectile) {
+    public List<ActiveActor> getEnemyProjectiles() {
+        List<ActiveActor> enemyProjectiles = new ArrayList<>();
+        for (ActiveActor actor : actors) {
+            if (actor instanceof EnemyProjectile) {
                 enemyProjectiles.add(actor);
             }
         }
@@ -180,10 +196,10 @@ public class ActorManager {
      *
      * @return The list of boss units.
      */
-    public List<ActiveActorDestructible> getBossUnits() {
-        List<ActiveActorDestructible> bossUnits = new ArrayList<>();
-        for (ActiveActorDestructible actor : actors) {
-            if (actor instanceof com.example.demo.actor.plane.BossPlane) {
+    public List<ActiveActor> getBossUnits() {
+        List<ActiveActor> bossUnits = new ArrayList<>();
+        for (ActiveActor actor : actors) {
+            if (actor instanceof BossPlane) {
                 bossUnits.add(actor);
             }
         }
@@ -195,10 +211,10 @@ public class ActorManager {
      *
      * @return The list of boss projectiles.
      */
-    public List<ActiveActorDestructible> getBossProjectiles() {
-        List<ActiveActorDestructible> bossProjectiles = new ArrayList<>();
-        for (ActiveActorDestructible actor : actors) {
-            if (actor instanceof com.example.demo.actor.projectile.BossProjectile) {
+    public List<ActiveActor> getBossProjectiles() {
+        List<ActiveActor> bossProjectiles = new ArrayList<>();
+        for (ActiveActor actor : actors) {
+            if (actor instanceof BossProjectile) {
                 bossProjectiles.add(actor);
             }
         }
