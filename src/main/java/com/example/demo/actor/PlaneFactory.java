@@ -107,7 +107,7 @@ public class PlaneFactory {
         return new EnemyPlane(config);
     }
 
-    private EnemyPlane1 createEnemy1Plane() {
+    private EnemyPlane createEnemy1Plane() {
         // Set up EnemyPlane-specific properties
         PlaneConfig config = new PlaneConfig();
         config.imageName = GameConstant.EnemyPlane1.IMAGE_NAME;
@@ -120,10 +120,10 @@ public class PlaneFactory {
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
 
-        return new EnemyPlane1(config);
+        return new EnemyPlane(config);
     }
 
-    private EnemyPlane2 createEnemy2Plane() {
+    private EnemyPlane createEnemy2Plane() {
         // Set up EnemyPlane-specific properties
         PlaneConfig config = new PlaneConfig();
         config.imageName = GameConstant.EnemyPlane2.IMAGE_NAME;
@@ -135,10 +135,10 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
-        return new EnemyPlane2(config);
+        return new EnemyPlane(config);
     }
 
-    private EnemyPlane3 createEnemy3Plane() {
+    private EnemyPlane createEnemy3Plane() {
         // Set up EnemyPlane-specific properties
         PlaneConfig config = new PlaneConfig();
         config.imageName = GameConstant.EnemyPlane3.IMAGE_NAME;
@@ -150,10 +150,10 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
-        return new EnemyPlane3(config);
+        return new EnemyPlane(config);
     }
 
-    private EnemyPlane4 createEnemy4Plane() {
+    private EnemyPlane createEnemy4Plane() {
         // Set up EnemyPlane-specific properties
         PlaneConfig config = new PlaneConfig();
         config.imageName = GameConstant.EnemyPlane4.IMAGE_NAME;
@@ -165,7 +165,7 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
-        return new EnemyPlane4(config);
+        return new EnemyPlane(config);
     }
 
     private BossPlane createBossPlane() {
