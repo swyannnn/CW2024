@@ -105,6 +105,7 @@ public class CollisionManager {
                 UserProjectile projectile = (UserProjectile) source;
                 UserPlane userPlane = projectile.getOwner();
                 collisionListener.onProjectileHitEnemy(userPlane, target);
+                actorManager.removeActor(projectile);
             }
         } else {
             audioManager.playSoundEffect(GameConstant.SoundEffect.PLAYER_HIT.ordinal());
