@@ -2,7 +2,7 @@ package com.example.demo.state;
 
 import java.util.Optional;
 
-import com.example.demo.level.LevelConfiguration;
+import com.example.demo.level.LevelConfig;
 import com.example.demo.level.LevelFactory;
 import com.example.demo.level.LevelParent;
 import com.example.demo.listeners.StateTransitioner;
@@ -65,7 +65,7 @@ public class GameStateFactory {
      * @return A new LevelState, WinState if the level does not exist.
      */
     public IGameState createLevelState(int levelNumber) {
-        LevelConfiguration config = new LevelConfiguration(
+        LevelConfig config = new LevelConfig(
             stateTransitioner.getNumberOfPlayers(),
             actorManager,
             audioManager,

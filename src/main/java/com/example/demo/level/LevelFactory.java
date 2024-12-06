@@ -45,7 +45,7 @@ public class LevelFactory {
      * @param config      The LevelConfiguration containing necessary parameters.
      * @return An Optional containing the LevelParent instance if found, or empty if not.
      */
-    public static Optional<LevelParent> createLevel(int levelNumber, LevelConfiguration config) {
+    public static Optional<LevelParent> createLevel(int levelNumber, LevelConfig config) {
         LevelConstructor constructor = levelMap.get(levelNumber);
         if (constructor != null) {
             return Optional.of(constructor.create(config));

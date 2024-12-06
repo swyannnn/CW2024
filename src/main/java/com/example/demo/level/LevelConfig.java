@@ -7,13 +7,13 @@ import com.example.demo.manager.GameLoopManager;
 /**
  * Encapsulates configuration parameters for creating a level.
  */
-public class LevelConfiguration {
+public class LevelConfig {
     private final int numberOfPlayers;
     private final ActorSpawner actorSpawner;
     private final AudioManager audioManager;
     private final GameLoopManager gameLoopManager;
 
-    public LevelConfiguration(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager, GameLoopManager gameLoopManager) {
+    public LevelConfig(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager, GameLoopManager gameLoopManager) {
         this.numberOfPlayers = numberOfPlayers;
         this.actorSpawner = actorSpawner;
         this.audioManager = audioManager;
