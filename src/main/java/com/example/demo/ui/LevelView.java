@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.listeners.HealthChangeListener;
+import com.example.demo.interfaces.HealthChangeListener;
 import com.example.demo.manager.ImageManager;
 import com.example.demo.util.GameConstant;
 

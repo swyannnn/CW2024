@@ -1,6 +1,7 @@
 package com.example.demo.manager;
 
-import com.example.demo.listeners.InputHandler;
+import com.example.demo.interfaces.InputHandler;
+
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 

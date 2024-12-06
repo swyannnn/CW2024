@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import com.example.demo.listeners.LevelConstructor;
+import com.example.demo.interfaces.LevelConstructor;
 
 /**
  * LevelFactory creates instances of levels using a map of registered level constructors.

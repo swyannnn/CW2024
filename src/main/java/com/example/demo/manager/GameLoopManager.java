@@ -3,8 +3,8 @@ package com.example.demo.manager;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import com.example.demo.listeners.GameLoopUpdater;
-import com.example.demo.listeners.PauseHandler;
+import com.example.demo.interfaces.GameLoopUpdater;
+import com.example.demo.interfaces.PauseHandler;
 
 import javafx.animation.AnimationTimer;
 

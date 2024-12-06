@@ -158,7 +158,7 @@ public class GameConstant {
     public static class BossPlane {
         public static final String IMAGE_NAME = "bossplane.png";
         public static final int IMAGE_HEIGHT = 300;
-        public static final int INITIAL_HEALTH = 5;
+        public static final int INITIAL_HEALTH = 0;
         public static final double HORIZONTAL_VELOCITY = 4.0;
         public static final int VERTICAL_VELOCITY = 4;
         public static final double INITIAL_X_POSITION = 1000.0;
@@ -237,7 +237,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 3;
-        public static final int KILLS_TO_ADVANCE = 30;
+        public static final int KILLS_TO_ADVANCE = 0;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm001.wav";

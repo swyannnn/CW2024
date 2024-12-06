@@ -1,5 +1,6 @@
 package com.example.demo.actor.plane;
 
+import com.example.demo.interfaces.HealthChangeListener;
 import com.example.demo.util.GameConstant;
 import com.example.demo.util.PlaneConfig;
 
@@ -9,8 +10,6 @@ import javafx.animation.FadeTransition;
 import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
-
-import com.example.demo.listeners.HealthChangeListener;
 
 public class UserPlane extends FighterPlane {
     private List<HealthChangeListener> healthChangeListeners = new ArrayList<>();

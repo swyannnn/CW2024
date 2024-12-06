@@ -1,4 +1,4 @@
-package com.example.demo.listeners;
+package com.example.demo.interfaces;
 
 /**
  * Functional interface for updating game logic.

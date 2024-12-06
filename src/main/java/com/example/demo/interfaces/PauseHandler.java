@@ -1,4 +1,4 @@
-package com.example.demo.listeners;
+package com.example.demo.interfaces;
 
 public interface PauseHandler {
     void pauseGame();
