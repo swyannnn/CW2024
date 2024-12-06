@@ -1,7 +1,7 @@
 package com.example.demo.ui;
 
+import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.manager.ButtonManager;
-import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,8 +15,8 @@ import javafx.stage.Stage;
  * LoseScreen class represents the lose screen UI of the game.
  */
 public class LoseScreen {
-    private final Stage primaryStage;
-    private final GameStateManager gameStateManager;
+    private final Stage stage;
+    private final StateTransitioner stateTransitioner;
     private static final int iconHeight = GameConstant.GameOver.IMAGE_HEIGHT;
 	private static final int iconWidth = GameConstant.GameOver.IMAGE_WIDTH;
     private static final String imageName = GameConstant.GameOver.IMAGE_PATH;
@@ -27,12 +27,9 @@ public class LoseScreen {
      * @param stage The primary stage of the application.
      * @param gameStateManager The GameStateManager instance.
      */
-    public LoseScreen(Stage stage, GameStateManager gameStateManager) {
-        this.primaryStage = stage;
-        this.gameStateManager = gameStateManager;
-        // if (gameStateManager.getAudioManager() != null) {
-        //     gameStateManager.getAudioManager().playMusic("losebgm.mp3");
-        // }
+    public LoseScreen(Stage stage, StateTransitioner stateTransitioner) {
+        this.stage = stage;
+        this.stateTransitioner = stateTransitioner;
     }
 
     /**
@@ -52,7 +49,7 @@ public class LoseScreen {
 
         // Restart Button
         Button restartButton = ButtonManager.createButton("Restart Game", 200, 50, 20);
-        restartButton.setOnAction(e -> gameStateManager.goToLevel(1));
+        restartButton.setOnAction(e -> stateTransitioner.goToLevel(1));
 
         // Exit Button
         Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
@@ -69,9 +66,6 @@ public class LoseScreen {
      * Handles the action of exiting the game.
      */
     private void exitGame() {
-        if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().stopMusic();
-        }
-        primaryStage.close(); // Close the application
+        stage.close(); // Close the application
     }
 }

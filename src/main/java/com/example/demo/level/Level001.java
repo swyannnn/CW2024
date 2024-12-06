@@ -4,7 +4,7 @@ import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.PlaneFactory;
 import com.example.demo.actor.PlaneFactory.PlaneType;
-import com.example.demo.controller.Controller;
+import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 
 /**
@@ -19,7 +19,7 @@ public class Level001 extends LevelParent{
     private static final double enemySpawnProbability = GameConstant.Level001.ENEMY_SPAWN_PROBABILITY;
     private static final int playerInitialHealth = GameConstant.Level001.PLAYER_INITIAL_HEALTH;
     private PlaneFactory planeFactory;
-    private final ActorSpawner actorSpawn;
+    private final ActorSpawner actorSpawner;
 
     /**
      * Constructor for Level001.
@@ -27,11 +27,10 @@ public class Level001 extends LevelParent{
      * @param controller       The game controller.
      * @param levelNumber      The level number for this level.
      */
-    public Level001(Controller controller, int levelNumber, ActorSpawner actorSpawner) {
-        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner);
-        this.controller = controller;
-        this.actorSpawn = actorSpawner;
-        this.planeFactory = new PlaneFactory(controller, actorManager);
+    public Level001(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
+        super(1, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
+        this.actorSpawner = actorSpawner;
+        this.planeFactory = new PlaneFactory(actorSpawn);
         initializeFriendlyUnits();
     }
 
@@ -41,13 +40,13 @@ public class Level001 extends LevelParent{
      * @return true if all players' kill counts are greater than or equal to the kill target; false otherwise.
      */
     public boolean userHasReachedTarget() {
-        return  actorManager.getPlayers().stream()
+        return  actorSpawner.getPlayers().stream()
                 .allMatch(player -> player.getNumberOfKills() >= killsToAdvance);
     }
 
     @Override
     public void spawnEnemyUnits() {
-        while (actorManager.getEnemyUnits().size() < totalEnemies) {
+        while (actorSpawner.getEnemyUnits().size() < totalEnemies) {
             if (Math.random() < enemySpawnProbability) {
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE);
                 actorSpawn.spawnActor(newEnemy);

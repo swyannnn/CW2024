@@ -10,22 +10,18 @@ import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
 
-import com.example.demo.controller.Controller;
 import com.example.demo.listeners.HealthChangeListener;
-import com.example.demo.manager.AudioManager;
 
 public class UserPlane extends FighterPlane {
     private List<HealthChangeListener> healthChangeListeners = new ArrayList<>();
-    private AudioManager audioManager;
     private int numberOfKills = GameConstant.UserPlane.NUMBER_OF_KILLS;
     private int score;
     private boolean isFlickering = false; 
 
 
-    public UserPlane(Controller controller, PlaneConfig config,int playerId) {
-        super(controller, config);
+    public UserPlane(PlaneConfig config,int playerId) {
+        super(config);
         this.health = config.health;
-        this.audioManager = controller.getGameStateManager().getAudioManager();
         System.out.println("Initial layout position: (" + getLayoutX() + ", " + getLayoutY() + ")");
         System.out.println("Initial translate position: (" + getTranslateX() + ", " + getTranslateY() + ")");
     }
@@ -56,7 +52,6 @@ public class UserPlane extends FighterPlane {
         System.out.println("notifyHealthChange() called in UserPlane.takeDamage().");
 
         if (!isDestroyed()) {
-            audioManager.playSoundEffect(0);
             Platform.runLater(() -> flicker(3)); // Flicker three times
         }
 

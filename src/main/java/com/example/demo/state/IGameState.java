@@ -19,11 +19,6 @@ public interface IGameState {
     void update(long now);
 
     /**
-     * Renders the game state. This method is called in the game loop to render graphics or UI elements.
-     */
-    void render();
-
-    /**
      * Handles input events specific to the game state.
      *
      * @param event The KeyEvent to be processed.

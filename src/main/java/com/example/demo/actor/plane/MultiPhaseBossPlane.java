@@ -4,8 +4,6 @@ import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.PlaneFactory;
 import com.example.demo.actor.PlaneFactory.PlaneType;
-import com.example.demo.controller.Controller;
-import com.example.demo.manager.ActorManager;
 import com.example.demo.strategy.MultiPhaseBossMovementStrategy;
 import com.example.demo.util.GameConstant;
 import com.example.demo.util.PlaneConfig;
@@ -22,9 +20,9 @@ public class MultiPhaseBossPlane extends FighterPlane {
     private int remainingHealthPhase2;
     private int remainingHealthPhase3;
 
-    public MultiPhaseBossPlane(Controller controller, PlaneConfig config, ActorSpawner actorSpawner) {
-        super(controller, config);
-        this.planeFactory = new PlaneFactory(controller, controller.getGameStateManager().getActorManager());
+    public MultiPhaseBossPlane(PlaneConfig config, ActorSpawner actorSpawner) {
+        super(config);
+        this.planeFactory = new PlaneFactory(actorSpawner);
         this.actorSpawner = actorSpawner;
         this.currentPhase = 1;
         this.lastSummonTime = System.nanoTime();

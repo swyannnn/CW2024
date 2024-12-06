@@ -1,9 +1,6 @@
 package com.example.demo.actor;
 
-import java.util.Set;
-
 import com.example.demo.actor.plane.*;
-import com.example.demo.controller.Controller;
 import com.example.demo.strategy.BossFiringStrategy;
 import com.example.demo.strategy.BossMovementStrategy;
 import com.example.demo.strategy.EnemyFiringStrategy;
@@ -15,11 +12,9 @@ import com.example.demo.util.PlaneConfig;
 
 
 public class PlaneFactory {
-    private final Controller controller;
     private final ActorSpawner actorSpawner;
 
-    public PlaneFactory(Controller controller, ActorSpawner actorSpawner) {
-        this.controller = controller;
+    public PlaneFactory(ActorSpawner actorSpawner) {
         this.actorSpawner = actorSpawner;
     }
 
@@ -73,7 +68,7 @@ public class PlaneFactory {
         config.initialYPos = getUserInitialYPosition(playerId);
         config.health = GameConstant.UserPlane.INITIAL_HEALTH;
         config.fireIntervalNanoseconds = GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS;
-        return new UserPlane(controller, config, playerId);
+        return new UserPlane(config, playerId);
     }
 
     private String getImageName(int playerId) {
@@ -109,7 +104,7 @@ public class PlaneFactory {
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
 
-        return new EnemyPlane(controller, config);
+        return new EnemyPlane(config);
     }
 
     private EnemyPlane1 createEnemy1Plane() {
@@ -125,7 +120,7 @@ public class PlaneFactory {
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
 
-        return new EnemyPlane1(controller, config);
+        return new EnemyPlane1(config);
     }
 
     private EnemyPlane2 createEnemy2Plane() {
@@ -140,7 +135,7 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
-        return new EnemyPlane2(controller, config);
+        return new EnemyPlane2(config);
     }
 
     private EnemyPlane3 createEnemy3Plane() {
@@ -155,7 +150,7 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
-        return new EnemyPlane3(controller, config);
+        return new EnemyPlane3(config);
     }
 
     private EnemyPlane4 createEnemy4Plane() {
@@ -170,7 +165,7 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
         config.movementStrategy = new EnemyMovementStrategy();
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
-        return new EnemyPlane4(controller, config);
+        return new EnemyPlane4(config);
     }
 
     private BossPlane createBossPlane() {
@@ -185,7 +180,7 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.BossPlane.FIRE_INTERVAL_NANOSECONDS;
         config.firingStrategy = new BossFiringStrategy(actorSpawner, config.fireRate);
         config.movementStrategy = new BossMovementStrategy();
-        return new BossPlane(controller, config);
+        return new BossPlane(config, actorSpawner);
     }
     
     private MultiPhaseBossPlane createMultiPhaseBossPlane() {
@@ -200,7 +195,7 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.MultiPhaseBossPlane.FIRE_INTERVAL_NANOSECONDS;
         config.firingStrategy = new MultiPhaseBossFiringStrategy(actorSpawner, config.fireRate);
         config.movementStrategy = new MultiPhaseBossMovementStrategy();
-        return new MultiPhaseBossPlane(controller, config, actorSpawner);
+        return new MultiPhaseBossPlane(config, actorSpawner);
     }
 
     // Helper method to calculate initial Y position

@@ -1,6 +1,6 @@
 package com.example.demo.actor.plane;
 
-import com.example.demo.controller.Controller;
+import com.example.demo.actor.ActorSpawner;
 import com.example.demo.ui.Shield;
 import com.example.demo.util.GameConstant;
 import com.example.demo.util.PlaneConfig;
@@ -10,9 +10,6 @@ import com.example.demo.util.PlaneConfig;
  */
 public class BossPlane extends FighterPlane {
     private Shield shield;
-    private final Controller controller;
-
-    // Shield-related constants
     private static final double BOSS_SHIELD_PROBABILITY = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
 
     /**
@@ -21,14 +18,20 @@ public class BossPlane extends FighterPlane {
      * @param controller The game controller managing the state.
      * @param config     The PlaneConfig containing configuration.
      */
-    public BossPlane(Controller controller, PlaneConfig config) {
-        super(controller, config);
-        this.controller = controller;
-        initializeShield();
+    public BossPlane(PlaneConfig config, ActorSpawner actorSpawner) {
+        super(config);
+        initializeShield(actorSpawner);
     }
 
-    private void initializeShield() {
-        shield = new Shield(controller, BOSS_SHIELD_PROBABILITY);
+    /**
+     * Initializes BossPlane-specific configurations.
+     *
+     * @param config The PlaneConfig containing configuration.
+     */
+    private void initializeShield(ActorSpawner actorSpawner) {
+        // Initialize Shield
+        shield = new Shield(BOSS_SHIELD_PROBABILITY);
+        actorSpawner.addUIElement(shield);
     }
 
     /**

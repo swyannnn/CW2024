@@ -1,7 +1,7 @@
 package com.example.demo.ui;
 
+import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.manager.ButtonManager;
-import com.example.demo.manager.GameStateManager;
 import com.example.demo.util.GameConstant;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -9,16 +9,14 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
  * WinScreen class represents the win screen UI of the game.
  */
 public class WinScreen {
-    private final Stage primaryStage;
-    private final GameStateManager gameStateManager;
+    private final Stage stage;
+    private final StateTransitioner stateTransitioner;
     private static final int iconHeight = GameConstant.WinGame.IMAGE_HEIGHT;
 	private static final int iconWidth = GameConstant.WinGame.IMAGE_WIDTH;
     private static final String imageName = GameConstant.WinGame.IMAGE_PATH;
@@ -29,13 +27,9 @@ public class WinScreen {
      * @param stage The primary stage of the application.
      * @param gameStateManager The GameStateManager instance.
      */
-    public WinScreen(Stage stage, GameStateManager gameStateManager) {
-        this.primaryStage = stage;
-        this.gameStateManager = gameStateManager;
-
-        // if (gameStateManager.getAudioManager() != null) {
-        //     gameStateManager.getAudioManager().playMusic("winbgm.mp3");
-        // }
+    public WinScreen(Stage stage, StateTransitioner stateTransitioner) {
+        this.stage = stage;
+        this.stateTransitioner = stateTransitioner;
     }
 
     /**
@@ -55,7 +49,7 @@ public class WinScreen {
 
         // Restart Button
         Button restartButton = ButtonManager.createButton("Restart Game", 200, 50, 20);
-        restartButton.setOnAction(e -> gameStateManager.goToLevel(1));
+        restartButton.setOnAction(e -> stateTransitioner.goToLevel(1));
 
         // Exit Button
         Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
@@ -72,9 +66,6 @@ public class WinScreen {
      * Handles the action of exiting the game.
      */
     private void exitGame() {
-        if (gameStateManager.getAudioManager() != null) {
-            gameStateManager.getAudioManager().stopMusic();
-        }
-        primaryStage.close(); // Close the application
+        stage.close(); // Close the application
     }
 }

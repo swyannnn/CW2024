@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * ActorManager manages all active actors in the game.
- * It handles updating, rendering, and cleaning up actors.
+ * It handles updating and cleaning up actors.
  */
 public class ActorManager implements ActorSpawner {
     private static ActorManager instance;

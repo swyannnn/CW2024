@@ -1,6 +1,5 @@
 package com.example.demo.actor.plane;
 
-import com.example.demo.controller.Controller;
 import com.example.demo.util.PlaneConfig;
 
 /**
@@ -12,10 +11,9 @@ public class EnemyPlane3 extends FighterPlane {
      *
      * @param initialXPos The initial X position of the enemy plane (right-most part of the screen).
      * @param initialYPos The initial Y position of the enemy plane.
-     * @param controller  The game controller.
      */
-    public EnemyPlane3(Controller controller, PlaneConfig config) {
-        super(controller, config);
+    public EnemyPlane3(PlaneConfig config) {
+        super(config);
     }
 
     @Override

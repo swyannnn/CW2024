@@ -1,6 +1,5 @@
 package com.example.demo.ui;
 
-import com.example.demo.controller.Controller;
 import com.example.demo.manager.ImageManager;
 import com.example.demo.util.GameConstant;
 
@@ -38,7 +37,7 @@ public class Shield extends ImageView {
      * @param maxFramesWithShield    Maximum frames the shield remains active
      * @param maxFramesWithoutShield Maximum frames before shield can be reactivated
      */
-    public Shield(Controller controller, double shieldActivationProbability) {
+    public Shield(double shieldActivationProbability) {
         super();
         this.setImage(ImageManager.getImage(IMAGE_PATH));
         this.setVisible(false);
@@ -49,7 +48,6 @@ public class Shield extends ImageView {
         this.isShielded = false;
         this.framesWithShieldActivated = 0;
         this.framesSinceLastShield = maxFramesWithoutShield; // Initialize to allow immediate activation
-        controller.getGameStateManager().getActorManager().addUIElement(this);
     }
 
     /**

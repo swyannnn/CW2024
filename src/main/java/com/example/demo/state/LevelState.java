@@ -9,13 +9,13 @@ import java.util.Set;
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
 import com.example.demo.listeners.CollisionListener;
+import com.example.demo.listeners.StateTransitioner;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
-import com.example.demo.manager.GameStateManager;
+import com.example.demo.manager.GameLoopManager;
 import com.example.demo.strategy.UserFiringStrategy;
 import com.example.demo.strategy.UserMovementStrategy;
 import com.example.demo.ui.PauseOverlay;
@@ -28,6 +28,8 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
+
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -45,9 +47,10 @@ public class LevelState implements IGameState, CollisionListener {
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private final LevelParent level;
     private final Stage stage;
-    private final GameStateManager gameStateManager;
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
+    private final GameLoopManager gameLoopManager;
+    private final StateTransitioner stateTransitioner;
     private boolean levelCompleted;
     private PauseOverlay pauseOverlay;
     private final ActorSpawner actorSpawner;
@@ -69,17 +72,30 @@ public class LevelState implements IGameState, CollisionListener {
      * @param audioManager The AudioManager handling game audio.
      * @param imageManager The ImageManager handling game images.
      */
-    public LevelState(Stage stage, Controller controller, LevelParent level) {
+    public LevelState(Stage stage, LevelParent level, ActorManager actorManager, CollisionManager collisionManager, GameLoopManager gameLoopManager, StateTransitioner stateTransitioner) {
         this.level = level;
         this.stage = stage;
-        this.gameStateManager = controller.getGameStateManager();
-        this.actorManager = gameStateManager.getActorManager();
+        this.actorManager = actorManager;
         this.actorSpawner = actorManager.getActorSpawner();
-        this.collisionManager = gameStateManager.getCollisionManager();
+        this.collisionManager = collisionManager;
         collisionManager.setCollisionListener(this);
+        this.gameLoopManager = gameLoopManager;
+        this.stateTransitioner = stateTransitioner;
         this.levelCompleted = false;
         // Assign key bindings to each player
         assignPlayerKeyBindings();
+        this.gameLoopManager.addPropertyChangeListener(this::onGameLoopChange);
+    }
+
+    private void onGameLoopChange(PropertyChangeEvent evt) {
+    if ("paused".equals(evt.getPropertyName())) {
+        boolean isPaused = (boolean) evt.getNewValue();
+        if (isPaused) {
+            handlePause();
+        } else {
+            handleResume();
+        }
+    }
     }
 
     @Override
@@ -94,8 +110,6 @@ public class LevelState implements IGameState, CollisionListener {
         stage.show();
         System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
 
-        // Play background music for this level
-        System.out.println("LevelState:" + gameStateManager);
         createPauseOverlay();
     }
 
@@ -125,18 +139,12 @@ public class LevelState implements IGameState, CollisionListener {
         }
     }
     
-
-    @Override
-    public void render() {
-        // No rendering needed for LevelState
-    }
-
     @Override
     public void handleInput(KeyEvent event) {
-        if (gameStateManager.isPaused()) {
+        if (gameLoopManager.isPaused()) {
             // When paused, only SPACE key resumes the game
             if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.SPACE) {
-                gameStateManager.resumeGame();
+                gameLoopManager.resumeGame();
             }
             return; // Ignore other inputs when paused
         }
@@ -144,7 +152,7 @@ public class LevelState implements IGameState, CollisionListener {
         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
             if (event.getCode() == KeyCode.SPACE) {
                 // SPACE key pauses the game
-                gameStateManager.pauseGame();
+                gameLoopManager.pauseGame();
             } else {
                 // Add other keys to activeKeys for movement
                 activeKeys.add(event.getCode());
@@ -201,7 +209,7 @@ public class LevelState implements IGameState, CollisionListener {
         Button pauseButton = ButtonManager.createImageButton(buttonImageName, buttonImageWidth, buttonImageHeight);
 
         // Set the action for the pause button
-        pauseButton.setOnAction(e -> gameStateManager.pauseGame());
+        pauseButton.setOnAction(e -> gameLoopManager.pauseGame());
         pauseButton.setLayoutX(buttonXPosition); // 10 pixels from the left
         pauseButton.setLayoutY(buttonYPosition); // 10 pixels from the top
 
@@ -214,7 +222,7 @@ public class LevelState implements IGameState, CollisionListener {
      */
     private void createPauseOverlay() {
         System.out.println("Creating PauseOverlay for Level " + level.getCurrentLevelNumber());
-        pauseOverlay = new PauseOverlay(gameStateManager, level.getCurrentLevelNumber());
+        pauseOverlay = new PauseOverlay(gameLoopManager, stateTransitioner);
     }
 
     /**
@@ -272,7 +280,7 @@ public class LevelState implements IGameState, CollisionListener {
      */
     private void assignPlayerKeyBindings() {
         List<UserPlane> players = actorManager.getPlayers();
-        int numPlayers = gameStateManager.getNumberOfPlayers();
+        int numPlayers = stateTransitioner.getNumberOfPlayers();
 
         for (int i = 0; i < numPlayers; i++) {
             UserPlane player = players.get(i);

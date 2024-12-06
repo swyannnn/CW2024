@@ -7,8 +7,8 @@ import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.PlaneFactory;
 import com.example.demo.actor.PlaneFactory.PlaneType;
-import com.example.demo.controller.Controller;
-import com.example.demo.manager.GameStateManager;
+import com.example.demo.manager.AudioManager;
+import com.example.demo.manager.GameLoopManager;
 import com.example.demo.util.GameConstant;
 
 import javafx.application.Platform;
@@ -30,7 +30,7 @@ public class Level003 extends LevelParent {
     private int currentLevelNumber;
     private PlaneFactory planeFactory;
     private final ActorSpawner actorSpawn;
-    private GameStateManager gameStateManager;
+    private final GameLoopManager gameLoopManager;
     private Timer enemySpawnTimer;
     private Timer levelTimer;
     private Timer timeUpdateTimer;
@@ -39,13 +39,11 @@ public class Level003 extends LevelParent {
     private boolean levelCompleted;
     private Label timeLabel;
 
-    public Level003(Controller controller, int levelNumber, ActorSpawner actorSpawner) {
-        super(controller, levelNumber, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner);
-        this.controller = controller;
-        this.currentLevelNumber = levelNumber;
-        this.gameStateManager = controller.getGameStateManager();
+    public Level003(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager, GameLoopManager gameLoopManager) {
+        super(3, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
-        this.planeFactory = new PlaneFactory(controller, actorManager);
+        this.gameLoopManager = gameLoopManager;
+        this.planeFactory = new PlaneFactory(actorSpawner);
         this.levelCompleted = false;
         this.root = super.getRoot();
         initializeFriendlyUnits();
@@ -81,7 +79,7 @@ public class Level003 extends LevelParent {
         enemySpawnTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (!gameStateManager.isPaused() && !levelCompleted) {
+                if (!gameLoopManager.isPaused() && !levelCompleted) {
                     spawnEnemyUnits();
                 }
             }
@@ -92,7 +90,7 @@ public class Level003 extends LevelParent {
         levelTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (!gameStateManager.isPaused()) {
+                if (!gameLoopManager.isPaused()) {
                     levelCompleted = true;
                     enemySpawnTimer.cancel(); // Stop spawning enemies
                 }
@@ -104,7 +102,7 @@ public class Level003 extends LevelParent {
         timeUpdateTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if (!gameStateManager.isPaused()) {
+                if (!gameLoopManager.isPaused()) {
                     updateRemainingTime();
                 }
             }
@@ -168,15 +166,12 @@ public class Level003 extends LevelParent {
     
         Platform.runLater(() -> {
             if (randomValue < 0.003 * spawnFactor) {
-                System.out.println("Spawning Enemy1");
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE1);
                 actorSpawn.spawnActor(newEnemy);
             } else if (randomValue < 0.006 * spawnFactor) {
-                System.out.println("Spawning Enemy2");
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE2);
                 actorSpawn.spawnActor(newEnemy);
             } else if (randomValue < 0.009 * spawnFactor) {
-                System.out.println("Spawning Enemy3");
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE3);
                 actorSpawn.spawnActor(newEnemy);
             }

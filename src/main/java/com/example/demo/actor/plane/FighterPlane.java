@@ -1,8 +1,6 @@
 package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActiveActor;
-import com.example.demo.controller.Controller;
-import com.example.demo.manager.AudioManager;
 import com.example.demo.strategy.FiringStrategy;
 import com.example.demo.strategy.MovementStrategy;
 import com.example.demo.util.PlaneConfig;
@@ -12,7 +10,6 @@ import com.example.demo.util.PlaneConfig;
  * Both EnemyPlane and UserPlane extend this class.
  */
 public abstract class FighterPlane extends ActiveActor {
-    private AudioManager audioManager;
     protected int health;
     private long lastFireTime = 0;
     private final long fireIntervalNanoseconds;
@@ -30,10 +27,9 @@ public abstract class FighterPlane extends ActiveActor {
      * @param health                The initial health.
      * @param fireIntervalNanoseconds The interval between fires in nanoseconds.
      */
-    public FighterPlane(Controller controller, PlaneConfig config) {
+    public FighterPlane(PlaneConfig config) {
         super(config.imageName, config.imageHeight, config.initialXPos, config.initialYPos);
         this.health = config.health;
-        this.audioManager = controller.getGameStateManager().getAudioManager();
         this.fireIntervalNanoseconds = config.fireIntervalNanoseconds;
         this.fireRate = config.fireRate;
         this.firingStrategy = config.firingStrategy;
@@ -46,7 +42,6 @@ public abstract class FighterPlane extends ActiveActor {
         System.out.println(getClass().getSimpleName() + " took damage. Health: " + health);
         System.out.println(getClass().getSimpleName() + " took damage. Health: " + getHealth());
         if (healthAtZero()) {
-            audioManager.playSoundEffect(1);
             this.destroy();
             System.out.println(getClass().getSimpleName() + " destroyed.");
             return true; // Indicates that destruction occurred
