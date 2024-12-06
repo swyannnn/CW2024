@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 /**
  * MainMenuState class manages the main menu state of the game.
  */
-public class MainMenuState implements GameState {
+public class MainMenuState implements IGameState {
     private final Stage stage;
     private final Controller controller;
     private MainMenu mainMenu;

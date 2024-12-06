@@ -1,11 +1,11 @@
 package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActiveActor;
-import com.example.demo.actor.PlaneConfig;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.strategy.FiringStrategy;
 import com.example.demo.strategy.MovementStrategy;
+import com.example.demo.util.PlaneConfig;
 
 /**
  * FighterPlane class representing a generic fighter plane in the game.

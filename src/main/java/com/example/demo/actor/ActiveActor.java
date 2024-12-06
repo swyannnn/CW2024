@@ -7,11 +7,7 @@ import javafx.scene.image.ImageView;
 public abstract class ActiveActor extends ImageView{
     private boolean isDestroyed;
     private int imageHeight;
-    // private double xUpperBound = Double.NEGATIVE_INFINITY;
-    // private double xLowerBound = Double.POSITIVE_INFINITY;
-    // private double yUpperBound = Double.NEGATIVE_INFINITY;
-    // private double yLowerBound = Double.POSITIVE_INFINITY;
-
+    
     public ActiveActor(String imageName, int imageHeight, double initialXPos, double initialYPos) {
         this.setImage(ImageManager.getImage(imageName));
         this.setLayoutX(initialXPos);

@@ -11,7 +11,7 @@ import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.controller.Controller;
 import com.example.demo.level.LevelParent;
-import com.example.demo.listener.CollisionListener;
+import com.example.demo.listeners.CollisionListener;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
@@ -35,7 +35,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * LevelState manages the game logic and rendering for a specific level.
  */
-public class LevelState implements GameState, CollisionListener {
+public class LevelState implements IGameState, CollisionListener {
     private final String buttonImageName = GameConstant.PauseButton.IMAGE_NAME;
     private final int buttonImageWidth = GameConstant.PauseButton.IMAGE_WIDTH;
     private final int buttonImageHeight = GameConstant.PauseButton.IMAGE_HEIGHT;

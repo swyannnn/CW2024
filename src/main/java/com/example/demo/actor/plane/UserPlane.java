@@ -1,6 +1,7 @@
 package com.example.demo.actor.plane;
 
 import com.example.demo.util.GameConstant;
+import com.example.demo.util.PlaneConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +10,8 @@ import javafx.animation.SequentialTransition;
 import javafx.application.Platform;
 import javafx.util.Duration;
 
-import com.example.demo.actor.PlaneConfig;
 import com.example.demo.controller.Controller;
-import com.example.demo.listener.HealthChangeListener;
+import com.example.demo.listeners.HealthChangeListener;
 import com.example.demo.manager.AudioManager;
 
 public class UserPlane extends FighterPlane {

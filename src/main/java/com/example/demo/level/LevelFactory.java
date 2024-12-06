@@ -1,7 +1,8 @@
 package com.example.demo.level;
 
-import com.example.demo.controller.Controller;
 import com.example.demo.actor.ActorSpawner;
+import com.example.demo.controller.Controller;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

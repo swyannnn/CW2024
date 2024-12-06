@@ -1,9 +1,9 @@
 package com.example.demo.actor.plane;
 
-import com.example.demo.actor.PlaneConfig;
 import com.example.demo.controller.Controller;
 import com.example.demo.ui.Shield;
 import com.example.demo.util.GameConstant;
+import com.example.demo.util.PlaneConfig;
 
 /**
  * BossPlane class representing the boss enemy in the game.

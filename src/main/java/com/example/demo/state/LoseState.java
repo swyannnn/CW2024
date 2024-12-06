@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * LoseState class manages the lose screen state of the game.
  */
-public class LoseState implements GameState {
+public class LoseState implements IGameState {
     private final Stage stage;
     private final GameStateManager gameStateManager;
     private LoseScreen loseScreen;

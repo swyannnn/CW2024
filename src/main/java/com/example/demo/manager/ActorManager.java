@@ -2,6 +2,12 @@ package com.example.demo.manager;
 
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
+import com.example.demo.actor.plane.BossPlane;
+import com.example.demo.actor.plane.FighterPlane;
+import com.example.demo.actor.plane.UserPlane;
+import com.example.demo.actor.projectile.BossProjectile;
+import com.example.demo.actor.projectile.EnemyProjectile;
+import com.example.demo.actor.projectile.UserProjectile;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -59,7 +65,7 @@ public class ActorManager implements ActorSpawner {
     public void addActor(ActiveActor actor) {
         actors.add(actor);
         root.getChildren().add(actor);
-        if (actor instanceof com.example.demo.actor.projectile.BossProjectile) {
+        if (actor instanceof BossProjectile) {
             System.out.println("Added actor: " + actor + " to the root " + this.root);
         }
         // System.out.println("Added actor: " + actor + " to the root " + this.root);
@@ -130,11 +136,11 @@ public class ActorManager implements ActorSpawner {
      *
      * @return The list of players.
      */
-    public List<com.example.demo.actor.plane.UserPlane> getPlayers() {
-        List<com.example.demo.actor.plane.UserPlane> players = new ArrayList<>();
+    public List<UserPlane> getPlayers() {
+        List<UserPlane> players = new ArrayList<>();
         for (ActiveActor actor : actors) {
-            if (actor instanceof com.example.demo.actor.plane.UserPlane) {
-                players.add((com.example.demo.actor.plane.UserPlane) actor);
+            if (actor instanceof UserPlane) {
+                players.add((UserPlane) actor);
             }
         }
         return players;
@@ -148,7 +154,7 @@ public class ActorManager implements ActorSpawner {
     public List<ActiveActor> getUserProjectiles() {
         List<ActiveActor> userProjectiles = new ArrayList<>();
         for (ActiveActor actor : actors) {
-            if (actor instanceof com.example.demo.actor.projectile.UserProjectile) {
+            if (actor instanceof UserProjectile) {
                 userProjectiles.add(actor);
             }
         }
@@ -163,7 +169,7 @@ public class ActorManager implements ActorSpawner {
     public List<ActiveActor> getEnemyUnits() {
         List<ActiveActor> enemyUnits = new ArrayList<>();
         for (ActiveActor actor : actors) {
-            if (actor instanceof com.example.demo.actor.plane.FighterPlane && !(actor instanceof com.example.demo.actor.plane.UserPlane)) {
+            if (actor instanceof FighterPlane && !(actor instanceof UserPlane)) {
                 enemyUnits.add(actor);
             }
         }
@@ -178,7 +184,7 @@ public class ActorManager implements ActorSpawner {
     public List<ActiveActor> getEnemyProjectiles() {
         List<ActiveActor> enemyProjectiles = new ArrayList<>();
         for (ActiveActor actor : actors) {
-            if (actor instanceof com.example.demo.actor.projectile.EnemyProjectile) {
+            if (actor instanceof EnemyProjectile) {
                 enemyProjectiles.add(actor);
             }
         }
@@ -193,7 +199,7 @@ public class ActorManager implements ActorSpawner {
     public List<ActiveActor> getBossUnits() {
         List<ActiveActor> bossUnits = new ArrayList<>();
         for (ActiveActor actor : actors) {
-            if (actor instanceof com.example.demo.actor.plane.BossPlane) {
+            if (actor instanceof BossPlane) {
                 bossUnits.add(actor);
             }
         }
@@ -208,7 +214,7 @@ public class ActorManager implements ActorSpawner {
     public List<ActiveActor> getBossProjectiles() {
         List<ActiveActor> bossProjectiles = new ArrayList<>();
         for (ActiveActor actor : actors) {
-            if (actor instanceof com.example.demo.actor.projectile.BossProjectile) {
+            if (actor instanceof BossProjectile) {
                 bossProjectiles.add(actor);
             }
         }

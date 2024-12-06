@@ -4,7 +4,7 @@ import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.effect.ExplosionEffect;
-import com.example.demo.listener.CollisionListener;
+import com.example.demo.listeners.CollisionListener;
 import com.example.demo.util.GameConstant;
 
 import javafx.geometry.BoundingBox;

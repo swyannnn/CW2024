@@ -35,7 +35,7 @@ public class GameStateFactory {
      *
      * @return A new MainMenuState.
      */
-    public GameState createMainMenuState() {
+    public IGameState createMainMenuState() {
         return new MainMenuState(stage, controller);
     }
 
@@ -45,7 +45,7 @@ public class GameStateFactory {
      * @param levelNumber The level number.
      * @return A new LevelState, WinState if the level does not exist.
      */
-    public GameState createLevelState(int levelNumber, ActorManager actorManager) {
+    public IGameState createLevelState(int levelNumber, ActorManager actorManager) {
         Optional<LevelParent> optionalLevel = LevelFactory.createLevel(levelNumber, controller, actorManager);
         if (optionalLevel.isPresent()) {
             LevelParent level = optionalLevel.get();
@@ -61,7 +61,7 @@ public class GameStateFactory {
      *
      * @return A new WinState.
      */
-    public GameState createWinState() {
+    public IGameState createWinState() {
         return new WinState(stage, gameStateManager);
     }
 
@@ -70,7 +70,7 @@ public class GameStateFactory {
      *
      * @return A new LoseState.
      */
-    public GameState createLoseState() {
+    public IGameState createLoseState() {
         return new LoseState(stage, gameStateManager);
     }
 }

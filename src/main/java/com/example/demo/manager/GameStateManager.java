@@ -1,7 +1,7 @@
 package com.example.demo.manager;
 
 import com.example.demo.controller.Controller;
-import com.example.demo.state.GameState;
+import com.example.demo.state.IGameState;
 import com.example.demo.state.GameStateFactory;
 import com.example.demo.state.LevelState;
 
@@ -22,7 +22,7 @@ import java.beans.PropertyChangeListener;
  */
 public class GameStateManager implements PropertyChangeListener {
     private static GameStateManager instance;
-    private GameState currentState;
+    private IGameState currentState;
     private final GameStateFactory stateFactory;
     private AnimationTimer gameLoop;
 
@@ -130,7 +130,7 @@ public class GameStateManager implements PropertyChangeListener {
         setState(stateFactory.createLoseState());
     }
 
-    public void setState(GameState newState) {
+    public void setState(IGameState newState) {
         if (currentState != null) {
             currentState.cleanup();
             System.out.println("GameStateManager: Cleaned up previous state: " + currentState.getClass().getSimpleName());

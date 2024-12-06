@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 /**
  * WinState class manages the win screen state of the game.
  */
-public class WinState implements GameState {
+public class WinState implements IGameState {
     private final Stage stage;
     private final GameStateManager gameStateManager;
     private WinScreen winScreen;

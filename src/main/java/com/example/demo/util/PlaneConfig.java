@@ -1,4 +1,4 @@
-package com.example.demo.actor;
+package com.example.demo.util;
 
 import com.example.demo.strategy.FiringStrategy;
 import com.example.demo.strategy.MovementStrategy;
@@ -13,5 +13,4 @@ public class PlaneConfig {
     public long fireIntervalNanoseconds;
     public MovementStrategy movementStrategy;
     public FiringStrategy firingStrategy;
-    // Add other properties as needed
 }

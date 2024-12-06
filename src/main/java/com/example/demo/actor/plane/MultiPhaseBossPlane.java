@@ -2,13 +2,13 @@ package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
-import com.example.demo.actor.PlaneConfig;
 import com.example.demo.actor.PlaneFactory;
 import com.example.demo.actor.PlaneFactory.PlaneType;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.strategy.MultiPhaseBossMovementStrategy;
 import com.example.demo.util.GameConstant;
+import com.example.demo.util.PlaneConfig;
 
 /**
  * MultiPhaseBossPlane class representing a boss aircraft with multiple phases.
