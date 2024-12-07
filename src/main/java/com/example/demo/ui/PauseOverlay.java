@@ -13,7 +13,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- * PauseOverlay represents the UI overlay displayed when the game is paused.
+ * The PauseOverlay class represents a UI overlay that appears when the game is paused.
+ * It provides options to resume the game or exit to the main menu.
  */
 public class PauseOverlay {
     private final VBox overlay;
@@ -21,9 +22,10 @@ public class PauseOverlay {
     private final StateTransitioner stateTransitioner;
 
     /**
-     * Constructor for PauseOverlay.
+     * Constructs a PauseOverlay object.
      *
-     * @param gameStateManager The GameStateManager to handle game state transitions.
+     * @param gameLoopManager the manager responsible for handling the game loop
+     * @param stateTransitioner the object responsible for handling state transitions
      */
     public PauseOverlay(GameLoopManager gameLoopManager, StateTransitioner stateTransitioner) {
         this.overlay = createPauseOverlay();
@@ -32,9 +34,11 @@ public class PauseOverlay {
     }
 
     /**
-     * Creates the pause overlay UI components.
+     * Creates a VBox containing the pause overlay UI components.
+     * The overlay includes a semi-transparent background, a "Game Paused" label,
+     * a "Resume" button to resume the game, and an "Exit to Main Menu" button to exit to the main menu.
      *
-     * @return A VBox containing the pause overlay elements.
+     * @return VBox containing the pause overlay UI components.
      */
     private VBox createPauseOverlay() {
         VBox pauseBox = new VBox(20);
@@ -62,9 +66,9 @@ public class PauseOverlay {
     }
 
     /**
-     * Returns the overlay UI component.
+     * Returns the VBox overlay.
      *
-     * @return The VBox representing the pause overlay.
+     * @return the VBox overlay
      */
     public VBox getOverlay() {
         return overlay;

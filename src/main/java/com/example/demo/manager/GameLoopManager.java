@@ -68,9 +68,9 @@ public class GameLoopManager{
         this.gameLoop = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                if (!paused && updater != null) {
-                    updater.update(now);
-                }
+            if (!paused && updater != null) {
+                updater.update(now); // 'now' is in nanoseconds
+            }
             }
         };
     }

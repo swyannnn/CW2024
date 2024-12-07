@@ -3,8 +3,23 @@ package com.example.demo.strategy;
 import com.example.demo.actor.plane.FighterPlane;
 import com.example.demo.util.GameConstant;
 
+
 /**
- * Strategy for moving the MultiPhaseBossPlane with phase-specific behaviors.
+ * The MultiPhaseBossMovementStrategy class implements the MovementStrategy interface
+ * and defines the movement behavior for a multi-phase boss in a game. The boss has
+ * different movement patterns based on its current phase.
+ * 
+ * <p>Phases:
+ * <ul>
+ *   <li>Phase 1: Horizontal movement</li>
+ *   <li>Phase 2: Sine wave movement</li>
+ *   <li>Phase 3: Alternates between horizontal and sine wave movement</li>
+ * </ul>
+ * 
+ * <p>The movement strategy also includes boundary checking to ensure the boss stays
+ * within defined bounds and reverses direction if necessary.
+ * 
+ * @see MovementStrategy
  */
 public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     private double horizontalVelocity;
@@ -16,12 +31,22 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     private int movementFrameCount;
     private MovementState movementState;
 
-    // Enum to represent movement states
+    /**
+     * Enum representing the different movement states of a multi-phase boss.
+     */
     private enum MovementState {
         HORIZONTAL,
         SINE
     }
 
+    /**
+     * Constructs a new MultiPhaseBossMovementStrategy with initial settings.
+     * 
+     * Initializes the movement strategy for a multi-phase boss character in the game.
+     * Sets the initial phase to 1, records the spawn time, and sets the initial movement state to horizontal.
+     * Also initializes the movement frame count and sets the horizontal and vertical velocities for phase 1.
+     * The sine wave base X position is also initialized.
+     */
     public MultiPhaseBossMovementStrategy() {
         this.currentPhase = 1;
         this.spawnTime = System.nanoTime();
@@ -32,6 +57,19 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
         this.sineWaveBaseX = 0;
     }
 
+    /**
+     * Moves the fighter plane based on the current phase of the boss.
+     *
+     * @param plane the fighter plane to be moved
+     * @param now the current time in nanoseconds
+     *
+     * The movement strategy changes based on the current phase:
+     * - Phase 1: Moves the plane horizontally.
+     * - Phase 2: Moves the plane in a sine wave pattern.
+     * - Phase 3: Handles movement specific to phase 3.
+     *
+     * Additionally, the method ensures the plane remains within the game boundaries.
+     */
     @Override
     public void move(FighterPlane plane, long now) {
         // Update current phase based on plane's health if needed
@@ -58,14 +96,19 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     }
 
     /**
-     * Handles horizontal movement for Phase 1.
+     * Moves the given fighter plane horizontally by updating its X coordinate.
+     *
+     * @param plane the fighter plane to be moved
      */
     private void moveHorizontally(FighterPlane plane) {
         plane.setTranslateX(plane.getTranslateX() + horizontalVelocity);
     }
 
     /**
-     * Handles sine wave movement for Phase 2.
+     * Moves the given FighterPlane in a sine wave pattern horizontally and updates its vertical position based on a constant velocity.
+     *
+     * @param plane the FighterPlane to be moved
+     * @param now the current time in nanoseconds
      */
     private void moveInSineWavePattern(FighterPlane plane, long now) {
         // Calculate time elapsed since sine movement started
@@ -85,9 +128,14 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
         plane.setTranslateY(newY);
     }
     
-
     /**
-     * Handles movement logic for Phase 3, toggling between horizontal and sine wave patterns.
+     * Handles the movement of the fighter plane during phase 3.
+     * Depending on the current movement state, the plane will either move horizontally
+     * or in a sine wave pattern. The movement state is toggled after a certain number
+     * of frames.
+     *
+     * @param plane The fighter plane whose movement is being controlled.
+     * @param now The current time in nanoseconds.
      */
     private void handlePhase3Movement(FighterPlane plane, long now) {
         if (movementState == MovementState.HORIZONTAL) {
@@ -107,14 +155,19 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     }
 
     /**
-     * Toggles the movement state between HORIZONTAL and SINE.
+     * Toggles the movement state of the boss between horizontal and sine wave patterns.
+     * If the current movement state is horizontal, it switches to sine wave.
+     * If the current movement state is sine wave, it switches to horizontal.
      */
     private void toggleMovementState() {
         movementState = (movementState == MovementState.HORIZONTAL) ? MovementState.SINE : MovementState.HORIZONTAL;
     }
 
     /**
-     * Checks if the plane is out of defined bounds.
+     * Checks if the given FighterPlane is out of the defined bounds.
+     *
+     * @param plane the FighterPlane to check
+     * @return true if the plane is out of bounds, false otherwise
      */
     private boolean isOutOfBounds(FighterPlane plane) {
         double currentX = plane.getLayoutX() + plane.getTranslateX();
@@ -128,7 +181,11 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     }
 
     /**
-     * Constrains the plane within bounds and reverses direction if necessary.
+     * Constrains the given FighterPlane within the specified bounds.
+     * If the plane's current position exceeds the defined upper or lower bounds
+     * for either the X or Y coordinates, the corresponding velocity is reversed.
+     *
+     * @param plane the FighterPlane to be constrained within bounds
      */
     private void constrainWithinBounds(FighterPlane plane) {
         double currentX = plane.getLayoutX() + plane.getTranslateX();
@@ -145,9 +202,12 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     }
 
     /**
-     * Updates the current phase and adjusts velocities accordingly.
+     * Updates the current phase of the boss and adjusts its movement parameters accordingly.
      *
-     * @param newPhase The new phase to transition into.
+     * @param newPhase the new phase to set for the boss. Valid values are:
+     *                 1 - Default phase with horizontal movement only.
+     *                 2 - Phase with specific horizontal and vertical velocities, and sine wave movement.
+     *                 3 - Phase with specific horizontal velocity and additional adjustments if necessary.
      */
     public void updatePhase(int newPhase) {
         this.currentPhase = newPhase;

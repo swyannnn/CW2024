@@ -1,11 +1,15 @@
 package com.example.demo.util;
 
+
 /**
- * Contains all game-related constants organized into nested static classes for better structure.
+ * The GameConstant class holds various constants used throughout the game.
+ * These constants are organized into nested static classes based on their usage context.
  */
 public class GameConstant {
 
-    // General Game Settings
+    /**
+     * General game settings.
+     */
     public static class GameSettings {
         public static final String TITLE = "Sky Battle";
         public static final int SCREEN_WIDTH = 1300;
@@ -13,12 +17,16 @@ public class GameConstant {
         public static final double COLLISION_SHRINK_PERCENTAGE = 0.5;
     }
 
-    // Main Menu Settings
+    /**
+     * Main menu settings.
+     */
     public static class MainMenu {
         public static final String BACKGROUND_MUSIC = "menubgm.mp3";
     }
 
-    // pause button settings
+    /**
+     * Pause button settings.
+     */
     public static class PauseButton {
         public static final String IMAGE_NAME = "setting.png";
         public static final int IMAGE_WIDTH = 45;
@@ -27,21 +35,27 @@ public class GameConstant {
         public static final int Y_POSITION = 690;
     }
 
-    // game over settings
+    /**
+     * Game over settings.
+     */
     public static class GameOver {
         public static final String IMAGE_PATH = FilePaths.IMAGE_LOCATION + "gameover.png";
         public static final int IMAGE_WIDTH = 600;
         public static final int IMAGE_HEIGHT = 500;
     }
 
-    // you win settings
+    /**
+     * You win settings.
+     */
     public static class WinGame {
         public static final String IMAGE_PATH = FilePaths.IMAGE_LOCATION + "youwin.png";
         public static final int IMAGE_WIDTH = 500;
         public static final int IMAGE_HEIGHT = 400;
     }
-    
-    // UserPlane Settings
+
+    /**
+     * User plane settings.
+     */
     public static class UserPlane {
         public static final String ID1_IMAGE_NAME = "userplane1.png";
         public static final String ID2_IMAGE_NAME = "userplane2.png";
@@ -64,7 +78,9 @@ public class GameConstant {
         public static final int DAMAGE_FLICKER_COUNT = 3;
     }
 
-    // UserProjectile Settings
+    /**
+     * User projectile settings.
+     */
     public static class UserProjectile {
         public static final String IMAGE_NAME = "userfire.png";
         public static final int IMAGE_HEIGHT = 125;
@@ -74,7 +90,9 @@ public class GameConstant {
         public static final long FIRE_INTERVAL_NANOSECONDS = 500_000_000L;
     }
 
-    // EnemyPlane Settings
+    /**
+     * Enemy plane settings.
+     */
     public static class EnemyPlane {
         public static final String IMAGE_NAME = "enemyplane.png";
         public static final int IMAGE_HEIGHT = 150;
@@ -88,7 +106,9 @@ public class GameConstant {
         public static final double Y_LOWER_BOUND = 600;
     }
 
-    // EnemyPlane1 Settings
+    /**
+     * Enemy plane 1 settings.
+     */
     public static class EnemyPlane1 {
         public static final String IMAGE_NAME = "enemy0.png";
         public static final int IMAGE_HEIGHT = 60;
@@ -102,7 +122,9 @@ public class GameConstant {
         public static final double Y_LOWER_BOUND = 600;
     }
 
-    // EnemyPlane2 Settings
+    /**
+     * Enemy plane 2 settings.
+     */
     public static class EnemyPlane2 {
         public static final String IMAGE_NAME = "enemy1.png";
         public static final int IMAGE_HEIGHT = 70;
@@ -116,7 +138,9 @@ public class GameConstant {
         public static final double Y_LOWER_BOUND = 600;
     }
 
-    // EnemyPlane3 Settings
+    /**
+     * Enemy plane 3 settings.
+     */
     public static class EnemyPlane3 {
         public static final String IMAGE_NAME = "enemy2.png";
         public static final int IMAGE_HEIGHT = 80;
@@ -129,8 +153,10 @@ public class GameConstant {
         public static final double Y_UPPER_BOUND = -40;
         public static final double Y_LOWER_BOUND = 600;
     }
-    
-    // EnemyPlane4 Settings
+
+    /**
+     * Enemy plane 4 settings.
+     */
     public static class EnemyPlane4 {
         public static final String IMAGE_NAME = "enemy3.png";
         public static final int IMAGE_HEIGHT = 70;
@@ -144,7 +170,9 @@ public class GameConstant {
         public static final double Y_LOWER_BOUND = 700;
     }
 
-    // EnemyProjectile Settings
+    /**
+     * Enemy projectile settings.
+     */
     public static class EnemyProjectile {
         public static final String IMAGE_NAME = "enemyFire.png";
         public static final int IMAGE_HEIGHT = 50;
@@ -155,7 +183,9 @@ public class GameConstant {
         public static final double FIRE_RATE = 0.1;
     }
 
-    // BossPlane Settings
+    /**
+     * Boss plane settings.
+     */
     public static class BossPlane {
         public static final String IMAGE_NAME = "bossplane.png";
         public static final int IMAGE_HEIGHT = 300;
@@ -173,6 +203,9 @@ public class GameConstant {
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
     }
 
+    /**
+     * Multi-phase boss plane settings.
+     */
     public static class MultiPhaseBossPlane {
         public static final String IMAGE_NAME = "enemy3.png";
         public static final int IMAGE_HEIGHT = 200;
@@ -199,8 +232,9 @@ public class GameConstant {
         public static final int MAX_FRAMES_WITH_SAME_MOVE = 500;
     }
 
-
-    // BossProjectile Settings
+    /**
+     * Boss projectile settings.
+     */
     public static class BossProjectile {
         public static final String IMAGE_NAME = "fireball.png";
         public static final int IMAGE_HEIGHT = 70;
@@ -211,7 +245,9 @@ public class GameConstant {
         public static final double FIRE_RATE = 1;
     }
 
-    // BossShield Settings
+    /**
+     * Boss shield settings.
+     */
     public static class BossShield {
         public static final String IMAGE_NAME = "shield.png";
         public static final int IMAGE_HEIGHT = 200;
@@ -222,39 +258,54 @@ public class GameConstant {
         public static final int MAX_FRAMES_WITHOUT_SHIELD = 500;
     }
 
-    // All projectile types
+    /**
+     * General projectile settings.
+     */
     public static class Projectile {
         public static final double X_UPPER_BOUND = 0;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH;
     }
 
-    // Heart 
+    /**
+     * Heart settings.
+     */
     public static class Heart {
         public static final String IMAGE_NAME = "heart.png";
         public static final int IMAGE_HEIGHT = 35;
     }
-    
-    // Level 001 Settings
+
+    /**
+     * Level 001 settings.
+     */
     public static class Level001 {
         public static final int TOTAL_ENEMIES = 3;
         public static final int KILLS_TO_ADVANCE = 3;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
     }
 
-    // Level 002 Settings
+    /**
+     * Level 002 settings.
+     */
     public static class Level002 {
     }
 
-    // Level 003 Settings
+    /**
+     * Level 003 settings.
+     */
     public static class Level003 {
         public static final int SURVIVAL_TIME = 1; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 
-    // Level 004Settings
+    /**
+     * Level 004 settings.
+     */
     public static class Level004 {
     }
 
+    /**
+     * Enum representing sound effects.
+     */
     public enum SoundEffect {
         PLAYER_HIT,
         EXPLOSION,
@@ -262,6 +313,9 @@ public class GameConstant {
         PLAYER_SHOOT
     }
 
+    /**
+     * Enum representing level backgrounds.
+     */
     public enum LevelBackground {
         LEVEL_1(1, "background001.jpg"),
         LEVEL_2(2, "background002.jpeg"),
@@ -284,7 +338,11 @@ public class GameConstant {
             return backgroundImage;
         }
 
-        // Method to get background by level number
+        /**
+         * Method to get background image by level number.
+         * @param level the level number
+         * @return the background image for the specified level
+         */
         public static String getBackgroundImageForLevel(int level) {
             for (LevelBackground bg : values()) {
                 if (bg.getLevelNumber() == level) {
@@ -295,6 +353,9 @@ public class GameConstant {
         }
     }
 
+    /**
+     * Enum representing level background music.
+     */
     public enum LevelBGM {
         LEVEL_1(1, "bgm001.wav"),
         LEVEL_2(2, "bgm002.mp3"),
@@ -317,7 +378,11 @@ public class GameConstant {
             return bgm;
         }
 
-        // Method to get background music by level number
+        /**
+         * Method to get background music by level number.
+         * @param level the level number
+         * @return the background music for the specified level
+         */
         public static String getBGMForLevel(int level) {
             for (LevelBGM bgm : values()) {
                 if (bgm.getLevelNumber() == level) {
@@ -328,64 +393,77 @@ public class GameConstant {
         }
     }
 
-    // File Paths
+    /**
+     * File paths for various resources.
+     */
     public static class FilePaths {
         public static final String AUDIO_LOCATION = "/com/example/demo/audios/";
         public static final String IMAGE_LOCATION = "/com/example/demo/images/";
 
+        /**
+         * Enum representing sound effects file paths.
+         */
         public enum SoundEffect {
             PLAYER_DEATH("player_death.wav"),
             ENEMY_DESTROY("enemy_destroy.wav"),
             TITLESCREEN_TRANSITION("titlescreen_transition.wav"),
             PLAYER_SHOOT("player_shoot.mp3");
-    
+
             private final String fileName;
-    
+
             SoundEffect(String fileName) {
                 this.fileName = fileName;
             }
-    
+
             public String getFileName() {
                 return fileName;
             }
         }
 
+        /**
+         * Enum representing background music file paths.
+         */
         public enum BackgroundMusic {
             MENU("menubgm.mp3"),
             LEVEL001("bgm001.wav"),
             LEVEL002("bgm002.mp3"),
             LEVEL003("bgm003.mp3"),
             LEVEL004("bgm004.mp3");
-    
+
             private final String fileName;
-    
+
             BackgroundMusic(String fileName) {
                 this.fileName = fileName;
             }
-    
+
             public String getFileName() {
                 return fileName;
             }
         }
 
+        /**
+         * Enum representing background image file paths.
+         */
         public enum BackgroundImage {
             BACKGROUND001("background001.jpg"),
             BACKGROUND002("background002.jpeg"),
             BACKGROUND003("background003.jpg"),
             BACKGROUND004("background004.jpg");
-    
+
             private final String fileName;
-    
+
             BackgroundImage(String fileName) {
                 this.fileName = fileName;
             }
-    
+
             public String getFileName() {
                 return fileName;
             }
         }
 
-        // Images
+        /**
+         * Array of image file names.
+         */
         public static final String[] IMAGES = {
             "background001.jpg",
             "background002.jpeg",

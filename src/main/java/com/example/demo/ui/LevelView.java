@@ -14,6 +14,18 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
+/**
+ * The LevelView class is responsible for displaying the current level's background,
+ * instructions, and heart displays for players. It implements the HealthChangeListener
+ * interface to update the heart display when a player's health changes.
+ * 
+ * <p>This class provides methods to initialize the background, show level instructions,
+ * update the background for a scrolling effect, and manage heart displays for players.</p>
+ * 
+ * @see HealthChangeListener
+ * @see UserPlane
+ * @see HeartDisplay
+ */
 public class LevelView implements HealthChangeListener {
 	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
@@ -23,6 +35,12 @@ public class LevelView implements HealthChangeListener {
     protected ImageView[] backgrounds;
     private final int currentLevelNumber;
 	
+    /**
+     * Constructs a new LevelView instance.
+     *
+     * @param root the root group node for the scene graph
+     * @param currentLevelNumber the current level number to be displayed
+     */
 	public LevelView(Group root, int currentLevelNumber) {
 		this.root = root;
         this.currentLevelNumber = currentLevelNumber;
@@ -31,9 +49,11 @@ public class LevelView implements HealthChangeListener {
 	}
 
     /**
-     * Initializes the background images for scrolling effect.
-     *
-     * @param backgroundImageName The path to the background image.
+     * Initializes the background for the level view by creating two ImageView objects
+     * with the background image for the current level. The images are positioned side
+     * by side to create a seamless scrolling effect. The images are set to the screen
+     * height and width, and their opacity is set to 0.7. The images are then added to
+     * the UI layer.
      */
     public void initializeBackground() {
         String backgroundImageName = GameConstant.LevelBackground.getBackgroundImageForLevel(currentLevelNumber);
@@ -56,6 +76,12 @@ public class LevelView implements HealthChangeListener {
         root.getChildren().addAll(backgrounds);
     }
 
+    /**
+     * Displays the instructions for the current level on the screen.
+     * The instructions are displayed as a text element with a specific font,
+     * size, and color. The position and wrapping width of the text are also set.
+     * The text is added to the root node of the scene graph.
+     */
     public void showInstructions() {
         System.out.println("Showing instructions for level: " + currentLevelNumber);
         Text instructionText = new Text(getInstructionsForLevel(currentLevelNumber));
@@ -89,9 +115,8 @@ public class LevelView implements HealthChangeListener {
     }
 
     /**
-     * Updates the background positions to create a scrolling effect.
-     *
-     * @param scrollSpeed The speed at which the background scrolls.
+     * Updates the background images by moving them to the left based on the scroll speed.
+     * If an image moves completely out of view, it resets its position to the right edge of the screen.
      */
     public void updateBackground() {
         for (ImageView img : backgrounds) {
@@ -104,6 +129,12 @@ public class LevelView implements HealthChangeListener {
         }
     }
 	
+    /**
+     * Updates the heart display for the given player when their health changes.
+     *
+     * @param player The player whose health has changed.
+     * @param newHealth The new health value of the player.
+     */
     @Override
     public void onHealthChange(UserPlane player, int newHealth) {
         HeartDisplay hd = heartDisplays.get(player);
@@ -113,6 +144,12 @@ public class LevelView implements HealthChangeListener {
         }
     }
 
+    /**
+     * Displays the heart display for the given player if it does not already exist.
+     *
+     * @param player The UserPlane object representing the player.
+     * @param playerIndex The index of the player.
+     */
 	public void showHeartDisplay(UserPlane player, int playerIndex) {
         if (!heartDisplays.containsKey(player)) {
             double xPosition = HEART_DISPLAY_X_POSITION;
@@ -123,6 +160,12 @@ public class LevelView implements HealthChangeListener {
         }
     }
     
+    /**
+     * Calculates the Y position for a player based on their index.
+     *
+     * @param playerIndex the index of the player
+     * @return the calculated Y position for the player
+     */
     private double calculateYPosition(int playerIndex) {
         double baseX = HEART_DISPLAY_Y_POSITION;
         double offset = 40; // Adjust the offset as needed to prevent overlapping

@@ -12,7 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * LoseScreen class represents the lose screen UI of the game.
+ * The LoseScreen class represents the screen displayed when the player loses the game.
+ * It provides options to restart the game, go back to the main menu, or exit the application.
  */
 public class LoseScreen {
     private final Stage stage;
@@ -22,10 +23,10 @@ public class LoseScreen {
     private static final String imageName = GameConstant.GameOver.IMAGE_PATH;
 
     /**
-     * Constructor initializes the LoseScreen with the primary stage and game state manager.
+     * Constructs a new LoseScreen.
      *
-     * @param stage The primary stage of the application.
-     * @param gameStateManager The GameStateManager instance.
+     * @param stage the stage to be used for displaying the screen
+     * @param stateTransitioner the state transitioner to handle state changes
      */
     public LoseScreen(Stage stage, StateTransitioner stateTransitioner) {
         this.stage = stage;
@@ -33,9 +34,11 @@ public class LoseScreen {
     }
 
     /**
-     * Constructs and returns the lose screen scene.
+     * Creates and returns the scene for the lose screen.
+     * The lose screen displays a game over image, and provides buttons to restart the game,
+     * go back to the main menu, or exit the game.
      *
-     * @return The lose screen scene.
+     * @return the constructed Scene object for the lose screen
      */
     public Scene getLoseScreenScene() {
         ImageView gameoverImage = new ImageView(new Image(getClass().getResource(imageName).toExternalForm()));
@@ -51,19 +54,22 @@ public class LoseScreen {
         Button restartButton = ButtonManager.createButton("Restart Game", 200, 50, 20);
         restartButton.setOnAction(e -> stateTransitioner.goToLevel(1));
 
+        Button backToMenuButton = ButtonManager.createButton("Back To Main Menu", 200, 50, 20);
+        backToMenuButton.setOnAction(e -> stateTransitioner.goToMainMenu());
+
         // Exit Button
         Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout
-        loseLayout.getChildren().addAll(gameoverImage, restartButton, exitButton);
+        loseLayout.getChildren().addAll(gameoverImage, restartButton, backToMenuButton, exitButton);
 
         // Return the constructed scene
         return new Scene(loseLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     }
 
     /**
-     * Handles the action of exiting the game.
+     * Closes the application by closing the current stage.
      */
     private void exitGame() {
         stage.close(); // Close the application

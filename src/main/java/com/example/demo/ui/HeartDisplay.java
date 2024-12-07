@@ -8,8 +8,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+/**
+ * The HeartDisplay class represents a UI component that displays a player's hearts and icon.
+ * It initializes a container with a player icon and dynamically updates the number of hearts displayed.
+ */
 public class HeartDisplay {
-
     private static final String HEART_IMAGE_NAME = GameConstant.Heart.IMAGE_NAME;
     private static final int HEART_HEIGHT = GameConstant.Heart.IMAGE_HEIGHT;
     private HBox container;
@@ -33,9 +36,10 @@ public class HeartDisplay {
         setHearts(initialHearts); // Set initial hearts dynamically
     }
 
-
     /**
      * Initializes the container for the heart display.
+     * This method sets up an HBox with a specified spacing, positions it at the given coordinates,
+     * and adds an ImageView containing the player's plane icon image to the container.
      */
     private void initializeContainer() {
         container = new HBox(5);
@@ -51,11 +55,10 @@ public class HeartDisplay {
     }
 
     /**
-     * Returns the image name for the player icon.
-     * 
-     * @param playerIndex
-     * 
-     * @return The image name for the player icon.
+     * Returns the image name corresponding to the given player index.
+     *
+     * @param playerIndex the index of the player (0 or 1)
+     * @return the image name for the player if the index is 0 or 1, otherwise null
      */
     public String getImageName(int playerIndex) {
         System.out.println("playerIndex: " + playerIndex);

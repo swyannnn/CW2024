@@ -7,17 +7,43 @@ import com.example.demo.util.PlayerKeyBindings;
 import com.example.demo.util.GameConstant;
 import javafx.scene.input.KeyCode;
 
+/**
+ * The UserMovementStrategy class implements the MovementStrategy interface
+ * and defines the movement behavior for the player's plane in the game.
+ * 
+ * <p>This strategy moves the player's plane based on the active key inputs.
+ * The plane can move up, down, left, or right depending on the keys pressed.</p>
+ * 
+ * <p>The speed of the player's plane is determined by the {@code speed} parameter
+ * passed to the constructor.</p>
+ * 
+ * @see MovementStrategy
+ */
 public class UserMovementStrategy implements MovementStrategy {
     private final Set<KeyCode> activeKeys;
     private final PlayerKeyBindings bindings;
     private final double speed;
 
+    /**
+     * Constructs a UserMovementStrategy with the specified active keys, player key bindings, and movement speed.
+     *
+     * @param activeKeys a set of KeyCode representing the currently active keys
+     * @param bindings the PlayerKeyBindings object that defines the key bindings for the player
+     * @param speed the movement speed of the player
+     */
     public UserMovementStrategy(Set<KeyCode> activeKeys, PlayerKeyBindings bindings, double speed) {
         this.activeKeys = activeKeys;
         this.bindings = bindings;
         this.speed = speed;
     }
 
+    /**
+     * Moves the fighter plane based on the current active keys and speed.
+     * The movement is bounded within the screen dimensions defined in GameConstant.GameSettings.
+     *
+     * @param plane the fighter plane to be moved
+     * @param now the current timestamp
+     */
     @Override
     public void move(FighterPlane plane, long now) {
         double deltaX = 0;

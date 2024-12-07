@@ -3,6 +3,9 @@ package com.example.demo.util;
 import com.example.demo.strategy.FiringStrategy;
 import com.example.demo.strategy.MovementStrategy;
 
+/**
+ * The PlaneConfig class represents the configuration settings for a plane in the game.
+ */
 public class PlaneConfig {
     public String imageName;
     public int imageHeight;

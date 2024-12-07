@@ -6,8 +6,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
+
 /**
- * LoseState class manages the lose screen state of the game.
+ * The LoseState class implements the GameState interface and represents the state
+ * of the game when the player has lost. It manages the display of the lose screen
+ * and handles user input to transition to other states or exit the game.
  */
 public class LoseState implements GameState {
     private final Stage stage;
@@ -16,19 +19,23 @@ public class LoseState implements GameState {
     private Scene scene;
 
     /**
-     * Constructor for LoseState.
+     * Constructs a new LoseState with the specified stage and state transitioner.
      *
-     * @param stage The primary stage of the application.
-     * @param gameStateManager The GameStateManager instance.
+     * @param stage the stage associated with this state
+     * @param stateTransitioner the state transitioner to manage state transitions
      */
     public LoseState(Stage stage, StateTransitioner stateTransitioner) {
         this.stage = stage;
         this.stateTransitioner = stateTransitioner;
     }
 
+    /**
+     * Initializes the LoseState by setting up the LoseScreen and its scene.
+     * This method creates a new instance of LoseScreen, retrieves its scene,
+     * sets the scene on the stage, and then displays the stage.
+     */
     @Override
     public void initialize() {
-        // Initialize the LoseScreen and set the scene
         System.out.println("Initializing Lose State");
         loseScreen = new LoseScreen(stage, stateTransitioner);
         this.scene = loseScreen.getLoseScreenScene();
@@ -36,24 +43,41 @@ public class LoseState implements GameState {
         stage.show();
     }
 
+    /**
+     * Retrieves the current scene associated with the lose state.
+     *
+     * @return the current scene
+     */
     @Override
     public Scene getScene() {
         return scene;
     }
 
+    /**
+     * Updates the state of the game. This method is called periodically to 
+     * update the game's state based on the current time. In the case of the 
+     * lose state, no update logic is needed as the lose screen is static.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
     @Override
     public void update(long now) {
         // No update logic needed for static lose screen
     }
 
+    /**
+     * Handles keyboard input events when the game is in the "Lose" state.
+     * 
+     * @param event the KeyEvent that triggered this handler
+     * 
+     * If the ENTER key is pressed, the game transitions to the main menu.
+     * If the ESCAPE key is pressed, the game window is closed.
+     */
     @Override
     public void handleInput(KeyEvent event) {
         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
             KeyCode keyCode = event.getCode();
             switch (keyCode) {
-                case ENTER:
-                    stateTransitioner.goToMainMenu(); // Return to main menu
-                    break;
                 case ESCAPE:
                     stage.close(); // Exit the game
                     break;
@@ -63,6 +87,10 @@ public class LoseState implements GameState {
         }
     }
 
+    /**
+     * Cleans up resources or state when the lose screen is no longer needed.
+     * In this implementation, no cleanup is required for the static lose screen.
+     */
     @Override
     public void cleanup() {
         // No cleanup needed for static lose screen

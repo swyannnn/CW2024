@@ -12,7 +12,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
- * WinScreen class represents the win screen UI of the game.
+ * The WinScreen class represents the screen displayed when the player wins the game.
+ * It provides methods to construct and display the win screen scene, including buttons
+ * for restarting the game, returning to the main menu, and exiting the game.
  */
 public class WinScreen {
     private final Stage stage;
@@ -22,10 +24,10 @@ public class WinScreen {
     private static final String imageName = GameConstant.WinGame.IMAGE_PATH;
 
     /**
-     * Constructor initializes the WinScreen with the primary stage and game state manager.
+     * Constructs a WinScreen object.
      *
-     * @param stage The primary stage of the application.
-     * @param gameStateManager The GameStateManager instance.
+     * @param stage the Stage object representing the window where the win screen will be displayed
+     * @param stateTransitioner the StateTransitioner object used to manage state transitions within the application
      */
     public WinScreen(Stage stage, StateTransitioner stateTransitioner) {
         this.stage = stage;
@@ -33,9 +35,11 @@ public class WinScreen {
     }
 
     /**
-     * Constructs and returns the win screen scene.
+     * Creates and returns the scene for the win screen.
+     * The win screen displays an image, a restart button, a back to menu button, and an exit button.
+     * The layout is styled with a background color and elements are centered with spacing.
      *
-     * @return The win screen scene.
+     * @return the constructed Scene object for the win screen.
      */
     public Scene getWinScreenScene() {
         ImageView winImage = new ImageView(new Image(getClass().getResource(imageName).toExternalForm()));
@@ -51,19 +55,22 @@ public class WinScreen {
         Button restartButton = ButtonManager.createButton("Restart Game", 200, 50, 20);
         restartButton.setOnAction(e -> stateTransitioner.goToLevel(1));
 
+        Button backToMenuButton = ButtonManager.createButton("Back To Main Menu", 200, 50, 20);
+        backToMenuButton.setOnAction(e -> stateTransitioner.goToMainMenu());
+
         // Exit Button
         Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout
-        winLayout.getChildren().addAll(winImage, restartButton, exitButton);
+        winLayout.getChildren().addAll(winImage, restartButton, backToMenuButton, exitButton);
 
         // Return the constructed scene
         return new Scene(winLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     }
 
     /**
-     * Handles the action of exiting the game.
+     * Closes the application by closing the current stage.
      */
     private void exitGame() {
         stage.close(); // Close the application

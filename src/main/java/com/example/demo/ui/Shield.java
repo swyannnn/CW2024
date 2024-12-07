@@ -5,11 +5,17 @@ import com.example.demo.util.GameConstant;
 
 import javafx.scene.image.ImageView;
 
+
 /**
- * Shield class encapsulates all shield-related functionalities.
+ * The Shield class represents a visual shield that can be activated and deactivated
+ * based on certain conditions. It extends the ImageView class to display the shield
+ * image and manage its visibility and position relative to a BossPlane.
+ * 
+ * <p>This class handles the shield's activation probability, duration, and cooldown
+ * period. It provides methods to update the shield's state, activate and deactivate
+ * the shield, and check if the shield is currently active.</p>
  */
 public class Shield extends ImageView {
-
     // Constants
     private static final String IMAGE_PATH = "shield.png"; // Path to shield image
     private static final int SHIELD_SIZE = 150;
@@ -83,25 +89,28 @@ public class Shield extends ImageView {
     }
 
     /**
-     * Determines whether the shield should be activated based on probability.
+     * Determines whether the shield should be activated based on the shield activation probability
+     * and the number of frames since the last shield activation.
      *
-     * @return True if shield should be activated, else false
+     * @return {@code true} if the shield should be activated; {@code false} otherwise.
      */
     private boolean shouldActivateShield() {
         return Math.random() < shieldActivationProbability && framesSinceLastShield >= maxFramesWithoutShield;
     }
 
     /**
-     * Checks if the shield's active duration is exhausted.
+     * Checks if the shield duration has been exhausted.
      *
-     * @return True if shield duration is exhausted, else false
+     * @return true if the number of frames with the shield activated is greater than or equal to the maximum allowed frames, false otherwise.
      */
     private boolean isShieldDurationExhausted() {
         return framesWithShieldActivated >= maxFramesWithShield;
     }
 
     /**
-     * Activates the shield.
+     * Activates the shield for the entity.
+     * This method sets the shield status to active, resets the frame counters,
+     * and displays the shield.
      */
     public void activateShield() {
         isShielded = true;
@@ -111,7 +120,7 @@ public class Shield extends ImageView {
     }
 
     /**
-     * Deactivates the shield.
+     * Deactivates the shield by setting the isShielded flag to false and hiding the shield.
      */
     public void deactivateShield() {
         isShielded = false;

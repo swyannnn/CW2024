@@ -14,7 +14,17 @@ import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 
 /**
- * MainMenu class represents the main menu of the game.
+ * The MainMenu class represents the main menu of the game application.
+ * It initializes the main menu with the primary stage and handles the transition
+ * to different game states based on user interaction.
+ * 
+ * The main menu includes options for starting a single-player or two-player game,
+ * as well as an option to exit the game. It also plays background music when the
+ * menu is displayed.
+ * 
+ * The class provides methods to construct the main menu scene, create the title text,
+ * and handle the exit game action.
+ * 
  */
 public class MainMenu {
     private final Stage primaryStage;
@@ -22,10 +32,11 @@ public class MainMenu {
     private static final String backgroundMusicName = GameConstant.MainMenu.BACKGROUND_MUSIC;
 
     /**
-     * Constructor initializes the MainMenu with the primary stage and controller.
+     * Constructs a MainMenu instance.
      *
-     * @param stage      The primary stage of the application.
-     * @param controller The Controller for managing game actions.
+     * @param stage the primary stage of the application
+     * @param stateTransitioner the state transitioner to manage state changes
+     * @param audioManager the audio manager to handle audio playback
      */
     public MainMenu(Stage stage, StateTransitioner stateTransitioner, AudioManager audioManager) {
         this.primaryStage = stage;
@@ -35,16 +46,19 @@ public class MainMenu {
     }
 
     /**
-     * Constructs and returns the main menu scene.
-     *
-     * @return The main menu scene.
+     * Creates and returns the home menu scene for the game.
+     * The home menu includes a title and buttons for selecting the number of players (1 or 2) and exiting the game.
+     * 
+     * @return the Scene object representing the home menu.
      */
     public Scene getHomeMenuScene() {
         VBox menuLayout = new VBox(30);
         menuLayout.setAlignment(Pos.CENTER);
         menuLayout.setStyle("-fx-background-color: #1E1E1E;");
 
-        Text title = createTitle("Sky Battle");
+        Text title = new Text("Sky Battle");
+        title.setFont(Font.font("Arial", 60)); // Font size 60
+        title.setStyle("-fx-fill: white;"); // White text color
 
         Button onePlayerButton = ButtonManager.createButton("1 Player", 200, 50, 20);
         onePlayerButton.setOnAction(e -> {
@@ -67,23 +81,9 @@ public class MainMenu {
     }
 
     /**
-     * Creates and returns the title text for the main menu.
-     *
-     * @param titleText The text to display as the title.
-     * @return A Text object styled as the title.
-     */
-    private Text createTitle(String titleText) {
-        Text title = new Text(titleText);
-        title.setFont(Font.font("Arial", 60)); // Font size 60
-        title.setStyle("-fx-fill: white;"); // White text color
-        return title;
-    }
-
-    /**
-     * Handles the action of exiting the game.
+     * Closes the primary stage and exits the game.
      */
     private void exitGame() {
-        // gameStateManager.getAudioManager().stopMusic(); 
-        primaryStage.close(); // Close the application
+        primaryStage.close();
     }
 }

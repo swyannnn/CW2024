@@ -49,6 +49,7 @@ public class MainMenuState implements GameState {
     public void handleInput(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
+                System.out.println("Space pressed DETECTED IN MAIN MENU STATE");
                 stateTransitioner.goToLevel(1); 
                 break;
             case ESCAPE:
