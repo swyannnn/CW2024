@@ -77,7 +77,6 @@ public class Level003 extends LevelParent {
         this.planeFactory = new PlaneFactory(actorSpawner);
         this.levelCompleted = false;
         this.root = super.getRoot();
-        initializeFriendlyUnits();
         initializeTimeLabel();
         startLevelTimers();
     }

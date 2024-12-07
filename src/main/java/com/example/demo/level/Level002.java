@@ -50,7 +50,6 @@ public class Level002 extends LevelParent {
         super(2, numberOfPlayers, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
         this.planeFactory = new PlaneFactory(actorSpawn);
-        initializeFriendlyUnits();
     }
 
     /**

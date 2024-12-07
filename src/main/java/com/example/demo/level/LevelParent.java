@@ -75,6 +75,8 @@ public abstract class LevelParent {
         actorSpawner.updateRoot(this.root);
         // Initialize LevelView
         this.levelView = new LevelView(this.root, currentLevelNumber);
+        // Initialize Player
+        registerPlayer();
         // Initialize background music
         initializeBackgroundMusic();
     }
@@ -91,7 +93,7 @@ public abstract class LevelParent {
     }
     
     /**
-     * Initializes friendly units (players) in the game level.
+     * Initializes player(s) in the game level.
      * 
      * This method creates and spawns the player-controlled planes. It initializes
      * player 1 and, if the game is in double-player mode, also initializes player 2.
@@ -107,7 +109,7 @@ public abstract class LevelParent {
      * - Player 2 is initialized and spawned if the numberOfPlayers is 2.
      * - Health change listeners are added to the player planes.
      */
-    protected void initializeFriendlyUnits() {
+    private void registerPlayer() {
         // Initialize player 1
         int playerId1 = 1;
         ActiveActor player1 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId1);

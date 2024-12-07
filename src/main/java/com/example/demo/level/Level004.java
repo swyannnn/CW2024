@@ -5,7 +5,6 @@ import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.PlaneFactory;
 import com.example.demo.actor.plane.PlaneFactory.PlaneType;
 import com.example.demo.manager.AudioManager;
-import com.example.demo.util.GameConstant;
 
 
 /**
@@ -48,7 +47,6 @@ public class Level004 extends LevelParent {
         super(4, numberOfPlayers, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
         this.planeFactory = new PlaneFactory(actorSpawner);
-        initializeFriendlyUnits();
     }
 
     /**
