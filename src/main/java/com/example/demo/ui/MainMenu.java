@@ -19,7 +19,7 @@ import com.example.demo.util.GameConstant;
 public class MainMenu {
     private final Stage primaryStage;
     private final StateTransitioner stateTransitioner;
-    private static final String BACKGROUND_MUSIC_NAME = GameConstant.MainMenu.BACKGROUND_MUSIC;
+    private static final String backgroundMusicName = GameConstant.MainMenu.BACKGROUND_MUSIC;
 
     /**
      * Constructor initializes the MainMenu with the primary stage and controller.
@@ -31,7 +31,7 @@ public class MainMenu {
         this.primaryStage = stage;
         this.stateTransitioner = stateTransitioner;
         // Play background music
-        audioManager.playMusic(BACKGROUND_MUSIC_NAME);
+        audioManager.playMusic(backgroundMusicName);
     }
 
     /**

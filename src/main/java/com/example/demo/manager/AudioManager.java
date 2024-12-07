@@ -55,9 +55,8 @@ public class AudioManager {
      * Preloads all sound effects and background music specified in GameConstant.
      */
     private void preloadAllAudio() {
-        // Preload sound effects
-        for (String filename : GameConstant.FilePaths.SOUND_EFFECTS) {
-            AudioClip clip = preloadAudioClip(filename);
+        for (GameConstant.FilePaths.SoundEffect soundEffect : GameConstant.FilePaths.SoundEffect.values()) {
+            AudioClip clip = preloadAudioClip(soundEffect.getFileName());
             if (clip != null) {
                 soundEffects.add(clip);
             }
@@ -69,9 +68,8 @@ public class AudioManager {
             soundEffects.get(3).setVolume(0.20);
         }
 
-        // Preload background music
-        for (String filename : GameConstant.FilePaths.BACKGROUND_MUSIC) {
-            preloadMedia(filename);
+        for (GameConstant.FilePaths.BackgroundMusic backgroundMusic : GameConstant.FilePaths.BackgroundMusic.values()) {            
+            preloadMedia(backgroundMusic.getFileName());
         }
     }
 

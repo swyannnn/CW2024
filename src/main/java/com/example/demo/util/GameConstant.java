@@ -236,34 +236,26 @@ public class GameConstant {
     
     // Level 001 Settings
     public static class Level001 {
-        public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 3;
         public static final int KILLS_TO_ADVANCE = 3;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
-        public static final String BACKGROUND_MUSIC = "bgm001.wav";
     }
 
     // Level 002 Settings
     public static class Level002 {
-        public static final String BACKGROUND_IMAGE_NAME = "background002.jpeg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
-        public static final String BACKGROUND_MUSIC = "bgm002.mp3";
     }
 
     // Level 003 Settings
     public static class Level003 {
-        public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
-        public static final String BACKGROUND_MUSIC = "bgm003.mp3";
         public static final int SURVIVAL_TIME = 1; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 
     // Level 004Settings
     public static class Level004 {
-        public static final String BACKGROUND_IMAGE_NAME = "background002.jpeg";
-        public static final String BACKGROUND_MUSIC = "bgm001.mp3";
         public static final int PLAYER_INITIAL_HEALTH = 5;
     }
 
@@ -274,33 +266,135 @@ public class GameConstant {
         PLAYER_SHOOT
     }
 
+    public enum LevelBackground {
+        LEVEL_1(1, "background001.jpg"),
+        LEVEL_2(2, "background002.jpeg"),
+        LEVEL_3(3, "background003.jpg"),
+        LEVEL_4(4, "background004.jpg");
+
+        private final int levelNumber;
+        private final String backgroundImage;
+
+        LevelBackground(int levelNumber, String backgroundImage) {
+            this.levelNumber = levelNumber;
+            this.backgroundImage = backgroundImage;
+        }
+
+        public int getLevelNumber() {
+            return levelNumber;
+        }
+
+        public String getBackgroundImage() {
+            return backgroundImage;
+        }
+
+        // Method to get background by level number
+        public static String getBackgroundImageForLevel(int level) {
+            for (LevelBackground bg : values()) {
+                if (bg.getLevelNumber() == level) {
+                    return bg.getBackgroundImage();
+                }
+            }
+            throw new IllegalArgumentException("Invalid level number: " + level);
+        }
+    }
+
+    public enum LevelBGM {
+        LEVEL_1(1, "bgm001.wav"),
+        LEVEL_2(2, "bgm002.mp3"),
+        LEVEL_3(3, "bgm003.mp3"),
+        LEVEL_4(4, "bgm004.mp3");
+
+        private final int levelNumber;
+        private final String bgm;
+
+        LevelBGM(int levelNumber, String bgm) {
+            this.levelNumber = levelNumber;
+            this.bgm = bgm;
+        }
+
+        public int getLevelNumber() {
+            return levelNumber;
+        }
+
+        public String getBgm() {
+            return bgm;
+        }
+
+        // Method to get background music by level number
+        public static String getBGMForLevel(int level) {
+            for (LevelBGM bgm : values()) {
+                if (bgm.getLevelNumber() == level) {
+                    return bgm.getBgm();
+                }
+            }
+            throw new IllegalArgumentException("Invalid level number: " + level);
+        }
+    }
+
     // File Paths
     public static class FilePaths {
         public static final String AUDIO_LOCATION = "/com/example/demo/audios/";
         public static final String IMAGE_LOCATION = "/com/example/demo/images/";
 
-        // Sound Effects
-        public static final String[] SOUND_EFFECTS = {
-            "player_death.wav",
-            "enemy_destroy.wav",
-            "titlescreen_transition.wav",
-            "player_shoot.mp3"
-            // Add more sound effect filenames here as needed
-        };
+        public enum SoundEffect {
+            PLAYER_DEATH("player_death.wav"),
+            ENEMY_DESTROY("enemy_destroy.wav"),
+            TITLESCREEN_TRANSITION("titlescreen_transition.wav"),
+            PLAYER_SHOOT("player_shoot.mp3");
+    
+            private final String fileName;
+    
+            SoundEffect(String fileName) {
+                this.fileName = fileName;
+            }
+    
+            public String getFileName() {
+                return fileName;
+            }
+        }
 
-        // Background Music
-        public static final String[] BACKGROUND_MUSIC = {
-            "menubgm.mp3",
-            "bgm001.wav",
-            "bgm002.mp3",
-            "bgm003.mp3"
-            // Add more background music filenames here as needed
-        };
+        public enum BackgroundMusic {
+            MENU("menubgm.mp3"),
+            LEVEL001("bgm001.wav"),
+            LEVEL002("bgm002.mp3"),
+            LEVEL003("bgm003.mp3"),
+            LEVEL004("bgm004.mp3");
+    
+            private final String fileName;
+    
+            BackgroundMusic(String fileName) {
+                this.fileName = fileName;
+            }
+    
+            public String getFileName() {
+                return fileName;
+            }
+        }
+
+        public enum BackgroundImage {
+            BACKGROUND001("background001.jpg"),
+            BACKGROUND002("background002.jpeg"),
+            BACKGROUND003("background003.jpg"),
+            BACKGROUND004("background004.jpg");
+    
+            private final String fileName;
+    
+            BackgroundImage(String fileName) {
+                this.fileName = fileName;
+            }
+    
+            public String getFileName() {
+                return fileName;
+            }
+        }
 
         // Images
         public static final String[] IMAGES = {
             "background001.jpg",
             "background002.jpeg",
+            "background003.jpg",
+            "background004.jpg",
             "bossplane.png",
             "enemyFire.png",
             "enemyplane.png",
