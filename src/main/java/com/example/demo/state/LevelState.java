@@ -254,7 +254,9 @@ public class LevelState implements GameState, CollisionListener {
             pcs.firePropertyChange("lose", false, true);
         } else if (level.userHasReachedTarget()) {
             actorManager.cleanup();
-            onLevelComplete();
+            levelCompleted = true;
+            int nextLevelNumber = level.getCurrentLevelNumber() + 1;
+            pcs.firePropertyChange("level", level.getCurrentLevelNumber(), nextLevelNumber);
         }
     }
 
@@ -263,15 +265,6 @@ public class LevelState implements GameState, CollisionListener {
                 .allMatch(player -> player.getHealth() <= 0);
     }   
 
-    public void onLevelComplete() {
-        if (!levelCompleted) {
-            levelCompleted = true;
-            int nextLevelNumber = level.getCurrentLevelNumber() + 1;
-            System.out.println("LevelState: Transitioning to Level " + nextLevelNumber);
-            pcs.firePropertyChange("level", level.getCurrentLevelNumber(), nextLevelNumber);
-        }
-    } 
-    
     /**
      * Assigns key bindings to each player and sets up their movement and firing strategies.
      */
