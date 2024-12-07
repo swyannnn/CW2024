@@ -18,28 +18,36 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 
+
 /**
- * Level003 class represents the third level of the game, extending from LevelParent.
- * It initializes the level with specific settings such as background image, music, 
- * player initial health, and survival time. It also manages the spawning of enemy units 
- * and updates the remaining time display.
- * 
- * <p>Key functionalities include:</p>
+ * Level003 is a subclass of LevelParent that represents the third level of the game.
+ * It initializes the level with specific settings and handles the spawning of enemy units,
+ * updating the remaining time, and checking if the user has survived the required duration.
+ *
+ * <p>This class uses the following components:
  * <ul>
- *   <li>Initializing friendly units and time label</li>
- *   <li>Starting timers for enemy spawning, level duration, and time updates</li>
- *   <li>Updating the remaining time display</li>
- *   <li>Spawning enemy units based on elapsed time</li>
- *   <li>Cleaning up timers when the level is completed</li>
+ *   <li>ActorSpawner: Responsible for spawning game actors.</li>
+ *   <li>AudioManager: Responsible for handling game audio.</li>
+ *   <li>PlaneFactory: Used to create different types of planes.</li>
+ *   <li>GameLoopManager: Manages the game loop and checks if the game is paused.</li>
  * </ul>
- * 
- * @param numberOfPlayers The number of players in the game.
- * @param actorSpawner The actor spawner for spawning game actors.
- * @param audioManager The audio manager for handling game sounds.
- * @param gameLoopManager The game loop manager for controlling the game loop.
+ *
+ * <p>Key functionalities include:
+ * <ul>
+ *   <li>Initializing friendly units.</li>
+ *   <li>Displaying the remaining survival time.</li>
+ *   <li>Spawning enemy units at fixed intervals with increasing difficulty.</li>
+ *   <li>Updating the remaining time display every second.</li>
+ *   <li>Checking if the user has survived the required duration to complete the level.</li>
+ * </ul>
+ *
+ * @see LevelParent
+ * @see ActorSpawner
+ * @see AudioManager
+ * @see PlaneFactory
+ * @see GameLoopManager
  */
 public class Level003 extends LevelParent {
-    private static final int playerInitialHealth = GameConstant.Level003.PLAYER_INITIAL_HEALTH;
     private static final int survivalTime = GameConstant.Level003.SURVIVAL_TIME; // in seconds
     private static final int enemySpawnInterval = GameConstant.Level003.ENEMY_SPAWN_INTERVAL; // in milliseconds
 
@@ -57,13 +65,13 @@ public class Level003 extends LevelParent {
     /**
      * Constructs a new Level003 instance.
      *
-     * @param numberOfPlayers the number of players in the game
+     * @param numberOfPlayers the number of players in the game level
      * @param actorSpawner the actor spawner responsible for spawning game actors
      * @param audioManager the audio manager responsible for handling game audio
      * @param gameLoopManager the game loop manager responsible for managing the game loop
      */
     public Level003(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager, GameLoopManager gameLoopManager) {
-        super(3, numberOfPlayers, playerInitialHealth, actorSpawner, audioManager);
+        super(3, numberOfPlayers, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
         this.gameLoopManager = gameLoopManager;
         this.planeFactory = new PlaneFactory(actorSpawner);

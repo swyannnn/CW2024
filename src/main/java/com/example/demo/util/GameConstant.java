@@ -239,24 +239,20 @@ public class GameConstant {
         public static final int TOTAL_ENEMIES = 3;
         public static final int KILLS_TO_ADVANCE = 3;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
-        public static final int PLAYER_INITIAL_HEALTH = 5;
     }
 
     // Level 002 Settings
     public static class Level002 {
-        public static final int PLAYER_INITIAL_HEALTH = 5;
     }
 
     // Level 003 Settings
     public static class Level003 {
-        public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final int SURVIVAL_TIME = 1; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 
     // Level 004Settings
     public static class Level004 {
-        public static final int PLAYER_INITIAL_HEALTH = 5;
     }
 
     public enum SoundEffect {

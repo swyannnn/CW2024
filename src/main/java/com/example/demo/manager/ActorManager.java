@@ -43,10 +43,6 @@ public class ActorManager implements ActorSpawner {
         return instance;
     }
 
-    public ActorSpawner getActorSpawner() {
-        return this;
-    }    
-
     @Override
     public void spawnActor(ActiveActor actor) {
         addActor(actor); // Use your existing method to add actors

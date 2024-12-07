@@ -9,31 +9,35 @@ import com.example.demo.actor.plane.PlaneFactory.PlaneType;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 
+
 /**
- * Level002 is a specific game level that extends the LevelParent class.
- * It initializes the level with specific background image, music, and player health.
- * It also manages the spawning of friendly and enemy units, and checks if the user has reached the target.
+ * Level002 is a subclass of LevelParent that represents the second level of the game.
+ * It initializes the level with specific settings and handles the spawning of enemy units
+ * and checking if the user has reached the target by destroying all boss planes.
  * 
- * <p>This class includes the following functionalities:
+ * <p>This class uses the following components:
  * <ul>
- *   <li>Constructing a new Level002 instance with the specified number of players, actor spawner, and audio manager.</li>
- *   <li>Checking if the user has reached the target by verifying if all boss planes are destroyed.</li>
- *   <li>Spawning enemy units in the game level, specifically creating and adding a new boss plane if there are no current boss units.</li>
+ *   <li>ActorSpawner: Responsible for spawning game actors.</li>
+ *   <li>AudioManager: Responsible for handling game audio.</li>
+ *   <li>PlaneFactory: Used to create different types of planes.</li>
  * </ul>
- * </p>
+ * 
+ * <p>Key functionalities include:
+ * <ul>
+ *   <li>Initializing friendly units.</li>
+ *   <li>Checking if all boss planes are destroyed to determine if the user has reached the target.</li>
+ *   <li>Spawning enemy units, specifically boss planes, if none are present.</li>
+ * </ul>
  * 
  * @see LevelParent
- * @see GameConstant.Level002
- * @see PlaneFactory
  * @see ActorSpawner
  * @see AudioManager
- * @see ActiveActor
- * @see PlaneType
+ * @see PlaneFactory
  */
 public class Level002 extends LevelParent {
-    private static final int playerInitialHealth = GameConstant.Level002.PLAYER_INITIAL_HEALTH;
     private PlaneFactory planeFactory;
     private final ActorSpawner actorSpawn;
+    private ActiveActor bossPlane;
     
     /**
      * Constructs a new Level002 instance.
@@ -43,47 +47,34 @@ public class Level002 extends LevelParent {
      * @param audioManager the audio manager responsible for handling game audio
      */
     public Level002(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
-        super(2, numberOfPlayers, playerInitialHealth, actorSpawner, audioManager);
+        super(2, numberOfPlayers, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
         this.planeFactory = new PlaneFactory(actorSpawn);
         initializeFriendlyUnits();
     }
 
     /**
-     * Checks if the user has reached the target by verifying if all boss planes are destroyed.
+     * Checks if the user has reached the target by determining if the boss plane is destroyed.
      *
-     * @return {@code true} if all boss planes are destroyed, {@code false} otherwise.
+     * @return true if the boss plane is destroyed, false otherwise.
      */
     @Override
     public boolean userHasReachedTarget() {
-        List<ActiveActor> bossPlanes = actorSpawn.getBossUnits();
-        if (bossPlanes.isEmpty()) {
-            return false; // No boss planes present
-        }
-        
-        // Check if **all** BossPlanes are destroyed
-        boolean allDestroyed = true;
-        for (ActiveActor actor : bossPlanes) {
-            if (!actor.isDestroyed()) {
-                allDestroyed = false;
-                break;
-            }
-        }
-        return allDestroyed;
+        return bossPlane.isDestroyed();
     }
 
+
     /**
-     * Spawns enemy units in the game level. If there are no current boss units,
-     * this method creates and adds a new boss plane to the actor spawn.
-     * Overrides the spawnEnemyUnits method in the superclass.
+     * Spawns enemy units in the game level. If there are no boss units currently spawned,
+     * this method will create and spawn a boss plane using the plane factory and assign it
+     * to the bossPlane field.
      */
     @Override
     public void spawnEnemyUnits() {
-        // Check if there are no current enemies
-        if (actorSpawn.getBossUnits().size() == 0) {
-            // Create and add the boss plane
-            ActiveActor newEnemy = planeFactory.createPlane(PlaneType.BOSS_PLANE);
-            actorSpawn.spawnActor(newEnemy);
+        if (actorSpawn.getBossUnits().isEmpty()) {
+            ActiveActor bossPlane = planeFactory.createPlane(PlaneType.BOSS_PLANE);
+            actorSpawn.spawnActor(bossPlane);
+            this.bossPlane = bossPlane;
         }
     }
 }

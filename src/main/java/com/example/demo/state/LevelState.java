@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.example.demo.actor.ActiveActor;
-import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.interfaces.CollisionListener;
 import com.example.demo.level.LevelParent;
@@ -15,7 +14,6 @@ import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameLoopManager;
-import com.example.demo.strategy.UserFiringStrategy;
 import com.example.demo.strategy.UserMovementStrategy;
 import com.example.demo.ui.PauseOverlay;
 import com.example.demo.util.GameConstant;
@@ -52,7 +50,6 @@ public class LevelState implements GameState, CollisionListener {
     private final StateTransitioner stateTransitioner;
     private boolean levelCompleted;
     private PauseOverlay pauseOverlay;
-    private final ActorSpawner actorSpawner;
     private Scene scene;
     private boolean isExplosionActive = false;
     // Map to hold each player's key bindings
@@ -75,7 +72,6 @@ public class LevelState implements GameState, CollisionListener {
         this.level = level;
         this.stage = stage;
         this.actorManager = actorManager;
-        this.actorSpawner = actorManager.getActorSpawner();
         this.collisionManager = collisionManager;
         collisionManager.setCollisionListener(this);
         this.gameLoopManager = gameLoopManager;

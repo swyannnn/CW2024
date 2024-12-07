@@ -6,36 +6,30 @@ import java.util.Optional;
 
 
 /**
- * The LevelFactory class is responsible for creating instances of game levels.
- * It maintains a map of registered level constructors and provides methods to
- * create levels and register new levels dynamically.
- * 
+ * The LevelFactory class is responsible for creating instances of levels based on a given level number
+ * and configuration. It maintains a map of registered level constructors, allowing for dynamic level
+ * creation. Levels can be registered with their corresponding constructors, and the factory can create
+ * levels by looking up the appropriate constructor in the map.
+ *
  * <p>Usage example:</p>
- * <pre>
- * {@code
+ * <pre>{@code
  * LevelConfig config = new LevelConfig(...);
  * Optional<LevelParent> level = LevelFactory.createLevel(1, config);
  * if (level.isPresent()) {
- *     // Use the level instance
+ *     // Use the created level
  * }
- * }
- * </pre>
- * 
+ * }</pre>
+ *
  * <p>To register a new level:</p>
- * <pre>
- * {@code
+ * <pre>{@code
  * LevelFactory.registerLevel(5, config -> new Level005(
  *     config.getNumberOfPlayers(), 
  *     config.getActorSpawner(), 
  *     config.getAudioManager()
  * ));
- * }
- * </pre>
- * 
- * <p>Note: The LevelConfig class should provide necessary parameters for level creation.</p>
- * 
- * @see LevelConfig
- * @see LevelParent
+ * }</pre>
+ *
+ * <p>Note: The LevelFactory class uses a static initializer block to register predefined levels.</p>
  */
 public class LevelFactory {
     // Map for registered level constructors

@@ -9,25 +9,30 @@ import com.example.demo.util.GameConstant;
 
 
 /**
- * Level004 class represents the fourth level in the game, extending the LevelParent class.
- * It initializes the level with specific background image, music, and player health.
- * The class is responsible for spawning enemy units and checking if the user has reached the target.
+ * Level004 is a subclass of LevelParent that represents the fourth level of the game.
+ * It initializes the level with specific settings and handles the spawning of enemy units
+ * and checking if the user has reached the target by destroying the boss plane.
  *
- * <p>Constructor:
+ * <p>This class uses the following components:
  * <ul>
- *   <li>{@code Level004(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager)}: 
- *   Initializes the level with the specified number of players, actor spawner, and audio manager.
+ *   <li>ActorSpawner: Responsible for spawning game actors.</li>
+ *   <li>AudioManager: Responsible for handling game audio.</li>
+ *   <li>PlaneFactory: Used to create different types of planes, including the boss plane.</li>
  * </ul>
  *
- * <p>Methods:
+ * <p>Key functionalities include:
  * <ul>
- *   <li>{@code boolean userHasReachedTarget()}: Checks if the user has reached the target by determining if the boss plane is destroyed.
- *   <li>{@code void spawnEnemyUnits()}: Spawns enemy units, specifically the boss plane, if no enemy units are present.
+ *   <li>Initializing friendly units.</li>
+ *   <li>Checking if the user has reached the target by destroying the boss plane.</li>
+ *   <li>Spawning a multi-phase boss plane if no enemy units are currently spawned.</li>
  * </ul>
+ *
+ * @see LevelParent
+ * @see ActorSpawner
+ * @see AudioManager
+ * @see PlaneFactory
  */
 public class Level004 extends LevelParent {
-    private static final int playerInitialHealth = GameConstant.Level004.PLAYER_INITIAL_HEALTH;
-
     private PlaneFactory planeFactory;
     private final ActorSpawner actorSpawn;
     private ActiveActor bossPlane;
@@ -35,12 +40,12 @@ public class Level004 extends LevelParent {
     /**
      * Constructs a new Level004 instance.
      *
-     * @param numberOfPlayers the number of players in the level
-     * @param actorSpawner the actor spawner used to spawn actors in the level
-     * @param audioManager the audio manager used to manage audio in the level
+     * @param numberOfPlayers the number of players in the game level
+     * @param actorSpawner the actor spawner responsible for spawning game actors
+     * @param audioManager the audio manager responsible for handling game audio
      */
     public Level004(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
-        super(4, numberOfPlayers, playerInitialHealth, actorSpawner, audioManager);
+        super(4, numberOfPlayers, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
         this.planeFactory = new PlaneFactory(actorSpawner);
         initializeFriendlyUnits();

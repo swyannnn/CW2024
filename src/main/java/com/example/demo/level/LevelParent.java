@@ -19,80 +19,51 @@ import javafx.scene.image.ImageView;
 
 /**
  * The LevelParent class serves as an abstract base class for different levels in the game.
- * It provides common functionality and properties that are shared across various levels.
+ * It manages the common functionalities and properties shared across various levels.
  * 
- * <p>This class handles the initialization of the game scene, background, music, and player units.
- * It also provides methods to update the background for a scrolling effect and to update the level view.</p>
- * 
- * <p>Subclasses are required to implement the abstract methods {@link #userHasReachedTarget()} and {@link #spawnEnemyUnits()}.</p>
- * 
- * <p>Key properties include:</p>
+ * <p>Key responsibilities include:</p>
  * <ul>
- *   <li>{@code root}: The root group for the scene graph.</li>
- *   <li>{@code scene}: The scene associated with this level.</li>
- *   <li>{@code backgrounds}: An array of ImageView objects for the background images.</li>
- *   <li>{@code playerInitialHealth}: The initial health of the player.</li>
- *   <li>{@code user}: The user-controlled plane.</li>
- *   <li>{@code levelView}: The view component for the level.</li>
- *   <li>{@code controller}: The controller instance managing the game logic.</li>
- *   <li>{@code actorSpawn}: The manager responsible for spawning actors in the game.</li>
- *   <li>{@code audioManager}: The manager responsible for handling audio playback.</li>
- *   <li>{@code planeFactory}: The factory for creating plane objects.</li>
- *   <li>{@code scrollSpeed}: The speed at which the background scrolls.</li>
- *   <li>{@code currentLevelNumber}: The current level number.</li>
- *   <li>{@code numberOfPlayers}: The number of players in the game.</li>
+ *   <li>Initializing the scene and root group for the level.</li>
+ *   <li>Managing the player's initial health and the number of players.</li>
+ *   <li>Spawning friendly units (players) and initializing their positions.</li>
+ *   <li>Handling background music initialization for the level.</li>
+ *   <li>Updating the level view, including player health display and background updates.</li>
  * </ul>
  * 
- * <p>Key methods include:</p>
- * <ul>
- *   <li>{@link #LevelParent(int, int, String, String, int, ActorSpawner, AudioManager)}: Constructor to initialize the level.</li>
- *   <li>{@link #initializeBackground(String)}: Initializes the background images for scrolling effect.</li>
- *   <li>{@link #updateBackground()}: Updates the background positions to create a scrolling effect.</li>
- *   <li>{@link #initializeBackgroundMusic(String)}: Initializes and plays the background music.</li>
- *   <li>{@link #instantiateLevelView()}: Instantiates the LevelView object.</li>
- *   <li>{@link #initializeFriendlyUnits()}: Initializes the friendly units (players) in the game.</li>
- *   <li>{@link #updateLevelView()}: Updates the level view with the current state of the players.</li>
- *   <li>{@link #getRoot()}: Returns the root group for the scene graph.</li>
- *   <li>{@link #getScene()}: Returns the initialized scene for this level.</li>
- *   <li>{@link #getCurrentLevelNumber()}: Returns the current level number.</li>
- *   <li>{@link #setCurrentLevelNumber(int)}: Sets the current level number.</li>
- * </ul>
+ * <p>Subclasses are required to implement the abstract methods to define specific behaviors
+ * for reaching targets and spawning enemy units.</p>
  * 
  * @param currentLevelNumber The current level number.
- * @param numberOfPlayers The number of players in the game.
- * @param backgroundImageName The path to the background image.
- * @param backgroundMusicName The path to the background music.
+ * @param numberOfPlayers The number of players in the level.
  * @param playerInitialHealth The initial health of the player.
- * @param actorSpawner The manager responsible for spawning actors.
- * @param audioManager The manager responsible for handling audio playback.
+ * @param actorSpawner The ActorSpawner instance for managing actor spawning.
+ * @param audioManager The AudioManager instance for managing audio playback.
  */
 public abstract class LevelParent {
     protected final Group root;
     protected final Scene scene;
     protected ImageView[] backgrounds;
-    protected final int playerInitialHealth;
 
     protected UserPlane user;
     protected LevelView levelView;
     protected Controller controller;
 
-    // Managers are injected to ensure they're properly initialized
     protected final ActorSpawner actorSpawn;
     protected final AudioManager audioManager;
     protected final PlaneFactory planeFactory;
-    // private final double scrollSpeed = 1.0; 
     private int currentLevelNumber;
     private int numberOfPlayers;
+
     /**
      * Constructs a new LevelParent instance.
      *
-     * @param controller The Controller instance.
-     * @param backgroundImageName The path to the background image.
-     * @param playerInitialHealth The initial health of the player.
+     * @param currentLevelNumber the current level number
+     * @param numberOfPlayers the number of players
+     * @param actorSpawner the actor spawner used to spawn actors in the game
+     * @param audioManager the audio manager used to manage game audio
      */
-    public LevelParent(int currentLevelNumber, int numberOfPlayers, int playerInitialHealth, ActorSpawner actorSpawner, AudioManager audioManager) {
-        setCurrentLevelNumber(currentLevelNumber);
-        this.playerInitialHealth = playerInitialHealth;
+    public LevelParent(int currentLevelNumber, int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
+        this.currentLevelNumber = currentLevelNumber;
         this.numberOfPlayers = numberOfPlayers;
         this.root = new Group();
         this.scene = new Scene(root, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
@@ -108,11 +79,34 @@ public abstract class LevelParent {
         initializeBackgroundMusic();
     }
 
+    /**
+     * Initializes and plays the background music for the current level.
+     * The background music is determined based on the current level number.
+     * It retrieves the background music name using the GameConstant.LevelBGM class
+     * and plays it using the audioManager.
+     */
     private void initializeBackgroundMusic() {
         String backgroundMusicName = GameConstant.LevelBGM.getBGMForLevel(currentLevelNumber);
         audioManager.playMusic(backgroundMusicName);
     }
     
+    /**
+     * Initializes friendly units (players) in the game level.
+     * 
+     * This method creates and spawns the player-controlled planes. It initializes
+     * player 1 and, if the game is in double-player mode, also initializes player 2.
+     * The positions of the players are printed to the console, and health change
+     * listeners are added to the player planes.
+     * 
+     * Preconditions:
+     * - The planeFactory and actorSpawn objects must be properly initialized.
+     * - The levelView must be set to listen for health changes.
+     * 
+     * Postconditions:
+     * - Player 1 is always initialized and spawned.
+     * - Player 2 is initialized and spawned if the numberOfPlayers is 2.
+     * - Health change listeners are added to the player planes.
+     */
     protected void initializeFriendlyUnits() {
         // Initialize player 1
         int playerId1 = 1;
@@ -121,7 +115,7 @@ public abstract class LevelParent {
         System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
         ((UserPlane) player1).addHealthChangeListener(this.levelView);
     
-        // If two-player mode, initialize player 2
+        // If double-player mode, initialize player 2
         if (numberOfPlayers == 2) {
             int playerId2 = 2;
             ActiveActor player2 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId2);
@@ -131,6 +125,15 @@ public abstract class LevelParent {
         }
     }
 
+    /**
+     * Updates the level view by displaying the heart display for each player
+     * and updating the background.
+     * <p>
+     * This method retrieves the list of players from the actorSpawn object.
+     * Then, it iterates through the list of players and displays the heart display
+     * for each player using the levelView object. Finally, it updates the
+     * background of the level view.
+     */
     public void updateLevelView() {
         List<UserPlane> players = actorSpawn.getPlayers();
 
@@ -144,6 +147,11 @@ public abstract class LevelParent {
         levelView.updateBackground();
     }
 
+    /**
+     * Returns the root group of the level.
+     *
+     * @return the root group of the level
+     */
     public Group getRoot() {
         return this.root;
     } 
@@ -157,16 +165,27 @@ public abstract class LevelParent {
         return scene;
     }
 
+    /**
+     * Retrieves the current level number.
+     *
+     * @return the current level number.
+     */
     public int getCurrentLevelNumber() {
         return currentLevelNumber;
     }
 
-    public void setCurrentLevelNumber(int levelNumber) {
-        this.currentLevelNumber = levelNumber;
-    }
-
-    // Abstract methods to be implemented by subclasses
+    /**
+     * Determines if the user has reached the target to advance to the next level.
+     * 
+     * This method should be implemented by subclasses to define the specific logic
+     * for reaching the target in the level.
+     */
     public abstract boolean userHasReachedTarget();
 
+    /**
+     * Spawns enemy units in the game level.
+     * This method should be implemented by subclasses to define the specific logic
+     * for spawning enemy units.
+     */
     public abstract void spawnEnemyUnits();
 }
