@@ -4,7 +4,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import com.example.demo.interfaces.GameLoopUpdater;
-import com.example.demo.interfaces.PauseHandler;
 
 import javafx.animation.AnimationTimer;
 
@@ -12,7 +11,7 @@ import javafx.animation.AnimationTimer;
  * GameLoopManager is responsible for managing the game's update loop.
  * It also handles pausing and resuming the game.
  */
-public class GameLoopManager implements PauseHandler {
+public class GameLoopManager{
     private static volatile GameLoopManager instance;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private AnimationTimer gameLoop;
@@ -98,8 +97,6 @@ public class GameLoopManager implements PauseHandler {
         }
     }
 
-    // PauseManager methods
-    @Override
     public void pauseGame() {
         if (!paused) {
             boolean oldState = this.paused;
@@ -108,7 +105,6 @@ public class GameLoopManager implements PauseHandler {
         }
     }
 
-    @Override
     public void resumeGame() {
         if (paused) {
             boolean oldState = this.paused;
@@ -117,7 +113,6 @@ public class GameLoopManager implements PauseHandler {
         }
     }
 
-    @Override
     public boolean isPaused() {
         return paused;
     }

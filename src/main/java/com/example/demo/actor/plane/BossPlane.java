@@ -5,18 +5,44 @@ import com.example.demo.ui.Shield;
 import com.example.demo.util.GameConstant;
 import com.example.demo.util.PlaneConfig;
 
+
 /**
- * BossPlane class representing the boss enemy in the game.
+ * The BossPlane class represents a specialized type of FighterPlane with an additional shield capability.
+ * It extends the FighterPlane class and adds functionality for initializing and managing a shield.
+ * The shield has a probability of being active, defined by the BOSS_SHIELD_PROBABILITY constant.
+ * 
+ * <p>This class includes methods for constructing a BossPlane, initializing its shield, performing
+ * additional updates to the shield, checking if the plane is shielded, and applying damage to the plane.
+ * If the shield is active, the plane does not take damage.</p>
+ * 
+ * <p>Constructor:</p>
+ * <ul>
+ *   <li>{@link #BossPlane(PlaneConfig, ActorSpawner)}: Constructs a new BossPlane with the specified configuration and actor spawner.</li>
+ * </ul>
+ * 
+ * <p>Methods:</p>
+ * <ul>
+ *   <li>{@link #initializeShield(ActorSpawner)}: Initializes the shield for the BossPlane using the provided actor spawner.</li>
+ *   <li>{@link #performAdditionalUpdates(long)}: Performs additional updates, specifically updating the shield state.</li>
+ *   <li>{@link #isShielded()}: Checks if the BossPlane is currently shielded.</li>
+ *   <li>{@link #takeDamage()}: Applies damage to the BossPlane. If the shield is active, no damage is taken.</li>
+ * </ul>
+ * 
+ * <p>Fields:</p>
+ * <ul>
+ *   <li>{@link #shield}: The shield associated with the BossPlane.</li>
+ *   <li>{@link #BOSS_SHIELD_PROBABILITY}: The probability that the shield is active, defined by a game constant.</li>
+ * </ul>
  */
 public class BossPlane extends FighterPlane {
     private Shield shield;
     private static final double BOSS_SHIELD_PROBABILITY = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
 
     /**
-     * Constructs a BossPlane instance.
+     * Constructs a new BossPlane with the specified configuration and actor spawner.
      *
-     * @param controller The game controller managing the state.
-     * @param config     The PlaneConfig containing configuration.
+     * @param config the configuration for the plane
+     * @param actorSpawner the actor spawner used to initialize the shield
      */
     public BossPlane(PlaneConfig config, ActorSpawner actorSpawner) {
         super(config);
@@ -24,12 +50,11 @@ public class BossPlane extends FighterPlane {
     }
 
     /**
-     * Initializes BossPlane-specific configurations.
+     * Initializes the shield for the BossPlane.
      *
-     * @param config The PlaneConfig containing configuration.
+     * @param actorSpawner the actor spawner used to initialize the shield
      */
     private void initializeShield(ActorSpawner actorSpawner) {
-        // Initialize Shield
         shield = new Shield(BOSS_SHIELD_PROBABILITY);
         actorSpawner.addUIElement(shield);
     }
@@ -54,7 +79,9 @@ public class BossPlane extends FighterPlane {
     }
 
     /**
-     * Method to take damage when the boss plane is not shielded.
+     * Applies damage to the BossPlane. If the BossPlane is shielded, no damage is taken.
+     *
+     * @return True if the BossPlane took damage, false otherwise.
      */
     @Override
     public boolean takeDamage() {

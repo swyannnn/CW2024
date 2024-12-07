@@ -61,6 +61,7 @@ public class GameConstant {
         public static final int VERTICAL_VELOCITY_MULTIPLIER = 0;
         public static final int HORIZONTAL_VELOCITY_MULTIPLIER = 0;
         public static final int NUMBER_OF_KILLS = 0;
+        public static final int DAMAGE_FLICKER_COUNT = 3;
     }
 
     // UserProjectile Settings
@@ -175,9 +176,9 @@ public class GameConstant {
     public static class MultiPhaseBossPlane {
         public static final String IMAGE_NAME = "enemy3.png";
         public static final int IMAGE_HEIGHT = 200;
-        public static final int REMAINING_HEALTH_PHASE1 = 60;
-        public static final int REMAINING_HEALTH_PHASE2 = 59;
-        public static final int REMAINING_HEALTH_PHASE3 = 1;
+        public static final int REMAINING_HEALTH_PHASE1 = 6;
+        public static final int REMAINING_HEALTH_PHASE2 = 4;
+        public static final int REMAINING_HEALTH_PHASE3 = 2;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
         public static final double FIRE_RATE = 0.5; // 50% chance to fire
         public static final double Y_POSITION = (GameSettings.SCREEN_HEIGHT / 2) - 100;
@@ -237,7 +238,7 @@ public class GameConstant {
     public static class Level001 {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int TOTAL_ENEMIES = 3;
-        public static final int KILLS_TO_ADVANCE = 0;
+        public static final int KILLS_TO_ADVANCE = 3;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm001.wav";
@@ -255,7 +256,7 @@ public class GameConstant {
         public static final String BACKGROUND_IMAGE_NAME = "background001.jpg";
         public static final int PLAYER_INITIAL_HEALTH = 5;
         public static final String BACKGROUND_MUSIC = "bgm003.mp3";
-        public static final int SURVIVAL_TIME = 20; // in seconds
+        public static final int SURVIVAL_TIME = 1; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 

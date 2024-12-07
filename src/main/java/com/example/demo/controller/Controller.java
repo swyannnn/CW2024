@@ -15,7 +15,6 @@ public class Controller {
     private final Group rootGroup;
     private final Scene scene;
 
-    // Managers
     private final AudioManager audioManager;
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
@@ -24,9 +23,10 @@ public class Controller {
     private final InputManager inputManager;
 
     /**
-     * Constructor initializes the Controller with the main stage and sets up the game scene.
+     * Controller class responsible for initializing and managing the main components of the game.
+     * It sets up the scene, initializes various managers, and starts the game loop.
      *
-     * @param stage The main Stage object used for rendering scenes.
+     * @param stage The primary stage for this application.
      */
     public Controller(Stage stage) {
         this.rootGroup = new Group();
@@ -75,24 +75,23 @@ public class Controller {
         this.gameLoopManager.startLoop();
     }
 
+
     /**
      * Initializes the game by transitioning to the main menu.
+     * This method sets the initial state of the game by invoking the state manager
+     * to navigate to the main menu screen.
      */
     public void initializeGame() {
         stateManager.goToMainMenu(); // Transition to the main menu
     }
 
-    /**
-     * Returns the root Group of the scene, used for adding visual elements.
-     *
-     * @return The root Group object.
-     */
-    public Group getRootGroup() {
-        return this.rootGroup;
-    }
 
     /**
-     * Cleanup method to stop the game loop and cleanup all managers.
+     * Performs cleanup operations for the controller.
+     * 
+     * This method stops the game loop, cleans up the state manager,
+     * stops the audio manager, and cleans up the actor manager
+     * if they are not null.
      */
     public void cleanup() {
         // Stop the game loop

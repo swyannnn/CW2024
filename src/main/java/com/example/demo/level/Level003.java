@@ -5,8 +5,8 @@ import java.util.TimerTask;
 
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
-import com.example.demo.actor.PlaneFactory;
-import com.example.demo.actor.PlaneFactory.PlaneType;
+import com.example.demo.actor.plane.PlaneFactory;
+import com.example.demo.actor.plane.PlaneFactory.PlaneType;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.GameLoopManager;
 import com.example.demo.util.GameConstant;
@@ -17,8 +17,26 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+
 /**
- * Level003: Timed Survival Challenge.
+ * Level003 class represents the third level of the game, extending from LevelParent.
+ * It initializes the level with specific settings such as background image, music, 
+ * player initial health, and survival time. It also manages the spawning of enemy units 
+ * and updates the remaining time display.
+ * 
+ * <p>Key functionalities include:</p>
+ * <ul>
+ *   <li>Initializing friendly units and time label</li>
+ *   <li>Starting timers for enemy spawning, level duration, and time updates</li>
+ *   <li>Updating the remaining time display</li>
+ *   <li>Spawning enemy units based on elapsed time</li>
+ *   <li>Cleaning up timers when the level is completed</li>
+ * </ul>
+ * 
+ * @param numberOfPlayers The number of players in the game.
+ * @param actorSpawner The actor spawner for spawning game actors.
+ * @param audioManager The audio manager for handling game sounds.
+ * @param gameLoopManager The game loop manager for controlling the game loop.
  */
 public class Level003 extends LevelParent {
     private static final String backgroundImageName = GameConstant.Level003.BACKGROUND_IMAGE_NAME;
@@ -39,6 +57,14 @@ public class Level003 extends LevelParent {
     private boolean levelCompleted;
     private Label timeLabel;
 
+    /**
+     * Constructs a new Level003 instance.
+     *
+     * @param numberOfPlayers the number of players in the game
+     * @param actorSpawner the actor spawner responsible for spawning game actors
+     * @param audioManager the audio manager responsible for handling game audio
+     * @param gameLoopManager the game loop manager responsible for managing the game loop
+     */
     public Level003(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager, GameLoopManager gameLoopManager) {
         super(3, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
@@ -52,7 +78,11 @@ public class Level003 extends LevelParent {
     }
 
     /**
-     * Initializes the time display label and adds it to the UI root.
+     * Initializes the time label and sets its properties.
+     * This method runs on the JavaFX Application Thread using Platform.runLater.
+     * The label is positioned at the top-right corner of the screen with some padding.
+     * The text of the label displays the remaining survival time in seconds.
+     * The label is styled with white text, Arial font of size 24, and bold font weight.
      */
     private void initializeTimeLabel() {
         Platform.runLater(() -> {
@@ -69,7 +99,14 @@ public class Level003 extends LevelParent {
     }
 
     /**
-     * Starts the enemy spawn timer and level countdown timer.
+     * Starts the timers for the level, including:
+     * - Recording the start time of the level.
+     * - A timer for spawning enemy units at fixed intervals.
+     * - A timer for the overall level duration, which marks the level as completed when time is up.
+     * - A timer for updating the remaining time display every second.
+     * 
+     * The timers are daemon threads, meaning they will not prevent the JVM from exiting.
+     * The timers will only execute their tasks if the game is not paused.
      */
     private void startLevelTimers() {
         this.startTime = System.currentTimeMillis(); // Record the start time
@@ -136,6 +173,13 @@ public class Level003 extends LevelParent {
         });
     }
 
+    /**
+     * Checks if the user has reached the target for the current level.
+     * If the level is completed, it performs cleanup operations and returns true.
+     * Otherwise, it returns false.
+     *
+     * @return true if the level is completed and cleanup is performed, false otherwise.
+     */
     @Override
     public boolean userHasReachedTarget() {
         if (levelCompleted) {
@@ -145,16 +189,20 @@ public class Level003 extends LevelParent {
         return false;
     }
 
-    @Override
-    public int getCurrentLevelNumber() {
-        return currentLevelNumber;
-    }
-
-    @Override
-    public void setCurrentLevelNumber(int levelNumber) {
-        this.currentLevelNumber = levelNumber;
-    }
-
+    /**
+     * Spawns enemy units based on the elapsed time and a random factor.
+     * The spawn rate increases over time, normalized between 1 and 3.
+     * 
+     * The method calculates a spawn factor based on the elapsed time and survival time.
+     * It then generates a random value to determine which type of enemy plane to spawn.
+     * 
+     * The enemy planes are spawned on the JavaFX application thread using Platform.runLater.
+     * 
+     * The probabilities for spawning each type of enemy plane are as follows:
+     * - ENEMY_PLANE1: 0.003 * spawnFactor
+     * - ENEMY_PLANE2: 0.006 * spawnFactor
+     * - ENEMY_PLANE3: 0.009 * spawnFactor
+     */
     @Override
     public void spawnEnemyUnits() {
         double elapsedTime = (System.currentTimeMillis() - startTime) / 1000; // in seconds
@@ -178,6 +226,10 @@ public class Level003 extends LevelParent {
         });
     }    
 
+    /**
+     * Cleans up resources by canceling the enemy spawn timer and level timer if they are not null.
+     * This method ensures that any ongoing timers are properly terminated to prevent resource leaks.
+     */
     public void cleanup() {
         if (enemySpawnTimer != null) {
             enemySpawnTimer.cancel();

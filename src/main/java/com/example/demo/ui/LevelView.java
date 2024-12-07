@@ -20,6 +20,7 @@ public class LevelView implements HealthChangeListener, PropertyChangeListener {
 	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 10;
+    private final double scrollSpeed = 1.0; 
 	private final Group root;
     protected ImageView[] backgrounds;
 	
@@ -89,7 +90,7 @@ public class LevelView implements HealthChangeListener, PropertyChangeListener {
      *
      * @param scrollSpeed The speed at which the background scrolls.
      */
-    public void updateBackground(double scrollSpeed) {
+    public void updateBackground() {
         for (ImageView img : backgrounds) {
             img.setTranslateX(img.getTranslateX() - scrollSpeed);
 
@@ -137,13 +138,8 @@ public class LevelView implements HealthChangeListener, PropertyChangeListener {
                 int newLevelNumber = (int) evt.getNewValue();
                 showInstructions(newLevelNumber);
                 break;
-            // Handle other events if necessary
             default:
                 break;
         }
     }
-	
-	public void updateView() {
-		// Initialize LevelView
-	}
 }

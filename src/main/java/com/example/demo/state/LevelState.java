@@ -133,7 +133,6 @@ public class LevelState implements GameState, CollisionListener {
             actorManager.removeDestroyedActors(); // Move this before collision detection
             collisionManager.handleAllCollisions(actorManager);
             level.updateLevelView();
-            level.updateBackground();
             checkLevelCompletion();
         }
     }
@@ -165,6 +164,7 @@ public class LevelState implements GameState, CollisionListener {
     @Override
     public void cleanup() {
         System.out.println("LevelState: Cleaning up Level " + level.getCurrentLevelNumber());
+        // remove health listeners from all players
         actorManager.cleanup();
         System.out.println("LevelState: Cleanup completed.");
     }
@@ -197,7 +197,7 @@ public class LevelState implements GameState, CollisionListener {
     @Override
     public void onProjectileHitEnemy(UserPlane userPlane, ActiveActor enemy) {
         userPlane.incrementKillCount();
-        System.out.println("Kill count for user updated: " + userPlane.getNumberOfKills());
+        System.out.println("Kill count for"+ userPlane + "updated: " + userPlane.getNumberOfKills());
     }
     
     /**
@@ -314,9 +314,8 @@ public class LevelState implements GameState, CollisionListener {
             System.out.println("Assigned key bindings for Player " + (i + 1));
 
             // Assign MovementStrategy and FiringStrategy to the UserPlane
-            double planeSpeed = GameConstant.UserPlane.VERTICAL_VELOCITY; // Ensure this constant is defined
+            double planeSpeed = GameConstant.UserPlane.VERTICAL_VELOCITY; 
             player.setMovementStrategy(new UserMovementStrategy(activeKeys, bindings, planeSpeed));
-            player.setFiringStrategy(new UserFiringStrategy(actorSpawner, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS));
         }
     }
 }

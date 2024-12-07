@@ -2,8 +2,8 @@ package com.example.demo.level;
 
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
-import com.example.demo.actor.PlaneFactory;
-import com.example.demo.actor.PlaneFactory.PlaneType;
+import com.example.demo.actor.plane.PlaneFactory;
+import com.example.demo.actor.plane.PlaneFactory.PlaneType;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
 
@@ -22,10 +22,11 @@ public class Level001 extends LevelParent{
     private final ActorSpawner actorSpawner;
 
     /**
-     * Constructor for Level001.
+     * Constructs a new Level001 instance.
      *
-     * @param controller       The game controller.
-     * @param levelNumber      The level number for this level.
+     * @param numberOfPlayers the number of players in the game level
+     * @param actorSpawner the actor spawner responsible for spawning game actors
+     * @param audioManager the audio manager responsible for handling game audio
      */
     public Level001(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
         super(1, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
@@ -35,15 +36,32 @@ public class Level001 extends LevelParent{
     }
 
     /**
-     * Checks if all users have reached the kill target to advance.
+     * Checks if the user has reached the target number of kills to advance.
      *
-     * @return true if all players' kill counts are greater than or equal to the kill target; false otherwise.
+     * This method calculates the total number of kills by all players and compares it
+     * to the required number of kills to advance to the next level.
+     *
+     * @return true if the total number of kills is greater than or equal to the required kills to advance, false otherwise.
      */
     public boolean userHasReachedTarget() {
-        return  actorSpawner.getPlayers().stream()
-                .allMatch(player -> player.getNumberOfKills() >= killsToAdvance);
+        int totalKills = actorSpawner.getPlayers().stream()
+                .mapToInt(player -> player.getNumberOfKills())
+                .sum();
+        return totalKills >= killsToAdvance;
     }
 
+    /**
+     * Spawns enemy units until the total number of enemy units reaches the specified limit.
+     * The spawning of each enemy unit is determined by a random probability.
+     * 
+     * This method overrides the spawnEnemyUnits method in the superclass.
+     * It continuously checks the current number of enemy units and spawns new ones
+     * if the number is less than the totalEnemies limit.
+     * 
+     * The probability of spawning a new enemy unit is determined by the enemySpawnProbability.
+     * If a new enemy unit is to be spawned, it is created using the planeFactory and then
+     * added to the game using the actorSpawn.
+     */
     @Override
     public void spawnEnemyUnits() {
         while (actorSpawner.getEnemyUnits().size() < totalEnemies) {

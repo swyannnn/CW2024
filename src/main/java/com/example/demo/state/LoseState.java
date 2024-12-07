@@ -1,6 +1,5 @@
 package com.example.demo.state;
 
-import com.example.demo.manager.AudioManager;
 import com.example.demo.ui.LoseScreen;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
