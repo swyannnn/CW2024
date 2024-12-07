@@ -31,8 +31,6 @@ import com.example.demo.util.GameConstant;
  * @see PlaneType
  */
 public class Level002 extends LevelParent {
-    private static final String backgroundImageName = GameConstant.Level002.BACKGROUND_IMAGE_NAME;
-    private static final String backgroundMusicName = GameConstant.Level002.BACKGROUND_MUSIC;
     private static final int playerInitialHealth = GameConstant.Level002.PLAYER_INITIAL_HEALTH;
     private PlaneFactory planeFactory;
     private final ActorSpawner actorSpawn;
@@ -45,7 +43,7 @@ public class Level002 extends LevelParent {
      * @param audioManager the audio manager responsible for handling game audio
      */
     public Level002(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
-        super(2, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
+        super(2, numberOfPlayers, playerInitialHealth, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
         this.planeFactory = new PlaneFactory(actorSpawn);
         initializeFriendlyUnits();

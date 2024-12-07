@@ -90,7 +90,7 @@ public abstract class LevelParent {
      * @param backgroundImageName The path to the background image.
      * @param playerInitialHealth The initial health of the player.
      */
-    public LevelParent(int currentLevelNumber, int numberOfPlayers, String backgroundImageName, String backgroundMusicName, int playerInitialHealth, ActorSpawner actorSpawner, AudioManager audioManager) {
+    public LevelParent(int currentLevelNumber, int numberOfPlayers, int playerInitialHealth, ActorSpawner actorSpawner, AudioManager audioManager) {
         setCurrentLevelNumber(currentLevelNumber);
         this.playerInitialHealth = playerInitialHealth;
         this.numberOfPlayers = numberOfPlayers;
@@ -103,28 +103,14 @@ public abstract class LevelParent {
         // Pass the root to ActorManager
         actorSpawner.updateRoot(this.root);
         // Initialize LevelView
-        this.levelView = instantiateLevelView();
-        levelView.showInstructions(currentLevelNumber);
-
-        initializeBackground(backgroundImageName);
-        initializeBackgroundMusic(backgroundMusicName);
+        this.levelView = new LevelView(this.root, currentLevelNumber);
+        // Initialize background music
+        initializeBackgroundMusic();
     }
 
-    /**
-     * Initializes the background images for scrolling effect.
-     *
-     * @param backgroundImageName The path to the background image.
-     */
-    private void initializeBackground(String backgroundImageName) {
-        levelView.initializeBackground(backgroundImageName);
-    }
-
-    private void initializeBackgroundMusic(String backgroundMusicName) {
+    private void initializeBackgroundMusic() {
+        String backgroundMusicName = GameConstant.LevelBGM.getBGMForLevel(currentLevelNumber);
         audioManager.playMusic(backgroundMusicName);
-    }
-
-    public LevelView instantiateLevelView() {
-        return new LevelView(this.root);
     }
     
     protected void initializeFriendlyUnits() {

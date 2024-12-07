@@ -12,8 +12,6 @@ import com.example.demo.util.GameConstant;
  * game.
  */
 public class Level001 extends LevelParent{
-    private static final String backgroundImageName = GameConstant.Level001.BACKGROUND_IMAGE_NAME;
-    private static final String backgroundMusicName = GameConstant.Level001.BACKGROUND_MUSIC;
     private static final int totalEnemies = GameConstant.Level001.TOTAL_ENEMIES;
     private static final int killsToAdvance = GameConstant.Level001.KILLS_TO_ADVANCE;
     private static final double enemySpawnProbability = GameConstant.Level001.ENEMY_SPAWN_PROBABILITY;
@@ -29,7 +27,7 @@ public class Level001 extends LevelParent{
      * @param audioManager the audio manager responsible for handling game audio
      */
     public Level001(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
-        super(1, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
+        super(1, numberOfPlayers, playerInitialHealth, actorSpawner, audioManager);
         this.actorSpawner = actorSpawner;
         this.planeFactory = new PlaneFactory(actorSpawn);
         initializeFriendlyUnits();

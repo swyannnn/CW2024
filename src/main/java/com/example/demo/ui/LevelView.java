@@ -1,7 +1,5 @@
 package com.example.demo.ui;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,16 +14,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class LevelView implements HealthChangeListener, PropertyChangeListener {
+public class LevelView implements HealthChangeListener {
 	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 10;
     private final double scrollSpeed = 1.0; 
 	private final Group root;
     protected ImageView[] backgrounds;
+    private final int currentLevelNumber;
 	
-	public LevelView(Group root) {
+	public LevelView(Group root, int currentLevelNumber) {
 		this.root = root;
+        this.currentLevelNumber = currentLevelNumber;
+        initializeBackground();
+        showInstructions();
 	}
 
     /**
@@ -33,7 +35,8 @@ public class LevelView implements HealthChangeListener, PropertyChangeListener {
      *
      * @param backgroundImageName The path to the background image.
      */
-    public void initializeBackground(String backgroundImageName) {
+    public void initializeBackground() {
+        String backgroundImageName = GameConstant.LevelBackground.getBackgroundImageForLevel(currentLevelNumber);
         ImageView img1 = new ImageView(ImageManager.getImage(backgroundImageName));
         ImageView img2 = new ImageView(ImageManager.getImage(backgroundImageName));
 
@@ -53,9 +56,9 @@ public class LevelView implements HealthChangeListener, PropertyChangeListener {
         root.getChildren().addAll(backgrounds);
     }
 
-    public void showInstructions(int currentLevel) {
-        System.out.println("Showing instructions for level: " + currentLevel);
-        Text instructionText = new Text(getInstructionsForLevel(currentLevel));
+    public void showInstructions() {
+        System.out.println("Showing instructions for level: " + currentLevelNumber);
+        Text instructionText = new Text(getInstructionsForLevel(currentLevelNumber));
         instructionText.setFont(Font.font("Comic Sans MS", 35));
         instructionText.setFill(Color.BLACK);
         instructionText.setLayoutX(GameConstant.GameSettings.SCREEN_WIDTH - 850); // Adjust width as needed
@@ -124,22 +127,5 @@ public class LevelView implements HealthChangeListener, PropertyChangeListener {
         double baseX = HEART_DISPLAY_Y_POSITION;
         double offset = 40; // Adjust the offset as needed to prevent overlapping
         return baseX + (playerIndex * offset);
-    }
-
-    /**
-     * Handles property change events.
-     *
-     * @param evt The property change event.
-     */
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()) {
-            case "level":
-                int newLevelNumber = (int) evt.getNewValue();
-                showInstructions(newLevelNumber);
-                break;
-            default:
-                break;
-        }
     }
 }

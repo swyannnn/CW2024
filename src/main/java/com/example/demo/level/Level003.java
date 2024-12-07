@@ -39,13 +39,10 @@ import javafx.scene.text.Font;
  * @param gameLoopManager The game loop manager for controlling the game loop.
  */
 public class Level003 extends LevelParent {
-    private static final String backgroundImageName = GameConstant.Level003.BACKGROUND_IMAGE_NAME;
-    private static final String backgroundMusicName = GameConstant.Level003.BACKGROUND_MUSIC;
     private static final int playerInitialHealth = GameConstant.Level003.PLAYER_INITIAL_HEALTH;
     private static final int survivalTime = GameConstant.Level003.SURVIVAL_TIME; // in seconds
     private static final int enemySpawnInterval = GameConstant.Level003.ENEMY_SPAWN_INTERVAL; // in milliseconds
 
-    private int currentLevelNumber;
     private PlaneFactory planeFactory;
     private final ActorSpawner actorSpawn;
     private final GameLoopManager gameLoopManager;
@@ -66,7 +63,7 @@ public class Level003 extends LevelParent {
      * @param gameLoopManager the game loop manager responsible for managing the game loop
      */
     public Level003(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager, GameLoopManager gameLoopManager) {
-        super(3, numberOfPlayers, backgroundImageName, backgroundMusicName, playerInitialHealth, actorSpawner, audioManager);
+        super(3, numberOfPlayers, playerInitialHealth, actorSpawner, audioManager);
         this.actorSpawn = actorSpawner;
         this.gameLoopManager = gameLoopManager;
         this.planeFactory = new PlaneFactory(actorSpawner);
