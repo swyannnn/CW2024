@@ -1,0 +1,82 @@
+📦demo
+ ┣ 📂actor
+ ┃ ┣ 📂plane
+ ┃ ┃ ┣ 📂component
+ ┃ ┃ ┃ ┣ 📜HeartDisplay.java
+ ┃ ┃ ┃ ┗ 📜Shield.java
+ ┃ ┃ ┣ 📜BossPlane.java
+ ┃ ┃ ┣ 📜EnemyPlane.java
+ ┃ ┃ ┣ 📜FighterPlane.java
+ ┃ ┃ ┣ 📜MultiPhaseBossPlane.java
+ ┃ ┃ ┣ 📜PlaneConfig.java
+ ┃ ┃ ┣ 📜PlaneFactory.java
+ ┃ ┃ ┣ 📜PlaneType.java
+ ┃ ┃ ┗ 📜UserPlane.java
+ ┃ ┣ 📂projectile
+ ┃ ┃ ┣ 📜BossProjectile.java
+ ┃ ┃ ┣ 📜EnemyProjectile.java
+ ┃ ┃ ┣ 📜Projectile.java
+ ┃ ┃ ┣ 📜ProjectileConfig.java
+ ┃ ┃ ┣ 📜ProjectileFactory.java
+ ┃ ┃ ┣ 📜ProjectileType.java
+ ┃ ┃ ┗ 📜UserProjectile.java
+ ┃ ┣ 📜ActiveActor.java
+ ┃ ┗ 📜ActorSpawner.java
+ ┣ 📂effect
+ ┃ ┣ 📜ExplosionEffect.java
+ ┃ ┗ 📜FlickerEffect.java
+ ┣ 📂handler
+ ┃ ┣ 📜CollisionHandler.java
+ ┃ ┣ 📜GameLoopHandler.java
+ ┃ ┣ 📜HealthChangeHandler.java
+ ┃ ┗ 📜InputHandler.java
+ ┣ 📂level
+ ┃ ┣ 📜Level001.java
+ ┃ ┣ 📜Level002.java
+ ┃ ┣ 📜Level003.java
+ ┃ ┣ 📜Level004.java
+ ┃ ┣ 📜LevelConfig.java
+ ┃ ┣ 📜LevelFactory.java
+ ┃ ┗ 📜LevelParent.java
+ ┣ 📂manager
+ ┃ ┣ 📜ActorManager.java
+ ┃ ┣ 📜AudioManager.java
+ ┃ ┣ 📜ButtonManager.java
+ ┃ ┣ 📜CollisionManager.java
+ ┃ ┣ 📜GameLoopManager.java
+ ┃ ┣ 📜ImageManager.java
+ ┃ ┣ 📜InputManager.java
+ ┃ ┗ 📜StateManager.java
+ ┣ 📂screen
+ ┃ ┣ 📜LevelScreen.java
+ ┃ ┣ 📜LoseScreen.java
+ ┃ ┣ 📜MainMenuScreen.java
+ ┃ ┣ 📜PauseScreen.java
+ ┃ ┗ 📜WinScreen.java
+ ┣ 📂state
+ ┃ ┣ 📜GameState.java
+ ┃ ┣ 📜GameStateFactory.java
+ ┃ ┣ 📜LevelState.java
+ ┃ ┣ 📜LoseState.java
+ ┃ ┣ 📜MainMenuState.java
+ ┃ ┣ 📜StateTransitioner.java
+ ┃ ┗ 📜WinState.java
+ ┣ 📂strategy
+ ┃ ┣ 📂firing
+ ┃ ┃ ┣ 📜BossFiringStrategy.java
+ ┃ ┃ ┣ 📜EnemyFiringStrategy.java
+ ┃ ┃ ┣ 📜FiringStrategy.java
+ ┃ ┃ ┣ 📜MultiPhaseBossFiringStrategy.java
+ ┃ ┃ ┗ 📜UserFiringStrategy.java
+ ┃ ┗ 📂movement
+ ┃ ┃ ┣ 📜BossMovementStrategy.java
+ ┃ ┃ ┣ 📜EnemyMovementStrategy.java
+ ┃ ┃ ┣ 📜MovementStrategy.java
+ ┃ ┃ ┣ 📜MovementType.java
+ ┃ ┃ ┣ 📜MultiPhaseBossMovementStrategy.java
+ ┃ ┃ ┗ 📜UserMovementStrategy.java
+ ┣ 📂util
+ ┃ ┣ 📜GameConstant.java
+ ┃ ┗ 📜PlayerKeyBindings.java
+ ┣ 📜Controller.java
+ ┗ 📜Main.java
