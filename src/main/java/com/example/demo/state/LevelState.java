@@ -337,7 +337,6 @@ public class LevelState implements GameState, CollisionHandler {
                 pauseOverlay.getOverlay().requestFocus();
             }
         });
-        System.out.println("Pause overlay displayed.");
     }
 
 

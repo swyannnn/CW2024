@@ -80,7 +80,6 @@ public abstract class FighterPlane extends ActiveActor {
     @Override
     public boolean takeDamage() {
         health--;
-        System.out.println(getClass().getSimpleName() + " took damage. Health: " + health);
         System.out.println(getClass().getSimpleName() + " took damage. Health: " + getHealth());
         if (healthAtZero()) {
             this.destroy();
@@ -162,6 +161,10 @@ public abstract class FighterPlane extends ActiveActor {
      * 3. Calls the performAdditionalUpdates method to handle any additional updates.
      */
     public void update(long now) {
+        if (healthAtZero()){
+            System.out.println(this + " is destroyed because health is zero");
+            this.destroy();
+        }
         if (firingStrategy != null && now - lastFireTime >= fireIntervalNanoseconds) {
             firingStrategy.fire(this, now);
             lastFireTime = now;
