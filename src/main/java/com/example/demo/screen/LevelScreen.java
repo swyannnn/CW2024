@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.actor.plane.components.HeartDisplay;
+import com.example.demo.actor.plane.component.HeartDisplay;
 import com.example.demo.handler.HealthChangeHandler;
 import com.example.demo.manager.ImageManager;
 import com.example.demo.util.GameConstant;

@@ -72,29 +72,33 @@ This section details the features that have been successfully implemented in bot
 
 `/com/example/demo/actor`
 
+`/com/example/demo/actor/projectile`
+
 `/com/example/demo/actor/plane`
 
-`/com/example/demo/actor/projectile`
+`/com/example/demo/actor/plane/component`
 
 `/com/example/demo/controller`
 
 `/com/example/demo/effect`
 
+`/com/example/demo/handler`
+
 `/com/example/demo/level`
 
-`/com/example/demo/interfaces`
-
 `/com/example/demo/manager`
+
+`/com/example/demo/screen`
 
 `/com/example/demo/state`
 
 `/com/example/demo/strategy`
 
-`/com/example/demo/ui`
-
 `/com/example/demo/util`
 
 # Modified Java Classes
+
+`/com/example/demo`
 
 `/com/example/demo/actor`
 
