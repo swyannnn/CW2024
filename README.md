@@ -542,35 +542,96 @@ table, th, td {
 
 # Implemented but Not Working Properly
 
-**SPACE button issue**
+**Unexpected Behavior with SPACE Key Input**
+<table style="width:100%">
+  <tr>
+    <th>Feature</th>
+    <th>Encountered Issue</th>
+    <th>Steps Taken to Address</th>
+  </tr>
+  <tr>
+    <td>
+      Using the SPACE key to pause the game during <code>LevelState</code>.
+    </td>
+    <td>
+      Despite not implementing logic to restart the game with the SPACE key, pressing SPACE during <code>WinState</code> or <code>LoseState</code> unexpectedly restarts the game. This behavior is unintended and conflicts with the designed input handling for these states.
+    </td>
+    <td>
+      Investigated the input handling logic for state transitions and ensured that input handlers are correctly set up and removed during state changes. The issue appears to stem from residual input listeners from <code>LevelState</code> that are not properly cleaned up when transitioning to <code>WinState</code> or <code>LoseState</code>. <br><br>
+      Current steps to address:
+      <ul>
+        <li>Reviewed the <code>cleanup()</code> method to ensure all input handlers are deregistered during state transitions.</li>
+        <li>Added debug logs to trace input events and ensure handlers are correctly scoped to the current state.</li>
+        <li>Attempted to override SPACE key behavior in <code>WinState</code> and <code>LoseState</code>, but the issue persists.</li>
+      </ul>
+      The issue remains unresolved as of now and requires further debugging.
+    </td>
+  </tr>
+</table>
 
 # Features Not Implemented
 
-**Smooth Screen Transition**
+#### **1. Memento Pattern for Game State Saving**
+<table style="width:100%">
+  <tr>
+    <th>Feature</th>
+    <th>Reason for Not Implementing</th>
+  </tr>
+  <tr>
+    <td>
+      Implementing the <strong>Memento Pattern</strong> to allow saving and restoring game states. This would enable players to resume gameplay from a specific point or recover from unintended actions.
+    </td>
+    <td>
+      <ul>
+        <li><strong>Time Constraints:</strong> A significant amount of time was spent resolving the issues mentioned in the <a href="#unexpected-problems">Unexpected Problems</a> section, leaving insufficient time to design and implement the Memento Pattern.</li>
+        <li><strong>Complexity:</strong> Implementing the Memento Pattern requires careful handling of game state data, including actors, levels, and player progress, which proved challenging to integrate with the current architecture.</li>
+      </ul>
+      While the feature was left out for now, it remains a high-priority enhancement for future development phases.
+    </td>
+  </tr>
+</table>
 
-**Memento**
+#### **2. Screen Transition**
+<table style="width:100%">
+  <tr>
+    <th>Feature</th>
+    <th>Reason for Not Implementing</th>
+  </tr>
+  <tr>
+    <td>
+      Implementing smooth screen transitions (e.g., fade-ins and fade-outs) between game states such as levels, win, lose, or main menu screens. This would enhance the visual experience and make state transitions more polished.
+    </td>
+    <td>
+      The feature was not implemented due to:
+      <ul>
+        <li><strong>Time Constraints:</strong> Resolving the issues described in the <a href="#unexpected-problems">Unexpected Problems</a> section required significant time, leaving little room for additional features.</li>
+        <li><strong>Low Priority:</strong> While smooth screen transitions can improve the user experience, they are primarily a visual enhancement and were not deemed essential to core gameplay functionality.</li>
+      </ul>
+      This feature may be revisited in future iterations as part of enhancing the overall player experience.
+    </td>
+  </tr>
+</table>
+
 
 # New Java Classes
 
 #### `/com/example/demo/actor`
 
-`/com/example/demo/actor/projectile`
+#### `/com/example/demo/actor/projectile`
 
-`/com/example/demo/actor/plane`
+#### `/com/example/demo/actor/plane`
 
-`/com/example/demo/actor/plane/component`
+#### `/com/example/demo/actor/plane/component`
 
-`/com/example/demo/controller`
+#### `/com/example/demo/effect`
 
-`/com/example/demo/effect`
+#### `/com/example/demo/handler`
 
-`/com/example/demo/handler`
+#### `/com/example/demo/level`
 
-`/com/example/demo/level`
+#### `/com/example/demo/manager`
 
-`/com/example/demo/manager`
-
-`/com/example/demo/screen`
+#### `/com/example/demo/screen`
 
 #### `/com/example/demo/state`
 
@@ -578,13 +639,13 @@ table, th, td {
 
 #### `/com/example/demo/strategy/firing`
 
-`/com/example/demo/util`
+#### `/com/example/demo/util`
 
 # Modified Java Classes
 
-`/com/example/demo`
+#### `/com/example/demo`
 
-`/com/example/demo/actor`
+#### `/com/example/demo/actor`
 
 **ActiveActor**
 
@@ -640,15 +701,50 @@ table, th, td {
 
 # Unexpected Problems
 
-1. Tight Coupling between classes
+#### **1. Tight Coupling Between Classes**
+<table style="width:100%">
+  <tr>
+    <th>Problem</th>
+    <th>How It Was Addressed</th>
+  </tr>
+  <tr>
+    <td>
+      During the refactoring process, it became evident that the use of the <strong>Singleton Pattern</strong> had caused high dependency and tight coupling between many classes. This made the codebase less flexible, harder to test, and inconsistent with professional coding practices.
+    </td>
+    <td>
+      Significant efforts were made to decouple the codebase by:
+      <ul>
+        <li>Replacing the Singleton Pattern with dependency injection to reduce direct dependencies between classes.</li>
+        <li>Introducing <strong>interfaces</strong> to define contracts and allow for more flexible implementations.</li>
+        <li>Strictly adhering to the <strong>Single Responsibility Principle (SRP)</strong> to ensure each class focused on a single responsibility.</li>
+      </ul>
+      This refactoring effort consumed a large portion of time but resulted in a cleaner, more maintainable, and professional codebase.
+    </td>
+  </tr>
+</table>
 
-ActorManager and GameStateManager
-
-2. Continous Errors
-
-Time consuming and frustration
-
-**Boss Plane is not destroyed despite zero health**
+#### **2. Continuous Errors During Refactoring Process**
+<table style="width:100%">
+  <tr>
+    <th>Problem</th>
+    <th>How It Was Addressed</th>
+  </tr>
+  <tr>
+    <td>
+      The refactoring process led to a series of continuous errors, where fixing one issue often resulted in the emergence of new bugs. This created a challenging debugging cycle, further complicated by limited familiarity with Java and the JavaFX framework.
+    </td>
+    <td>
+      To address this challenge:
+      <ul>
+        <li>Focused on understanding JavaFX and its core concepts using ChatGPT and online resources to build a stronger foundation.</li>
+        <li>Adopted a systematic debugging approach by breaking down problems into smaller, manageable tasks.</li>
+        <li>Implemented incremental refactoring, ensuring that changes were thoroughly tested and validated before moving forward.</li>
+        <li>Utilized extensive logging to track the flow of execution, identify problematic areas, and verify assumptions about the code's behavior.</li>
+      </ul>
+      Despite being time-intensive, this approach helped achieve a deeper understanding of JavaFX fundamentals, improved debugging efficiency, and stabilized the refactored code.
+    </td>
+  </tr>
+</table>
 
 
 
