@@ -161,8 +161,8 @@ table, th, td {
     Only single-player mode
     </td>
     <td>
-    - Limiting the game to single player mode restricted the potential audience and replayability. <br> 
-    - Catering to different player preferences accommodates both solo and group gaming sessions.
+    <li>Limiting the game to single player mode restricted the potential audience and replayability.</li>
+    <li>Catering to different player preferences accommodates both solo and group gaming sessions.</li>
     </td>
     <td>
     Players can now choose between single player or double player modes before starting the game.
@@ -182,8 +182,8 @@ table, th, td {
     No instructions provided
     </td>
     <td>
-    - Players are unaware of game objectives and controls, leading to a confusion and         frustration.<br> 
-    - Offering clear instructions ensures they know what to expect when gameplay begins.
+    <li>Players are unaware of game objectives and controls, leading to a confusion and frustration.</li>
+    <li>Offering clear instructions ensures they know what to expect when gameplay begins.</li>
     </td>
     <td>
     Instructions are now easily visible on game screen.
@@ -203,8 +203,8 @@ table, th, td {
     Static backgrounds
     </td>
     <td>
-    - Static backgrounds can make the game feel monotonous and less immersive. <br>
-    - Improving visual appeal and immersion is necessary to keep players engaged and provides a more lively gaming environment.
+    <li>Static backgrounds can make the game feel monotonous and less immersive. </li>
+    <li>Improving visual appeal and immersion is necessary to keep players engaged and provides a more lively gaming environment.</li>
     </td>
     <td>
     A visually appealing scrolling background has been implemented.
@@ -224,8 +224,8 @@ table, th, td {
     Players are required to press the spacebar to fire projectiles
     </td>
     <td>
-    - Requiring repetitive key presses could be cumbersome during intense gameplay. <br>
-    - Reducing the need for repetitive key presses allows players to focus more on movement and strategy rather than repeatedly pressing a key.
+    <li>Requiring repetitive key presses could be cumbersome during intense gameplay. </li>
+    <li>Reducing the need for repetitive key presses allows players to focus more on movement and strategy rather than repeatedly pressing a key.</li>
     </td>
     <td> 
     The fire mechanism has been automated to ensure continuous firing without extra input.
@@ -245,8 +245,8 @@ table, th, td {
     Players are only allowed to move vertically
     </td>
     <td> 
-    - Restricting movement to one axis limits gameplay complexity and player control. <br>
-    - Ensuring responsive controls enhances gameplay fluidity and player satisfaction by providing seamless interaction with the game environment.
+    <li>Restricting movement to one axis limits gameplay complexity and player control.</li>
+    <li>Ensuring responsive controls enhances gameplay fluidity and player satisfaction by providing seamless interaction with the game environment.</li>
     </td>
     <td>
     The player characters can now move smoothly and intuitively along the horizontal axis.
@@ -267,8 +267,8 @@ table, th, td {
     Pausing option doesn't exist
     </td>
     <td>
-    - Inability to pause can disrupt the gaming experience, especially during unforeseen interruptions. <br>
-    - Allowing players to pause the game allow players with more control over their gaming experience and the flexibility.
+    <li>Inability to pause can disrupt the gaming experience, especially during unforeseen interruptions. </li>
+    <li>Allowing players to pause the game allow players with more control over their gaming experience and the flexibility.</li>
     </td>
     <td>
     The game can now be paused at any time during play using a keyboard shortcut or by clicking on the settings icon, then resume gameplay at their own pace.
@@ -288,12 +288,12 @@ table, th, td {
     Lack of audio and sound effects.
     </td>
     <td> 
-    - Absence of audio fail to provide essential feedback to player actions.<br>
-    - Incorporating audio makes the gameplay more engaging and enjoyable for players. 
+    <li>Absence of audio fail to provide essential feedback to player actions.</li>
+    <li>Incorporating audio makes the gameplay more engaging and enjoyable for players.</li>
     </td>
     <td>
-    - Audio elements, such as background music, sound effects, and in-game notifications have been successfully integrated. <br>
-    - All the logics are handled by <a href="src/main/java/com/example/demo/manager/AudioManager.java">AudioManager</a>.
+    <li>Audio elements, such as background music, sound effects, and in-game notifications have been successfully integrated.</li>
+    <li>All the logics are handled by <a href="src/main/java/com/example/demo/manager/AudioManager.java">AudioManager</a>.</li>
     </td>
   </tr>
 </table>
@@ -310,8 +310,8 @@ table, th, td {
     Poor visual feedback with minimal effects.
     </td>
     <td>
-    - Lack of visual effects can make the game feel unresponsive and less exciting. <br>
-    - Enhancing visual feedback and effects provides satisfying visual cues that enrich the player's experience.
+    <li>Lack of visual effects can make the game feel unresponsive and less exciting.</li>
+    <li>Enhancing visual feedback and effects provides satisfying visual cues that enrich the player's experience.</li>
     </td>
     <td>
     Visual effects, including explosions, player actions, and enemy interactions, have been implemented.
@@ -331,12 +331,12 @@ table, th, td {
     Only two playable levels are featured<
     </td>
     <td>
-    - Limited levels reduce the game's replayability and can lead to player boredom. <br>
-    - Offering diverse and progressively challenging levels provides a continuous sense of progression and achievement for players.
+    <li>Limited levels reduce the game's replayability and can lead to player boredom.</li>
+    <li>Offering diverse and progressively challenging levels provides a continuous sense of progression and achievement for players.</li>
     </td>
     <td>
-    - Two additional playable levels have been created <br>
-    - Each with increasing difficulty, distinct environments, and unique challenges.
+    <li>Two additional playable levels have been created</li>
+    <li>Each with increasing difficulty, distinct environments, and unique challenges.</li>
     </td>
   </tr>
 </table>
@@ -353,8 +353,8 @@ table, th, td {
     A game over icon is displayed upon losing but did not offer options to restart or return to the main menu.
     </td>
     <td>
-    - Without options to retry or navigate away, players have limited control after failing, which can lead to frustration. <br>
-    - Providing actionable options helps players understand their progress and decide on their next steps.
+    <li>Without options to retry or navigate away, players have limited control after failing, which can lead to frustration.</li>
+    <li>Providing actionable options helps players understand their progress and decide on their next steps.</li>
     </td>
     <td>
     A Game Over screen has been developed to inform players when they have failed a level. 
@@ -374,7 +374,8 @@ table, th, td {
     A win icon is displayed upon losing but did not offer options to restart or return to the main menu.
     </td>
     <td>      
-    - Without options to continue, players may feel the game ends abruptly without clear next steps. Celebrating player achievements reinforces positive gameplay experiences and motivates continued engagement with the game.
+    <li>Without options to continue, players may feel the game ends abruptly without clear next steps. </li>
+    <li>Celebrating player achievements reinforces positive gameplay experiences and motivates continued engagement with the game.</li>
     </td>
     <td>
     A Win screen has been developed to inform players when they have won the game.  
@@ -396,8 +397,8 @@ table, th, td {
     UI updates were managed using <code>Timeline</code>, where keyframes were scheduled at fixed intervals.
     </td>
     <td>      
-    - Fixed intervals can lead to frame drops or uneven animation timing, especially in fast-paced games. <br>
-    - A more dynamic approach is needed to ensure smoother updates, regardless of the system's frame rate.
+    <li>Fixed intervals can lead to frame drops or uneven animation timing, especially in fast-paced games.</li>
+    <li>A more dynamic approach is needed to ensure smoother updates, regardless of the system's frame rate.</li>
     </td>
     <td>
     Switched to <code>AnimationTimer</code>, which provides a continuous game loop that updates based on system time. All these logics are handled by <a href="src/main/java/com/example/demo/manager/GameLoopManager.java">GameLoopManager</a>
@@ -417,9 +418,9 @@ table, th, td {
       Actors such as projectiles or enemies continued to exist even after moving off-screen.
     </td>
     <td>      
-    - Allowing out-of-bound actors to persist unnecessarily increases memory usage and computational overhead.<br>
-    - Removing them improves game performance and ensures efficient resource utilization. <br>
-    - It also prevents potential logic errors involving out-of-bound actors.
+    <li>Allowing out-of-bound actors to persist unnecessarily increases memory usage and computational overhead.</li>
+    <li>Removing them improves game performance and ensures efficient resource utilization. </li>
+    <li> It also prevents potential logic errors involving out-of-bound actors.</li>
     </td>
     <td>
     Introduced logic to remove actors once they move outside the visible screen area.
@@ -439,8 +440,8 @@ table, th, td {
       Collision detection used the full bounding box of actors, which often resulted in overly sensitive collision responses.
     </td>
     <td>      
-      - Using the full bounding box for collision detection does not account for the actual shape or movement of actors, leading to false-positive collisions. <br>
-      - Reducing the bounding box size allows for more accurate and fair collision detection.
+      <li>Using the full bounding box for collision detection does not account for the actual shape or movement of actors, leading to false-positive collisions.</li>
+      <li>Reducing the bounding box size allows for more accurate and fair collision detection.</li>
     </td>
     <td>
       Reduced the collision bounding box size by applying a shrink factor to actor dimensions.
@@ -460,8 +461,8 @@ table, th, td {
       Each level (e.g., LevelOne, LevelTwo) independently managed its logic, including level transitions, enemy spawning, and UI initialization. 
     </td>
     <td>      
-      - Duplicated logic across levels made it challenging to scale or modify game behavior consistently. <br>
-      - A centralized system simplifies transitions, improves code reusability, and enables scalable design.
+      <li>Duplicated logic across levels made it challenging to scale or modify game behavior consistently.</li>
+      <li>A centralized system simplifies transitions, improves code reusability, and enables scalable design.</li>
     </td>
     <td>
       A `StateManager` class was introduced, leveraging the <strong>State Pattern</strong> to centralize transitions and lifecycle management. More information please kindly visit <a href="#comexampledemostate">this section</a>.
@@ -481,12 +482,12 @@ table, th, td {
       Actors and levels were created manually in each class with hardcoded configurations.
     </td>
     <td>
-      - Hardcoding actor and level creation increased redundancy and reduced scalability.<br>
-      - Introducing a centralized factory allows dynamic creation of actors and levels with consistent configurations, enabling easy customization and future extensibility.
+      <li>Hardcoding actor and level creation increased redundancy and reduced scalability.</li>
+      <li>Introducing a centralized factory allows dynamic creation of actors and levels with consistent configurations, enabling easy customization and future extensibility.</li>
     </td>
     <td>
-      - Leveraged the <strong>Factory Pattern</strong> to create actors and levels dynamically. <br>
-      - See <a href="src/main/java/com/example/demo/actor/plane/PlaneFactory.java">PlaneFactory</a>, <a href="src/main/java/com/example/demo/actor/projectile/ProjectileFactory.java">ProjectileFactory</a> and <a href="src/main/java/com/example/demo/level/LevelFactory.java">LevelFactory</a> for more details.
+      <li>Leveraged the <strong>Factory Pattern</strong> to create actors and levels dynamically. </li>
+      <li>See <a href="src/main/java/com/example/demo/actor/plane/PlaneFactory.java">PlaneFactory</a>, <a href="src/main/java/com/example/demo/actor/projectile/ProjectileFactory.java">ProjectileFactory</a> and <a href="src/main/java/com/example/demo/level/LevelFactory.java">LevelFactory</a> for more details.</li>
     </td>
   </tr>
 </table>
@@ -503,14 +504,14 @@ table, th, td {
       Movement and firing behaviors were hardcoded directly into specific actor classes.
     </td>
     <td>
-      - Hardcoding behaviors tightly couples logic with the actor classes, reducing flexibility.<br>
-      - The Strategy Pattern enables dynamic assignment and modification of behaviors at runtime, making it easier to implement diverse movement and firing styles.
+      <li>Hardcoding behaviors tightly couples logic with the actor classes, reducing flexibility.</li>
+      <li>The Strategy Pattern enables dynamic assignment and modification of behaviors at runtime, making it easier to implement diverse movement and firing styles.</li>
     </td>
     <td>
       Leveraged the <strong>Strategy Pattern</strong> to decouple behaviors from actor classes:
       <ul>
-        - <a href="#comexampledemostrategymovement">MovementStrategy</a>:  Each actor can dynamically switch between movement styles.<br>
-        - <a href="#comexampledemostrategyfiring">FiringStrategy</a>:  Flexible firing patterns are assigned to actors at runtime.
+        <li><a href="#comexampledemostrategymovement">MovementStrategy</a>:  Each actor can dynamically switch between movement styles.</li>
+        <li><a href="#comexampledemostrategyfiring">FiringStrategy</a>:  Flexible firing patterns are assigned to actors at runtime.</li>
       </ul>
     </td>
   </tr>
@@ -529,8 +530,8 @@ table, th, td {
       No explicit cleanup process was implemented when switching game states or exiting the game.
     </td>
     <td>      
-      - Failing to release resources when switching states or quitting the game may result in memory leaks and degraded performance.<br>
-      - A robust cleanup process ensures proper resource deallocation, improves game stability, and prevents memory leaks.
+      <li>Failing to release resources when switching states or quitting the game may result in memory leaks and degraded performance.</li>
+      <li>A robust cleanup process ensures proper resource deallocation, improves game stability, and prevents memory leaks.</li>
     </td>
     <td>
       Introduced a comprehensive <code>cleanup()</code> process to ensure efficient resource management. 
@@ -615,6 +616,10 @@ table, th, td {
 
 # New Java Classes
 
+<div align="center">
+  <img src="./readme_ref/actor.png" alt="actor package class diagram" title="Actor" width="800">
+</div>
+
 #### `/com/example/demo/actor`
 
 #### `/com/example/demo/actor/projectile`
@@ -626,18 +631,36 @@ table, th, td {
 #### `/com/example/demo/effect`
 
 #### `/com/example/demo/handler`
+<div align="center">
+  <img src="./readme_ref/handler.png" alt="handler package class diagram" title="Handler" width="800">
+</div>
 
 #### `/com/example/demo/level`
+<div align="center">
+  <img src="./readme_ref/level.png" alt="level package class diagram" title="level" width="800">
+</div>
 
 #### `/com/example/demo/manager`
 
 #### `/com/example/demo/screen`
+<div align="center">
+  <img src="./readme_ref/screen.png" alt="screen package class diagram" title="screen" width="800">
+</div>
 
 #### `/com/example/demo/state`
+<div align="center">
+  <img src="./readme_ref/state.png" alt="state package class diagram" title="state" width="800">
+</div>
 
 #### `/com/example/demo/strategy/movement`
+<div align="center">
+  <img src="./readme_ref/movement_strategy.png" alt="strategy.movement package class diagram" title="strategy.movement" width="800">
+</div>
 
 #### `/com/example/demo/strategy/firing`
+<div align="center">
+  <img src="./readme_ref/firing_strategy.png" alt="strategy.firing package class diagram" title="strategy.firing" width="800">
+</div>
 
 #### `/com/example/demo/util`
 
@@ -645,17 +668,19 @@ table, th, td {
 
 #### `/com/example/demo`
 
+**Controller**
+
 #### `/com/example/demo/actor`
 
 **ActiveActor**
 
 `/com/example/demo/actor/plane`
 
+**FighterPlane**
+
 **BossPlane** (previously known as Boss)
 
 **EnemyPlane**
-
-**FighterPlane**
 
 **UserPlane**
 
@@ -669,11 +694,11 @@ table, th, td {
 
 **UserProjectile**
 
-`/com/example/demo/controller`
+`/com/example/demo/actor/plane/component`
 
-**controller**
+**HeartDisplay**
 
-`/com/example/demo/level`
+#### `/com/example/demo/level`
 
 **Level001** (previously known as LevelOne)
 
@@ -681,23 +706,54 @@ table, th, td {
 
 **LevelParent**
 
-``/com/example/demo/ui`
+``/com/example/demo/screen`
 
-**HeartDisplay**
-
-**LevelView**
+**LevelScreen** (previously known as LevelView)
 
 **Shield** (previously known as ShieldImage)
 
 # Deleted Java Classes
 
-**ActiveActorDestructible**
+<table style="width:100%">
+  <tr>
+    <th>Deleted Java Classes</th>
+    <th>Reasons for Deletion</th>
+  </tr>
+  <tr>
+    <td>
+      ActiveActorDestructible.java
+    </td>
+    <td>
+      The logic has been integrated into the <a href="path/to/ActiveActor.java">ActiveActor</a> class to streamline functionality.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Destructible.java    
+    </td>
+    <td>
+      Removed due to redundancy after the deletion of ActiveActorDestructible class
+    </td>
+  </tr>
+  <tr>
+    <td>
+      GameOverImage.java & WinImage.java
+    </td>
+    <td>
+      Image creation is now handled dynamically by the <a href="path/to/ImageManager.java">ImageManager</a>.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      LevelViewLevelTwo.java
+    </td>
+    <td>
+      Its functionality has been merged into the <a href="path/to/LevelScreen.java">LevelScreen</a> class for better organization.
+    </td>
+  </tr>
+</table>
 
-**Destructible**
 
-**GameOverImage**
-
-**LevelViewLevelTwo**
 
 # Unexpected Problems
 
