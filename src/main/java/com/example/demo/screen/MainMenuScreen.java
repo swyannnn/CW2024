@@ -2,7 +2,10 @@ package com.example.demo.screen;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -72,12 +75,58 @@ public class MainMenuScreen {
             stateTransitioner.goToLevel(1);
         });
 
+        // Create the "How to Play" button
+        Button howToPlayButton = ButtonManager.createButton("How to Play", 200, 50, 20);
+        howToPlayButton.setOnAction(e -> showInstructions());
+
         Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
         exitButton.setOnAction(e -> exitGame());
 
-        menuLayout.getChildren().addAll(title, onePlayerButton, twoPlayerButton, exitButton);
+        menuLayout.getChildren().addAll(title, onePlayerButton, twoPlayerButton, howToPlayButton, exitButton);
 
         return new Scene(menuLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
+    }
+
+        /**
+     * Displays the game instructions in a popup dialog.
+     */
+    private void showInstructions() {
+        Alert instructionsAlert = new Alert(AlertType.INFORMATION);
+        instructionsAlert.setTitle("How to Play");
+        instructionsAlert.setHeaderText("Game Instructions");
+        instructionsAlert.setContentText(getInstructionsText());
+
+        instructionsAlert.getButtonTypes().setAll(ButtonType.OK);
+
+        instructionsAlert.showAndWait();
+    }
+
+    /**
+     * Returns the instructions text to be displayed.
+     *
+     * @return a String containing the game instructions.
+     */
+    private String getInstructionsText() {
+        return "Welcome to Sky Battle!\n\n" +
+               "Objective:\n" +
+               "Defeat all enemy planes and protect your base.\n\n" +
+               "Controls:\n\n" +
+               "PLAYER 1:\n" +
+                "- Move Up: Up Arrow Key\n" +
+                "- Move Down: Down Arrow Key\n" +
+               "- Move Left: Left Arrow Key\n" +
+               "- Move Right: Right Arrow Key\n" +
+               "- Pause Game: Space Bar\n\n" +
+                "PLAYER 2:\n" +
+                "- Move Up: W Key\n" +
+                "- Move Down: S Key\n" +
+                "- Move Left: A Key\n" +
+                "- Move Right: D Key\n\n" +
+               "Tips:\n" +
+               "Don't worry, shooting is automatic!\n" +
+               "- Dodge enemy bullets to survive longer.\n" +
+               "- Focus on eliminating enemies systematically.\n\n" +
+               "Good luck and have fun!";
     }
 
     /**
