@@ -12,13 +12,6 @@ import com.example.demo.util.GameConstant;
  * It initializes the level with specific settings and handles the spawning of enemy units
  * and checking if the user has reached the target number of kills to advance to the next level.
  *
- * <p>This class uses the following components:
- * <ul>
- *   <li>ActorSpawner: Responsible for spawning game actors.</li>
- *   <li>AudioManager: Responsible for handling game audio.</li>
- *   <li>PlaneFactory: Used to create different types of planes.</li>
- * </ul>
- *
  * <p>Key functionalities include:
  * <ul>
  *   <li>Initializing friendly units.</li>
@@ -83,7 +76,7 @@ public class Level001 extends LevelParent{
         while (actorSpawner.getEnemyUnits().size() < totalEnemies) {
             if (Math.random() < enemySpawnProbability) {
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE);
-                actorSpawn.spawnActor(newEnemy);
+                actorSpawn.addActor(newEnemy);
             }
         }
     }

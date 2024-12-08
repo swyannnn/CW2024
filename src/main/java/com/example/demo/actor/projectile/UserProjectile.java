@@ -23,6 +23,11 @@ public class UserProjectile extends Projectile {
         this.owner = owner;
     }
 
+    /**
+     * Retrieves the owner of this projectile.
+     *
+     * @return the UserPlane object representing the owner of this projectile.
+     */
     public UserPlane getOwner() {
         return owner;
     }

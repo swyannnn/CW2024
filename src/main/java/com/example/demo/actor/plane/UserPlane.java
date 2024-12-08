@@ -8,6 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Platform;
 
+/**
+ * The UserPlane class represents a fighter plane controlled by a user in the game.
+ * It extends the FighterPlane class and includes additional functionality specific
+ * to the user-controlled plane, such as handling health changes and applying damage.
+ * 
+ * <p>The UserPlane class maintains a list of HealthChangeHandlers that are notified
+ * whenever the health of the plane changes. It also includes methods for adding
+ * and removing these handlers.</p>
+ * 
+ * <p>The class provides methods for applying damage to the plane, triggering visual
+ * effects when damage is taken, and checking if the plane is destroyed. It also
+ * keeps track of the number of kills made by the user plane and provides methods
+ * for retrieving and incrementing the kill count.</p>
+ * 
+ * @see FighterPlane
+ * @see PlaneConfig
+ */
 public class UserPlane extends FighterPlane {
     private List<HealthChangeHandler> healthChangeHandlers = new ArrayList<>();
     private int numberOfKills = GameConstant.UserPlane.NUMBER_OF_KILLS;

@@ -65,7 +65,8 @@ public class GameConstant {
         public static final int INITIAL_HEALTH = 5;
         public static final int VELOCITY = 8;
         public static final double INITIAL_X_POSITION = 5.0;
-        public static final double INITIAL_Y_POSITION = 300.0;
+        public static final double ID1_INITIAL_Y_POSITION = 200.0;
+        public static final double ID2_INITIAL_Y_POSITION = 400.0;
         public static final double FIRE_RATE = 1.0;
         public static final double X_UPPER_BOUND = 0;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 250;

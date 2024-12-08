@@ -32,12 +32,6 @@ import javafx.scene.image.ImageView;
  * 
  * <p>Subclasses are required to implement the abstract methods to define specific behaviors
  * for reaching targets and spawning enemy units.</p>
- * 
- * @param currentLevelNumber The current level number.
- * @param numberOfPlayers The number of players in the level.
- * @param playerInitialHealth The initial health of the player.
- * @param actorSpawner The ActorSpawner instance for managing actor spawning.
- * @param audioManager The AudioManager instance for managing audio playback.
  */
 public abstract class LevelParent {
     protected final Group root;
@@ -113,7 +107,7 @@ public abstract class LevelParent {
         // Initialize player 1
         int playerId1 = 1;
         ActiveActor player1 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId1);
-        actorSpawn.spawnActor(player1);
+        actorSpawn.addActor(player1);
         System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
         ((UserPlane) player1).addHealthChangeHandler(this.levelScreen);
     
@@ -121,7 +115,7 @@ public abstract class LevelParent {
         if (numberOfPlayers == 2) {
             int playerId2 = 2;
             ActiveActor player2 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId2);
-            actorSpawn.spawnActor(player2);
+            actorSpawn.addActor(player2);
             System.out.println("Player 2 position: X=" + player2.getTranslateX() + ", Y=" + player2.getTranslateY());
             ((UserPlane) player2).addHealthChangeHandler(this.levelScreen);
         }

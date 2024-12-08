@@ -82,8 +82,8 @@ public class MultiPhaseBossPlane extends FighterPlane {
             ActiveActor minion1 = planeFactory.createPlane(PlaneType.ENEMY_PLANE4);
             ActiveActor minion2 = planeFactory.createPlane(PlaneType.ENEMY_PLANE4);
 
-            actorSpawner.spawnActor(minion1);
-            actorSpawner.spawnActor(minion2);
+            actorSpawner.addActor(minion1);
+            actorSpawner.addActor(minion2);
 
             lastSummonTime = now;
         }

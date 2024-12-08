@@ -53,7 +53,7 @@ public class ButtonManager {
         button.setStyle(style);
     }
 
-        /**
+    /**
      * Creates a button with an image icon, specified width, and height.
      *
      * @param imagePath The relative path to the image resource.

@@ -128,19 +128,17 @@ public class PlaneFactory {
     }
 
     /**
-     * Returns the initial Y position for a user based on their player ID.
+     * Retrieves the initial Y position for a user plane based on the player ID.
      *
      * @param playerId the ID of the player (1 or 2)
-     * @return the initial Y position for the player:
-     *         - 200 if the player ID is 1
-     *         - 400 if the player ID is 2
-     *         - 0 for any other player ID
+     * @return the initial Y position for the specified player ID
+     *         - 0 if the playerId is not 1 or 2
      */
     public static double getUserInitialYPosition(int playerId) {
         if (playerId == 1) {
-            return 200;
+            return GameConstant.UserPlane.ID1_INITIAL_Y_POSITION;
         } else if (playerId == 2) {
-            return 400;
+            return GameConstant.UserPlane.ID2_INITIAL_Y_POSITION;
         }
         return 0;
     }
@@ -156,7 +154,11 @@ public class PlaneFactory {
         return Math.random() * (yLowerBound - yUpperBound) + yUpperBound;
     }
 
-    // Getter for ActorSpawner to be used in lambda expressions
+    /**
+     * Retrieves the ActorSpawner instance.
+     *
+     * @return the ActorSpawner instance.
+     */
     public ActorSpawner getActorSpawner() {
         return actorSpawner;
     }

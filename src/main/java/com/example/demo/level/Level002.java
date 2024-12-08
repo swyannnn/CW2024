@@ -1,26 +1,15 @@
 package com.example.demo.level;
 
-import java.util.List;
-
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.PlaneFactory;
 import com.example.demo.actor.plane.PlaneType;
 import com.example.demo.manager.AudioManager;
-import com.example.demo.util.GameConstant;
-
 
 /**
  * Level002 is a subclass of LevelParent that represents the second level of the game.
  * It initializes the level with specific settings and handles the spawning of enemy units
  * and checking if the user has reached the target by destroying all boss planes.
- * 
- * <p>This class uses the following components:
- * <ul>
- *   <li>ActorSpawner: Responsible for spawning game actors.</li>
- *   <li>AudioManager: Responsible for handling game audio.</li>
- *   <li>PlaneFactory: Used to create different types of planes.</li>
- * </ul>
  * 
  * <p>Key functionalities include:
  * <ul>
@@ -72,7 +61,7 @@ public class Level002 extends LevelParent {
     public void spawnEnemyUnits() {
         if (actorSpawn.getBossUnits().isEmpty()) {
             ActiveActor bossPlane = planeFactory.createPlane(PlaneType.BOSS_PLANE);
-            actorSpawn.spawnActor(bossPlane);
+            actorSpawn.addActor(bossPlane);
             this.bossPlane = bossPlane;
         }
     }

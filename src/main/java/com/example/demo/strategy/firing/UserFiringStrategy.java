@@ -59,7 +59,7 @@ public class UserFiringStrategy implements FiringStrategy {
                 projectileY,
                 (UserPlane) plane
             );
-            actorSpawner.spawnActor(projectile);
+            actorSpawner.addActor(projectile);
             audioManager.playSoundEffect(GameConstant.SoundEffect.PLAYER_SHOOT.ordinal());
     
             lastFireTime = now; // Update the last fire time

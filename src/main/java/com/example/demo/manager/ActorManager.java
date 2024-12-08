@@ -16,15 +16,22 @@ import javafx.scene.Node;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * ActorManager manages all active actors in the game.
- * It handles updating and cleaning up actors.
+ * The ActorManager class is responsible for managing and updating all active actors in the game.
+ * It follows the singleton pattern to ensure only one instance of the manager exists.
+ * The manager handles adding, removing, and updating actors, as well as managing UI elements.
  */
 public class ActorManager implements ActorSpawner {
     private static ActorManager instance;
     private final List<ActiveActor> actors;
     private Group root;
 
+    /**
+     * Constructs an ActorManager with the specified root group.
+     *
+     * @param root the root group to which actors will be added
+     */
     private ActorManager(Group root) {
         this.root = root;
         this.actors = new ArrayList<>();
@@ -43,11 +50,11 @@ public class ActorManager implements ActorSpawner {
         return instance;
     }
 
-    @Override
-    public void spawnActor(ActiveActor actor) {
-        addActor(actor); // Use your existing method to add actors
-    }
-
+    /**
+     * Updates the root group to the specified new root group.
+     *
+     * @param newRoot the new root group to be set
+     */
     public void updateRoot(Group newRoot) {
         System.out.println("ActorManager: Updating root to " + newRoot);
         this.root = newRoot;
@@ -61,26 +68,36 @@ public class ActorManager implements ActorSpawner {
     public void addActor(ActiveActor actor) {
         actors.add(actor);
         root.getChildren().add(actor);
-        if (actor instanceof BossProjectile) {
-            System.out.println("Added actor: " + actor + " to the root " + this.root);
-        }
-        // System.out.println("Added actor: " + actor + " to the root " + this.root);
     }
 
-    // Method to add UI elements to the scene
+    /**
+     * Adds a UI element to the root node if it is not already present.
+     *
+     * @param element the UI element to be added
+     */
     public void addUIElement(Node element) {
         if (!this.root.getChildren().contains(element)) {
             this.root.getChildren().add(element);
         }
     }
 
-    // Method to remove UI elements from the scene
+    /**
+     * Removes the specified UI element from the root node's children if it exists.
+     *
+     * @param element the UI element to be removed
+     */
     public void removeUIElement(Node element) {
         if (this.root.getChildren().contains(element)) {
             this.root.getChildren().remove(element);
         }
     }
 
+    /**
+     * Removes the specified actor from the list of active actors and from the UI.
+     * This method ensures that the removal is performed on the JavaFX Application Thread.
+     *
+     * @param actor the ActiveActor to be removed
+     */
     public void removeActor(ActiveActor actor) {
         Platform.runLater(() -> {
             actors.remove(actor);
@@ -88,11 +105,13 @@ public class ActorManager implements ActorSpawner {
         });
     }
     
-
     /**
-     * Updates all actors by calling their update methods with the current time.
+     * Updates all active actors with the current time.
+     * <p>
+     * This method creates a copy of the list of actors to avoid
+     * Each actor's {@code update} method is called with the provided timestamp.
      *
-     * @param now The current timestamp in nanoseconds.
+     * @param now the current time in milliseconds
      */
     public void updateAllActors(long now) {
         // Create a copy to avoid ConcurrentModificationException
@@ -103,12 +122,13 @@ public class ActorManager implements ActorSpawner {
     }
 
     /**
-     * Removes all actors that have been destroyed or marked for removal.
+     * Removes all destroyed actors from the list of actors and from the root's children.
+     * An actor is considered destroyed if its `isDestroyed` method returns true.
+     * This method iterates through the list of actors and removes each actor that is destroyed.
      */
     public void removeDestroyedActors() {
         actors.removeIf(actor -> {
             if (actor.isDestroyed()) {
-                // System.out.println("Removing actor: " + actor);
                 root.getChildren().remove(actor);
                 return true;
             }
@@ -117,7 +137,10 @@ public class ActorManager implements ActorSpawner {
     }
 
     /**
-     * Cleans up all actors by removing them from the manager and scene graph.
+     * Cleans up the active actors by destroying each actor, removing it from the root's children,
+     * and then removing it from the list of actors.
+     * This method iterates over a copy of the actors list to avoid 
+     * ConcurrentModificationException during the removal process.
      */
     public void cleanup() {
         for (ActiveActor actor : new ArrayList<>(actors)) {
@@ -128,9 +151,9 @@ public class ActorManager implements ActorSpawner {
     }
 
     /**
-     * Retrieves the list of players.
+     * Retrieves a list of all actors that are instances of UserPlane.
      *
-     * @return The list of players.
+     * @return a list of UserPlane objects representing the players.
      */
     public List<UserPlane> getPlayers() {
         List<UserPlane> players = new ArrayList<>();
@@ -143,9 +166,9 @@ public class ActorManager implements ActorSpawner {
     }
 
     /**
-     * Retrieves the list of user projectiles.
+     * Retrieves a list of user projectiles from the collection of actors.
      *
-     * @return The list of user projectiles.
+     * @return a list of ActiveActor objects that are instances of UserProjectile.
      */
     public List<ActiveActor> getUserProjectiles() {
         List<ActiveActor> userProjectiles = new ArrayList<>();
@@ -158,9 +181,10 @@ public class ActorManager implements ActorSpawner {
     }
 
     /**
-     * Retrieves the list of enemy units.
+     * Retrieves a list of enemy units from the collection of actors.
+     * An enemy unit is defined as an instance of FighterPlane that is not an instance of UserPlane.
      *
-     * @return The list of enemy units.
+     * @return a list of ActiveActor objects representing enemy units.
      */
     public List<ActiveActor> getEnemyUnits() {
         List<ActiveActor> enemyUnits = new ArrayList<>();
@@ -172,10 +196,11 @@ public class ActorManager implements ActorSpawner {
         return enemyUnits;
     }
 
+
     /**
-     * Retrieves the list of enemy projectiles.
+     * Retrieves a list of enemy projectiles from the current actors.
      *
-     * @return The list of enemy projectiles.
+     * @return a list of ActiveActor objects that are instances of EnemyProjectile.
      */
     public List<ActiveActor> getEnemyProjectiles() {
         List<ActiveActor> enemyProjectiles = new ArrayList<>();
@@ -188,9 +213,9 @@ public class ActorManager implements ActorSpawner {
     }
 
     /**
-     * Retrieves the list of boss units.
-     *
-     * @return The list of boss units.
+     * Retrieves a list of all boss units from the collection of actors.
+     * 
+     * @return a list of {@link ActiveActor} objects that are instances of {@link BossPlane}.
      */
     public List<ActiveActor> getBossUnits() {
         List<ActiveActor> bossUnits = new ArrayList<>();
@@ -203,9 +228,9 @@ public class ActorManager implements ActorSpawner {
     }
 
     /**
-     * Retrieves the list of boss projectiles.
+     * Retrieves a list of all active boss projectiles.
      *
-     * @return The list of boss projectiles.
+     * @return a list of ActiveActor objects that are instances of BossProjectile.
      */
     public List<ActiveActor> getBossProjectiles() {
         List<ActiveActor> bossProjectiles = new ArrayList<>();

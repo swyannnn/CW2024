@@ -12,13 +12,6 @@ import com.example.demo.manager.AudioManager;
  * It initializes the level with specific settings and handles the spawning of enemy units
  * and checking if the user has reached the target by destroying the boss plane.
  *
- * <p>This class uses the following components:
- * <ul>
- *   <li>ActorSpawner: Responsible for spawning game actors.</li>
- *   <li>AudioManager: Responsible for handling game audio.</li>
- *   <li>PlaneFactory: Used to create different types of planes, including the boss plane.</li>
- * </ul>
- *
  * <p>Key functionalities include:
  * <ul>
  *   <li>Initializing friendly units.</li>
@@ -68,7 +61,7 @@ public class Level004 extends LevelParent {
     public void spawnEnemyUnits() {
         if (actorSpawn.getEnemyUnits().isEmpty()) {
             ActiveActor bossPlane = planeFactory.createPlane(PlaneType.MULTI_PHASE_BOSS_PLANE);
-            actorSpawn.spawnActor(bossPlane);
+            actorSpawn.addActor(bossPlane);
             this.bossPlane = bossPlane;
         }
     }

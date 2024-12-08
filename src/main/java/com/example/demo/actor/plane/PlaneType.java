@@ -7,8 +7,11 @@ import com.example.demo.util.GameConstant;
 
 import java.util.function.BiFunction;
 
+
 /**
  * Enum representing different types of planes in the game.
+ * Each plane type has specific attributes such as image name, image height,
+ * initial position, health, fire rate, speed, and strategies for movement and firing.
  */
 public enum PlaneType {
     ENEMY_PLANE(
@@ -162,16 +165,102 @@ public enum PlaneType {
         this.firingStrategyCreator = firingStrategyCreator;
     }
 
-    // Getters for all properties
-    public String getImageName() { return imageName; }
-    public int getImageHeight() { return imageHeight; }
-    public double getInitialXPos() { return initialXPos; }
-    public double getYUpperBound() { return yUpperBound; }
-    public double getYLowerBound() { return yLowerBound; }
-    public int getHealth() { return health; }
-    public double getFireRate() { return fireRate; }
-    public long getFireIntervalNanoseconds() { return fireIntervalNanoseconds; }
-    public int getSpeed() { return speed; }
-    public BiFunction<PlaneFactory, PlaneConfig, MovementStrategy> getMovementStrategyCreator() { return movementStrategyCreator; }
-    public BiFunction<PlaneFactory, PlaneConfig, FiringStrategy> getFiringStrategyCreator() { return firingStrategyCreator; }
+
+    /**
+     * Retrieves the image name associated with this plane type.
+     *
+     * @return the image name as a String.
+     */
+    public String getImageName() { 
+        return imageName; 
+    }
+
+    /**
+     * Returns the height of the image associated with the plane type.
+     *
+     * @return the height of the image in pixels
+     */
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    /**
+     * Returns the initial X position of the plane.
+     *
+     * @return the initial X position as a double.
+     */
+    public double getInitialXPos() {
+        return initialXPos; 
+    }
+
+    /**
+     * Retrieves the upper bound of the Y coordinate.
+     *
+     * @return the upper bound of the Y coordinate.
+     */
+    public double getYUpperBound() {
+         return yUpperBound; 
+    }
+
+    /**
+     * Retrieves the lower bound of the Y coordinate.
+     *
+     * @return the lower bound of the Y coordinate.
+     */
+    public double getYLowerBound() {
+         return yLowerBound; 
+    }
+    /**
+     * Returns the health of the plane.
+     *
+     * @return the current health value of the plane.
+     */
+    public int getHealth() {
+        return health; 
+    }
+
+    /**
+     * Retrieves the fire rate of the plane.
+     *
+     * @return the fire rate as a double.
+     */
+    public double getFireRate() {
+         return fireRate; 
+    }
+
+    /**
+     * Returns the fire interval in nanoseconds.
+     *
+     * @return the fire interval in nanoseconds.
+     */
+    public long getFireIntervalNanoseconds() {
+         return fireIntervalNanoseconds; 
+    }
+
+    /**
+     * Retrieves the speed of the plane.
+     *
+     * @return the speed of the plane as an integer.
+     */
+    public int getSpeed() {
+         return speed; 
+    }
+
+    /**
+     * Returns a BiFunction that creates a MovementStrategy based on the provided PlaneFactory and PlaneConfig.
+     *
+     * @return a BiFunction that takes a PlaneFactory and PlaneConfig as inputs and produces a MovementStrategy.
+     */
+    public BiFunction<PlaneFactory, PlaneConfig, MovementStrategy> getMovementStrategyCreator() {
+        return movementStrategyCreator; 
+    }
+    
+    /**
+     * Returns the BiFunction that creates a FiringStrategy based on the given PlaneFactory and PlaneConfig.
+     *
+     * @return a BiFunction that takes a PlaneFactory and PlaneConfig as parameters and returns a FiringStrategy.
+     */
+    public BiFunction<PlaneFactory, PlaneConfig, FiringStrategy> getFiringStrategyCreator() {
+         return firingStrategyCreator; 
+    }
 }

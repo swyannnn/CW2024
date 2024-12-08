@@ -24,14 +24,6 @@ import javafx.scene.text.Font;
  * It initializes the level with specific settings and handles the spawning of enemy units,
  * updating the remaining time, and checking if the user has survived the required duration.
  *
- * <p>This class uses the following components:
- * <ul>
- *   <li>ActorSpawner: Responsible for spawning game actors.</li>
- *   <li>AudioManager: Responsible for handling game audio.</li>
- *   <li>PlaneFactory: Used to create different types of planes.</li>
- *   <li>GameLoopManager: Manages the game loop and checks if the game is paused.</li>
- * </ul>
- *
  * <p>Key functionalities include:
  * <ul>
  *   <li>Initializing friendly units.</li>
@@ -219,13 +211,13 @@ public class Level003 extends LevelParent {
         Platform.runLater(() -> {
             if (randomValue < 0.003 * spawnFactor) {
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE1);
-                actorSpawn.spawnActor(newEnemy);
+                actorSpawn.addActor(newEnemy);
             } else if (randomValue < 0.006 * spawnFactor) {
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE2);
-                actorSpawn.spawnActor(newEnemy);
+                actorSpawn.addActor(newEnemy);
             } else if (randomValue < 0.009 * spawnFactor) {
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE3);
-                actorSpawn.spawnActor(newEnemy);
+                actorSpawn.addActor(newEnemy);
             }
         });
     }    

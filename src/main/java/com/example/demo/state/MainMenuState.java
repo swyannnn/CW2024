@@ -8,7 +8,14 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
- * MainMenuState class manages the main menu state of the game.
+ * MainMenuState is a class that implements the GameState interface and represents
+ * the main menu state of the game. It is responsible for initializing the main menu,
+ * handling user input, and transitioning to other game states.
+ * 
+ * @see GameState
+ * @see Stage
+ * @see StateTransitioner
+ * @see AudioManager
  */
 public class MainMenuState implements GameState {
     private final Stage stage;
@@ -29,6 +36,10 @@ public class MainMenuState implements GameState {
         this.audioManager = audioManager;
     }
 
+    /**
+     * Initializes the Main Menu State.
+     * This method sets up the HomeMenu, assigns the scene to the stage, and displays it.
+     */
     @Override
     public void initialize() {
         // Initialize the HomeMenu and set the scene
@@ -39,17 +50,29 @@ public class MainMenuState implements GameState {
         stage.show();
     }
 
+    /**
+     * Updates the state of the main menu.
+     * <p>
+     * This method is called to update the state of the main menu. However, since the main menu is static and does not require any updates, 
+     * this method does not contain any update logic.
+     *
+     * @param now The current timestamp in nanoseconds.
+     */
     @Override
     public void update(long now) {
         // No update logic needed for the static main menu
     }
 
 
+    /**
+     * Handles keyboard input events in the main menu state.
+     *
+     * @param event the KeyEvent that represents the user's keyboard input
+     */
     @Override
     public void handleInput(KeyEvent event) {
         switch (event.getCode()) {
             case SPACE:
-                System.out.println("Space pressed DETECTED IN MAIN MENU STATE");
                 stateTransitioner.goToLevel(1); 
                 break;
             case ESCAPE:
@@ -60,11 +83,20 @@ public class MainMenuState implements GameState {
         }
     }
 
+    /**
+     * Retrieves the current scene associated with the main menu state.
+     *
+     * @return the current Scene object.
+     */
     @Override
     public Scene getScene() {
         return scene;
     }
 
+    /**
+     * Cleans up resources or performs any necessary finalization tasks 
+     * when the state is no longer needed.
+     */
     @Override
     public void cleanup() {
     }

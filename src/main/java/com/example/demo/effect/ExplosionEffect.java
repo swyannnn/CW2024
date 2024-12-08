@@ -14,31 +14,6 @@ import javafx.util.Duration;
  * The ExplosionEffect class represents an explosion animation effect.
  * It initializes an ImageView for the explosion and creates a Timeline
  * to animate the explosion frames.
- * 
- * <p>Usage example:
- * <pre>
- * ExplosionEffect explosion = new ExplosionEffect(100, 200);
- * explosion.play();
- * </pre>
- * </p>
- * 
- * <p>Methods:
- * <ul>
- *   <li>{@link #ExplosionEffect(double, double)} - Constructs an ExplosionEffect at the specified coordinates.</li>
- *   <li>{@link #initializeExplosionView(double, double)} - Initializes the ImageView for the explosion.</li>
- *   <li>{@link #createExplosionAnimation()} - Creates the explosion animation timeline.</li>
- *   <li>{@link #play()} - Starts the explosion animation.</li>
- *   <li>{@link #setOnFinished(EventHandler)} - Sets a callback to be executed when the explosion animation finishes.</li>
- *   <li>{@link #getExplosionView()} - Gets the ImageView representing the explosion.</li>
- * </ul>
- * </p>
- * 
- * <p>Fields:
- * <ul>
- *   <li>{@code explosionView} - The ImageView representing the explosion.</li>
- *   <li>{@code timeline} - The Timeline for the explosion animation.</li>
- * </ul>
- * </p>
  */
 public class ExplosionEffect {
     private final ImageView explosionView;

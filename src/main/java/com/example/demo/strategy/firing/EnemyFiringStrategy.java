@@ -55,7 +55,7 @@ public class EnemyFiringStrategy implements FiringStrategy {
                 projectileX,
                 projectileY
             );
-            actorSpawner.spawnActor(projectile);
+            actorSpawner.addActor(projectile);
         }
     }
 }

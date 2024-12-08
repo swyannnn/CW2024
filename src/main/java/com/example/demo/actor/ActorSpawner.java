@@ -19,7 +19,7 @@ public interface ActorSpawner {
      *
      * @param actor the active actor to be spawned
      */
-    void spawnActor(ActiveActor actor);
+    void addActor(ActiveActor actor);
 
     /**
      * Updates the given root group with new actors or changes.

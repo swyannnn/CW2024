@@ -50,9 +50,13 @@ public class MainMenuScreen {
 
     /**
      * Creates and returns the home menu scene for the game.
-     * The home menu includes a title and buttons for selecting the number of players (1 or 2) and exiting the game.
-     * 
-     * @return the Scene object representing the home menu.
+     * The menu includes the game title and buttons for:
+     * - Starting a single-player game
+     * - Starting a two-player game
+     * - Viewing instructions on how to play
+     * - Exiting the game
+     *
+     * @return the home menu scene
      */
     public Scene getHomeMenuScene() {
         VBox menuLayout = new VBox(30);
@@ -87,7 +91,7 @@ public class MainMenuScreen {
         return new Scene(menuLayout, GameConstant.GameSettings.SCREEN_WIDTH, GameConstant.GameSettings.SCREEN_HEIGHT);
     }
 
-        /**
+    /**
      * Displays the game instructions in a popup dialog.
      */
     private void showInstructions() {
@@ -115,15 +119,15 @@ public class MainMenuScreen {
                 "- Move Up: Up Arrow Key\n" +
                 "- Move Down: Down Arrow Key\n" +
                "- Move Left: Left Arrow Key\n" +
-               "- Move Right: Right Arrow Key\n" +
-               "- Pause Game: Space Bar\n\n" +
+               "- Move Right: Right Arrow Key\n\n" +
                 "PLAYER 2:\n" +
                 "- Move Up: W Key\n" +
                 "- Move Down: S Key\n" +
                 "- Move Left: A Key\n" +
                 "- Move Right: D Key\n\n" +
+                "- Pause Game: Space Bar\n\n" +
                "Tips:\n" +
-               "Don't worry, shooting is automatic!\n" +
+               "- Don't worry, shooting is automatic!\n" +
                "- Dodge enemy bullets to survive longer.\n" +
                "- Focus on eliminating enemies systematically.\n\n" +
                "Good luck and have fun!";

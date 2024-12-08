@@ -9,12 +9,6 @@ package com.example.demo.actor.plane;
  * with a given configuration and a method to perform additional updates
  * specific to the enemy plane during the update cycle.</p>
  *
- * <p>Example usage:</p>
- * <pre>{@code
- * PlaneConfig config = new PlaneConfig();
- * EnemyPlane enemyPlane = new EnemyPlane(config);
- * }</pre>
- *
  * @see FighterPlane
  * @see PlaneConfig
  */

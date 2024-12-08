@@ -6,18 +6,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 /**
  * The BossMovementStrategy class implements the MovementStrategy interface
- * and defines the movement behavior for enemy planes in the game.
- * 
- * <p>This strategy moves the enemy plane horizontally to the left at a constant speed.
- * If the plane moves out of the screen bounds, it is destroyed.</p>
- * 
- * <p>The speed of the enemy plane is determined by the constant 
- * {@code GameConstant.BossPlane.HORIZONTAL_VELOCITY}.</p>
- * 
+ * and defines the movement behavior for the boss plane in the game.
+ * The boss plane moves vertically within specified boundaries, following a predefined pattern.
+ * The movement pattern includes positive, negative, and zero velocities, introducing randomness.
+ *
+ * <p>This class provides the following functionalities:
+ * <ul>
+ *   <li>Constructs a BossMovementStrategy with specified vertical velocity and initializes movement boundaries.</li>
+ *   <li>Initializes and shuffles the movement pattern for the boss plane.</li>
+ *   <li>Determines the next vertical move based on the current move pattern and shuffles if necessary.</li>
+ *   <li>Moves the boss plane vertically and reverses direction if boundaries are reached.</li>
+ * </ul>
+ *
  * @see MovementStrategy
+ * @see FighterPlane
  */
 public class BossMovementStrategy implements MovementStrategy {
     private final double yUpperBound;

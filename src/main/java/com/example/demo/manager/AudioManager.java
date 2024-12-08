@@ -8,9 +8,13 @@ import javafx.scene.media.MediaPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
- * AudioManager handles the loading and playing of sound effects and background music.
- * It also preloads audio resources to minimize latency during gameplay.
+ * The AudioManager class is responsible for managing audio playback in the application.
+ * It follows the Singleton design pattern to ensure only one instance of the manager exists.
+ * The class handles preloading of audio files, playing background music, and sound effects.
+ * 
+ * @see GameConstant
  */
 public class AudioManager {
     private static final String AUDIO_LOCATION = GameConstant.FilePaths.AUDIO_LOCATION;
@@ -20,7 +24,11 @@ public class AudioManager {
     private final List<AudioClip> soundEffects;
     private final List<Media> preloadedMedia;
 
-    // Private constructor to enforce Singleton pattern
+    /**
+     * Private constructor for the AudioManager class.
+     * Initializes the soundEffects and preloadedMedia lists,
+     * and preloads all audio files.
+     */
     private AudioManager() {
         soundEffects = new ArrayList<>();
         preloadedMedia = new ArrayList<>();
@@ -28,9 +36,11 @@ public class AudioManager {
     }
 
     /**
-     * Retrieves the singleton instance of AudioManager.
+     * Returns the singleton instance of the AudioManager.
+     * This method is synchronized to ensure thread safety.
+     * If the instance is null, it initializes a new AudioManager instance.
      *
-     * @return The singleton instance of AudioManager.
+     * @return the singleton instance of AudioManager
      */
     public static synchronized AudioManager getInstance() {
         if (instance == null) {
@@ -39,10 +49,21 @@ public class AudioManager {
         return instance;
     }
 
+    /**
+     * Checks if the audio is enabled.
+     *
+     * @return true if audio is enabled, false otherwise.
+     */
     public boolean isAudioEnabled() {
         return audioEnabled;
     }
     
+    /**
+     * Enables or disables the audio playback.
+     * 
+     * @param enabled a boolean value where true enables audio playback and false disables it.
+     *                If set to false, any currently playing music will be stopped.
+     */
     public void setAudioEnabled(boolean enabled) {
         this.audioEnabled = enabled;
         // Implement enabling/disabling audio playback accordingly
@@ -51,21 +72,23 @@ public class AudioManager {
         }
     }
 
+
     /**
-     * Preloads all sound effects and background music specified in GameConstant.
+     * Preloads all audio assets used in the game.
+     * <p>
+     * This method iterates through all sound effects and background music defined
+     * in the {@code GameConstant.FilePaths} enum and preloads them. For sound effects,
+     * it sets the volume to 0.5 and adds them to the {@code soundEffects} list.
+     * Background music files are preloaded without additional configuration.
+     * </p>
      */
     private void preloadAllAudio() {
         for (GameConstant.FilePaths.SoundEffect soundEffect : GameConstant.FilePaths.SoundEffect.values()) {
             AudioClip clip = preloadAudioClip(soundEffect.getFileName());
             if (clip != null) {
+                clip.setVolume(0.5);
                 soundEffects.add(clip);
             }
-        }
-
-        // Adjust volume for specific sound effects if needed
-        // Example: Set volume for the fourth sound effect
-        if (soundEffects.size() > 3 && soundEffects.get(3) != null) {
-            soundEffects.get(3).setVolume(0.20);
         }
 
         for (GameConstant.FilePaths.BackgroundMusic backgroundMusic : GameConstant.FilePaths.BackgroundMusic.values()) {            
@@ -122,7 +145,12 @@ public class AudioManager {
     }
 
     /**
-     * Stops the current background music and releases resources.
+     * Stops the currently playing music if any, disposes of the media player, 
+     * and sets the media player reference to null.
+     * 
+     * This method checks if the media player is not null, stops the music, 
+     * disposes of the media player resources, and then sets the media player 
+     * reference to null to ensure it can be garbage collected.
      */
     public void stopMusic() {
         if (mediaPlayer != null) {
@@ -132,12 +160,18 @@ public class AudioManager {
         }
     }
 
+    /**
+     * Pauses the currently playing music if the media player is not null.
+     */
     public void pauseMusic() {
         if (mediaPlayer != null) {
             mediaPlayer.pause();
         }
     }
 
+    /**
+     * Resumes the playback of the music if the media player is not null.
+     */
     public void resumeMusic() {
         if (mediaPlayer != null) {
             mediaPlayer.play();

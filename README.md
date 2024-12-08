@@ -64,9 +64,13 @@ This section details the features that have been successfully implemented in bot
 
 # Implemented but Not Working Properly
 
-**Boss Plane is not destroyed despite zero health**
+**SPACE button issue**
+
+# Features Not Implemented
 
 **Smooth Screen Transition**
+
+**Memento**
 
 # New Java Classes
 
@@ -163,6 +167,8 @@ ActorManager and GameStateManager
 2. Continous Errors
 
 Time consuming and frustration
+
+**Boss Plane is not destroyed despite zero health**
 
 
 

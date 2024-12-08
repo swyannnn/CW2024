@@ -12,29 +12,13 @@ import com.example.demo.util.GameConstant;
  * <p>This class includes methods for constructing a BossPlane, initializing its shield, performing
  * additional updates to the shield, checking if the plane is shielded, and applying damage to the plane.
  * If the shield is active, the plane does not take damage.</p>
- * 
- * <p>Constructor:</p>
- * <ul>
- *   <li>{@link #BossPlane(PlaneConfig, ActorSpawner)}: Constructs a new BossPlane with the specified configuration and actor spawner.</li>
- * </ul>
- * 
- * <p>Methods:</p>
- * <ul>
- *   <li>{@link #initializeShield(ActorSpawner)}: Initializes the shield for the BossPlane using the provided actor spawner.</li>
- *   <li>{@link #performAdditionalUpdates(long)}: Performs additional updates, specifically updating the shield state.</li>
- *   <li>{@link #isShielded()}: Checks if the BossPlane is currently shielded.</li>
- *   <li>{@link #takeDamage()}: Applies damage to the BossPlane. If the shield is active, no damage is taken.</li>
- * </ul>
- * 
- * <p>Fields:</p>
- * <ul>
- *   <li>{@link #shield}: The shield associated with the BossPlane.</li>
- *   <li>{@link #BOSS_SHIELD_PROBABILITY}: The probability that the shield is active, defined by a game constant.</li>
- * </ul>
+ *
+ * @see FighterPlane
+ * @see PlaneConfig
  */
 public class BossPlane extends FighterPlane {
     private Shield shield;
-    private static final double BOSS_SHIELD_PROBABILITY = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
+    private static final double bossShieldProbability = GameConstant.BossShield.BOSS_SHIELD_PROBABILITY;
 
     /**
      * Constructs a new BossPlane with the specified configuration and actor spawner.
@@ -53,7 +37,7 @@ public class BossPlane extends FighterPlane {
      * @param actorSpawner the actor spawner used to initialize the shield
      */
     private void initializeShield(ActorSpawner actorSpawner) {
-        shield = new Shield(BOSS_SHIELD_PROBABILITY);
+        shield = new Shield(bossShieldProbability);
         actorSpawner.addUIElement(shield);
     }
 

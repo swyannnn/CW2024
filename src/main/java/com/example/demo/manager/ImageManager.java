@@ -5,32 +5,45 @@ import javafx.scene.image.Image;
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
- * ImageManager handles the loading, caching, and preloading of image resources.
+ * The ImageManager class is responsible for loading, caching, and managing images
+ * used in the application. It follows the Singleton pattern to ensure that only one
+ * instance of the ImageManager exists.
+ * 
+ * <p>This class provides methods to load individual images as well as sequences of
+ * images based on a naming pattern. It also preloads images specified in the 
+ * GameConstant class and allows for clearing the image cache.</p>
+ * 
+ * @see GameConstant.FilePaths
  */
 public class ImageManager {
     private static final String IMAGE_LOCATION = GameConstant.FilePaths.IMAGE_LOCATION;
     private final static Map<String, Image> imageCache = new HashMap<>();
     
-        // Private constructor to enforce Singleton pattern
-        private ImageManager() {
-            preloadImages();
+    /**
+     * Private constructor for the ImageManager class.
+     * This constructor is responsible for preloading images when an instance of the class is created.
+     * The constructor is private to prevent instantiation from outside the class.
+     */
+    private ImageManager() {
+        preloadImages();
+    }
+
+    /**
+     * Loads and caches an image from the specified filename.
+     *
+     * @param filename The name of the image file.
+     * @return The Image object, or null if the file is not found.
+     */
+    public static Image getImage(String filename) {
+        return imageCache.computeIfAbsent(filename, key -> {
+        try {
+            return new Image(ImageManager.class.getResourceAsStream(IMAGE_LOCATION + key));
+        } catch (NullPointerException e) {
+            System.err.println("Image file not found: " + key);
+            return null;
         }
-    
-        /**
-         * Loads and caches an image from the specified filename.
-         *
-         * @param filename The name of the image file.
-         * @return The Image object, or null if the file is not found.
-         */
-        public static Image getImage(String filename) {
-            return imageCache.computeIfAbsent(filename, key -> {
-            try {
-                return new Image(ImageManager.class.getResourceAsStream(IMAGE_LOCATION + key));
-            } catch (NullPointerException e) {
-                System.err.println("Image file not found: " + key);
-                return null;
-            }
         });
     }
 
