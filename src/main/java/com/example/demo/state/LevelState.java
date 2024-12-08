@@ -432,7 +432,7 @@ public class LevelState implements GameState, CollisionHandler {
             System.out.println("Assigned key bindings for Player " + (i + 1));
 
             // Assign MovementStrategy and FiringStrategy to the UserPlane
-            double planeSpeed = GameConstant.UserPlane.VERTICAL_VELOCITY; 
+            int planeSpeed = GameConstant.UserPlane.VELOCITY; 
             player.setMovementStrategy(new UserMovementStrategy(activeKeys, bindings, planeSpeed));
         }
     }

@@ -63,8 +63,7 @@ public class GameConstant {
         public static final String ID2_IMAGE_NAME_DISPLAY = "userplane2_icon.png";
         public static final int IMAGE_HEIGHT = 100;
         public static final int INITIAL_HEALTH = 5;
-        public static final double HORIZONTAL_VELOCITY = 8.0;
-        public static final double VERTICAL_VELOCITY = 8.0;
+        public static final int VELOCITY = 8;
         public static final double INITIAL_X_POSITION = 5.0;
         public static final double INITIAL_Y_POSITION = 300.0;
         public static final double FIRE_RATE = 1.0;

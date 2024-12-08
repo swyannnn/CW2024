@@ -31,7 +31,7 @@ public class UserMovementStrategy implements MovementStrategy {
      * @param bindings the PlayerKeyBindings object that defines the key bindings for the player
      * @param speed the movement speed of the player
      */
-    public UserMovementStrategy(Set<KeyCode> activeKeys, PlayerKeyBindings bindings, double speed) {
+    public UserMovementStrategy(Set<KeyCode> activeKeys, PlayerKeyBindings bindings, int speed) {
         this.activeKeys = activeKeys;
         this.bindings = bindings;
         this.speed = speed;
