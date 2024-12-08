@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class AudioManager {
     private static final String AUDIO_LOCATION = GameConstant.FilePaths.AUDIO_LOCATION;
-    private boolean audioEnabled = true;
     private static AudioManager instance;
     private MediaPlayer mediaPlayer;
     private final List<AudioClip> soundEffects;
@@ -48,30 +47,6 @@ public class AudioManager {
         }
         return instance;
     }
-
-    /**
-     * Checks if the audio is enabled.
-     *
-     * @return true if audio is enabled, false otherwise.
-     */
-    public boolean isAudioEnabled() {
-        return audioEnabled;
-    }
-    
-    /**
-     * Enables or disables the audio playback.
-     * 
-     * @param enabled a boolean value where true enables audio playback and false disables it.
-     *                If set to false, any currently playing music will be stopped.
-     */
-    public void setAudioEnabled(boolean enabled) {
-        this.audioEnabled = enabled;
-        // Implement enabling/disabling audio playback accordingly
-        if (!enabled) {
-            stopMusic();
-        }
-    }
-
 
     /**
      * Preloads all audio assets used in the game.
@@ -157,24 +132,6 @@ public class AudioManager {
             mediaPlayer.stop();
             mediaPlayer.dispose();
             mediaPlayer = null;
-        }
-    }
-
-    /**
-     * Pauses the currently playing music if the media player is not null.
-     */
-    public void pauseMusic() {
-        if (mediaPlayer != null) {
-            mediaPlayer.pause();
-        }
-    }
-
-    /**
-     * Resumes the playback of the music if the media player is not null.
-     */
-    public void resumeMusic() {
-        if (mediaPlayer != null) {
-            mediaPlayer.play();
         }
     }
 
