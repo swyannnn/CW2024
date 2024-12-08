@@ -1,7 +1,7 @@
 package com.example.demo.state;
 
 import com.example.demo.manager.AudioManager;
-import com.example.demo.ui.MainMenu;
+import com.example.demo.ui.MainMenuScreen;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -14,7 +14,7 @@ public class MainMenuState implements GameState {
     private final Stage stage;
     private final StateTransitioner stateTransitioner;
     private final AudioManager audioManager;
-    private MainMenu mainMenu;
+    private MainMenuScreen mainMenu;
     private Scene scene;
 
     /**
@@ -33,7 +33,7 @@ public class MainMenuState implements GameState {
     public void initialize() {
         // Initialize the HomeMenu and set the scene
         System.out.println("Initializing Main Menu State");
-        mainMenu = new MainMenu(stage, stateTransitioner, audioManager);
+        mainMenu = new MainMenuScreen(stage, stateTransitioner, audioManager);
         this.scene = mainMenu.getHomeMenuScene();
         stage.setScene(this.scene);
         stage.show();

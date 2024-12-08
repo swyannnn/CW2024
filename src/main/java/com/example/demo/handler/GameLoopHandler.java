@@ -1,10 +1,10 @@
-package com.example.demo.interfaces;
+package com.example.demo.handler;
 
 /**
  * Functional interface for updating game logic.
  */
 @FunctionalInterface
-public interface GameLoopUpdater {
+public interface GameLoopHandler {
     /**
      * Updates the game logic based on the current timestamp.
      *

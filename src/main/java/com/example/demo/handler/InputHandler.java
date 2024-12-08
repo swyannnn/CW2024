@@ -1,4 +1,4 @@
-package com.example.demo.interfaces;
+package com.example.demo.handler;
 
 import javafx.scene.input.KeyEvent;
 

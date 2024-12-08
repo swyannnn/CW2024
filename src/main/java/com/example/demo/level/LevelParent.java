@@ -6,10 +6,10 @@ import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.PlaneFactory;
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.actor.plane.PlaneFactory.PlaneType;
+import com.example.demo.actor.plane.PlaneType;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.AudioManager;
-import com.example.demo.ui.LevelView;
+import com.example.demo.ui.LevelScreen;
 import com.example.demo.util.GameConstant;
 
 import javafx.scene.Group;
@@ -45,7 +45,7 @@ public abstract class LevelParent {
     protected ImageView[] backgrounds;
 
     protected UserPlane user;
-    protected LevelView levelView;
+    protected LevelScreen levelScreen;
     protected Controller controller;
 
     protected final ActorSpawner actorSpawn;
@@ -74,7 +74,7 @@ public abstract class LevelParent {
         // Pass the root to ActorManager
         actorSpawner.updateRoot(this.root);
         // Initialize LevelView
-        this.levelView = new LevelView(this.root, currentLevelNumber);
+        this.levelScreen = new LevelScreen(this.root, currentLevelNumber);
         // Initialize Player
         registerPlayer();
         // Initialize background music
@@ -98,7 +98,7 @@ public abstract class LevelParent {
      * This method creates and spawns the player-controlled planes. It initializes
      * player 1 and, if the game is in double-player mode, also initializes player 2.
      * The positions of the players are printed to the console, and health change
-     * listeners are added to the player planes.
+     * handlers are added to the player planes.
      * 
      * Preconditions:
      * - The planeFactory and actorSpawn objects must be properly initialized.
@@ -107,7 +107,7 @@ public abstract class LevelParent {
      * Postconditions:
      * - Player 1 is always initialized and spawned.
      * - Player 2 is initialized and spawned if the numberOfPlayers is 2.
-     * - Health change listeners are added to the player planes.
+     * - Health change handlers are added to the player planes.
      */
     private void registerPlayer() {
         // Initialize player 1
@@ -115,7 +115,7 @@ public abstract class LevelParent {
         ActiveActor player1 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId1);
         actorSpawn.spawnActor(player1);
         System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
-        ((UserPlane) player1).addHealthChangeListener(this.levelView);
+        ((UserPlane) player1).addHealthChangeHandler(this.levelScreen);
     
         // If double-player mode, initialize player 2
         if (numberOfPlayers == 2) {
@@ -123,7 +123,7 @@ public abstract class LevelParent {
             ActiveActor player2 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId2);
             actorSpawn.spawnActor(player2);
             System.out.println("Player 2 position: X=" + player2.getTranslateX() + ", Y=" + player2.getTranslateY());
-            ((UserPlane) player2).addHealthChangeListener(this.levelView);
+            ((UserPlane) player2).addHealthChangeHandler(this.levelScreen);
         }
     }
 
@@ -144,9 +144,9 @@ public abstract class LevelParent {
         }
 
         for (int i = 0; i < players.size(); i++) {
-            levelView.showHeartDisplay(players.get(i), i);
+            levelScreen.showHeartDisplay(players.get(i), i);
         }
-        levelView.updateBackground();
+        levelScreen.updateBackground();
     }
 
     /**

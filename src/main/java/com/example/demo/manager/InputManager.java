@@ -1,6 +1,6 @@
 package com.example.demo.manager;
 
-import com.example.demo.interfaces.InputHandler;
+import com.example.demo.handler.InputHandler;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
@@ -15,7 +15,7 @@ public class InputManager {
     /**
      * Constructor for InputManager.
      *
-     * @param scene        The scene to attach input listeners to.
+     * @param scene        The scene to attach input handlers to.
      * @param inputHandler The handler to process input events.
      */
     public InputManager(Scene scene, InputHandler inputHandler) {

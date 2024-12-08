@@ -1,6 +1,6 @@
 package com.example.demo.actor.plane;
 
-import com.example.demo.interfaces.HealthChangeListener;
+import com.example.demo.handler.HealthChangeHandler;
 import com.example.demo.util.GameConstant;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import javafx.application.Platform;
 import javafx.util.Duration;
 
 public class UserPlane extends FighterPlane {
-    private List<HealthChangeListener> healthChangeListeners = new ArrayList<>();
+    private List<HealthChangeHandler> healthChangeHandlers = new ArrayList<>();
     private int numberOfKills = GameConstant.UserPlane.NUMBER_OF_KILLS;
     private int flickerCount = GameConstant.UserPlane.DAMAGE_FLICKER_COUNT;;
     private boolean isFlickering = false; 
@@ -41,38 +41,38 @@ public class UserPlane extends FighterPlane {
     }
 
     /**
-     * Adds a HealthChangeListener to the list of listeners that will be notified
+     * Adds a HealthChangeHandler to the list of handlers that will be notified
      * when the health of the UserPlane changes.
      *
-     * @param listener the HealthChangeListener to be added
+     * @param handler the HealthChangeHandler to be added
      */
-    public void addHealthChangeListener(HealthChangeListener listener) {
-        healthChangeListeners.add(listener);
+    public void addHealthChangeHandler(HealthChangeHandler handler) {
+        healthChangeHandlers.add(handler);
     }
 
     /**
-     * Removes a HealthChangeListener from the list of listeners.
+     * Removes a HealthChangeHandler from the list of handlers.
      *
-     * @param listener the HealthChangeListener to be removed
+     * @param handler the HealthChangeHandler to be removed
      */
-    public void removeHealthChangeListener(HealthChangeListener listener) {
-        healthChangeListeners.remove(listener);
+    public void removeHealthChangeHandler(HealthChangeHandler handler) {
+        healthChangeHandlers.remove(handler);
     }
 
     /**
-     * Notifies all registered health change listeners about the current health status.
-     * This method iterates through the list of health change listeners and calls
+     * Notifies all registered health change handlers about the current health status.
+     * This method iterates through the list of health change handlers and calls
      * their onHealthChange method, passing the current instance and its health value.
      */
     private void notifyHealthChange() {
-        for (HealthChangeListener listener : healthChangeListeners) {
-            listener.onHealthChange(this, this.health);
+        for (HealthChangeHandler handler : healthChangeHandlers) {
+            handler.onHealthChange(this, this.health);
         }
     }
 
     /**
      * Applies damage to the user plane by decrementing its health.
-     * Notifies any listeners of the health change and triggers a visual flicker effect if the plane is not destroyed.
+     * Notifies any handlers of the health change and triggers a visual flicker effect if the plane is not destroyed.
      * If the health reaches zero, the plane is destroyed.
      *
      * @return true if damage was applied or the plane was destroyed, false otherwise.

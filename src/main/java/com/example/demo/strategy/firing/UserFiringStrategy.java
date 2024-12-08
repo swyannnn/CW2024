@@ -1,7 +1,10 @@
-package com.example.demo.strategy;
+package com.example.demo.strategy.firing;
 
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.FighterPlane;
+import com.example.demo.actor.projectile.Projectile;
+import com.example.demo.actor.projectile.ProjectileFactory;
+import com.example.demo.actor.projectile.ProjectileType;
 import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.util.GameConstant;
@@ -20,6 +23,7 @@ import com.example.demo.actor.plane.UserPlane;
  * @see UserProjectile
  */
 public class UserFiringStrategy implements FiringStrategy {
+    private final ProjectileFactory projectileFactory = new ProjectileFactory();
     private final ActorSpawner actorSpawner;
     private final long fireIntervalNanoseconds;
     private final AudioManager audioManager;
@@ -48,8 +52,13 @@ public class UserFiringStrategy implements FiringStrategy {
         if (now - lastFireTime >= fireIntervalNanoseconds) {
             double projectileX = plane.getProjectileXPosition(GameConstant.UserProjectile.PROJECTILE_X_POSITION_OFFSET);
             double projectileY = plane.getProjectileYPosition(GameConstant.UserProjectile.PROJECTILE_Y_POSITION_OFFSET);
-    
-            UserProjectile projectile = new UserProjectile(projectileX, projectileY, ((UserPlane) plane));
+            
+            Projectile projectile = projectileFactory.createProjectile(
+                ProjectileType.USER,
+                projectileX,
+                projectileY,
+                (UserPlane) plane
+            );
             actorSpawner.spawnActor(projectile);
             audioManager.playSoundEffect(GameConstant.SoundEffect.PLAYER_SHOOT.ordinal());
     

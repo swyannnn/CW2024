@@ -4,7 +4,7 @@ import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.projectile.UserProjectile;
 import com.example.demo.effect.ExplosionEffect;
-import com.example.demo.interfaces.CollisionListener;
+import com.example.demo.handler.CollisionHandler;
 import com.example.demo.util.GameConstant;
 
 import javafx.geometry.BoundingBox;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class CollisionManager {
     private static CollisionManager instance;
-    private CollisionListener collisionListener;
+    private CollisionHandler collisionHandler;
     private AudioManager audioManager;
     private ActorManager actorManager;
     private final double shrinkPercentage = GameConstant.GameSettings.COLLISION_SHRINK_PERCENTAGE;
@@ -38,8 +38,8 @@ public class CollisionManager {
         return instance;
     }
 
-    public void setCollisionListener(CollisionListener listener) {
-        this.collisionListener = listener;
+    public void setCollisionHandler(CollisionHandler handler) {
+        this.collisionHandler = handler;
     }
 
     public void handleAllCollisions(ActorManager actorManager) {
@@ -104,7 +104,7 @@ public class CollisionManager {
             if (source instanceof UserProjectile) {
                 UserProjectile projectile = (UserProjectile) source;
                 UserPlane userPlane = projectile.getOwner();
-                collisionListener.onProjectileHitEnemy(userPlane, target);
+                collisionHandler.onProjectileHitEnemy(userPlane, target);
                 actorManager.removeActor(projectile);
             }
         } else {
@@ -119,11 +119,11 @@ public class CollisionManager {
         actorManager.addUIElement(explosion.getExplosionView());
         audioManager.playSoundEffect(GameConstant.SoundEffect.EXPLOSION.ordinal());
         // Notify that an explosion has started
-        collisionListener.onExplosionStarted();
+        collisionHandler.onExplosionStarted();
         // Set a callback to notify when the explosion has finished
         explosion.setOnFinished(event -> {
             actorManager.removeUIElement(explosion.getExplosionView());
-            collisionListener.onExplosionFinished();
+            collisionHandler.onExplosionFinished();
         });
         explosion.play();
     }

@@ -1,17 +1,31 @@
 package com.example.demo.actor.projectile;
 
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.util.GameConstant;
 
+/**
+ * UserProjectile class representing a projectile fired by the user.
+ */
 public class UserProjectile extends Projectile {
-	private final UserPlane owner;
+    private final UserPlane owner;
 
-	public UserProjectile(double initialXPos, double initialYPos, UserPlane plane) {
-		super(GameConstant.UserProjectile.IMAGE_NAME, GameConstant.UserProjectile.IMAGE_HEIGHT, initialXPos, initialYPos, GameConstant.UserProjectile.HORIZONTAL_VELOCITY);
-		this.owner = plane;
-	}
-	
+    /**
+     * Constructor for UserProjectile.
+     *
+     * @param imageName          The image file name for the user projectile.
+     * @param imageHeight        The height of the user projectile image.
+     * @param initialXPos        The initial X position of the projectile.
+     * @param initialYPos        The initial Y position of the projectile.
+     * @param horizontalVelocity The horizontal velocity of the projectile.
+     * @param owner              The UserPlane that fired this projectile.
+     */
+    public UserProjectile(String imageName, int imageHeight, double initialXPos, double initialYPos, double horizontalVelocity, UserPlane owner) {
+        super(imageName, imageHeight, initialXPos, initialYPos, horizontalVelocity);
+        this.owner = owner;
+    }
+
     public UserPlane getOwner() {
         return owner;
     }
+
+    // Add any UserProjectile-specific behavior here
 }

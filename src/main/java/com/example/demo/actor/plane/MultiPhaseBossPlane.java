@@ -2,8 +2,7 @@ package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
-import com.example.demo.actor.plane.PlaneFactory.PlaneType;
-import com.example.demo.strategy.MultiPhaseBossMovementStrategy;
+import com.example.demo.strategy.movement.MultiPhaseBossMovementStrategy;
 import com.example.demo.util.GameConstant;
 
 /**

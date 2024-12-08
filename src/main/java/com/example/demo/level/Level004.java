@@ -3,7 +3,7 @@ package com.example.demo.level;
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.PlaneFactory;
-import com.example.demo.actor.plane.PlaneFactory.PlaneType;
+import com.example.demo.actor.plane.PlaneType;
 import com.example.demo.manager.AudioManager;
 
 

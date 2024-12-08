@@ -1,13 +1,10 @@
 package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActorSpawner;
-import com.example.demo.strategy.BossFiringStrategy;
-import com.example.demo.strategy.BossMovementStrategy;
-import com.example.demo.strategy.EnemyFiringStrategy;
-import com.example.demo.strategy.EnemyMovementStrategy;
-import com.example.demo.strategy.MultiPhaseBossFiringStrategy;
-import com.example.demo.strategy.MultiPhaseBossMovementStrategy;
-import com.example.demo.strategy.UserFiringStrategy;
+import com.example.demo.strategy.firing.*;
+import com.example.demo.strategy.movement.BossMovementStrategy;
+import com.example.demo.strategy.movement.EnemyMovementStrategy;
+import com.example.demo.strategy.movement.MultiPhaseBossMovementStrategy;
 import com.example.demo.util.GameConstant;
 
 
@@ -55,20 +52,6 @@ public class PlaneFactory {
      */
     public PlaneFactory(ActorSpawner actorSpawner) {
         this.actorSpawner = actorSpawner;
-    }
-
-    /**
-     * Enum representing different types of planes in the game.
-     */
-    public enum PlaneType {
-        ENEMY_PLANE,
-        ENEMY_PLANE1,
-        ENEMY_PLANE2,
-        ENEMY_PLANE3,
-        ENEMY_PLANE4,
-        BOSS_PLANE,
-        USER_PLANE,
-        MULTI_PHASE_BOSS_PLANE
     }
 
     /**

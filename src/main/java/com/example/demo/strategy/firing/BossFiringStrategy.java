@@ -1,8 +1,11 @@
-package com.example.demo.strategy;
+package com.example.demo.strategy.firing;
 
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.FighterPlane;
 import com.example.demo.actor.projectile.BossProjectile;
+import com.example.demo.actor.projectile.Projectile;
+import com.example.demo.actor.projectile.ProjectileFactory;
+import com.example.demo.actor.projectile.ProjectileType;
 import com.example.demo.util.GameConstant;
 
 
@@ -21,6 +24,7 @@ import com.example.demo.util.GameConstant;
 public class BossFiringStrategy implements FiringStrategy {
     private final ActorSpawner actorSpawner;
     private final double fireRate;
+    private final ProjectileFactory projectileFactory = new ProjectileFactory();
 
     /**
      * Constructs a new BossFiringStrategy with the specified actor spawner and fire rate.
@@ -45,7 +49,11 @@ public class BossFiringStrategy implements FiringStrategy {
             double projectileX = plane.getProjectileXPosition(GameConstant.EnemyProjectile.PROJECTILE_X_POSITION_OFFSET);
             double projectileY = plane.getProjectileYPosition(GameConstant.EnemyProjectile.PROJECTILE_Y_POSITION_OFFSET);
 
-            BossProjectile projectile = new BossProjectile(projectileX, projectileY);
+            Projectile projectile = projectileFactory.createProjectile(
+                ProjectileType.BOSS,
+                projectileX,
+                projectileY
+            );
             actorSpawner.spawnActor(projectile);
         }
     }

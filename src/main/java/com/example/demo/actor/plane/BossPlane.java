@@ -1,7 +1,7 @@
 package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActorSpawner;
-import com.example.demo.ui.Shield;
+import com.example.demo.actor.plane.components.Shield;
 import com.example.demo.util.GameConstant;
 
 /**

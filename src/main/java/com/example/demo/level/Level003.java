@@ -6,7 +6,7 @@ import java.util.TimerTask;
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.PlaneFactory;
-import com.example.demo.actor.plane.PlaneFactory.PlaneType;
+import com.example.demo.actor.plane.PlaneType;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.manager.GameLoopManager;
 import com.example.demo.util.GameConstant;

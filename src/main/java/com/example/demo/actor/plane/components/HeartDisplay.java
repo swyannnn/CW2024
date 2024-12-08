@@ -1,4 +1,4 @@
-package com.example.demo.ui;
+package com.example.demo.actor.plane.components;
 
 import com.example.demo.manager.ImageManager;
 import com.example.demo.util.GameConstant;

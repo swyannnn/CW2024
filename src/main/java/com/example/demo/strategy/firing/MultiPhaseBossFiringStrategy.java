@@ -1,11 +1,14 @@
-package com.example.demo.strategy;
+package com.example.demo.strategy.firing;
 
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.FighterPlane;
 import com.example.demo.actor.projectile.BossProjectile;
+import com.example.demo.actor.projectile.ProjectileFactory;
+import com.example.demo.actor.projectile.ProjectileType;
 import com.example.demo.util.GameConstant;
 
 public class MultiPhaseBossFiringStrategy implements FiringStrategy {
+    private final ProjectileFactory projectileFactory = new ProjectileFactory();
     private final ActorSpawner actorSpawner;
     private final double fireRate;
 
@@ -34,7 +37,11 @@ public class MultiPhaseBossFiringStrategy implements FiringStrategy {
             double projectileX = plane.getProjectileXPosition(GameConstant.EnemyProjectile.PROJECTILE_X_POSITION_OFFSET);
             double projectileY = plane.getProjectileYPosition(GameConstant.EnemyProjectile.PROJECTILE_Y_POSITION_OFFSET);
 
-            BossProjectile projectile = new BossProjectile(projectileX, projectileY);
+            BossProjectile projectile = (BossProjectile) projectileFactory.createProjectile(
+                ProjectileType.BOSS,
+                projectileX,
+                projectileY
+            );
             actorSpawner.spawnActor(projectile);
         }
     }

@@ -3,7 +3,7 @@ package com.example.demo.manager;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-import com.example.demo.interfaces.GameLoopUpdater;
+import com.example.demo.handler.GameLoopHandler;
 
 import javafx.animation.AnimationTimer;
 
@@ -15,7 +15,7 @@ public class GameLoopManager{
     private static volatile GameLoopManager instance;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private AnimationTimer gameLoop;
-    private GameLoopUpdater updater;
+    private GameLoopHandler updater;
     private boolean paused;
 
     /**
@@ -56,7 +56,7 @@ public class GameLoopManager{
      *
      * @param updater The GameLoopUpdater to set.
      */
-    public void setUpdater(GameLoopUpdater updater) {
+    public void setUpdater(GameLoopHandler updater) {
         this.updater = updater;
         initializeGameLoop();
     }

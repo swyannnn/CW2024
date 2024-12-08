@@ -1,5 +1,5 @@
 // File: UserMovementStrategy.java
-package com.example.demo.strategy;
+package com.example.demo.strategy.movement;
 
 import java.util.Set;
 import com.example.demo.actor.plane.FighterPlane;

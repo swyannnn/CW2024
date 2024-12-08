@@ -8,13 +8,13 @@ import java.util.Set;
 
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.interfaces.CollisionListener;
+import com.example.demo.handler.CollisionHandler;
 import com.example.demo.level.LevelParent;
 import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameLoopManager;
-import com.example.demo.strategy.UserMovementStrategy;
+import com.example.demo.strategy.movement.UserMovementStrategy;
 import com.example.demo.ui.PauseOverlay;
 import com.example.demo.util.GameConstant;
 import com.example.demo.util.PlayerKeyBindings;
@@ -35,7 +35,7 @@ import java.beans.PropertyChangeSupport;
 /**
  * The LevelState class represents the state of a game level and manages various aspects of the game,
  * including input handling, collision detection, actor management, and state transitions.
- * It implements the GameState and CollisionListener interfaces.
+ * It implements the GameState and CollisionHandler interfaces.
  * 
  * This class is responsible for initializing the level, updating the game state, handling input events,
  * managing the pause overlay, and cleaning up resources when the level is completed or reset.
@@ -55,14 +55,14 @@ import java.beans.PropertyChangeSupport;
  * collisions with enemies, and checking if the level is completed.
  * 
  * @see GameState
- * @see CollisionListener
+ * @see CollisionHandler
  * @see LevelParent
  * @see ActorManager
  * @see CollisionManager
  * @see GameLoopManager
  * @see StateTransitioner
  */
-public class LevelState implements GameState, CollisionListener {
+public class LevelState implements GameState, CollisionHandler {
     private final String buttonImageName = GameConstant.PauseButton.IMAGE_NAME;
     private final int buttonImageWidth = GameConstant.PauseButton.IMAGE_WIDTH;
     private final int buttonImageHeight = GameConstant.PauseButton.IMAGE_HEIGHT;
@@ -101,7 +101,7 @@ public class LevelState implements GameState, CollisionListener {
         this.stage = stage;
         this.actorManager = actorManager;
         this.collisionManager = collisionManager;
-        collisionManager.setCollisionListener(this);
+        collisionManager.setCollisionHandler(this);
         this.gameLoopManager = gameLoopManager;
         this.stateTransitioner = stateTransitioner;
         this.levelCompleted = false;
@@ -191,17 +191,17 @@ public class LevelState implements GameState, CollisionListener {
 
     /**
      * Cleans up the current level state by performing necessary cleanup operations.
-     * This includes removing health listeners from all players and invoking the
+     * This includes removing health handlers from all players and invoking the
      * cleanup method on the actor manager.
      * 
      * This method is called when the level state needs to be reset or disposed of.
-     * It ensures that all resources and listeners associated with the current level
+     * It ensures that all resources and handlers associated with the current level
      * are properly released.
      */
     @Override
     public void cleanup() {
         System.out.println("LevelState: Cleaning up Level " + level.getCurrentLevelNumber());
-        // remove health listeners from all players
+        // remove health handlers from all players
         actorManager.cleanup();
         System.out.println("LevelState: Cleanup completed.");
     }

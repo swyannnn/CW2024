@@ -1,7 +1,7 @@
 package com.example.demo.actor.plane;
 
-import com.example.demo.strategy.FiringStrategy;
-import com.example.demo.strategy.MovementStrategy;
+import com.example.demo.strategy.firing.FiringStrategy;
+import com.example.demo.strategy.movement.MovementStrategy;
 
 /**
  * The PlaneConfig class represents the configuration settings for a plane in the game.

@@ -1,8 +1,11 @@
-package com.example.demo.strategy;
+package com.example.demo.strategy.firing;
 
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.FighterPlane;
 import com.example.demo.actor.projectile.EnemyProjectile;
+import com.example.demo.actor.projectile.Projectile;
+import com.example.demo.actor.projectile.ProjectileFactory;
+import com.example.demo.actor.projectile.ProjectileType;
 import com.example.demo.util.GameConstant;
 
 
@@ -20,6 +23,7 @@ import com.example.demo.util.GameConstant;
  * @see EnemyProjectile
  */
 public class EnemyFiringStrategy implements FiringStrategy {
+    private final ProjectileFactory projectileFactory = new ProjectileFactory();
     private final ActorSpawner actorSpawner;
     private final double fireRate;
 
@@ -46,7 +50,11 @@ public class EnemyFiringStrategy implements FiringStrategy {
             double projectileX = plane.getProjectileXPosition(GameConstant.EnemyProjectile.PROJECTILE_X_POSITION_OFFSET);
             double projectileY = plane.getProjectileYPosition(GameConstant.EnemyProjectile.PROJECTILE_Y_POSITION_OFFSET);
 
-            EnemyProjectile projectile = new EnemyProjectile(projectileX, projectileY);
+            Projectile projectile = projectileFactory.createProjectile(
+                ProjectileType.ENEMY,
+                projectileX,
+                projectileY
+            );
             actorSpawner.spawnActor(projectile);
         }
     }

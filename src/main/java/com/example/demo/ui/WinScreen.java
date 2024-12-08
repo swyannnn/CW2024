@@ -52,14 +52,14 @@ public class WinScreen {
         winLayout.setStyle("-fx-background-color: #2E8B57;"); // Background color for the win screen
 
         // Restart Button
-        Button restartButton = ButtonManager.createButton("Restart Game", 200, 50, 20);
+        Button restartButton = ButtonManager.createButton("Restart Game", 250, 50, 20);
         restartButton.setOnAction(e -> stateTransitioner.goToLevel(1));
 
-        Button backToMenuButton = ButtonManager.createButton("Back To Main Menu", 200, 50, 20);
+        Button backToMenuButton = ButtonManager.createButton("Back To Main Menu", 250, 50, 20);
         backToMenuButton.setOnAction(e -> stateTransitioner.goToMainMenu());
 
         // Exit Button
-        Button exitButton = ButtonManager.createButton("Exit", 200, 50, 20);
+        Button exitButton = ButtonManager.createButton("Exit", 250, 50, 20);
         exitButton.setOnAction(e -> exitGame());
 
         // Add elements to the layout

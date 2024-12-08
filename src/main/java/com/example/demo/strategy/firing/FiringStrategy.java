@@ -1,4 +1,4 @@
-package com.example.demo.strategy;
+package com.example.demo.strategy.firing;
 
 import com.example.demo.actor.plane.FighterPlane;
 

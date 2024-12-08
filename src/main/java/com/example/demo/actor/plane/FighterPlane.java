@@ -1,8 +1,8 @@
 package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActiveActor;
-import com.example.demo.strategy.FiringStrategy;
-import com.example.demo.strategy.MovementStrategy;
+import com.example.demo.strategy.firing.FiringStrategy;
+import com.example.demo.strategy.movement.MovementStrategy;
 
 /**
  * The FighterPlane class represents an abstract type of plane that can engage in combat.

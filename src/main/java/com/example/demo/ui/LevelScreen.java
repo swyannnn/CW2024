@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.example.demo.actor.plane.UserPlane;
-import com.example.demo.interfaces.HealthChangeListener;
+import com.example.demo.actor.plane.components.HeartDisplay;
+import com.example.demo.handler.HealthChangeHandler;
 import com.example.demo.manager.ImageManager;
 import com.example.demo.util.GameConstant;
 
@@ -16,17 +17,17 @@ import javafx.scene.text.Text;
 
 /**
  * The LevelView class is responsible for displaying the current level's background,
- * instructions, and heart displays for players. It implements the HealthChangeListener
+ * instructions, and heart displays for players. It implements the HealthChangeHandler
  * interface to update the heart display when a player's health changes.
  * 
  * <p>This class provides methods to initialize the background, show level instructions,
  * update the background for a scrolling effect, and manage heart displays for players.</p>
  * 
- * @see HealthChangeListener
+ * @see HealthChangeHandler
  * @see UserPlane
  * @see HeartDisplay
  */
-public class LevelView implements HealthChangeListener {
+public class LevelScreen implements HealthChangeHandler {
 	private final Map<UserPlane, HeartDisplay> heartDisplays = new HashMap<>();
 	private static final double HEART_DISPLAY_X_POSITION = 5;
 	private static final double HEART_DISPLAY_Y_POSITION = 10;
@@ -41,7 +42,7 @@ public class LevelView implements HealthChangeListener {
      * @param root the root group node for the scene graph
      * @param currentLevelNumber the current level number to be displayed
      */
-	public LevelView(Group root, int currentLevelNumber) {
+	public LevelScreen(Group root, int currentLevelNumber) {
 		this.root = root;
         this.currentLevelNumber = currentLevelNumber;
         initializeBackground();

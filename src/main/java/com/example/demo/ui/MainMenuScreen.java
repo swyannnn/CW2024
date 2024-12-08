@@ -26,7 +26,7 @@ import com.example.demo.util.GameConstant;
  * and handle the exit game action.
  * 
  */
-public class MainMenu {
+public class MainMenuScreen {
     private final Stage primaryStage;
     private final StateTransitioner stateTransitioner;
     private static final String backgroundMusicName = GameConstant.MainMenu.BACKGROUND_MUSIC;
@@ -38,7 +38,7 @@ public class MainMenu {
      * @param stateTransitioner the state transitioner to manage state changes
      * @param audioManager the audio manager to handle audio playback
      */
-    public MainMenu(Stage stage, StateTransitioner stateTransitioner, AudioManager audioManager) {
+    public MainMenuScreen(Stage stage, StateTransitioner stateTransitioner, AudioManager audioManager) {
         this.primaryStage = stage;
         this.stateTransitioner = stateTransitioner;
         // Play background music
