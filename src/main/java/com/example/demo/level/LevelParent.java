@@ -2,12 +2,12 @@ package com.example.demo.level;
 
 import java.util.List;
 
+import com.example.demo.Controller;
 import com.example.demo.actor.ActiveActor;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.PlaneFactory;
 import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.plane.PlaneType;
-import com.example.demo.controller.Controller;
 import com.example.demo.manager.AudioManager;
 import com.example.demo.screen.LevelScreen;
 import com.example.demo.util.GameConstant;

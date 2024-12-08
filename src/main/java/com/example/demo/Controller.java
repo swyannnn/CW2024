@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo;
 
 import com.example.demo.manager.*;
 import com.example.demo.util.GameConstant;

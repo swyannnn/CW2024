@@ -8,5 +8,4 @@ module com.example.demo {
 
     // Export your packages so other modules can access them
     exports com.example.demo;
-    exports com.example.demo.controller;
 }
