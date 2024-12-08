@@ -41,7 +41,7 @@ public class GameConstant {
     public static class GameOver {
         public static final String IMAGE_PATH = FilePaths.IMAGE_LOCATION + "gameover.png";
         public static final int IMAGE_WIDTH = 600;
-        public static final int IMAGE_HEIGHT = 500;
+        public static final int IMAGE_HEIGHT = 450;
     }
 
     /**
@@ -209,27 +209,23 @@ public class GameConstant {
     public static class MultiPhaseBossPlane {
         public static final String IMAGE_NAME = "enemy3.png";
         public static final int IMAGE_HEIGHT = 200;
-        public static final int REMAINING_HEALTH_PHASE1 = 6;
-        public static final int REMAINING_HEALTH_PHASE2 = 4;
-        public static final int REMAINING_HEALTH_PHASE3 = 2;
+        public static final int REMAINING_HEALTH_PHASE1 = 600;
+        public static final int REMAINING_HEALTH_PHASE2 = 598;
+        public static final int REMAINING_HEALTH_PHASE3 = 596;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
         public static final double FIRE_RATE = 0.5; // 50% chance to fire
         public static final double Y_POSITION = (GameSettings.SCREEN_HEIGHT / 2) - 100;
         public static final double X_POSITION = 400;
         public static final int PROJECTILE_X_POSITION_OFFSET = -130;
         public static final int PROJECTILE_Y_POSITION_OFFSET = 75;
-        public static final double VERTICAL_VELOCITY_PHASE1 = 150.0;
-        public static final double VERTICAL_VELOCITY_PHASE2 = 200.0;
-        public static final double VERTICAL_VELOCITY_PHASE3 = 300.0;
-        public static final double HORIZONTAL_VELOCITY_PHASE1 = 5.0;
-        public static final double HORIZONTAL_VELOCITY_PHASE2 = 10.0;
-        public static final double HORIZONTAL_VELOCITY_PHASE3 = 15.0;
-        public static final double Y_UPPER_BOUND = -40;
-        public static final double Y_LOWER_BOUND = 600;
-        public static final double X_UPPER_BOUND = GameSettings.SCREEN_HEIGHT / 2;
-        public static final double X_LOWER_BOUND = 1150;
+        public static final double VERTICAL_VELOCITY = 150.0;
+        public static final double HORIZONTAL_VELOCITY = 10.0;
+        public static final int Y_UPPER_BOUND = -40;
+        public static final int Y_LOWER_BOUND = 600;
+        public static final int X_UPPER_BOUND = GameSettings.SCREEN_HEIGHT / 2;
+        public static final int X_LOWER_BOUND = 1150;
         public static final long SUMMON_COOLDOWN = 10_000_000_000L; //1_000_000_000L
-        public static final int MAX_FRAMES_WITH_SAME_MOVE = 500;
+        public static final int MAX_FRAMES_WITH_SAME_MOVE = 250;
     }
 
     /**
@@ -279,7 +275,7 @@ public class GameConstant {
      */
     public static class Level001 {
         public static final int TOTAL_ENEMIES = 3;
-        public static final int KILLS_TO_ADVANCE = 3;
+        public static final int KILLS_TO_ADVANCE = 0;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
     }
 
