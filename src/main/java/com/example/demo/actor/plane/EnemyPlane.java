@@ -1,8 +1,5 @@
 package com.example.demo.actor.plane;
 
-import com.example.demo.util.PlaneConfig;
-
-
 /**
  * The EnemyPlane class represents an enemy fighter plane in the game.
  * It extends the FighterPlane class and can be configured with specific

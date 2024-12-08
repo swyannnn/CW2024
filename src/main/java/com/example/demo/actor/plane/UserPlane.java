@@ -2,7 +2,6 @@ package com.example.demo.actor.plane;
 
 import com.example.demo.interfaces.HealthChangeListener;
 import com.example.demo.util.GameConstant;
-import com.example.demo.util.PlaneConfig;
 
 import java.util.ArrayList;
 import java.util.List;

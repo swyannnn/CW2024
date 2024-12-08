@@ -9,8 +9,6 @@ import com.example.demo.strategy.MultiPhaseBossFiringStrategy;
 import com.example.demo.strategy.MultiPhaseBossMovementStrategy;
 import com.example.demo.strategy.UserFiringStrategy;
 import com.example.demo.util.GameConstant;
-import com.example.demo.util.PlaneConfig;
-
 
 
 /**

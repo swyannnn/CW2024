@@ -5,8 +5,6 @@ import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.PlaneFactory.PlaneType;
 import com.example.demo.strategy.MultiPhaseBossMovementStrategy;
 import com.example.demo.util.GameConstant;
-import com.example.demo.util.PlaneConfig;
-
 
 /**
  * The MultiPhaseBossPlane class represents a boss plane with multiple phases in a game.

@@ -3,8 +3,6 @@ package com.example.demo.actor.plane;
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.ui.Shield;
 import com.example.demo.util.GameConstant;
-import com.example.demo.util.PlaneConfig;
-
 
 /**
  * The BossPlane class represents a specialized type of FighterPlane with an additional shield capability.
