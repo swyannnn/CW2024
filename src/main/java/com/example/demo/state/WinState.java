@@ -1,6 +1,7 @@
 package com.example.demo.state;
 
-import com.example.demo.ui.WinScreen;
+import com.example.demo.screen.WinScreen;
+
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;

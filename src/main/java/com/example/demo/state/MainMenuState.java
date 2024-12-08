@@ -1,7 +1,7 @@
 package com.example.demo.state;
 
 import com.example.demo.manager.AudioManager;
-import com.example.demo.ui.MainMenuScreen;
+import com.example.demo.screen.MainMenuScreen;
 
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;

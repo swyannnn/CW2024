@@ -1,4 +1,4 @@
-package com.example.demo.ui;
+package com.example.demo.screen;
 
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.state.StateTransitioner;

@@ -9,7 +9,7 @@ import com.example.demo.actor.plane.UserPlane;
 import com.example.demo.actor.plane.PlaneType;
 import com.example.demo.controller.Controller;
 import com.example.demo.manager.AudioManager;
-import com.example.demo.ui.LevelScreen;
+import com.example.demo.screen.LevelScreen;
 import com.example.demo.util.GameConstant;
 
 import javafx.scene.Group;

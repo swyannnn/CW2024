@@ -14,8 +14,8 @@ import com.example.demo.manager.ActorManager;
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.CollisionManager;
 import com.example.demo.manager.GameLoopManager;
+import com.example.demo.screen.PauseScreen;
 import com.example.demo.strategy.movement.UserMovementStrategy;
-import com.example.demo.ui.PauseOverlay;
 import com.example.demo.util.GameConstant;
 import com.example.demo.util.PlayerKeyBindings;
 
@@ -77,7 +77,7 @@ public class LevelState implements GameState, CollisionHandler {
     private final GameLoopManager gameLoopManager;
     private final StateTransitioner stateTransitioner;
     private boolean levelCompleted;
-    private PauseOverlay pauseOverlay;
+    private PauseScreen pauseOverlay;
     private Scene scene;
     private boolean isExplosionActive = false;
     // Map to hold each player's key bindings
@@ -319,7 +319,7 @@ public class LevelState implements GameState, CollisionHandler {
      */
     private void createPauseOverlay() {
         System.out.println("Creating PauseOverlay for Level " + level.getCurrentLevelNumber());
-        pauseOverlay = new PauseOverlay(gameLoopManager, stateTransitioner);
+        pauseOverlay = new PauseScreen(gameLoopManager, stateTransitioner);
     }
 
 

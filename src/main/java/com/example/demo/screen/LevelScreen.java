@@ -1,4 +1,4 @@
-package com.example.demo.ui;
+package com.example.demo.screen;
 
 import java.util.HashMap;
 import java.util.Map;

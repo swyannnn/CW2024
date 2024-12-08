@@ -1,4 +1,4 @@
-package com.example.demo.ui;
+package com.example.demo.screen;
 
 import com.example.demo.manager.ButtonManager;
 import com.example.demo.manager.GameLoopManager;
@@ -16,7 +16,7 @@ import javafx.scene.text.Text;
  * The PauseOverlay class represents a UI overlay that appears when the game is paused.
  * It provides options to resume the game or exit to the main menu.
  */
-public class PauseOverlay {
+public class PauseScreen {
     private final VBox overlay;
     private final GameLoopManager gameLoopManager;
     private final StateTransitioner stateTransitioner;
@@ -27,7 +27,7 @@ public class PauseOverlay {
      * @param gameLoopManager the manager responsible for handling the game loop
      * @param stateTransitioner the object responsible for handling state transitions
      */
-    public PauseOverlay(GameLoopManager gameLoopManager, StateTransitioner stateTransitioner) {
+    public PauseScreen(GameLoopManager gameLoopManager, StateTransitioner stateTransitioner) {
         this.overlay = createPauseOverlay();
         this.gameLoopManager = gameLoopManager;
         this.stateTransitioner = stateTransitioner;
