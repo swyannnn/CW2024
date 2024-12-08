@@ -169,7 +169,7 @@ public class PlaneFactory {
         config.health = GameConstant.EnemyPlane.INITIAL_HEALTH;
         config.fireRate = GameConstant.EnemyProjectile.FIRE_RATE;
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
-        config.movementStrategy = new EnemyMovementStrategy();
+        config.movementStrategy = new EnemyMovementStrategy(GameConstant.EnemyPlane.HORIZONTAL_VELOCITY);
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
         return new EnemyPlane(config);
     }
@@ -193,7 +193,7 @@ public class PlaneFactory {
         config.health = GameConstant.EnemyPlane1.INITIAL_HEALTH;
         config.fireRate = GameConstant.EnemyProjectile.FIRE_RATE;
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
-        config.movementStrategy = new EnemyMovementStrategy();
+        config.movementStrategy = new EnemyMovementStrategy(GameConstant.EnemyPlane1.HORIZONTAL_VELOCITY);
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
 
         return new EnemyPlane(config);
@@ -216,7 +216,7 @@ public class PlaneFactory {
         config.health = GameConstant.EnemyPlane2.INITIAL_HEALTH;
         config.fireRate = GameConstant.EnemyProjectile.FIRE_RATE;
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
-        config.movementStrategy = new EnemyMovementStrategy();
+        config.movementStrategy = new EnemyMovementStrategy(GameConstant.EnemyPlane2.HORIZONTAL_VELOCITY);
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
         return new EnemyPlane(config);
     }
@@ -239,7 +239,7 @@ public class PlaneFactory {
         config.health = GameConstant.EnemyPlane3.INITIAL_HEALTH;
         config.fireRate = GameConstant.EnemyProjectile.FIRE_RATE;
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
-        config.movementStrategy = new EnemyMovementStrategy();
+        config.movementStrategy = new EnemyMovementStrategy(GameConstant.EnemyPlane3.HORIZONTAL_VELOCITY);
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
         return new EnemyPlane(config);
     }
@@ -262,7 +262,7 @@ public class PlaneFactory {
         config.health = GameConstant.EnemyPlane4.INITIAL_HEALTH;
         config.fireRate = GameConstant.EnemyProjectile.FIRE_RATE;
         config.fireIntervalNanoseconds = GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS;
-        config.movementStrategy = new EnemyMovementStrategy();
+        config.movementStrategy = new EnemyMovementStrategy(GameConstant.EnemyPlane4.HORIZONTAL_VELOCITY);
         config.firingStrategy = new EnemyFiringStrategy(actorSpawner, config.fireRate);
         return new EnemyPlane(config);
     }
@@ -282,7 +282,7 @@ public class PlaneFactory {
         config.fireRate = GameConstant.BossProjectile.FIRE_RATE;
         config.fireIntervalNanoseconds = GameConstant.BossPlane.FIRE_INTERVAL_NANOSECONDS;
         config.firingStrategy = new BossFiringStrategy(actorSpawner, config.fireRate);
-        config.movementStrategy = new BossMovementStrategy();
+        config.movementStrategy = new BossMovementStrategy(GameConstant.BossPlane.VERTICAL_VELOCITY);
         return new BossPlane(config, actorSpawner);
     }
     
@@ -305,7 +305,7 @@ public class PlaneFactory {
         config.fireRate = GameConstant.MultiPhaseBossPlane.FIRE_RATE;
         config.fireIntervalNanoseconds = GameConstant.MultiPhaseBossPlane.FIRE_INTERVAL_NANOSECONDS;
         config.firingStrategy = new MultiPhaseBossFiringStrategy(actorSpawner, config.fireRate);
-        config.movementStrategy = new MultiPhaseBossMovementStrategy();
+        config.movementStrategy = new MultiPhaseBossMovementStrategy(0); // tmp value, determined by the boss's movement strategy
         return new MultiPhaseBossPlane(config, actorSpawner);
     }
 

@@ -16,4 +16,5 @@ public class PlaneConfig {
     public long fireIntervalNanoseconds;
     public MovementStrategy movementStrategy;
     public FiringStrategy firingStrategy;
+    public int speed;
 }

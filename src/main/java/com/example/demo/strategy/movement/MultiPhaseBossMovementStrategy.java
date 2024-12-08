@@ -47,7 +47,7 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
      * Also initializes the movement frame count and sets the horizontal and vertical velocities for phase 1.
      * The sine wave base X position is also initialized.
      */
-    public MultiPhaseBossMovementStrategy() {
+    public MultiPhaseBossMovementStrategy(int speed) {
         this.currentPhase = 1;
         this.phaseStartTime = System.nanoTime();
         this.movementState = MovementType.HORIZONTAL;

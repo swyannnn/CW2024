@@ -17,15 +17,16 @@ import com.example.demo.util.GameConstant;
  * @see MovementStrategy
  */
 public class EnemyMovementStrategy implements MovementStrategy {
-    private final double speed;
+    private final int horizontalVelocity;
+
 
     /**
      * Constructs an EnemyMovementStrategy with the default speed
      * set to the horizontal velocity of the enemy plane as defined
      * in the GameConstant class.
      */
-    public EnemyMovementStrategy() {
-        this.speed = GameConstant.EnemyPlane.HORIZONTAL_VELOCITY;
+    public EnemyMovementStrategy(int horizontalVelocity) {
+        this.horizontalVelocity = horizontalVelocity;
     }
 
     /**
@@ -37,7 +38,7 @@ public class EnemyMovementStrategy implements MovementStrategy {
      */
     @Override
     public void move(FighterPlane plane, long now) {
-        double newX = plane.getLayoutX() - speed;
+        double newX = plane.getLayoutX() - horizontalVelocity;
 
         // Destroy the plane if it goes out of bounds
         if (newX + plane.getBoundsInParent().getWidth() < 0) {

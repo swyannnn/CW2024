@@ -28,6 +28,7 @@ public class BossMovementStrategy implements MovementStrategy {
     private int consecutiveMovesInSameDirection;
     private int currentMoveIndex;
     private final int maxFramesWithSameMove;
+    private final int verticalVelocity;
 
     /**
      * Constructs a BossMovementStrategy object and initializes its movement boundaries,
@@ -41,7 +42,8 @@ public class BossMovementStrategy implements MovementStrategy {
      * The movement pattern is initialized by calling the initializeMovePattern method.
      * The consecutiveMovesInSameDirection and currentMoveIndex are also initialized to 0.
      */
-    public BossMovementStrategy() {
+    public BossMovementStrategy(int verticalVelocity) {
+        this.verticalVelocity = verticalVelocity;
         this.yUpperBound = GameConstant.BossPlane.Y_POSITION_UPPER_BOUND;
         this.yLowerBound = GameConstant.BossPlane.Y_POSITION_LOWER_BOUND;
         this.maxFramesWithSameMove = GameConstant.BossPlane.MAX_FRAMES_WITH_SAME_MOVE;
@@ -61,8 +63,8 @@ public class BossMovementStrategy implements MovementStrategy {
      */
     private void initializeMovePattern() {
         for (int i = 0; i < GameConstant.BossPlane.MOVE_FREQUENCY_PER_CYCLE; i++) {
-            movePattern.add(GameConstant.BossPlane.VERTICAL_VELOCITY);
-            movePattern.add(-GameConstant.BossPlane.VERTICAL_VELOCITY);
+            movePattern.add(verticalVelocity);
+            movePattern.add(-verticalVelocity);
             movePattern.add(GameConstant.BossPlane.ZERO);
         }
         Collections.shuffle(movePattern);
