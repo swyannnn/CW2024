@@ -119,18 +119,63 @@ For the best experience, it is recommended to view this `README.md` file on the 
 ```
 
 # Compilation Instructions
+## Prerequisites
+**1. JDK 21**
+<li>Ensure Java Development Kit (JDK) 21 is installed.</li>
+<li>Set <code>JAVA_HOME</code> to the JDK 21 installation path.</li><br>
+
+Verify installation:
+```
+java --version
+```
+
+**2. IntelliJ IDEA**
+
+Download and install IntelliJ IDEA from [jetbrains.com/idea](https://www.jetbrains.com/idea/download/?section=windows).
+
+**3. Git**
+Ensure Git is installed and configured.
+
+Verify installation:
+```
+git --version
+```
+
+## Steps to Compile and Run the Project
+**1. Clone the Repository**
+```
+git clone https://github.com/swyannnn/CW2024.git
+cd CW2024
+```
+
+**2. Open the Project in IntelliJ IDEA**
+
+<li>Launch IntelliJ IDEA.</li>
+<li>Click <code>File > Open</code> and select the <code>pom.xml</code> file in the cloned project folder.</li>
+<li>IntelliJ will automatically import dependencies and configure the project.</li><br>
+
+**3. Set the JDK Version**
+<li>Go to <code>File > Project Structure > Project</code>.</li>
+<li>Set the Project SDK to <code>JDK 21</code>.</li>
+<li>Ensure the Language Level is set to <code>21 - (Preview)</code> if required.</li><br>
+
+**4. Build the Project**
+<li>Open the Maven tool window (on the right side).</li>
+<li>Run the following lifecycle phases in order:
+  <ul>
+    <li><code>clean</code></li>
+    <li><code>install</code></li>
+  </ul>
+</li>
+
+
+**5. Run the Application**
+<li>Right-click the file and select Run <code>Main.java</code> located at <code>src/main/java/com/example/demo</code></li><br>
 
 # Implemented and Working Properly
-
 This section details the features that have been successfully implemented in both the frontend and backend of the project. Each feature is explained by outlining the <b>original version</b>, the <b>shortcomings of that approach</b>, <b>reasons why the modifications enhance the overall project</b> and the <b>new implementation</b>.
 
 ## Frontend
-<style>
-table, th, td {
-  border:1px solid black;
-}
-</style>
-
 ### **1. Main Menu**
 <table style="width:100%">
   <tr>
