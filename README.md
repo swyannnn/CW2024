@@ -218,7 +218,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     Players can now choose between single player or double player modes before starting the game.
       <div align="center">
-        <img src="./readme_ref/double_player.gif" alt="actor package class diagram" title="Actor" width="500">
+        <img src="./readme_ref/double_player.gif" alt="actor package class diagram" title="Actor" width="200">
       </div>
     </td>
   </tr>
@@ -242,7 +242,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     Instructions are now easily visible on game screen.
       <div align="center">
-        <img src="./readme_ref/game_instruction.gif" alt="actor package class diagram" title="Actor" width="500">
+        <img src="./readme_ref/game_instruction.gif" alt="actor package class diagram" title="Actor" width="200">
       </div>
     </td>
   </tr>
@@ -376,10 +376,10 @@ This section details the features that have been successfully implemented in bot
     <td>
     Visual effects, including explosions, player actions, and enemy interactions, have been implemented.
       <div align="center">
-        <img src="./readme_ref/explosion_effect.gif" alt="actor package class diagram" title="Actor" width="500">
+        <img src="./readme_ref/explosion_effect.gif" alt="actor package class diagram" title="Actor" width="200">
       </div>
       <div align="center">
-        <img src="./readme_ref/flicker_effect.gif" alt="actor package class diagram" title="Actor" width="500">
+        <img src="./readme_ref/flicker_effect.gif" alt="actor package class diagram" title="Actor" width="200">
       </div>
     </td>
   </tr>
