@@ -31,6 +31,8 @@ public class MultiPhaseBossFiringStrategy implements FiringStrategy {
     private final ProjectileFactory projectileFactory = new ProjectileFactory();
     private final ActorSpawner actorSpawner;
     private final double fireRate;
+    private final double offsetX;
+    private final double offsetY;
 
     /**
      * Constructs a new MultiPhaseBossFiringStrategy with the specified actor spawner and fire rate.
@@ -38,9 +40,11 @@ public class MultiPhaseBossFiringStrategy implements FiringStrategy {
      * @param actorSpawner the actor spawner used to spawn actors
      * @param fireRate the rate at which the boss fires
      */
-    public MultiPhaseBossFiringStrategy(ActorSpawner actorSpawner, double fireRate) {
+    public MultiPhaseBossFiringStrategy(ActorSpawner actorSpawner, double fireRate, double offsetX, double offsetY) {
         this.actorSpawner = actorSpawner;
         this.fireRate = fireRate;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
     }
 
     /**
@@ -54,8 +58,8 @@ public class MultiPhaseBossFiringStrategy implements FiringStrategy {
     @Override
     public void fire(FighterPlane plane, long now) {
         if (Math.random() < fireRate) {
-            double projectileX = plane.getProjectileXPosition(GameConstant.EnemyProjectile.PROJECTILE_X_POSITION_OFFSET);
-            double projectileY = plane.getProjectileYPosition(GameConstant.EnemyProjectile.PROJECTILE_Y_POSITION_OFFSET);
+            double projectileX = plane.getProjectileXPosition(offsetX);
+            double projectileY = plane.getProjectileYPosition(offsetY);
 
             BossProjectile projectile = (BossProjectile) projectileFactory.createProjectile(
                 ProjectileType.BOSS,

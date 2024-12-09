@@ -14,7 +14,9 @@ public class PlaneConfig {
     public int health;
     public double fireRate;
     public long fireIntervalNanoseconds;
+    public double projectileOffsetX;
+    public double projectileOffsetY;
+    public int speed;
     public MovementStrategy movementStrategy;
     public FiringStrategy firingStrategy;
-    public int speed;
 }

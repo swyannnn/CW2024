@@ -26,6 +26,8 @@ public class EnemyFiringStrategy implements FiringStrategy {
     private final ProjectileFactory projectileFactory = new ProjectileFactory();
     private final ActorSpawner actorSpawner;
     private final double fireRate;
+    private final double offsetX;
+    private final double offsetY;
 
     /**
      * Constructs an EnemyFiringStrategy with the specified actor spawner and fire rate.
@@ -33,9 +35,12 @@ public class EnemyFiringStrategy implements FiringStrategy {
      * @param actorSpawner the actor spawner responsible for spawning actors
      * @param fireRate the rate at which the enemy fires
      */
-    public EnemyFiringStrategy(ActorSpawner actorSpawner, double fireRate) {
+    public EnemyFiringStrategy(ActorSpawner actorSpawner, double fireRate, double offsetX, double offsetY) {
         this.actorSpawner = actorSpawner;
         this.fireRate = fireRate;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
+        System.out.println("EnemyFiringStrategy: fireRate: " + fireRate + ", offsetX: " + offsetX + ", offsetY: " + offsetY);
     }
 
     /**
@@ -47,14 +52,16 @@ public class EnemyFiringStrategy implements FiringStrategy {
     @Override
     public void fire(FighterPlane plane, long now) {
         if (Math.random() < fireRate) {
-            double projectileX = plane.getProjectileXPosition(GameConstant.EnemyProjectile.PROJECTILE_X_POSITION_OFFSET);
-            double projectileY = plane.getProjectileYPosition(GameConstant.EnemyProjectile.PROJECTILE_Y_POSITION_OFFSET);
+            double projectileX = plane.getProjectileXPosition(offsetX);
+            double projectileY = plane.getProjectileYPosition(offsetY);
 
             Projectile projectile = projectileFactory.createProjectile(
                 ProjectileType.ENEMY,
                 projectileX,
                 projectileY
             );
+            // System.out.println("EnemyFiringStrategy:" + projectile + ", projectileX: " + projectileX + ", projectileY: " + projectileY);
+            // System.out.println("EnemyFiringStrategy: projectileX: " + projectileX + ", projectileY: " + projectileY);
             actorSpawner.addActor(projectile);
         }
     }

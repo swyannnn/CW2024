@@ -56,7 +56,6 @@ public class Level001 extends LevelParent{
         int totalKills = actorSpawner.getPlayers().stream()
                 .mapToInt(player -> player.getNumberOfKills())
                 .sum();
-        System.out.println("Total kills: " + totalKills);
         return totalKills >= killsToAdvance;
     }
 

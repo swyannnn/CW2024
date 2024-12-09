@@ -47,6 +47,8 @@ public class PlaneFactory {
         config.health = type.getHealth();
         config.fireRate = type.getFireRate();
         config.fireIntervalNanoseconds = type.getFireIntervalNanoseconds();
+        config.projectileOffsetX = type.getProjectileOffsetX();
+        config.projectileOffsetY = type.getProjectileOffsetY();
         config.speed = type.getSpeed();
 
         // Create movement and firing strategies using lambda expressions from PlaneType
@@ -106,7 +108,7 @@ public class PlaneFactory {
         config.fireIntervalNanoseconds = GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS;
         config.speed = GameConstant.UserPlane.VELOCITY; // Set speed from constants
 
-        config.firingStrategy = new UserFiringStrategy(actorSpawner, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS);
+        config.firingStrategy = new UserFiringStrategy(actorSpawner, GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS, config.projectileOffsetX, config.projectileOffsetY);
         return new UserPlane(config, playerId);
     }
 

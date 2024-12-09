@@ -28,6 +28,8 @@ public class UserFiringStrategy implements FiringStrategy {
     private final long fireIntervalNanoseconds;
     private final AudioManager audioManager;
     private long lastFireTime;
+    private final double offsetX;
+    private final double offsetY;
 
     /**
      * Constructs a UserFiringStrategy with the specified actor spawner and fire interval.
@@ -35,10 +37,12 @@ public class UserFiringStrategy implements FiringStrategy {
      * @param actorSpawner the actor spawner responsible for spawning actors
      * @param fireIntervalNanoseconds the interval between fires in nanoseconds
      */
-    public UserFiringStrategy(ActorSpawner actorSpawner, long fireIntervalNanoseconds) {
+    public UserFiringStrategy(ActorSpawner actorSpawner, long fireIntervalNanoseconds, double offsetX, double offsetY) {
         this.actorSpawner = actorSpawner;
         this.fireIntervalNanoseconds = fireIntervalNanoseconds;
         this.audioManager = AudioManager.getInstance();
+        this.offsetX = offsetX;
+        this.offsetY = offsetX;
     }
 
     /**
@@ -50,8 +54,8 @@ public class UserFiringStrategy implements FiringStrategy {
     @Override
     public void fire(FighterPlane plane, long now) {
         if (now - lastFireTime >= fireIntervalNanoseconds) {
-            double projectileX = plane.getProjectileXPosition(GameConstant.UserProjectile.PROJECTILE_X_POSITION_OFFSET);
-            double projectileY = plane.getProjectileYPosition(GameConstant.UserProjectile.PROJECTILE_Y_POSITION_OFFSET);
+            double projectileX = plane.getProjectileXPosition(offsetX);
+            double projectileY = plane.getProjectileYPosition(offsetY);
             
             Projectile projectile = projectileFactory.createProjectile(
                 ProjectileType.USER,

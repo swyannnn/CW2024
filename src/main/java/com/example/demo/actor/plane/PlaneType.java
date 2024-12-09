@@ -21,11 +21,13 @@ public enum PlaneType {
         GameConstant.EnemyPlane.Y_UPPER_BOUND,
         GameConstant.EnemyPlane.Y_LOWER_BOUND,
         GameConstant.EnemyPlane.INITIAL_HEALTH,
-        GameConstant.EnemyProjectile.FIRE_RATE,
-        GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS,
+        GameConstant.EnemyPlane.FIRE_RATE,
+        0, // fireIntervalNanoseconds not applicable
+        GameConstant.EnemyPlane.PROJECTILE_X_POSITION_OFFSET,
+        GameConstant.EnemyPlane.PROJECTILE_Y_POSITION_OFFSET,
         GameConstant.EnemyPlane.HORIZONTAL_VELOCITY,
         (factory, config) -> new EnemyMovementStrategy(config.speed),
-        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate)
+        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate, config.projectileOffsetX, config.projectileOffsetY)
     ),
     
     ENEMY_PLANE1(
@@ -35,11 +37,13 @@ public enum PlaneType {
         GameConstant.EnemyPlane1.Y_UPPER_BOUND,
         GameConstant.EnemyPlane1.Y_LOWER_BOUND,
         GameConstant.EnemyPlane1.INITIAL_HEALTH,
-        GameConstant.EnemyProjectile.FIRE_RATE,
-        GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS,
+        GameConstant.EnemyPlane1.FIRE_RATE,
+        0,
+        GameConstant.EnemyPlane1.PROJECTILE_X_POSITION_OFFSET,
+        GameConstant.EnemyPlane1.PROJECTILE_Y_POSITION_OFFSET,
         GameConstant.EnemyPlane1.HORIZONTAL_VELOCITY,
         (factory, config) -> new EnemyMovementStrategy(config.speed),
-        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate)
+        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate, config.projectileOffsetX, config.projectileOffsetY)
     ),
     
     ENEMY_PLANE2(
@@ -49,11 +53,13 @@ public enum PlaneType {
         GameConstant.EnemyPlane2.Y_UPPER_BOUND,
         GameConstant.EnemyPlane2.Y_LOWER_BOUND,
         GameConstant.EnemyPlane2.INITIAL_HEALTH,
-        GameConstant.EnemyProjectile.FIRE_RATE,
-        GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS,
+        GameConstant.EnemyPlane2.FIRE_RATE,
+0,
+        GameConstant.EnemyPlane2.PROJECTILE_X_POSITION_OFFSET,
+        GameConstant.EnemyPlane2.PROJECTILE_Y_POSITION_OFFSET,
         GameConstant.EnemyPlane2.HORIZONTAL_VELOCITY,
         (factory, config) -> new EnemyMovementStrategy(config.speed),
-        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate)
+        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate, config.projectileOffsetX, config.projectileOffsetY)
     ),
 
     ENEMY_PLANE3(
@@ -63,11 +69,13 @@ public enum PlaneType {
         GameConstant.EnemyPlane3.Y_UPPER_BOUND,
         GameConstant.EnemyPlane3.Y_LOWER_BOUND,
         GameConstant.EnemyPlane3.INITIAL_HEALTH,
-        GameConstant.EnemyProjectile.FIRE_RATE,
-        GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS,
+        GameConstant.EnemyPlane3.FIRE_RATE,
+        0,
+        GameConstant.EnemyPlane3.PROJECTILE_X_POSITION_OFFSET,
+        GameConstant.EnemyPlane3.PROJECTILE_Y_POSITION_OFFSET,
         GameConstant.EnemyPlane3.HORIZONTAL_VELOCITY,
         (factory, config) -> new EnemyMovementStrategy(config.speed),
-        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate)
+        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate, config.projectileOffsetX, config.projectileOffsetY)
     ),
 
     ENEMY_PLANE4(
@@ -77,11 +85,13 @@ public enum PlaneType {
         GameConstant.EnemyPlane4.Y_UPPER_BOUND,
         GameConstant.EnemyPlane4.Y_LOWER_BOUND,
         GameConstant.EnemyPlane4.INITIAL_HEALTH,
-        GameConstant.EnemyProjectile.FIRE_RATE,
-        GameConstant.EnemyProjectile.FIRE_INTERVAL_NANOSECONDS,
+        GameConstant.EnemyPlane4.FIRE_RATE,
+        0,
+        GameConstant.EnemyPlane4.PROJECTILE_X_POSITION_OFFSET,
+        GameConstant.EnemyPlane4.PROJECTILE_Y_POSITION_OFFSET,
         GameConstant.EnemyPlane4.HORIZONTAL_VELOCITY,
         (factory, config) -> new EnemyMovementStrategy(config.speed),
-        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate)
+        (factory, config) -> new EnemyFiringStrategy(factory.getActorSpawner(), config.fireRate, config.projectileOffsetX, config.projectileOffsetY)
     ),
 
     BOSS_PLANE(
@@ -92,10 +102,12 @@ public enum PlaneType {
         GameConstant.BossPlane.INITIAL_Y_POSITION, // Fixed Y position
         GameConstant.BossPlane.INITIAL_HEALTH,
         GameConstant.BossProjectile.FIRE_RATE,
-        GameConstant.BossPlane.FIRE_INTERVAL_NANOSECONDS,
+        0,
+        GameConstant.BossPlane.PROJECTILE_X_POSITION_OFFSET,
+        GameConstant.BossPlane.PROJECTILE_Y_POSITION_OFFSET,
         GameConstant.BossPlane.VERTICAL_VELOCITY,
         (factory, config) -> new BossMovementStrategy(config.speed),
-        (factory, config) -> new BossFiringStrategy(factory.getActorSpawner(), config.fireRate)
+        (factory, config) -> new BossFiringStrategy(factory.getActorSpawner(), config.fireRate, config.projectileOffsetX, config.projectileOffsetY)
     ),
 
     MULTI_PHASE_BOSS_PLANE(
@@ -107,9 +119,11 @@ public enum PlaneType {
         GameConstant.MultiPhaseBossPlane.REMAINING_HEALTH_PHASE1,
         GameConstant.MultiPhaseBossPlane.FIRE_RATE,
         GameConstant.MultiPhaseBossPlane.FIRE_INTERVAL_NANOSECONDS,
+        GameConstant.MultiPhaseBossPlane.PROJECTILE_X_POSITION_OFFSET,
+        GameConstant.MultiPhaseBossPlane.PROJECTILE_Y_POSITION_OFFSET,
         0, // Speed is handled by movement strategy
         (factory, config) -> new MultiPhaseBossMovementStrategy(config.speed),
-        (factory, config) -> new MultiPhaseBossFiringStrategy(factory.getActorSpawner(), config.fireRate)
+        (factory, config) -> new MultiPhaseBossFiringStrategy(factory.getActorSpawner(), config.fireRate, config.projectileOffsetX, config.projectileOffsetY)
     ),
     
     USER_PLANE(
@@ -121,9 +135,11 @@ public enum PlaneType {
         GameConstant.UserPlane.INITIAL_HEALTH,
         0, // fireRate not applicable
         GameConstant.UserProjectile.FIRE_INTERVAL_NANOSECONDS,
+        GameConstant.UserPlane.PROJECTILE_X_POSITION_OFFSET,
+        GameConstant.UserPlane.PROJECTILE_Y_POSITION_OFFSET,
         GameConstant.UserPlane.VELOCITY,
         null, // movementStrategyCreator handled separately
-        (factory, config) -> new UserFiringStrategy(factory.getActorSpawner(), config.fireIntervalNanoseconds)
+        (factory, config) -> new UserFiringStrategy(factory.getActorSpawner(), config.fireIntervalNanoseconds, config.projectileOffsetX, config.projectileOffsetY)
     )
     ;
 
@@ -135,6 +151,8 @@ public enum PlaneType {
     private final int health;
     private final double fireRate;
     private final long fireIntervalNanoseconds;
+    private final double projectileOffsetX;
+    private final double projectileOffsetY;
     private final int speed;
     private final BiFunction<PlaneFactory, PlaneConfig, MovementStrategy> movementStrategyCreator;
     private final BiFunction<PlaneFactory, PlaneConfig, FiringStrategy> firingStrategyCreator;
@@ -148,6 +166,8 @@ public enum PlaneType {
         int health,
         double fireRate,
         long fireIntervalNanoseconds,
+        double projectileOffsetX,
+        double projectileOffsetY,
         int speed,
         BiFunction<PlaneFactory, PlaneConfig, MovementStrategy> movementStrategyCreator,
         BiFunction<PlaneFactory, PlaneConfig, FiringStrategy> firingStrategyCreator
@@ -160,6 +180,8 @@ public enum PlaneType {
         this.health = health;
         this.fireRate = fireRate;
         this.fireIntervalNanoseconds = fireIntervalNanoseconds;
+        this.projectileOffsetX = projectileOffsetX;
+        this.projectileOffsetY = projectileOffsetY;
         this.speed = speed;
         this.movementStrategyCreator = movementStrategyCreator;
         this.firingStrategyCreator = firingStrategyCreator;
@@ -235,6 +257,24 @@ public enum PlaneType {
      */
     public long getFireIntervalNanoseconds() {
          return fireIntervalNanoseconds; 
+    }
+
+    /**
+     * Retrieves the X offset for the projectile.
+     *
+     * @return the X offset for the projectile as a double.
+     */
+    public double getProjectileOffsetX() {
+         return projectileOffsetX; 
+    }
+
+    /**
+     * Retrieves the Y offset for the projectile.
+     *
+     * @return the Y offset for the projectile as a double.
+     */
+    public double getProjectileOffsetY() {
+         return projectileOffsetY;
     }
 
     /**

@@ -96,6 +96,11 @@ public abstract class FighterPlane extends ActiveActor {
      * @return the calculated X position of the projectile
      */
     public double getProjectileXPosition(double xPositionOffset) {
+        // if (this instanceof EnemyPlane){
+        //     System.out.println("getLayoutX() = " + getLayoutX());
+        //     System.out.println("getTranslateX() = " + getTranslateX());
+        //     System.out.println("getX() = " + getX());
+        // }
         return getLayoutX() + getTranslateX() + xPositionOffset;
     }
 

@@ -25,6 +25,8 @@ public class BossFiringStrategy implements FiringStrategy {
     private final ActorSpawner actorSpawner;
     private final double fireRate;
     private final ProjectileFactory projectileFactory = new ProjectileFactory();
+    private final double offsetX;
+    private final double offsetY;
 
     /**
      * Constructs a new BossFiringStrategy with the specified actor spawner and fire rate.
@@ -32,9 +34,11 @@ public class BossFiringStrategy implements FiringStrategy {
      * @param actorSpawner the actor spawner responsible for spawning actors
      * @param fireRate the rate at which the boss fires
      */
-    public BossFiringStrategy(ActorSpawner actorSpawner, double fireRate) {
+    public BossFiringStrategy(ActorSpawner actorSpawner, double fireRate, double offsetX, double offsetY) {
         this.actorSpawner = actorSpawner;
         this.fireRate = fireRate;
+        this.offsetX = offsetX;
+        this.offsetY = offsetY;
     }
 
     /**
@@ -46,8 +50,8 @@ public class BossFiringStrategy implements FiringStrategy {
     @Override
     public void fire(FighterPlane plane, long now) {
         if (Math.random() < fireRate) {
-            double projectileX = plane.getProjectileXPosition(GameConstant.EnemyProjectile.PROJECTILE_X_POSITION_OFFSET);
-            double projectileY = plane.getProjectileYPosition(GameConstant.EnemyProjectile.PROJECTILE_Y_POSITION_OFFSET);
+            double projectileX = plane.getProjectileXPosition(offsetX);
+            double projectileY = plane.getProjectileYPosition(offsetY);
 
             Projectile projectile = projectileFactory.createProjectile(
                 ProjectileType.BOSS,

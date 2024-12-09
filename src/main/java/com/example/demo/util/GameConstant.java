@@ -76,6 +76,8 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY_MULTIPLIER = 0;
         public static final int NUMBER_OF_KILLS = 0;
         public static final int DAMAGE_FLICKER_COUNT = 3;
+        public static final int PROJECTILE_X_POSITION_OFFSET = -6;
+        public static final int PROJECTILE_Y_POSITION_OFFSET = -10;
     }
 
     /**
@@ -85,8 +87,6 @@ public class GameConstant {
         public static final String IMAGE_NAME = "userfire.png";
         public static final int IMAGE_HEIGHT = 125;
         public static final int HORIZONTAL_VELOCITY = 15;
-        public static final int PROJECTILE_X_POSITION_OFFSET = -8;
-        public static final int PROJECTILE_Y_POSITION_OFFSET = -10;
         public static final long FIRE_INTERVAL_NANOSECONDS = 500_000_000L;
     }
 
@@ -100,10 +100,13 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
-        public static final double X_UPPER_BOUND = 0;
+        public static final double X_UPPER_BOUND = 150;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
         public static final double Y_UPPER_BOUND = -40;
         public static final double Y_LOWER_BOUND = 600;
+        public static final double PROJECTILE_X_POSITION_OFFSET = -70;
+        public static final double PROJECTILE_Y_POSITION_OFFSET = 50;
+        public static final double FIRE_RATE = 0.01;
     }
 
     /**
@@ -116,10 +119,13 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY = -5;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
-        public static final double X_UPPER_BOUND = 0;
+        public static final double X_UPPER_BOUND = 150;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
         public static final double Y_UPPER_BOUND = -40;
         public static final double Y_LOWER_BOUND = 600;
+        public static final double PROJECTILE_X_POSITION_OFFSET = -55;
+        public static final double PROJECTILE_Y_POSITION_OFFSET = 15;
+        public static final double FIRE_RATE = 0.008;
     }
 
     /**
@@ -132,10 +138,13 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY = -4;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
-        public static final double X_UPPER_BOUND = 0;
+        public static final double X_UPPER_BOUND = 150;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
         public static final double Y_UPPER_BOUND = -40;
         public static final double Y_LOWER_BOUND = 600;
+        public static final double PROJECTILE_X_POSITION_OFFSET = -75;
+        public static final double PROJECTILE_Y_POSITION_OFFSET = 15;
+        public static final double FIRE_RATE = 0.007;
     }
 
     /**
@@ -148,10 +157,13 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
-        public static final double X_UPPER_BOUND = 0;
+        public static final double X_UPPER_BOUND = 150;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
         public static final double Y_UPPER_BOUND = -40;
         public static final double Y_LOWER_BOUND = 600;
+        public static final double PROJECTILE_X_POSITION_OFFSET = -85;
+        public static final double PROJECTILE_Y_POSITION_OFFSET = 15;
+        public static final double FIRE_RATE = 0.006;
     }
 
     /**
@@ -164,10 +176,13 @@ public class GameConstant {
         public static final int HORIZONTAL_VELOCITY = -3;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
-        public static final double X_UPPER_BOUND = 0;
+        public static final double X_UPPER_BOUND = 150;
         public static final double X_LOWER_BOUND = GameSettings.SCREEN_WIDTH - 150;
         public static final double Y_UPPER_BOUND = 10;
         public static final double Y_LOWER_BOUND = 700;
+        public static final double PROJECTILE_X_POSITION_OFFSET = -80;
+        public static final double PROJECTILE_Y_POSITION_OFFSET = 15;
+        public static final double FIRE_RATE = 0.005;
     }
 
     /**
@@ -178,9 +193,6 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 50;
         public static final int HORIZONTAL_VELOCITY = -5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 100_000_000L;
-        public static final double PROJECTILE_X_POSITION_OFFSET = -100;
-        public static final double PROJECTILE_Y_POSITION_OFFSET = 50;
-        public static final double FIRE_RATE = 0.1;
     }
 
     /**
@@ -194,13 +206,14 @@ public class GameConstant {
         public static final int VERTICAL_VELOCITY = 4;
         public static final double INITIAL_X_POSITION = 1000.0;
         public static final double INITIAL_Y_POSITION = 125.0;
-        public static final double PROJECTILE_Y_POSITION_OFFSET = 120.0;
         public static final int MOVE_FREQUENCY_PER_CYCLE = 5;
         public static final int ZERO = 0;
         public static final int MAX_FRAMES_WITH_SAME_MOVE = 10;
         public static final int Y_POSITION_UPPER_BOUND = -40;
         public static final int Y_POSITION_LOWER_BOUND = 600;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
+        public static final double PROJECTILE_X_POSITION_OFFSET = -100;
+        public static final double PROJECTILE_Y_POSITION_OFFSET = 120;
     }
 
     /**
@@ -236,9 +249,7 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 70;
         public static final double HORIZONTAL_VELOCITY = -7.5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
-        public static final double PROJECTILE_X_POSITION_OFFSET = -100;
-        public static final double PROJECTILE_Y_POSITION_OFFSET = 120;
-        public static final double FIRE_RATE = 1;
+        public static final double FIRE_RATE = 0.04;
     }
 
     /**
@@ -289,7 +300,7 @@ public class GameConstant {
      * Level 003 settings.
      */
     public static class Level003 {
-        public static final int SURVIVAL_TIME = 10; // in seconds
+        public static final int SURVIVAL_TIME = 100; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 
