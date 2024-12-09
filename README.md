@@ -218,7 +218,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     Players can now choose between single player or double player modes before starting the game.
       <div align="center">
-        <img src="./readme_ref/double_player.gif" alt="actor package class diagram" title="Actor" width="200">
+        <img src="./readme_ref/double_player.gif" alt="actor package class diagram" title="Actor" width="300">
       </div>
     </td>
   </tr>
@@ -242,7 +242,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     Instructions are now easily visible on game screen.
       <div align="center">
-        <img src="./readme_ref/game_instruction.gif" alt="actor package class diagram" title="Actor" width="200">
+        <img src="./readme_ref/game_instruction.gif" alt="actor package class diagram" title="Actor" width="300">
       </div>
     </td>
   </tr>
@@ -687,25 +687,11 @@ This section details the features that have been successfully implemented in bot
 
 
 # New Java Classes
-
-#### `/com/example/demo/actor`
-<div align="center">
-  <img src="./readme_ref/actor.png" alt="actor package class diagram" title="Actor" width="800">
-</div>
-
-1. **ActiveActor** <a href="src/main/java/com/example/demo/actor/ActiveActor.java">[Source Code]</a><br>
-**Description**: <br>
-**Code Location**: <code>src/main/java/com/example/demo/actor/ActiveActor.java</code>
-
-2. **ActiveSpawner** <a href="src/main/java/com/example/demo/actor/ActiveSpawner.java">[Source Code]</a><br>
-**Description**: <br>
-**Code Location**: <code>src/main/java/com/example/demo/actor/ActiveSpawner.java</code>
-
 <table style="width:100%">
   <tr>
-    <th>Class Name</th>
-    <th>Description</th>
-    <th>Code Location</th>
+    <th style="width: 20%;">Class Name</th>
+    <th style="width: 60%;">Description</th>
+    <th style="width: 20%;">Code Location</th>
   </tr>
   <tr>
     <td>
@@ -1397,8 +1383,7 @@ This section details the features that have been successfully implemented in bot
     63. GameConstant
     </td>
     <td>
-      <li>abc</li>
-      <li>abc</li>
+      A class which holds various constants used throughout the game.
     </td>
     <td>
       <a href="src/main/java/com/example/demo/util/GameConstant.java">src/main/java/com/example/demo/util/GameConstant.java</a>
