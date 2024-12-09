@@ -16,7 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- * The LevelView class is responsible for displaying the current level's background,
+ * The LevelScreen class is responsible for displaying the current level's background,
  * instructions, and heart displays for players. It implements the HealthChangeHandler
  * interface to update the heart display when a player's health changes.
  * 

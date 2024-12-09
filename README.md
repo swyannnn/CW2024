@@ -134,6 +134,7 @@ java --version
 Download and install IntelliJ IDEA from [jetbrains.com/idea](https://www.jetbrains.com/idea/download/?section=windows).
 
 **3. Git**
+
 Ensure Git is installed and configured.
 
 Verify installation:
@@ -192,6 +193,9 @@ This section details the features that have been successfully implemented in bot
     </td>
     <td>
     A comprehensive main menu has been developed, offering players options to start the game or select other functionalities.
+      <div align="center">
+        <img src="./readme_ref/main_menu.png" alt="actor package class diagram" title="Actor" width="1000">
+      </div>
     </td>
   </tr>
 </table>
@@ -213,6 +217,9 @@ This section details the features that have been successfully implemented in bot
     </td>
     <td>
     Players can now choose between single player or double player modes before starting the game.
+      <div align="center">
+        <img src="./readme_ref/double_player.gif" alt="actor package class diagram" title="Actor" width="1000">
+      </div>
     </td>
   </tr>
 </table>
@@ -234,6 +241,9 @@ This section details the features that have been successfully implemented in bot
     </td>
     <td>
     Instructions are now easily visible on game screen.
+      <div align="center">
+        <img src="./readme_ref/game_instruction.gif" alt="actor package class diagram" title="Actor" width="1000">
+      </div>
     </td>
   </tr>
 </table>
@@ -319,6 +329,9 @@ This section details the features that have been successfully implemented in bot
     </td>
     <td>
     The game can now be paused at any time during play using a keyboard shortcut or by clicking on the settings icon, then resume gameplay at their own pace.
+      <div align="center">
+        <img src="./readme_ref/pause_screen.png" alt="actor package class diagram" title="Actor" width="1000">
+      </div>
     </td>
   </tr>
 </table>
@@ -362,6 +375,12 @@ This section details the features that have been successfully implemented in bot
     </td>
     <td>
     Visual effects, including explosions, player actions, and enemy interactions, have been implemented.
+      <div align="center">
+        <img src="./readme_ref/explosion_effect.gif" alt="actor package class diagram" title="Actor" width="1000">
+      </div>
+      <div align="center">
+        <img src="./readme_ref/flicker_effect.gif" alt="actor package class diagram" title="Actor" width="1000">
+      </div>
     </td>
   </tr>
 </table>
@@ -405,6 +424,9 @@ This section details the features that have been successfully implemented in bot
     </td>
     <td>
     A Game Over screen has been developed to inform players when they have failed a level. 
+      <div align="center">
+        <img src="./readme_ref/game_over_screen.png" alt="actor package class diagram" title="Actor" width="1000">
+      </div>
     </td>
   </tr>
 </table>
@@ -426,6 +448,9 @@ This section details the features that have been successfully implemented in bot
     </td>
     <td>
     A Win screen has been developed to inform players when they have won the game.  
+      <div align="center">
+        <img src="./readme_ref/win_screen.png" alt="actor package class diagram" title="Actor" width="1000">
+      </div>
     </td>
   </tr>
 </table>
@@ -663,53 +688,723 @@ This section details the features that have been successfully implemented in bot
 
 # New Java Classes
 
+#### `/com/example/demo/actor`
 <div align="center">
   <img src="./readme_ref/actor.png" alt="actor package class diagram" title="Actor" width="800">
 </div>
 
-#### `/com/example/demo/actor`
+1. **ActiveActor** <a href="src/main/java/com/example/demo/actor/ActiveActor.java">[Source Code]</a><br>
+**Description**: <br>
+**Code Location**: <code>src/main/java/com/example/demo/actor/ActiveActor.java</code>
 
-#### `/com/example/demo/actor/projectile`
+2. **ActiveSpawner** <a href="src/main/java/com/example/demo/actor/ActiveSpawner.java">[Source Code]</a><br>
+**Description**: <br>
+**Code Location**: <code>src/main/java/com/example/demo/actor/ActiveSpawner.java</code>
 
-#### `/com/example/demo/actor/plane`
-
-#### `/com/example/demo/actor/plane/component`
-
-#### `/com/example/demo/effect`
-
-#### `/com/example/demo/handler`
-<div align="center">
-  <img src="./readme_ref/handler.png" alt="handler package class diagram" title="Handler" width="800">
-</div>
-
-#### `/com/example/demo/level`
-<div align="center">
-  <img src="./readme_ref/level.png" alt="level package class diagram" title="level" width="800">
-</div>
-
-#### `/com/example/demo/manager`
-
-#### `/com/example/demo/screen`
-<div align="center">
-  <img src="./readme_ref/screen.png" alt="screen package class diagram" title="screen" width="800">
-</div>
-
-#### `/com/example/demo/state`
-<div align="center">
-  <img src="./readme_ref/state.png" alt="state package class diagram" title="state" width="800">
-</div>
-
-#### `/com/example/demo/strategy/movement`
-<div align="center">
-  <img src="./readme_ref/movement_strategy.png" alt="strategy.movement package class diagram" title="strategy.movement" width="800">
-</div>
-
-#### `/com/example/demo/strategy/firing`
-<div align="center">
-  <img src="./readme_ref/firing_strategy.png" alt="strategy.firing package class diagram" title="strategy.firing" width="800">
-</div>
-
-#### `/com/example/demo/util`
+<table style="width:100%">
+  <tr>
+    <th>Class Name</th>
+    <th>Description</th>
+    <th>Code Location</th>
+  </tr>
+  <tr>
+    <td>
+    1. ActiveActor 
+    </td>
+    <td>
+      A class representing an actor in a game or simulation that can move and be destroyed.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/ActiveActor.java">src/main/java/com/example/demo/actor/ActiveActor.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    2. ActiveSpawner 
+    </td>
+    <td>
+      An interface that provides methods for spawning and managing actors in the game world.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/ActiveSpawner.java">src/main/java/com/example/demo/actor/ActiveSpawner.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    3. ProjectileType 
+    </td>
+    <td>
+      An enum representing different types of projectiles in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/projectile/ProjectileType.java">src/main/java/com/example/demo/actor/projectile/ProjectileType.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    4. ProjectileConfig 
+    </td>
+    <td>
+      Configuration class for projectiles in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/projectile/ProjectileConfig.java">src/main/java/com/example/demo/actor/projectile/ProjectileConfig.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    5. ProjectileFactory 
+    </td>
+    <td>
+      Factory class for creating different types of Projectile instances.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/projectile/ProjectileFactory.java">src/main/java/com/example/demo/actor/projectile/ProjectileFactory.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    6. Projectile 
+    </td>
+    <td>
+      Abstract Projectile class representing a generic projectile in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/projectile/Projectile.java">src/main/java/com/example/demo/actor/projectile/Projectile.java</a>
+    </td>
+  </tr>
+    <tr>
+    <td>
+    7. UserProjectile 
+    </td>
+    <td>
+      A class representing a projectile fired by the user.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/projectile/UserProjectile.java">src/main/java/com/example/demo/actor/UserProjectile/Projectile.java</a>
+    </td>
+  </tr>
+  </tr>
+    <tr>
+    <td>
+    8. EnemyProjectile 
+    </td>
+    <td>
+      A class representing a projectile fired by enemies.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/projectile/EnemyProjectile.java">src/main/java/com/example/demo/actor/EnemyProjectile/Projectile.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    9. BossProjectile 
+    </td>
+    <td>
+      A class representing a projectile specifically used by a boss character in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/projectile/BossProjectile.java">src/main/java/com/example/demo/actor/projectile/BossProjectile.java</a>
+    </td>
+  </tr>
+  </tr>
+    <tr>
+    <td>
+    11. PlaneType 
+    </td>
+    <td>
+      An enum represents different types of planes in the game, each with its own unique properties and behaviors.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/PlaneType.java">src/main/java/com/example/demo/actor/plane/PlaneType.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    12. PlaneConfig 
+    </td>
+    <td>
+      A class representing the configuration settings for a plane in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/PlaneConfig.java">src/main/java/com/example/demo/actor/plane/PlaneConfig.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    13. PlaneFactory 
+    </td>
+    <td>
+      A Factory class responsible for creating various types of planes in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/PlaneFactory.java">src/main/java/com/example/demo/actor/plane/PlaneFactory.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    14. FighterPlane 
+    </td>
+    <td>
+      A class representing an abstract type of plane that can engage in combat.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/FighterPlane.java">src/main/java/com/example/demo/actor/plane/FighterPlane.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    15. BossPlane 
+    </td>
+    <td>
+      A class representing a specialized type of FighterPlane with an additional shield capability.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/BossPlane.java">src/main/java/com/example/demo/actor/plane/BossPlane.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    16. EnemyPlane 
+    </td>
+    <td>
+      A class representing an enemy fighter plane in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/EnemyPlane.java">src/main/java/com/example/demo/actor/plane/EnemyPlane.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    17. UserPlane 
+    </td>
+    <td>
+      A Class representing a fighter plane controlled by a user in the game
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/UserPlane.java">src/main/java/com/example/demo/actor/plane/UserPlane.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    18. MultiPhaseBossPlane 
+    </td>
+    <td>
+      A class representing a boss plane with multiple phases in a game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/MultiPhaseBossPlane.java">src/main/java/com/example/demo/actor/plane/MultiPhaseBossPlane.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    19. HeartDisplay 
+    </td>
+    <td>
+       A class representing a graphical component that displays a player's hearts in a game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/component/HeartDisplay.java">src/main/java/com/example/demo/actor/plane/component/HeartDisplay.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    20. Shield 
+    </td>
+    <td>
+      A class representing a visual shield that can be activated and deactivated based on certain conditions.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/actor/plane/Shield.java">src/main/java/com/example/demo/actor/plane/Shield.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    21. ExplosionEffect 
+    </td>
+    <td>
+      A class representing an explosion animation effect.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/effect/ExplosionEffect.java">src/main/java/com/example/demo/effect/ExplosionEffect.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    22. FlickerEffect 
+    </td>
+    <td>
+      A class that provides a reusable flicker animation for JavaFX Nodes.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/effect/FlickerEffect.java">src/main/java/com/example/demo/effect/FlickerEffect.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    23. CollisionHandler 
+    </td>
+    <td>
+      An interface provides methods to handle collision events in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/handler/CollisionHandler.java">src/main/java/com/example/demo/handler/CollisionHandler.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    24. GameLoopHandler 
+    </td>
+    <td>
+      A functional interface representing a handler for the game loop.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/handler/GameLoopHandler.java">src/main/java/com/example/demo/handler/GameLoopHandler.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    25. HealthChangeHandler 
+    </td>
+    <td>
+      An interface for listening to changes in the health of a user plane.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/handler/HealthChangeHandler.java">src/main/java/com/example/demo/handler/HealthChangeHandler.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    25. InputHandler 
+    </td>
+    <td>
+      An interface that defines a contract for handling input events.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/handler/InputHandler.java">src/main/java/com/example/demo/handler/InputHandler.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    26. LevelConfig 
+    </td>
+    <td>
+      A class that encapsulates the configuration settings for a game level.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/level/LevelConfig.java">src/main/java/com/example/demo/level/LevelConfig.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    27. LevelFactory 
+    </td>
+    <td>
+      A factory class for creating different levels in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/level/LevelFactory.java">src/main/java/com/example/demo/level/LevelFactory.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    28. LevelParent 
+    </td>
+    <td>
+      A class that serves as an abstract base class for game levels.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/level/LevelParent.java">src/main/java/com/example/demo/level/LevelParent.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    29. Level003 
+    </td>
+    <td>
+      A subclass of LevelParent that represents the third level of the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/level/Level003.java">src/main/java/com/example/demo/level/Level003.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    30. Level004
+    </td>
+    <td>
+      a subclass of LevelParent that represents the fourth level of the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/level/Level004.java">src/main/java/com/example/demo/level/Level004.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    31. ActorManager
+    </td>
+    <td>
+      A class which responsible for managing and updating all active actors in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/manager/ActorManager.java">src/main/java/com/example/demo/manager/ActorManager.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    32. AudioManager
+    </td>
+    <td>
+      A class which responsible for managing audio playback in the application.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/manager/AudioManager.java">src/main/java/com/example/demo/manager/AudioManager.java</a>
+    </td>
+  </tr>
+ <tr>
+    <td>
+    33. ButtonManager
+    </td>
+    <td>
+      A class which provides utility methods to create and style buttons.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/manager/ButtonManager.java">src/main/java/com/example/demo/manager/ButtonManager.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    34. CollisionManager
+    </td>
+    <td>
+      A class which responsible for handling collisions between various actors in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/manager/CollisionManager.java">src/main/java/com/example/demo/manager/CollisionManager.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    35. GameLoopManager
+    </td>
+    <td>
+      A class which responsible for managing the game loop using the singleton pattern.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/manager/GameLoopManager.java">src/main/java/com/example/demo/manager/GameLoopManager.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    36. ImageManager
+    </td>
+    <td>
+      A class which provides utility methods for managing and retrieving images.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/manager/ImageManager.java">src/main/java/com/example/demo/manager/ImageManager.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    37. InputManager
+    </td>
+    <td>
+      A class which responsible for handling and delegating input events.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/manager/InputManager.java">src/main/java/com/example/demo/manager/InputManager.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    38. StateManager
+    </td>
+    <td>
+      A class which responsible for managing the transitions between different game states.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/manager/StateManager.java">src/main/java/com/example/demo/manager/StateManager.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    39. LevelScreen
+    </td>
+    <td>
+       A class which responsible for displaying the current level's background, instructions, and heart displays for players.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/screen/LevelScreen.java">src/main/java/com/example/demo/screen/LevelScreen.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    40. LoseScreen
+    </td>
+    <td>
+      A class representing the screen displayed when the player loses the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/screen/LoseScreen.java">src/main/java/com/example/demo/screen/LoseScreen.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    41. MainMenuScreen
+    </td>
+    <td>
+      A class representing the main menu of the game application.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/screen/LoseScreen.java">src/main/java/com/example/demo/screen/MainMenuScreen.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    42. PauseScreen
+    </td>
+    <td>
+      A class representing a UI overlay that appears when the game is paused.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/screen/PauseScreen.java">src/main/java/com/example/demo/screen/PauseScreen.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    43. WinScreen
+    </td>
+    <td>
+      A class representing the screen displayed when the player wins the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/screen/WinScreen.java">src/main/java/com/example/demo/screen/WinScreen.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    44. GameState
+    </td>
+    <td>
+      A class representing a state in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/state/GameState.java">src/main/java/com/example/demo/state/GameState.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    45. StateFactory
+    </td>
+    <td>
+      A class which responsible for creating instances of game states.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/state/StateFactory.java">src/main/java/com/example/demo/state/StateFactory.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    46. StateTransitioner
+    </td>
+    <td>
+      An interface that defines the methods required for transitioning between different states in a game or application.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/state/StateTransitioner.java">src/main/java/com/example/demo/state/StateTransitioner.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    47. LevelState
+    </td>
+    <td>
+      A class representing the state of a game level and manages various aspects of the game, including input handling, collision detection, actor management, and state transitions.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/state/LevelState.java">src/main/java/com/example/demo/state/LevelState.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    48. MainMenuState
+    </td>
+    <td>
+      A class that implements the GameState interface and represents the main menu state of the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/state/MainMenuState.java">src/main/java/com/example/demo/state/MainMenuState.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    49. LoseState
+    </td>
+    <td>
+      A class that implements the GameState interface and represents the state of the game when the player has lost.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/state/LoseState.java">src/main/java/com/example/demo/state/LoseState.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    50. WinState
+    </td>
+    <td>
+       A class that implements the GameState interface and represents the state of the game when the player has won.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/state/WinState.java">src/main/java/com/example/demo/state/WinState.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    51. FiringStrategy
+    </td>
+    <td>
+      An interface that defines the contract for different firing strategies that can be implemented for a FighterPlane.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/firing/FiringStrategy.java">src/main/java/com/example/demo/strategy/firing/FiringStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    52. UserFiringStrategy
+    </td>
+    <td>
+      A class which implements the FiringStrategy interface and defines the firing behavior for user planes.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/firing/UserFiringStrategy.java">src/main/java/com/example/demo/strategy/firing/UserFiringStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    53. EnemyFiringStrategy
+    </td>
+    <td>
+      A class which implements the FiringStrategy interface and defines the firing behavior for enemy planes.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/firing/EnemyFiringStrategy.java">src/main/java/com/example/demo/strategy/firing/EnemyFiringStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    54. BossFiringStrategy
+    </td>
+    <td>
+      A class which implements the FiringStrategy interface and defines the firing behavior for a boss character.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/firing/BossFiringStrategy.java">src/main/java/com/example/demo/strategy/firing/BossFiringStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    55. MultiPhaseBossFiringStrategy
+    </td>
+    <td>
+      A class which implements the FiringStrategy interface and defines the firing behavior for a multi-phase boss in a game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/firing/MultiPhaseBossFiringStrategy.java">src/main/java/com/example/demo/strategy/firing/MultiPhaseBossFiringStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    56. MovementType
+    </td>
+    <td>
+      An enum representing different types of movement strategies.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/movement/MovementType.java">src/main/java/com/example/demo/strategy/movement/MovementType.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    57. MovementStrategy
+    </td>
+    <td>
+      An interface that defines a strategy for moving a FighterPlane.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/movement/MovementStrategy.java">src/main/java/com/example/demo/strategy/movement/MovementStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    58. UserMovementStrategy
+    </td>
+    <td>
+      A class which implements the MovementStrategy interface and defines the movement behavior for the player's plane in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/movement/UserMovementStrategy.java">src/main/java/com/example/demo/strategy/movement/UserMovementStrategy.java</a>
+    </td>
+  </tr>
+  </tr>
+  <tr>
+    <td>
+    59. EnemyMovementStrategy
+    </td>
+    <td>
+      A class which implements the MovementStrategy interface and defines the movement behavior for enemy planes in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/movement/EnemyMovementStrategy.java">src/main/java/com/example/demo/strategy/movement/EnemyMovementStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    60. BossMovementStrategy
+    </td>
+    <td>
+      A class which  implements the MovementStrategy interface and defines the movement behavior for the boss plane in the game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/movement/MultiPhaseBossMovementStrategy.java">src/main/java/com/example/demo/strategy/movement/MultiPhaseBossMovementStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    61. MultiPhaseBossMovementStrategy
+    </td>
+    <td>
+      A class which implements the MovementStrategy interface and defines the movement behavior for a multi-phase boss in a game.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/strategy/movement/BossMovementStrategy.java">src/main/java/com/example/demo/strategy/movement/BossMovementStrategy.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    62. PlayerKeyBindings
+    </td>
+    <td>
+      A class which manages key bindings for player movement in four directions: up, down, left, and right.
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/util/PlayerKeyBindings.java">src/main/java/com/example/demo/util/PlayerKeyBindings.java</a>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    63. GameConstant
+    </td>
+    <td>
+      <li>abc</li>
+      <li>abc</li>
+    </td>
+    <td>
+      <a href="src/main/java/com/example/demo/util/GameConstant.java">src/main/java/com/example/demo/util/GameConstant.java</a>
+    </td>
+  </tr>
+</table>
 
 # Modified Java Classes
 

@@ -49,6 +49,9 @@ public class Level004 extends LevelParent {
      */
     @Override
     public boolean userHasReachedTarget() {
+        if (bossPlane == null) {
+            return false;
+        }
         return bossPlane.isDestroyed();
     }
 

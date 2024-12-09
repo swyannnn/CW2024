@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- * The PauseOverlay class represents a UI overlay that appears when the game is paused.
+ * The PauseScreen class represents a UI overlay that appears when the game is paused.
  * It provides options to resume the game or exit to the main menu.
  * 
  * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/screen/PauseScreen.java">Github Source Code</a>
