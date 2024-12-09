@@ -39,7 +39,7 @@ public class EnemyMovementStrategy implements MovementStrategy {
      */
     @Override
     public void move(FighterPlane plane, long now) {
-        double newX = plane.getLayoutX() - horizontalVelocity;
+        double newX = plane.getLayoutX() + horizontalVelocity;
 
         // Destroy the plane if it goes out of bounds
         if (newX + plane.getBoundsInParent().getWidth() < 0) {

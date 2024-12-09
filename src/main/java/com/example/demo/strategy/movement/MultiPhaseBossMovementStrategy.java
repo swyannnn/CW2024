@@ -182,7 +182,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
                 movementState = MovementType.HORIZONTAL;
                 movementFrameCount = 0;
                 switchedDueToBounds = true;
-                System.out.println("Switching to HORIZONTAL state due to horizontal bounds violation.");
             }
         }
     
@@ -200,9 +199,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
             }
             movementFrameCount = 0;
         }
-    
-        // Log frame count and current state for debugging
-        System.out.println("Frame count: " + movementFrameCount + ", current state: " + movementState);
     }
     
 
@@ -213,7 +209,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
      */
     private void toggleMovementState() {
         movementState = (movementState == MovementType.HORIZONTAL) ? MovementType.SINE_WAVE : MovementType.HORIZONTAL;
-        System.out.println("Toggled movement state to: " + movementState);
     }
 
     /**
@@ -263,23 +258,19 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
             horizontalVelocity = Math.abs(horizontalVelocity); // Ensure velocity is positive
             plane.setTranslateX(XUpperBound - plane.getLayoutX());
             sineWaveBaseX = plane.getTranslateX(); // Re-align sine wave base
-            System.out.println("Reversed horizontal velocity to positive. New velocity: " + horizontalVelocity);
         } else if (currentX > XLowerBound) {
             horizontalVelocity = -Math.abs(horizontalVelocity); // Ensure velocity is negative
             plane.setTranslateX(XLowerBound - plane.getLayoutX());
             sineWaveBaseX = plane.getTranslateX(); // Re-align sine wave base
-            System.out.println("Reversed horizontal velocity to negative. New velocity: " + horizontalVelocity);
         }
 
         // Handle vertical bounds (if needed)
         if (currentY < YUpperBound) {
             verticalVelocity = Math.abs(verticalVelocity); // Ensure velocity is positive
             plane.setTranslateY(YUpperBound - plane.getLayoutY());
-            System.out.println("Reversed vertical velocity to positive. New velocity: " + verticalVelocity);
         } else if (currentY > YLowerBound) {
             verticalVelocity = -Math.abs(verticalVelocity); // Ensure velocity is negative
             plane.setTranslateY(YLowerBound - plane.getLayoutY());
-            System.out.println("Reversed vertical velocity to negative. New velocity: " + verticalVelocity);
         }
     }
 
@@ -312,10 +303,8 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     
         if (currentX < minX) {
             plane.setTranslateX(minX - plane.getLayoutX());
-            System.out.println("Adjusted X to min safe position for sine wave: " + (minX - plane.getLayoutX()));
         } else if (currentX > maxX) {
             plane.setTranslateX(maxX - plane.getLayoutX());
-            System.out.println("Adjusted X to max safe position for sine wave: " + (maxX - plane.getLayoutX()));
         }
     }    
 }

@@ -55,13 +55,13 @@ public class AudioManager {
      * in the {@code GameConstant.FilePaths} enum and preloads them. For sound effects,
      * it sets the volume to 0.5 and adds them to the {@code soundEffects} list.
      * Background music files are preloaded without additional configuration.
-     * </p>
+    * </p>
      */
     private void preloadAllAudio() {
         for (GameConstant.FilePaths.SoundEffect soundEffect : GameConstant.FilePaths.SoundEffect.values()) {
             AudioClip clip = preloadAudioClip(soundEffect.getFileName());
             if (clip != null) {
-                clip.setVolume(0.5);
+                clip.setVolume(0.7);
                 soundEffects.add(clip);
             }
         }

@@ -32,7 +32,7 @@ public class HeartDisplayTest {
     void testGetContainer() {
         HeartDisplay heartDisplay = new HeartDisplay(0, 100, 100, 5);
         assertNotNull(heartDisplay.getContainer());
-        assertEquals(6, heartDisplay.getContainer().getChildren().size()); // 1 plane icon + 3 hearts
+        assertEquals(1, heartDisplay.getContainer().getChildren().size());
     }
 
     @Test

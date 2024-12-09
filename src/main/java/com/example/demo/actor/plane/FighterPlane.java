@@ -27,7 +27,6 @@ import com.example.demo.strategy.movement.MovementStrategy;
  *   <li>{@link #getProjectileXPosition(double)}: Calculates the X position for firing a projectile.</li>
  *   <li>{@link #getProjectileYPosition(double)}: Calculates the Y position for firing a projectile.</li>
  *   <li>{@link #setMovementStrategy(MovementStrategy)}: Sets the movement strategy.</li>
- *   <li>{@link #setFiringStrategy(FiringStrategy)}: Sets the firing strategy.</li>
  *   <li>{@link #healthAtZero()}: Checks if the plane's health is zero.</li>
  *   <li>{@link #getHealth()}: Returns the current health of the plane.</li>
  *   <li>{@link #setHealth(int)}: Sets the health of the plane.</li>
