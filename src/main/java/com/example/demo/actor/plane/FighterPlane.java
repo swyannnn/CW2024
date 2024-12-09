@@ -12,54 +12,41 @@ import com.example.demo.strategy.movement.MovementStrategy;
  * for updating the plane's state. Subclasses should implement specific behaviors by overriding the 
  * performAdditionalUpdates method.</p>
  * 
- * <p>Key properties include:</p>
- * <ul>
- *   <li>health: The current health of the plane.</li>
- *   <li>fireIntervalNanoseconds: The interval between firing actions in nanoseconds.</li>
- *   <li>fireRate: The rate at which the plane can fire.</li>
- *   <li>firingStrategy: The strategy used for firing projectiles.</li>
- *   <li>movementStrategy: The strategy used for moving the plane.</li>
- * </ul>
- * 
- * <p>Key methods include:</p>
- * <ul>
- *   <li>{@link #takeDamage()}: Reduces the plane's health and checks for destruction.</li>
- *   <li>{@link #getProjectileXPosition(double)}: Calculates the X position for firing a projectile.</li>
- *   <li>{@link #getProjectileYPosition(double)}: Calculates the Y position for firing a projectile.</li>
- *   <li>{@link #setMovementStrategy(MovementStrategy)}: Sets the movement strategy.</li>
- *   <li>{@link #healthAtZero()}: Checks if the plane's health is zero.</li>
- *   <li>{@link #getHealth()}: Returns the current health of the plane.</li>
- *   <li>{@link #setHealth(int)}: Sets the health of the plane.</li>
- *   <li>{@link #update(long)}: Updates the plane's state, handling firing and movement logic.</li>
- *   <li>{@link #performAdditionalUpdates(long)}: Hook method for subclasses to add additional update behavior.</li>
- * </ul>
- * 
- * <p>Constructor:</p>
- * <ul>
- *   <li>{@link #FighterPlane(PlaneConfig)}: Constructs a FighterPlane with specified parameters from a PlaneConfig object.</li>
- * </ul>
- * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/FighterPlane.java">Github Source Code</a>
  * @see ActiveActor
  * @see FiringStrategy
  * @see MovementStrategy
  */
 public abstract class FighterPlane extends ActiveActor {
+    /**
+     * The health of the fighter plane.
+     * This value represents the current health points of the plane.
+     * It is used to determine the plane's survivability in combat.
+     */
     protected int health;
-    private long lastFireTime = 0;
-    private final long fireIntervalNanoseconds;
-    protected final double fireRate;
-    private FiringStrategy firingStrategy;
-    protected MovementStrategy movementStrategy;
 
     /**
-     * Constructs a FighterPlane with specified parameters.
+     * The rate at which the fighter plane can fire its weapons.
+     * This value is a double representing the number of shots per unit time.
+     */
+    protected final double fireRate;
+    
+    /**
+     * The strategy used to determine the movement behavior of the fighter plane.
+     * This allows for different movement algorithms to be applied to the plane.
+     */
+    protected MovementStrategy movementStrategy;
+    private long lastFireTime = 0;
+    private final long fireIntervalNanoseconds;
+    private FiringStrategy firingStrategy;
+
+    /**
+     * Constructs a new FighterPlane with the specified configuration.
      *
-     * @param imageName             The image file name for the plane.
-     * @param imageHeight           The height of the plane's image.
-     * @param initialXPos           The initial X position.
-     * @param initialYPos           The initial Y position.
-     * @param health                The initial health.
-     * @param fireIntervalNanoseconds The interval between fires in nanoseconds.
+     * @param config the configuration for the FighterPlane, containing properties such as
+     *               image name, image height, initial position, health, fire interval,
+     *               fire rate, firing strategy, and movement strategy.
+     * 
      */
     public FighterPlane(PlaneConfig config) {
         super(config.imageName, config.imageHeight, config.initialXPos, config.initialYPos);
@@ -96,11 +83,6 @@ public abstract class FighterPlane extends ActiveActor {
      * @return the calculated X position of the projectile
      */
     public double getProjectileXPosition(double xPositionOffset) {
-        // if (this instanceof EnemyPlane){
-        //     System.out.println("getLayoutX() = " + getLayoutX());
-        //     System.out.println("getTranslateX() = " + getTranslateX());
-        //     System.out.println("getX() = " + getX());
-        // }
         return getLayoutX() + getTranslateX() + xPositionOffset;
     }
 
@@ -184,7 +166,7 @@ public abstract class FighterPlane extends ActiveActor {
      * This method is intended to be overridden by subclasses to provide
      * custom update logic. The default implementation does nothing.
      *
-     * @param now the current time in milliseconds
+     * @param now the current time in nanoseconds
      */
     protected void performAdditionalUpdates(long now) {
         // Default implementation does nothing.

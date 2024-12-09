@@ -27,6 +27,7 @@ import java.util.List;
  *   <li>Handling the effects of collisions, such as applying damage, creating explosions, and playing sound effects.</li>
  * </ul>
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/CollisionManager.java">Github Source Code</a>
  * @see CollisionHandler
  * @see AudioManager
  * @see ActorManager

@@ -21,6 +21,8 @@ import java.util.List;
  * The ActorManager class is responsible for managing and updating all active actors in the game.
  * It follows the singleton pattern to ensure only one instance of the manager exists.
  * The manager handles adding, removing, and updating actors, as well as managing UI elements.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/ActorManager.java">Github Source Code</a>
  */
 public class ActorManager implements ActorSpawner {
     private static ActorManager instance;

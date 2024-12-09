@@ -5,6 +5,8 @@ import com.example.demo.strategy.movement.MovementStrategy;
 
 /**
  * The PlaneConfig class represents the configuration settings for a plane in the game.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/PlaneConfig.java">Github Source Code</a>
  */
 public class PlaneConfig {
     public String imageName;

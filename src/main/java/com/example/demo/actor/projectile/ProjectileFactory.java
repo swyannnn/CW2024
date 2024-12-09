@@ -6,6 +6,9 @@ import com.example.demo.actor.plane.UserPlane;
 /**
  * Factory class for creating different types of Projectile instances.
  * This class provides methods to create projectiles for ENEMY, BOSS, and USER types.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/projectile/ProjectileFactory.java">Github Source Code</a>
+ * @see ProjectileType
  */
 public class ProjectileFactory {
 

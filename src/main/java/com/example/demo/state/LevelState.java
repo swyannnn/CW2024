@@ -40,9 +40,6 @@ import java.beans.PropertyChangeSupport;
  * This class is responsible for initializing the level, updating the game state, handling input events,
  * managing the pause overlay, and cleaning up resources when the level is completed or reset.
  * 
- * The LevelState class interacts with several other components, including the Stage, LevelParent,
- * ActorManager, CollisionManager, GameLoopManager, and StateTransitioner.
- * 
  * Key features of this class include:
  * - Initializing and displaying the game level.
  * - Updating the game state and handling collisions.
@@ -54,6 +51,7 @@ import java.beans.PropertyChangeSupport;
  * The class also provides methods for adding and removing PropertyChangeListeners, handling projectile
  * collisions with enemies, and checking if the level is completed.
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/state/LevelState.java">Github Source Code</a>
  * @see GameState
  * @see CollisionHandler
  * @see LevelParent
@@ -86,15 +84,14 @@ public class LevelState implements GameState, CollisionHandler {
     private final Set<KeyCode> activeKeys = new java.util.HashSet<>();
 
     /**
-     * Constructor for LevelState.
-     *
-     * @param stage The main Stage object used for rendering scenes.
-     * @param controller The Controller handling game logic.
-     * @param level The LevelParent object representing the game level.
-     * @param actorManager The ActorManager handling game actors.
-     * @param gameStateManager The GameStateManager handling game state transitions.
-     * @param audioManager The AudioManager handling game audio.
-     * @param imageManager The ImageManager handling game images.
+     * Represents the state of a level in the game.
+     * 
+     * @param stage The stage where the level is rendered.
+     * @param level The parent level object.
+     * @param actorManager Manages the actors within the level.
+     * @param collisionManager Manages collision detection and handling.
+     * @param gameLoopManager Manages the game loop.
+     * @param stateTransitioner Handles transitions between different states.
      */
     public LevelState(Stage stage, LevelParent level, ActorManager actorManager, CollisionManager collisionManager, GameLoopManager gameLoopManager, StateTransitioner stateTransitioner) {
         this.level = level;

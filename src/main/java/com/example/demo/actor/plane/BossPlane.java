@@ -13,6 +13,7 @@ import com.example.demo.util.GameConstant;
  * additional updates to the shield, checking if the plane is shielded, and applying damage to the plane.
  * If the shield is active, the plane does not take damage.</p>
  *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/BossPlane.java">Github Source Code</a>
  * @see FighterPlane
  * @see PlaneConfig
  */

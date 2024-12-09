@@ -7,8 +7,17 @@ import javafx.scene.text.Font;
 
 /**
  * ButtonManager class provides utility methods to create and style buttons.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/ButtonManager.java">Github Source Code</a>
  */
 public class ButtonManager {
+
+    /**
+     * Private constructor to prevent instantiation of the ButtonManager class.
+     * This class is intended to be used as a utility class with static methods.
+     */
+    private ButtonManager() {}
+
      /**
      * Creates a styled button with specified text, width, height, and font size.
      *

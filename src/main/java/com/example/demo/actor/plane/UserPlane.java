@@ -22,8 +22,10 @@ import javafx.application.Platform;
  * keeps track of the number of kills made by the user plane and provides methods
  * for retrieving and incrementing the kill count.</p>
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/UserPlane.java">Github Source Code</a>
  * @see FighterPlane
  * @see PlaneConfig
+ * @see HealthChangeHandler
  */
 public class UserPlane extends FighterPlane {
     private List<HealthChangeHandler> healthChangeHandlers = new ArrayList<>();
@@ -97,14 +99,12 @@ public class UserPlane extends FighterPlane {
     public boolean takeDamage() {
         health--;
         notifyHealthChange();
-        System.out.println("notifyHealthChange() called in UserPlane.takeDamage().");
 
         if (!isDestroyed()) {
             Platform.runLater(() -> flickerEffect.trigger());
         }
 
         if (healthAtZero()) {
-            System.out.println("UserPlane destroyed because health zero.");
             destroy();
             return true; // Destruction occurred
         }

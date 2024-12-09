@@ -9,9 +9,14 @@ import java.util.function.BiFunction;
 
 
 /**
- * Enum representing different types of planes in the game.
- * Each plane type has specific attributes such as image name, image height,
- * initial position, health, fire rate, speed, and strategies for movement and firing.
+ * The PlaneType enum represents different types of planes in the game, each with its own unique properties and behaviors.
+ * Each plane type is defined with various attributes such as image name, image height, initial position, health, fire rate,
+ * projectile offsets, speed, and strategies for movement and firing.
+ * 
+ * <p>Each enum constant in PlaneType corresponds to a specific type of plane and provides the necessary configuration
+ * for creating and managing that plane type within the game.</p>
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/PlaneType.java">Github Source Code</a>
  */
 public enum PlaneType {
     ENEMY_PLANE(
@@ -157,6 +162,23 @@ public enum PlaneType {
     private final BiFunction<PlaneFactory, PlaneConfig, MovementStrategy> movementStrategyCreator;
     private final BiFunction<PlaneFactory, PlaneConfig, FiringStrategy> firingStrategyCreator;
 
+    /**
+     * Constructs a new PlaneType with the specified parameters.
+     *
+     * @param imageName The name of the image representing the plane.
+     * @param imageHeight The height of the image representing the plane.
+     * @param initialXPos The initial X position of the plane.
+     * @param yUpperBound The upper Y boundary for the plane's movement.
+     * @param yLowerBound The lower Y boundary for the plane's movement.
+     * @param health The health points of the plane.
+     * @param fireRate The rate at which the plane can fire projectiles.
+     * @param fireIntervalNanoseconds The interval between firing projectiles in nanoseconds.
+     * @param projectileOffsetX The X offset for the projectile's initial position.
+     * @param projectileOffsetY The Y offset for the projectile's initial position.
+     * @param speed The speed of the plane.
+     * @param movementStrategyCreator A BiFunction to create the movement strategy for the plane.
+     * @param firingStrategyCreator A BiFunction to create the firing strategy for the plane.
+     */
     PlaneType(
         String imageName,
         int imageHeight,

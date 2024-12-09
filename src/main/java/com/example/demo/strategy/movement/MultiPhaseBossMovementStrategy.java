@@ -18,7 +18,9 @@ import com.example.demo.util.GameConstant;
  * <p>The movement strategy also includes boundary checking to ensure the boss stays
  * within defined bounds and reverses direction if necessary.
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/strategy/movement/MultiPhaseBossMovementStrategy.java">Github Source Code</a>
  * @see MovementStrategy
+ * @see FighterPlane
  */
 public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     private double horizontalVelocity;

@@ -17,9 +17,9 @@ import com.example.demo.actor.plane.UserPlane;
  * <p>This class is responsible for determining when a user plane should fire a projectile based on the fire interval.
  * When the plane fires, a new UserProjectile is created and spawned at the plane's current position with an offset.</p>
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/strategy/firing/UserFiringStrategy.java">Github Source Code</a>
  * @see FiringStrategy
  * @see ActorSpawner
- * @see FighterPlane
  * @see UserProjectile
  */
 public class UserFiringStrategy implements FiringStrategy {

@@ -11,6 +11,9 @@ import java.util.function.BiFunction;
 /**
  * The PlaneFactory class is responsible for creating various types of planes in the game.
  * It uses the ActorSpawner to spawn different plane instances based on the specified PlaneType.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/PlaneFactory.java">Github Source Code</a>
+ * @see ActorSpawner
  */
 public class PlaneFactory {
     private final ActorSpawner actorSpawner;

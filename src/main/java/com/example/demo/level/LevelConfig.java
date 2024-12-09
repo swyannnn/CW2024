@@ -10,6 +10,8 @@ import com.example.demo.manager.GameLoopManager;
  * It includes the number of players, actor spawner, audio manager, and game loop manager.
  * Flexible configurations can be set for different levels by adjusting these parameters.
  * When more customization is needed, the LevelConfig class can be extended to include additional settings.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/level/LevelConfig.java">Github Source Code</a>
  */
 public class LevelConfig {
     private final int numberOfPlayers;

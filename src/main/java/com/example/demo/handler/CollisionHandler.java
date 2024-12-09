@@ -7,6 +7,8 @@ import com.example.demo.actor.plane.UserPlane;
  * The CollisionHandler interface provides methods to handle collision events
  * in the game. Implementations of this interface can define custom behavior
  * for when explosions start and finish, and when a user's projectile hits an enemy.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/handler/CollisionHandler.java">Github Source Code</a>
  */
 public interface CollisionHandler {
     /**

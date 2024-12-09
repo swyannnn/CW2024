@@ -5,6 +5,9 @@ import com.example.demo.util.GameConstant;
 
 /**
  * Abstract Projectile class representing a generic projectile in the game.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/projectile/Projectile.java">Github Source Code</a>
+ * @see ActiveActor
  */
 public abstract class Projectile extends ActiveActor {
     protected double horizontalVelocity;

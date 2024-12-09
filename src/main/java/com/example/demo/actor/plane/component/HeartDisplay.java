@@ -8,9 +8,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
+
 /**
- * The HeartDisplay class represents a UI component that displays a player's hearts and icon.
- * It initializes a container with a player icon and dynamically updates the number of hearts displayed.
+ * The HeartDisplay class represents a graphical component that displays a player's hearts
+ * in a game. It uses an HBox container to arrange the hearts and the player's plane icon.
+ * The number of hearts displayed can be dynamically updated.
+ * 
+ * <p>This class provides methods to initialize the heart display, set the number of hearts,
+ * and retrieve the container for the heart display.</p>
+ * 
+ * <p>Note: This class relies on ImageManager for retrieving image names and images.</p>
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/component/HeartDisplay.java">Github Source Code</a>
+ * @see ImageManager
  */
 public class HeartDisplay {
     private static final String HEART_IMAGE_NAME = GameConstant.Heart.IMAGE_NAME;

@@ -22,7 +22,8 @@ import javafx.scene.text.Text;
  * 
  * <p>This class provides methods to initialize the background, show level instructions,
  * update the background for a scrolling effect, and manage heart displays for players.</p>
- * 
+ *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/screen/LevelScreen.java">Github Source Code</a>
  * @see HealthChangeHandler
  * @see UserPlane
  * @see HeartDisplay

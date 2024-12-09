@@ -15,6 +15,9 @@ import javafx.scene.text.Text;
 /**
  * The PauseOverlay class represents a UI overlay that appears when the game is paused.
  * It provides options to resume the game or exit to the main menu.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/screen/PauseScreen.java">Github Source Code</a>
+ * @see GameLoopManager
  */
 public class PauseScreen {
     private final VBox overlay;
@@ -51,6 +54,10 @@ public class PauseScreen {
         pauseLabel.setFont(Font.font("Arial", 36));
         pauseLabel.setFill(Color.WHITE);
 
+        Text resumeInstruction = new Text("Press SPACE key to resume game");
+        resumeInstruction.setFont(Font.font("Arial", 20));
+        resumeInstruction.setFill(Color.BLACK);
+
         // Resume Button
         Button resumeButton = ButtonManager.createButton("Resume", 200, 50, 20);
         resumeButton.setOnAction(e -> gameLoopManager.resumeGame());
@@ -60,7 +67,7 @@ public class PauseScreen {
         exitButton.setOnAction(e -> stateTransitioner.goToMainMenu());
 
         // Add all components to the VBox
-        pauseBox.getChildren().addAll(pauseLabel, resumeButton, exitButton);
+        pauseBox.getChildren().addAll(pauseLabel, resumeInstruction, resumeButton, exitButton);
 
         return pauseBox;
     }

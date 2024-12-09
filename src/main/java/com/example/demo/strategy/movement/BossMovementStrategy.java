@@ -20,6 +20,7 @@ import java.util.List;
  *   <li>Moves the boss plane vertically and reverses direction if boundaries are reached.</li>
  * </ul>
  *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/strategy/movement/BossMovementStrategy.java">Github Source Code</a>
  * @see MovementStrategy
  * @see FighterPlane
  */
@@ -38,13 +39,9 @@ public class BossMovementStrategy implements MovementStrategy {
      * Constructs a BossMovementStrategy object and initializes its movement boundaries,
      * maximum frames with the same move, and the movement pattern.
      * 
-     * The movement boundaries are defined by the constants in GameConstant.BossPlane:
-     * - yUpperBound: The upper boundary for the Y position of the boss plane.
-     * - yLowerBound: The lower boundary for the Y position of the boss plane.
-     * - maxFramesWithSameMove: The maximum number of frames the boss plane can move in the same direction.
-     * 
      * The movement pattern is initialized by calling the initializeMovePattern method.
-     * The consecutiveMovesInSameDirection and currentMoveIndex are also initialized to 0.
+     *
+     * @param verticalVelocity the vertical velocity for the boss plane's movement
      */
     public BossMovementStrategy(int verticalVelocity) {
         this.verticalVelocity = verticalVelocity;

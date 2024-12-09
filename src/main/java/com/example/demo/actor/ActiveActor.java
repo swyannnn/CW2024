@@ -5,9 +5,11 @@ import com.example.demo.manager.ImageManager;
 import javafx.scene.image.ImageView;
 
 /**
- * The ActiveActor class represents an actor in a graphical application that can move and be destroyed.
- * It extends the ImageView class and provides methods for movement, destruction, and image handling.
+ * The ActiveActor class represents an actor in a game or simulation that can move and be destroyed.
+ * It extends the ImageView class to display an image and provides methods for movement and state management.
  * This class is abstract and requires subclasses to implement the update and takeDamage methods.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/ActiveActor.java">Github Source Code</a>
  */
 public abstract class ActiveActor extends ImageView{
     private boolean isDestroyed;
@@ -70,15 +72,6 @@ public abstract class ActiveActor extends ImageView{
      */
     public int getImageHeight() {
         return this.imageHeight;
-    }
-
-    /**
-     * Retrieves the width of the image associated with this actor.
-     *
-     * @return the width of the image in pixels as an integer.
-     */
-    public int getImageWidth() {
-        return (int) this.getBoundsInLocal().getWidth();
     }
 
     /**

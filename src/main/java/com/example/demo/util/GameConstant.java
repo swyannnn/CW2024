@@ -4,6 +4,8 @@ package com.example.demo.util;
 /**
  * The GameConstant class holds various constants used throughout the game.
  * These constants are organized into nested static classes based on their usage context.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/util/GameConstant.java">Github Source Code</a>
  */
 public class GameConstant {
 
@@ -291,23 +293,11 @@ public class GameConstant {
     }
 
     /**
-     * Level 002 settings.
-     */
-    public static class Level002 {
-    }
-
-    /**
      * Level 003 settings.
      */
     public static class Level003 {
         public static final int SURVIVAL_TIME = 100; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
-    }
-
-    /**
-     * Level 004 settings.
-     */
-    public static class Level004 {
     }
 
     /**

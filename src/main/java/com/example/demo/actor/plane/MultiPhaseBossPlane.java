@@ -23,7 +23,9 @@ import com.example.demo.util.GameConstant;
  * <p>Each phase transition updates the movement strategy if it is an instance of MultiPhaseBossMovementStrategy.
  * The boss plane can summon minions in phases 2 and 3, and transitions to the next phase based on its remaining health.
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/MultiPhaseBossPlane.java">Github Source Code</a>
  * @see FighterPlane
+ * @see PlaneConfig
  * @see PlaneFactory
  * @see ActorSpawner
  * @see GameConstant.MultiPhaseBossPlane

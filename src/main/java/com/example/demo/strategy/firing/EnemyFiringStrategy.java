@@ -2,12 +2,10 @@ package com.example.demo.strategy.firing;
 
 import com.example.demo.actor.ActorSpawner;
 import com.example.demo.actor.plane.FighterPlane;
-import com.example.demo.actor.projectile.EnemyProjectile;
 import com.example.demo.actor.projectile.Projectile;
+import com.example.demo.actor.projectile.EnemyProjectile;
 import com.example.demo.actor.projectile.ProjectileFactory;
 import com.example.demo.actor.projectile.ProjectileType;
-import com.example.demo.util.GameConstant;
-
 
 /**
  * The EnemyFiringStrategy class implements the FiringStrategy interface and defines the firing behavior for enemy planes.
@@ -17,9 +15,9 @@ import com.example.demo.util.GameConstant;
  * influenced by the fire rate. When the plane fires, a new EnemyProjectile is created and spawned at the plane's
  * current position with an offset.</p>
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/strategy/firing/EnemyFiringStrategy.java">Github Source Code</a>
  * @see FiringStrategy
  * @see ActorSpawner
- * @see FighterPlane
  * @see EnemyProjectile
  */
 public class EnemyFiringStrategy implements FiringStrategy {
@@ -30,10 +28,12 @@ public class EnemyFiringStrategy implements FiringStrategy {
     private final double offsetY;
 
     /**
-     * Constructs an EnemyFiringStrategy with the specified actor spawner and fire rate.
+     * Constructs an EnemyFiringStrategy with the specified parameters.
      *
-     * @param actorSpawner the actor spawner responsible for spawning actors
+     * @param actorSpawner the ActorSpawner instance responsible for spawning actors
      * @param fireRate the rate at which the enemy fires
+     * @param offsetX the horizontal offset for the firing position
+     * @param offsetY the vertical offset for the firing position
      */
     public EnemyFiringStrategy(ActorSpawner actorSpawner, double fireRate, double offsetX, double offsetY) {
         this.actorSpawner = actorSpawner;
@@ -60,8 +60,6 @@ public class EnemyFiringStrategy implements FiringStrategy {
                 projectileX,
                 projectileY
             );
-            // System.out.println("EnemyFiringStrategy:" + projectile + ", projectileX: " + projectileX + ", projectileY: " + projectileY);
-            // System.out.println("EnemyFiringStrategy: projectileX: " + projectileX + ", projectileY: " + projectileY);
             actorSpawner.addActor(projectile);
         }
     }

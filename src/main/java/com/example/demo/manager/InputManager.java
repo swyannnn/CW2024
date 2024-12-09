@@ -7,6 +7,8 @@ import javafx.scene.input.KeyEvent;
 
 /**
  * InputManager is responsible for handling and delegating input events.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/InputManager.java">Github Source Code</a>
  */
 public class InputManager {
     private final Scene scene;

@@ -18,9 +18,9 @@ import com.example.demo.manager.AudioManager;
  *   <li>Spawning enemy units, specifically boss planes, if none are present.</li>
  * </ul>
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/level/Level002.java">Github Source Code</a>
  * @see LevelParent
  * @see ActorSpawner
- * @see AudioManager
  * @see PlaneFactory
  */
 public class Level002 extends LevelParent {

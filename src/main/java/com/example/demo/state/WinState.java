@@ -11,6 +11,10 @@ import javafx.stage.Stage;
  * The WinState class implements the GameState interface and represents the state
  * of the game when the player has won. It manages the display of the win screen
  * and handles user input to transition to other states or exit the game.
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/state/WinScreen.java">Github Source Code</a>
+ * @see StateTransitioner
+ * @see GameState
+ * @see WinScreen
  */
 public class WinState implements GameState {
     private final Stage stage;

@@ -14,7 +14,8 @@ import javafx.animation.AnimationTimer;
  * 
  * <p>Animation Timer:</p>
  * <p>The game loop is implemented using JavaFX's AnimationTimer, which calls the updater's update method on each frame.</p>
- * 
+ *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/GameLoopManager.java">Github Source Code</a>
  * @see java.beans.PropertyChangeSupport
  * @see javafx.animation.AnimationTimer
  */

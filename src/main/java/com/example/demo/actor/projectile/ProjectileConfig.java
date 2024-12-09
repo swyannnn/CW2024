@@ -7,6 +7,9 @@ import com.example.demo.actor.plane.UserPlane;
  * Configuration class for projectiles in the game.
  * This class holds the initial position and type of the projectile.
  * It also holds a reference to the UserPlane if the projectile is of type USER.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/projectile/Projectile.java">Github Source Code</a>
+ * @see ProjectileType
  */
 public class ProjectileConfig {
     private ProjectileType type;

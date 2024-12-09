@@ -7,9 +7,10 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Controller class manages the primary setup of the game, including initializing
- * various managers, setting up the main scene, and orchestrating interactions
- * between different components.
+ * Controller class responsible for initializing and managing the main components of the game.
+ * It sets up the scene, initializes various managers, and starts the game loop.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/Controller.java">Github Source Code</a>
  */
 public class Controller {
     private final Group rootGroup;
@@ -87,11 +88,20 @@ public class Controller {
 
 
     /**
-     * Performs cleanup operations for the controller.
-     * 
-     * This method stops the game loop, cleans up the state manager,
-     * stops the audio manager, and cleans up the actor manager
-     * if they are not null.
+     * Performs cleanup operations for various managers and resources.
+     * <p>
+     * This method stops the game loop, cleans up the state manager, stops the audio manager's music,
+     * cleans up the actor manager, and performs cleanup for the image manager.
+     * </p>
+     * <p>
+     * The following resources are cleaned up:
+     * <ul>
+     *   <li>Game loop manager</li>
+     *   <li>State manager</li>
+     *   <li>Audio manager</li>
+     *   <li>Actor manager</li>
+     *   <li>Image manager</li>
+     * </ul>
      */
     public void cleanup() {
         // Stop the game loop

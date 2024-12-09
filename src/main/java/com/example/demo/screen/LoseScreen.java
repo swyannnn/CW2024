@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 /**
  * The LoseScreen class represents the screen displayed when the player loses the game.
  * It provides options to restart the game, go back to the main menu, or exit the application.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/screen/LoseScreen.java">Github Source Code</a>
  */
 public class LoseScreen {
     private final Stage stage;

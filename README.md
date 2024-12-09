@@ -65,6 +65,7 @@ For the best experience, it is recommended to view this `README.md` file on the 
  ┃ ┣ 📜HealthChangeHandler.java
  ┃ ┗ 📜InputHandler.java
  ┣ 📂level
+ ┃ ┣ 📜.DS_Store
  ┃ ┣ 📜Level001.java
  ┃ ┣ 📜Level002.java
  ┃ ┣ 📜Level003.java
@@ -73,6 +74,7 @@ For the best experience, it is recommended to view this `README.md` file on the 
  ┃ ┣ 📜LevelFactory.java
  ┃ ┗ 📜LevelParent.java
  ┣ 📂manager
+ ┃ ┣ 📜.DS_Store
  ┃ ┣ 📜ActorManager.java
  ┃ ┣ 📜AudioManager.java
  ┃ ┣ 📜ButtonManager.java
@@ -89,10 +91,10 @@ For the best experience, it is recommended to view this `README.md` file on the 
  ┃ ┗ 📜WinScreen.java
  ┣ 📂state
  ┃ ┣ 📜GameState.java
- ┃ ┣ 📜GameStateFactory.java
  ┃ ┣ 📜LevelState.java
  ┃ ┣ 📜LoseState.java
  ┃ ┣ 📜MainMenuState.java
+ ┃ ┣ 📜StateFactory.java
  ┃ ┣ 📜StateTransitioner.java
  ┃ ┗ 📜WinState.java
  ┣ 📂strategy

@@ -14,6 +14,7 @@ import com.example.demo.actor.plane.FighterPlane;
  *   <li>Moves the fighter plane to the left by the specified speed and destroys it if it goes out of bounds.</li>
  * </ul>
  *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/strategy/movement/EnemyMovementStrategy.java">Github Source Code</a>
  * @see MovementStrategy
  * @see FighterPlane
  */

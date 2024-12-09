@@ -14,6 +14,8 @@ import javafx.scene.image.ImageView;
  * <p>This class handles the shield's activation probability, duration, and cooldown
  * period. It provides methods to update the shield's state, activate and deactivate
  * the shield, and check if the shield is currently active.</p>
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/plane/component/Shield.java">Github Source Code</a>
  */
 public class Shield extends ImageView {
     // Constants
@@ -35,13 +37,10 @@ public class Shield extends ImageView {
     private int framesSinceLastShield;
 
     /**
-     * Constructs a Shield instance with specified parameters.
+     * Constructs a Shield object with the specified shield activation probability.
+     * Initializes the shield image, visibility, size, and activation state.
      *
-     * @param shieldXPositionOffset  X-axis offset from BossPlane
-     * @param shieldYPositionOffset  Y-axis offset from BossPlane
-     * @param shieldActivationProbability Probability to activate shield each frame
-     * @param maxFramesWithShield    Maximum frames the shield remains active
-     * @param maxFramesWithoutShield Maximum frames before shield can be reactivated
+     * @param shieldActivationProbability the probability of the shield being activated
      */
     public Shield(double shieldActivationProbability) {
         super();
@@ -57,10 +56,12 @@ public class Shield extends ImageView {
     }
 
     /**
-     * Updates the shield's state based on current frames.
+     * Updates the state of the shield based on the current position of the BossPlane.
+     * If the shield is active, it updates the shield's position and checks if the shield duration is exhausted.
+     * If the shield is not active, it increments the frames since the last shield deactivation and determines if the shield should be activated.
      *
-     * @param translateX Current translateX of BossPlane
-     * @param translateY Current translateY of BossPlane
+     * @param layoutX The current X position of the BossPlane.
+     * @param layoutY The current Y position of the BossPlane.
      */
     public void updateShieldState(double layoutX, double layoutY) {
         if (isShielded) {

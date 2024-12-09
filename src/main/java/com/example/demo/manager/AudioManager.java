@@ -14,7 +14,7 @@ import java.util.List;
  * It follows the Singleton design pattern to ensure only one instance of the manager exists.
  * The class handles preloading of audio files, playing background music, and sound effects.
  * 
- * @see GameConstant
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/ActorManager.java">Github Source Code</a>
  */
 public class AudioManager {
     private static final String AUDIO_LOCATION = GameConstant.FilePaths.AUDIO_LOCATION;

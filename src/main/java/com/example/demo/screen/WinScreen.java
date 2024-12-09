@@ -15,6 +15,8 @@ import javafx.stage.Stage;
  * The WinScreen class represents the screen displayed when the player wins the game.
  * It provides methods to construct and display the win screen scene, including buttons
  * for restarting the game, returning to the main menu, and exiting the game.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/screen/WinScreen.java">Github Source Code</a>
  */
 public class WinScreen {
     private final Stage stage;
