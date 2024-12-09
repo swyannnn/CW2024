@@ -689,9 +689,9 @@ This section details the features that have been successfully implemented in bot
 # New Java Classes
 <table style="width:100%">
   <tr>
-    <th style="width: 20%;">Class Name</th>
-    <th style="width: 60%;">Description</th>
-    <th style="width: 20%;">Code Location</th>
+    <th style="width: 10%;">Class Name</th>
+    <th style="width: 80%;">Description</th>
+    <th style="width: 10%;">Code Location</th>
   </tr>
   <tr>
     <td>
