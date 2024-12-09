@@ -113,7 +113,7 @@ public class Controller {
             actorManager.cleanup();
         }
 
-        // Additional cleanups if necessary
+        ImageManager.cleanup();
         System.out.println("Controller: Cleanup completed.");
     }
 }

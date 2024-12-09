@@ -7,34 +7,25 @@ import java.util.Map;
 
 
 /**
- * The ImageManager class is responsible for loading, caching, and managing images
- * used in the application. It follows the Singleton pattern to ensure that only one
- * instance of the ImageManager exists.
- * 
- * <p>This class provides methods to load individual images as well as sequences of
- * images based on a naming pattern. It also preloads images specified in the 
- * GameConstant class and allows for clearing the image cache.</p>
- * 
- * @see GameConstant.FilePaths
+ * The ImageManager class is responsible for managing images.
+ * It provides methods to retrieve individual images and sequences of images
+ * from a specified location.
  */
 public class ImageManager {
     private static final String IMAGE_LOCATION = GameConstant.FilePaths.IMAGE_LOCATION;
     private final static Map<String, Image> imageCache = new HashMap<>();
-    
-    /**
-     * Private constructor for the ImageManager class.
-     * This constructor is responsible for preloading images when an instance of the class is created.
-     * The constructor is private to prevent instantiation from outside the class.
-     */
-    private ImageManager() {
-        preloadImages();
-    }
 
     /**
-     * Loads and caches an image from the specified filename.
+     * Private constructor to prevent instantiation of the ImageManager class.
+     * This class is intended to be used as a utility class with static methods.
+     */
+    private ImageManager() {}
+
+    /**
+     * Retrieves an image from the cache or loads it from the specified file if not already cached.
      *
-     * @param filename The name of the image file.
-     * @return The Image object, or null if the file is not found.
+     * @param filename the name of the image file to retrieve
+     * @return the Image object corresponding to the specified filename, or null if the image file is not found
      */
     public static Image getImage(String filename) {
         return imageCache.computeIfAbsent(filename, key -> {
@@ -47,13 +38,6 @@ public class ImageManager {
         });
     }
 
-    /**
-     * Loads and caches a series of images based on a pattern.
-     *
-     * @param baseFilename The base name of the file, e.g., "explosion".
-     * @param count        The number of images in the sequence, e.g., 7 for explosion0.png to explosion6.png.
-     * @return An array of Images, or null if any file in the sequence is missing.
-     */
     public static Image[] getImageSequence(String baseFilename, int count) {
         Image[] images = new Image[count];
         for (int i = 0; i < count; i++) {
@@ -67,19 +51,7 @@ public class ImageManager {
         return images;
     }
 
-    /**
-     * Preloads all images specified in GameConstant.
-     */
-    private void preloadImages() {
-        for (String filename : GameConstant.FilePaths.IMAGES) {
-            getImage(filename); // Load and cache each image
-        }
-    }
-
-    /**
-     * Clears the image cache.
-     */
-    public void clearCache() {
+    public static void cleanup() {
         imageCache.clear();
     }
 }
