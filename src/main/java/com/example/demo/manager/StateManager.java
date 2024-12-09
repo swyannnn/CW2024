@@ -1,6 +1,6 @@
 package com.example.demo.manager;
 
-import com.example.demo.state.GameStateFactory;
+import com.example.demo.state.StateFactory;
 import com.example.demo.state.GameState;
 import com.example.demo.state.LevelState;
 import com.example.demo.state.StateTransitioner;
@@ -17,7 +17,7 @@ import java.beans.PropertyChangeListener;
  */
 public class StateManager implements StateTransitioner, PropertyChangeListener {
     private GameState currentState;
-    private final GameStateFactory stateFactory;
+    private final StateFactory stateFactory;
     private int numberOfPlayers;
 
     /**
@@ -41,7 +41,7 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
         this.numberOfPlayers = numberOfPlayers;
 
         // Initialize GameStateFactory
-        this.stateFactory = new GameStateFactory(
+        this.stateFactory = new StateFactory(
             stage,
             actorManager,
             collisionManager,

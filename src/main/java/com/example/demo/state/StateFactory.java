@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 /**
  * GameStateFactory is responsible for creating instances of game states.
  */
-public class GameStateFactory {
+public class StateFactory {
     private final Stage stage;
     private final ActorManager actorManager;
     private final CollisionManager collisionManager;
@@ -32,7 +32,7 @@ public class GameStateFactory {
      * @param audioManager      The AudioManager instance.
      * @param numberOfPlayers   The number of players.
      */
-    public GameStateFactory(
+    public StateFactory(
         Stage stage,
         ActorManager actorManager,
         CollisionManager collisionManager,
