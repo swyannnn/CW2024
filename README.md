@@ -1464,8 +1464,8 @@ Code Location: <a href="src/main/java/com/example/demo/actor/ActiveActor.java">s
     </td>
     <td>
       <ul>
-        <li><strong>Simplified Design:</strong> Merging avoids redundancy and duplication of logic.</li>
-        <li><strong>Flexibility:</strong> Even if non-destructible elements are added later, the unified design can be refactored easily.</li>
+        <li><strong>Simplified Design</strong><br> Merging avoids redundancy and duplication of logic.</li><br>
+        <li><strong>Flexibility:</strong><br> Even if non-destructible elements are added later, the unified design can be refactored easily.</li>
       </ul>
     </td>
   </tr>
@@ -2143,6 +2143,37 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shi
     </td>
   </tr>
 </table>
+
+
+#### **3. JUnit Testing Was Harder Than Expected**
+
+<table style="width:100%">
+  <tr>
+    <th>Problem</th>
+    <th>How It Was Addressed</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li>Too little time was allocated for JUnit testing, assuming it would be straightforward since design patterns were applied.</li>
+        <li>Encountered issues such as being unable to mock final and private functions during testing.</li>
+        <li>Testing was restricted because making private or secure methods public solely for JUnit testing would violate encapsulation principles.</li>
+        <li>Certain critical parts of the code could not be covered in tests due to these challenges.</li>
+      </ul>
+    </td>
+    <td>
+      To address this challenge:
+      <ul>
+        <li>Additional time was allocated to research and understand how to properly mock private and final methods using tools like <code>PowerMock</code> or <code>Mockito</code>.</li>
+        <li>Code was refactored to increase testability without compromising the overall design, such as using dependency injection or introducing interfaces where appropriate.</li>
+        <li>Functionality was tested through public methods that indirectly call private methods.</li>
+        <li>It was accepted that some private methods did not need direct testing as long as the behavior was adequately tested through higher-level public methods.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
 
 
 
