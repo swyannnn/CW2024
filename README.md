@@ -1459,8 +1459,10 @@ Code Location: <a href="src/main/java/com/example/demo/actor/ActiveActor.java">s
       <strong>Merged Class</strong><br>
       <ul>
         <strong>Unified into a single class
-        </strong><code><br>
-        ActiveActor</code>
+        </strong>
+        <code>
+        ActiveActor
+        </code><br>
         Incorporates both movement and destruction logic within the same class.
       </ul>
     </td>
