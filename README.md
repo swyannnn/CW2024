@@ -794,7 +794,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
     <tr>
     <td>
-    11. PlaneType 
+    10. PlaneType 
     </td>
     <td>
       An enum represents different types of planes in the game, each with its own unique properties and behaviors.
@@ -805,7 +805,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    12. PlaneConfig 
+    11. PlaneConfig 
     </td>
     <td>
       A class representing the configuration settings for a plane in the game.
@@ -816,7 +816,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    13. PlaneFactory 
+    12. PlaneFactory 
     </td>
     <td>
       A Factory class responsible for creating various types of planes in the game.
@@ -827,7 +827,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    14. FighterPlane 
+    13. FighterPlane 
     </td>
     <td>
       A class representing an abstract type of plane that can engage in combat.
@@ -838,7 +838,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    15. BossPlane 
+    14. BossPlane 
     </td>
     <td>
       A class representing a specialized type of FighterPlane with an additional shield capability.
@@ -849,7 +849,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    16. EnemyPlane 
+    15. EnemyPlane 
     </td>
     <td>
       A class representing an enemy fighter plane in the game.
@@ -860,7 +860,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    17. UserPlane 
+    16. UserPlane 
     </td>
     <td>
       A Class representing a fighter plane controlled by a user in the game
@@ -871,7 +871,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    18. MultiPhaseBossPlane 
+    17. MultiPhaseBossPlane 
     </td>
     <td>
       A class representing a boss plane with multiple phases in a game.
@@ -882,7 +882,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    19. HeartDisplay 
+    18. HeartDisplay 
     </td>
     <td>
        A class representing a graphical component that displays a player's hearts in a game.
@@ -893,7 +893,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    20. Shield 
+    19. Shield 
     </td>
     <td>
       A class representing a visual shield that can be activated and deactivated based on certain conditions.
@@ -904,7 +904,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    21. ExplosionEffect 
+    20. ExplosionEffect 
     </td>
     <td>
       A class representing an explosion animation effect.
@@ -915,7 +915,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    22. FlickerEffect 
+    21. FlickerEffect 
     </td>
     <td>
       A class that provides a reusable flicker animation for JavaFX Nodes.
@@ -926,7 +926,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    23. CollisionHandler 
+    22. CollisionHandler 
     </td>
     <td>
       An interface provides methods to handle collision events in the game.
@@ -937,7 +937,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    24. GameLoopHandler 
+    23. GameLoopHandler 
     </td>
     <td>
       A functional interface representing a handler for the game loop.
@@ -948,7 +948,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    25. HealthChangeHandler 
+    24. HealthChangeHandler 
     </td>
     <td>
       An interface for listening to changes in the health of a user plane.
