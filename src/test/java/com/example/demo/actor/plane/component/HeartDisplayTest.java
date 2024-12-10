@@ -1,8 +1,6 @@
-package com.example.demo.ui;
+package com.example.demo.actor.plane.component;
 
 import org.junit.jupiter.api.Test;
-
-import com.example.demo.actor.plane.component.HeartDisplay;
 import com.example.demo.util.GameConstant;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
