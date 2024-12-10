@@ -14,16 +14,15 @@ public class UserProjectile extends Projectile {
     /**
      * Constructor for UserProjectile.
      *
-     * @param imageName          The image file name for the user projectile.
-     * @param imageHeight        The height of the user projectile image.
-     * @param initialXPos        The initial X position of the projectile.
-     * @param initialYPos        The initial Y position of the projectile.
-     * @param horizontalVelocity The horizontal velocity of the projectile.
-     * @param owner              The UserPlane that fired this projectile.
+     * @param config The ProjectileConfig containing all necessary configuration.
      */
-    public UserProjectile(String imageName, int imageHeight, double initialXPos, double initialYPos, double horizontalVelocity, UserPlane owner) {
-        super(imageName, imageHeight, initialXPos, initialYPos, horizontalVelocity);
-        this.owner = owner;
+    public UserProjectile(ProjectileConfig config) {
+        super(config);
+        if (config.getType() != ProjectileType.USER) {
+            throw new IllegalArgumentException("Invalid ProjectileType for UserProjectile.");
+        }
+        this.owner = config.getUserPlane();
+        // Additional initialization specific to UserProjectile if needed
     }
 
     /**

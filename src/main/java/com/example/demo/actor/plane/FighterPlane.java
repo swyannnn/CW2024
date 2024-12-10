@@ -66,10 +66,8 @@ public abstract class FighterPlane extends ActiveActor {
     @Override
     public boolean takeDamage() {
         health--;
-        System.out.println(getClass().getSimpleName() + " took damage. Health: " + getHealth());
         if (healthAtZero()) {
             this.destroy();
-            System.out.println(getClass().getSimpleName() + " destroyed.");
             return true; // Indicates that destruction occurred
         }
         return false; // Damage was applied, but not necessarily destruction
