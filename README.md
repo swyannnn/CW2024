@@ -710,7 +710,7 @@ This section details the features that have been successfully implemented in bot
       An interface that provides methods for spawning and managing actors in the game world.
     </td>
     <td>
-      <a href="src/main/java/com/example/demo/actor/ActiveSpawner.java">src/main/java/com/example/demo/actor/ActiveSpawner.java</a>
+      <a href="src/main/java/com/example/demo/actor/ActorSpawner.java">src/main/java/com/example/demo/actor/ActorSpawner.java</a>
     </td>
   </tr>
   <tr>
@@ -899,7 +899,7 @@ This section details the features that have been successfully implemented in bot
       A class representing a visual shield that can be activated and deactivated based on certain conditions.
     </td>
     <td>
-      <a href="src/main/java/com/example/demo/actor/plane/Shield.java">src/main/java/com/example/demo/actor/plane/Shield.java</a>
+      <a href="src/main/java/com/example/demo/actor/plane/component/Shield.java">src/main/java/com/example/demo/actor/plane/component/Shield.java</a>
     </td>
   </tr>
   <tr>
@@ -1409,13 +1409,13 @@ Code Location: <a href="src/main/java/com/example/demo/Controller.java">src/main
       <strong>Controller Structure:</strong> Transitioned to a modular architecture by introducing various manager classes to handle different aspects of the game.
     </td>
     <td>
-      <strong>Enhanced Maintainability</strong><br> Modularizing responsibilities improves code organization and makes it easier to maintain and extend.<br>
+      <strong>Enhanced Maintainability</strong><br> Modularizing responsibilities improves code organization and makes it easier to maintain and extend.<br><br>
       <strong>Separation of Concerns</strong><br> Assigning specific roles to different managers reduces coupling and increases code clarity.
     </td>
   </tr>
   <tr>
     <td>
-      Game Loop Management is handled by LevelParent class
+      Game Loop Management is handled by <code>LevelParent</code> class
     </td>
     <td>
       <strong>Game Loop Management</strong><br> Implemented a <code>GameLoopManager</code> to handle the game loop, ensuring continuous updates and rendering by delegating to the current game state via the <code>StateManager</code>.
@@ -1428,7 +1428,7 @@ Code Location: <a href="src/main/java/com/example/demo/Controller.java">src/main
       <strong>Resource Cleanup</strong><br> No explicit cleanup process for resources and managers.
     </td>
     <td>
-      <strong>Resource Cleanup</strong> Added a <code>cleanup</code> method to properly dispose of resources and stop all managers when the game exits, ensuring no resource leaks and graceful shutdown.
+      <strong>Resource Cleanup</strong><br> Added a <code>cleanup</code> method to properly dispose of resources and stop all managers when the game exits, ensuring no resource leaks and graceful shutdown.
     </td>
     <td>
       <strong>Resource Management</strong> Ensures that all resources are properly released, preventing memory leaks and ensuring a smooth user experience.
@@ -1458,14 +1458,16 @@ Code Location: <a href="src/main/java/com/example/demo/actor/ActiveActor.java">s
     <td>
       <strong>Merged Class</strong><br>
       <ul>
-        <li>Unified into a single class: <code>ActiveActor</code>.</li>
-        <li>Incorporates both movement and destruction logic within the same class.</li>
+        <strong>Unified into a single class
+        </strong><code><br>
+        ActiveActor</code>
+        Incorporates both movement and destruction logic within the same class.
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Simplified Design</strong><br> Merging avoids redundancy and duplication of logic.</li><br>
-        <li><strong>Flexibility:</strong><br> Even if non-destructible elements are added later, the unified design can be refactored easily.</li>
+        <strong>Simplified Design</strong><br> Merging avoids redundancy and duplication of logic.</li><br><br>
+        <strong>Flexibility</strong><br> Even if non-destructible elements are added later, the unified design can be refactored easily.
       </ul>
     </td>
   </tr>
@@ -1479,14 +1481,14 @@ Code Location: <a href="src/main/java/com/example/demo/actor/ActiveActor.java">s
     <td>
       <strong>Centralized Image Management</strong><br>
       <ul>
-        <li>Uses <code>ImageManager</code> for consistent image handling.</li>
-        <li>Removes dependency on classpath-based image retrieval.</li>
+        Uses <code>ImageManager</code> for consistent image handling.<br>
+        Removes dependency on classpath-based image retrieval.
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Consistency:</strong> Centralized image handling avoids scattered logic.</li>
-        <li><strong>Maintainability:</strong> Makes updates to image paths or loading logic easier.</li>
+        <strong>Consistency</strong><br> Centralized image handling avoids scattered logic.<br><br>
+        <strong>Maintainability</strong><br> Makes updates to image paths or loading logic easier.
       </ul>
     </td>
   </tr>
@@ -1506,10 +1508,10 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/FighterPlane.
   </tr>
   <tr>
     <td>
-    <strong>Constructor Parameters<strong><br>Constructor accepts individual parameters: imageName, imageHeight, initialXPos, initialYPos, health.
+    <strong>Constructor Parameters</strong><br>Constructor accepts individual parameters: imageName, imageHeight, initialXPos, initialYPos, health.
     </td>
     <td>
-    <strong>Simplified Initialization<strong><br>Constructor accepts a single <code>PlaneConfig</code> object.
+    <strong>Simplified Initialization</strong><br>Constructor accepts a single <code>PlaneConfig</code> object.
     </td>
     <td>
     Reduces the number of parameters, making the constructor cleaner and easier to manage, especially as configurations grow.
@@ -1570,8 +1572,10 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/BossPlane.jav
     Same as <code>EnemyPlane</code>
     </td>
     <td>
+    -
     </td>
     <td>
+    -
     </td>
   </tr>
   <tr>
@@ -1606,7 +1610,9 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/UserPlane.jav
     Same as <code>EnemyPlane</code>
     </td>
     <td>
+    -
     </td>
+    -
     <td>
     </td>
   </tr>
@@ -1621,10 +1627,10 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/UserPlane.jav
     <li>Notifies registered handlers whenever health changes.</li>
     </td>
     <td>
-    <li><strong>Enhance Modularity</strong><br> 
-    Separates health logic from the plane class.</li>
-    <li><strong>Promote Flexibility</strong><br> 
-    Allows external components to respond to health changes.</li>
+    <strong>Enhance Modularity</strong><br> 
+    Separates health logic from the plane class.<br> 
+    <strong>Promote Flexibility</strong><br> 
+    Allows external components to respond to health changes.
     </td>
   </tr>
 </table>
@@ -1644,8 +1650,10 @@ Code Location: <a href="src/main/java/com/example/demo/actor/projectile/Projecti
     Same as EnemyPlane
     </td>
     <td>
+    -
     </td>
     <td>
+    -
     </td>
   </tr>
   <tr>
@@ -1683,7 +1691,7 @@ Code Location: <a href="src/main/java/com/example/demo/actor/projectile/Projecti
     </td>
     <td>
     <strong>Managed Destruction</strong><br> 
-    This class destroys itself when out of bounds; removal from the scene is handled by <code>ActorManager<.code>.
+    This class destroys itself when out of bounds; removal from the scene is handled by <code>ActorManager</code>.
     </td>
     <td>
     <strong>Optimize Memory Management</strong><br> 
@@ -1732,8 +1740,10 @@ Code Location: <a href="src/main/java/com/example/demo/actor/projectile/UserProj
     Same as <code>BossProjectile</code> and <code>EnemyProjectile</code>.
     </td>
     <td>
+    -
     </td>
     <td>
+    -
     </td>
   </tr>
   <tr>
@@ -1749,9 +1759,9 @@ Code Location: <a href="src/main/java/com/example/demo/actor/projectile/UserProj
     </td>
     <td>
     <strong>Enhanced Ownership Management</strong><br> 
-      <li>Allows projectiles to be linked back to the <code>UserPlane</code> that fired them.</li><br>
+    Allows projectiles to be linked back to the <code>UserPlane</code> that fired them.<br>
     <strong>Facilitate Interactions</strong><br> 
-      <li>Enables functionalities like attributing kills or managing player-specific behaviors.</li>
+    Enables functionalities like attributing kills or managing player-specific behaviors.
   </tr>
 </table>
 
@@ -1824,8 +1834,8 @@ Code Location: <a href="src/main/java/com/example/demo/level/Level001.java">src/
     </td>
     <td>
       <ul>
-        <li><strong>Simplified Level Logic</strong><br> Moves game state checks to a dedicated manager for smoother transitions.</li><br>
-        <li><strong>Improved Maintainability:</strong><br> Consolidates kill target logic for reuse and easier updates.</li>
+        <strong>Simplified Level Logic</strong><br> Moves game state checks to a dedicated manager for smoother transitions.<br><br>
+        <strong>Improved Maintainability</strong><br> Consolidates kill target logic for reuse and easier updates.
       </ul>
     </td>
   </tr>
@@ -1876,8 +1886,8 @@ Code Location: <a href="src/main/java/com/example/demo/level/LevelParent.java">s
     </td>
     <td>
       <ul>
-        <li><strong>Modularity:</strong> <br>Separating background initialization and projectile management into dedicated classes reduces complexity.</li>
-        <li><strong>Code Reusability:</strong> Allows reuse of projectile and firing logic across different plane types.</li>
+        <li><strong>Modularity</strong> <br>Separating background initialization and projectile management into dedicated classes reduces complexity.</li>
+        <li><strong>Code Reusability</strong> Allows reuse of projectile and firing logic across different plane types.</li>
       </ul>
     </td>
   </tr>
@@ -1925,7 +1935,7 @@ Code Location: <a href="src/main/java/com/example/demo/level/LevelParent.java">s
 
 Code Location: <a href="src/main/java/com/example/demo/screen/LevelScreen.java">src/main/java/com/example/demo/screen/LevelScreen.java</a>
 
-<table style="width:100%; border-collapse: collapse;">
+<table style="width:100%">
   <tr>
     <th>Original Version</th>
     <th>Modified Version</th>
@@ -1948,8 +1958,8 @@ Code Location: <a href="src/main/java/com/example/demo/screen/LevelScreen.java">
     </td>
     <td>
       <ul>
-        <li><strong>Improved Clarity</strong><br> Ensures players understand their objectives for each level.</li>
-        <li><strong>Enhanced Experience</strong><br> Adds narrative and context to levels.</li>
+        <strong>Improved Clarity</strong><br> Ensures players understand their objectives for each level.<br><br>
+        <strong>Enhanced Experience</strong><br> Adds narrative and context to levels.
       </ul>
     </td>
   </tr>
@@ -1969,8 +1979,8 @@ Code Location: <a href="src/main/java/com/example/demo/screen/LevelScreen.java">
     </td>
     <td>
       <ul>
-        <li><strong>Immersion</strong><br> Creates a visually engaging and dynamic environment.</li>
-        <li><strong>Modern Game Design</strong><br> Aligns with contemporary gaming visuals.</li>
+        <strong>Immersion</strong><br> Creates a visually engaging and dynamic environment.<br><br>
+        <strong>Modern Game Design</strong><br> Aligns with contemporary gaming visuals.
       </ul>
     </td>
   </tr>
@@ -1990,7 +2000,7 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shi
     <td>
       <strong>Shield Activation Logic</strong><br>
       <ul>
-        <li>Shield visibility is controlled by the <code>BossPlane</code>.</li>
+        Shield visibility is controlled by the <code>BossPlane</code>.
         <li>No independent activation or deactivation logic for the shield.</li>
       </ul>
     </td>
@@ -2047,8 +2057,8 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shi
     </td>
     <td>
       <ul>
-        <li><strong>Improved Functionality</strong><br> Ensures shield visibility aligns with its active state and duration.</li>
-        <li><strong>Game Logic Integration</strong><br> Simplifies integration with game mechanics by handling visibility automatically.</li>
+        <strong>Improved Functionality</strong><br> Ensures shield visibility aligns with its active state and duration.<br><br>
+        <strong>Game Logic Integration</strong><br> Simplifies integration with game mechanics by handling visibility automatically.
       </ul>
     </td>
   </tr>
