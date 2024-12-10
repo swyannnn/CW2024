@@ -1391,51 +1391,668 @@ This section details the features that have been successfully implemented in bot
 
 # Modified Java Classes
 
-#### `/com/example/demo`
-
 **Controller**
 
-#### `/com/example/demo/actor`
+Code Location: <a href="src/main/java/com/example/demo/Controller.java">src/main/java/com/example/demo/Controller.java</a>
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>Controller Structure:</strong> Utilized Java Reflection and the <code>Observable</code>/<code>Observer</code> pattern to manage game levels dynamically.
+    </td>
+    <td>
+      <strong>Controller Structure:</strong> Transitioned to a modular architecture by introducing various manager classes to handle different aspects of the game.
+    </td>
+    <td>
+      <strong>Enhanced Maintainability:</strong> Modularizing responsibilities improves code organization and makes it easier to maintain and extend.<br>
+      <strong>Separation of Concerns:</strong> Assigning specific roles to different managers reduces coupling and increases code clarity.
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Game Loop Management is handled by LevelParent class
+    </td>
+    <td>
+      <strong>Game Loop Management:</strong> Implemented a <code>GameLoopManager</code> to handle the game loop, ensuring continuous updates and rendering by delegating to the current game state via the <code>StateManager</code>.
+    </td>
+    <td>
+      <strong>Performance Optimization:</strong> A dedicated game loop manager allows for more efficient handling of updates and rendering cycles.
+    </td>
+  <tr>
+    <td>
+      <strong>Resource Cleanup:</strong> No explicit cleanup process for resources and managers.
+    </td>
+    <td>
+      <strong>Resource Cleanup:</strong> Added a <code>cleanup</code> method to properly dispose of resources and stop all managers when the game exits, ensuring no resource leaks and graceful shutdown.
+    </td>
+    <td>
+      <strong>Resource Management:</strong> Ensures that all resources are properly released, preventing memory leaks and ensuring a smooth user experience.
+    </td>
+  </tr>
+</table>
 
 **ActiveActor**
 
-`/com/example/demo/actor/plane`
+Code Location: <a href="src/main/java/com/example/demo/actor/ActiveActor.java">src/main/java/com/example/demo/ActiveActor.java</a>
+
+<table style="width:100%; border-collapse: collapse;">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>Class Structure</strong><br>
+      <ul>
+        <li>Two separate classes: <code>ActiveActor</code> and <code>ActiveActorDestructible</code>.</li>
+        <li><code>ActiveActor</code> manages basic properties like position and movement.</li>
+        <li><code>ActiveActorDestructible</code> adds destruction logic.</li>
+      </ul>
+    </td>
+    <td>
+      <strong>Merged Class</strong><br>
+      <ul>
+        <li>Unified into a single class: <code>ActiveActor</code>.</li>
+        <li>Incorporates both movement and destruction logic within the same class.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Simplified Design:</strong> Merging avoids redundancy and duplication of logic.</li>
+        <li><strong>Flexibility:</strong> Even if non-destructible elements are added later, the unified design can be refactored easily.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Image Management</strong><br>
+      <ul>
+        <li>Hardcoded image path using <code>getClass().getResource</code>.</li>
+      </ul>
+    </td>
+    <td>
+      <strong>Centralized Image Management</strong><br>
+      <ul>
+        <li>Uses <code>ImageManager</code> for consistent image handling.</li>
+        <li>Removes dependency on classpath-based image retrieval.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Consistency:</strong> Centralized image handling avoids scattered logic.</li>
+        <li><strong>Maintainability:</strong> Makes updates to image paths or loading logic easier.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+
 
 **FighterPlane**
 
-**BossPlane** (previously known as **Boss**)
+Code Location: <a href="src/main/java/com/example/demo/actor/plane/FighterPlane.java">src/main/java/com/example/demo/actor/plane/FighterPlane.java</a>
+
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+    Constructor accepts individual parameters: imageName, imageHeight, initialXPos, initialYPos, health.
+    </td>
+    <td>
+    Constructor accepts a single PlaneConfig object.
+    </td>
+    <td>
+    Reduces the number of parameters, making the constructor cleaner and easier to manage, especially as configurations grow.
+    </td>
+  </tr>
+  <tr>
+    <td>
+    Movement and firing logic is intended to be managed by subclasses.
+    </td>
+    <td>
+    Incorporates a MovementStrategy and FiringStrategy to handle plane movement and firing respectively.
+    </td>
+    <td>
+      <li>
+      Centralize movement and firing logic removes the need for each subclass to implement its own movement logic, thereby reducing redundancy.
+      </li>
+      <li>
+      Using MovementStrategy and FiringStrategy allows for different movement oand firing behaviors to be easily swapped or modified without altering the base class or subclasses.
+      </li>
+    </td>
+  </tr>
+</table>
 
 **EnemyPlane**
 
+Code Location: <a href="src/main/java/com/example/demo/actor/plane/EnemyPlane.java">src/main/java/com/example/demo/actor/plane/EnemyPlane.java</a>
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+    <strong>Movement Handling</strong><br> Explicit movement and firing logic within the class.
+    </td>
+    <td>
+    <strong>Delegated Movement and Firing</strong><br> Removed movement logic, utilizes MovementStrategy and FiringStrategy from FighterPlane.
+    </td>
+    <td>
+    <strong>Reduce Redundancy</strong><br> Centralizes movement and firing handling in the parent class for consistency.
+    </td>
+  </tr>
+</table>
+
+**BossPlane** (previously known as **Boss**)
+
+Code Location: <a href="src/main/java/com/example/demo/actor/plane/BossPlane.java">src/main/java/com/example/demo/actor/plane/BossPlane.java</a>
+
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+    Same as EnemyPlane
+    </td>
+    <td>
+    </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <strong>Damage Handling</strong><br> 
+    Overrides <code>takeDamage()</code> to consider shield state.
+    </td>
+    <td>
+    <strong>Simplified Damage Handling</strong><br> 
+    <li>Checks shield via Shield class. </li>
+    <li>Delegates damage to FighterPlane if not shielded</li>
+    </td>
+    <td>
+    <strong>Improve Clarity</strong><br> 
+    Makes damage handling cleaner by using the shield component.
+    </td>
+  </tr>
+</table>
+
 **UserPlane**
 
-`/com/example/demo/actor/projectile`
+Code Location: <a href="src/main/java/com/example/demo/actor/plane/UserPlane.java">src/main/java/com/example/demo/actor/plane/UserPlane.java</a>
+
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+    Same as <code>EnemyPlane</code>
+    </td>
+    <td>
+    </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <strong>Health Management</strong><br> 
+    Manages health directly within the UserPlane class.
+    </td>
+    <td>
+    <strong>Health Management with Handlers</strong><br> 
+    <li>Initializes a <code>HealthChangeHandler</code> to manage health changes.</li>
+    <li>Notifies registered handlers whenever health changes.</li>
+    </td>
+    <td>
+    <li><strong>Enhance Modularity</strong><br> 
+    Separates health logic from the plane class.</li>
+    <li><strong>Promote Flexibility</strong><br> 
+    Allows external components to respond to health changes.</li>
+    </td>
+  </tr>
+</table>
 
 **Projectile**
 
-**BossProjectile** 
+Code Location: <a href="src/main/java/com/example/demo/actor/projectile/Projectile.java">src/main/java/com/example/demo/actor/projectile/Projectile.java</a>
 
-**EnemyProjectile**
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+    Same as EnemyPlane
+    </td>
+    <td>
+    </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <strong>Constructor Parameters</strong><br> 
+    Accepts individual parameters: imageName, imageHeight, initialXPos, initialYPos.
+    </td>
+    <td>
+    <strong>Simplified Initialization</strong><br> 
+    Accepts a single <code>ProjectileConfig</code> object instead of multiple parameters.
+    </td>
+    <td>
+    <strong>Simplify Initialization</strong><br> 
+    Reduces constructor complexity by using a configuration object, enhancing readability and scalability.
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <strong>Position Update Logic</strong><br> 
+    Abstract <code>updatePosition()</code> method to be implemented by subclasses with similar logic.
+    </td>
+    <td>
+    <strong>Centralized Position Update</strong><br> 
+    Implements <code>update(long now)</code> method directly in Projectile class to handle position updates.
+    </td>
+    <td>
+    <strong> Reduce Code Redundancy</strong><br> 
+    Consolidates common position update logic in the base class, eliminating repetitive code in subclasses.
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <strong>Projectile Destruction</strong><br> 
+    Projectiles are not removed from root even when they are out of bounds.
+    </td>
+    <td>
+    <strong>Managed Destruction</strong><br> 
+    This class destroys itself when out of bounds; removal from the scene is handled by <code>ActorManager<.code>.
+    </td>
+    <td>
+    <strong>Optimize Memory Management</strong><br> 
+    Ensures projectiles are efficiently removed from the game scene by delegating removal to a centralized manager, conserving memory.
+    </td>
+  </tr>
+</table>
+
+**BossProjectile** and **EnemyProjectile**
+
+Code Location: <a href="src/main/java/com/example/demo/actor/projectile/BossProjectile.java">src/main/java/com/example/demo/actor/projectile/BossProjectile.java</a> <br> <a href="src/main/java/com/example/demo/actor/projectile/EnemyProjectile.java">src/main/java/com/example/demo/actor/projectile/EnemyProjectile.java</a>
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+    <strong>Constructor Parameters</strong><br> 
+    Accepts individual parameters: imageName, imageHeight, initialXPos, initialYPos.
+    </td>
+    <td>
+    <strong>Simplified Initialization</strong><br> 
+    Accepts a single <code>ProjectileConfig</code> object instead of multiple parameters.
+    </td>
+    <td>
+    <strong>Simplify Initialization</strong><br> 
+    As mentioned above, position updates are handled by the parent <code>Projectile</code> class, eliminating the need for redundant methods in subclasses.
+    </td>
+  </tr>
+</table>
 
 **UserProjectile**
 
-`/com/example/demo/actor/plane/component`
+Code Location: <a href="src/main/java/com/example/demo/actor/projectile/UserProjectile.java">src/main/java/com/example/demo/actor/projectile/UserProjectile.java</a>
+
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+    Same as <code>BossProjectile</code> and <code>EnemyProjectile</code>.
+    </td>
+    <td>
+    </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+    <strong>Health Management and Ownership</strong><br> 
+    No association with <code>UserPlane</code>
+    </td>
+    <td>
+    <strong>Enhanced Ownership Management</strong><br> 
+    <li>Introduces an owner field referencing             <code>UserPlane</code>.
+    </li>
+    <li>Implements <code>getOwner()</code> to retrieve the projectile's owner.</li>
+    </td>
+    <td>
+    <strong>Enhanced Ownership Management</strong><br> 
+      <li>Allows projectiles to be linked back to the <code>UserPlane</code> that fired them.</li><br>
+    <strong>Facilitate Interactions</strong><br> 
+      <li>Enables functionalities like attributing kills or managing player-specific behaviors.</li>
+  </tr>
+</table>
 
 **HeartDisplay**
 
-#### `/com/example/demo/level`
+Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/HeartDisplay.java">src/main/java/com/example/demo/actor/plane/component/HeartDisplay.java</a>
 
-**Level001** (previously known as LevelOne)
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>Heart Initialization</strong><br>
+      <li>Initializes a fixed number of hearts in the constructor.</li>
+      <li>Uses <code>removeHeart()</code> to decrement hearts.</li>
+    </td>
+    <td>
+      <strong>Dynamic Heart Management</strong><br>
+      <li>Uses <code>setHearts()</code> to update the number of hearts dynamically.</li>
+      <li>Includes player's plane icon in the heart display.</li>
+    </td>
+    <td>
+      <strong>Enhanced Flexibility</strong><br>
+      <li>Enables dynamic updates to heart count based on game events.</li>
+      <li>Provides a more informative UI by displaying the player's plane icon alongside hearts.</li>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>UI Updates</strong><br>
+      <li>Directly modifies UI components without ensuring thread safety.</li>
+    </td>
+    <td>
+      <strong>Thread-Safe UI Updates</strong><br>
+      <li>Utilizes <code>Platform.runLater()</code> to update hearts safely on the JavaFX Application Thread.</li>
+    </td>
+    <td>
+      <strong>Stability and Performance</strong><br>
+      <li>Ensures that UI updates occur on the correct thread, preventing potential runtime errors.</li>
+      <li>Improves application stability by adhering to JavaFX threading rules.</li>
+    </td>
+  </tr>
+</table>
 
-**Level002** (previously known as LevelTwo)
+**Level001** (previously known as `LevelOne`) and **Level002** (previously known as `LevelTwo`)
+
+Code Location: <a href="src/main/java/com/example/demo/level/Level001.java">src/main/java/com/example/demo/level/Level001.java</a> <br> <a href="src/main/java/com/example/demo/level/Level002.java">src/main/java/com/example/demo/level/Level002.java</a>
+
+<table style="width:100%; border-collapse: collapse;">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li><strong>Game Over and Win Logic:</strong> <code>checkIfGameOver</code> method checks game over and win conditions within <code>LevelOne</code>.</li>
+        <li><strong>Kill Target Logic:</strong> Kill target logic handled within <code>userHasReachedKillTarget</code> method.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Delegated State Logic:</strong> Game over and win conditions are managed by <code>LevelState</code>.</li>
+        <li><strong>Centralized Kill Logic:</strong> Kill target logic is handled by <code>userHasReachedTarget</code> in the parent class.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Simplified Level Logic:</strong> Moves game state checks to a dedicated manager for smoother transitions.</li>
+        <li><strong>Improved Maintainability:</strong> Consolidates kill target logic for reuse and easier updates.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 **LevelParent**
 
-``/com/example/demo/screen`
+Code Location: <a href="src/main/java/com/example/demo/level/LevelParent.java">src/main/java/com/example/demo/level/LevelParent.java</a>
 
-**LevelScreen** (previously known as LevelView)
+<table style="width:100%">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li><strong>Level Progression Methods</strong><br> <code>goToNextLevel</code>, <code>winGame</code>, <code>loseGame</code> handled within <code>LevelParent</code>.</li>
+        <li><strong>Game Loop Management:</strong> <code>initializeTimeline</code> manages the game loop within <code>LevelParent</code>.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Level Progression Methods</strong><br> Moved to <code>LevelState</code> class.</li>
+        <li><strong>Game Loop Management:</strong> Handled by <code>GameLoopManager</code> class.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Separation of Responsibilities</strong> <br>Delegating level progression and game loop management to specialized classes enhances modularity.</li>
+        <li><strong>Better Maintenance:</strong> Makes the codebase easier to manage and extend by isolating different functionalities.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li><strong>Background Initialization</strong> <br><code>initializeBackground</code> handled within <code>LevelParent</code>.</li>
+        <li><strong>Projectile and Enemy Fire:</strong> <code>fireProjectile</code>, <code>generateEnemyFire</code>, <code>spawnEnemyProjectile</code> managed within <code>LevelParent</code>.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Background Initialization</strong> <br>Moved to <code>LevelScreen</code> class.</li>
+        <li><strong>Projectile and Enemy Fire:</strong> Handled by <code>FighterPlane</code> class.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Modularity:</strong> <br>Separating background initialization and projectile management into dedicated classes reduces complexity.</li>
+        <li><strong>Code Reusability:</strong> Allows reuse of projectile and firing logic across different plane types.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li><strong>Actor Management:</strong> <br><code>updateActors</code> and <code>removeAllDestroyedActors</code> handled within <code>LevelParent</code>.</li>
+        <li><strong>Collision Handling:</strong> <code>handleCollisions</code> and <code>handleEnemyPenetration</code> managed within <code>LevelParent</code>.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Actor Management</strong><br> Managed by <code>ActorManager</code> class.</li>
+        <li><strong>Collision Handling:</strong> Handled by <code>CollisionManager</code> class.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Separation of Concerns</strong><br> Delegating actor and collision management to specialized managers enhances clarity and maintainability.</li>
+        <li><strong>Scalability:</strong> Facilitates easier expansion of actor and collision functionalities without impacting the core level logic.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <ul>
+        <li><strong>Kill Count Management</strong><br> <code>updateKillCount</code> handled within <code>LevelParent</code>.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Kill Count Management:</strong> Handled by <code>UserPlane</code> class.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Encapsulation</strong><br> Moving kill count management to <code>UserPlane</code> aligns responsibility with the entity tracking kills.</li>
+        <li><strong>Improved Clarity:</strong> Simplifies <code>LevelParent</code> by removing player-specific logic.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
+**LevelScreen** (previously known as `LevelView`)
+
+Code Location: <a href="src/main/java/com/example/demo/screen/LevelScreen.java">src/main/java/com/example/demo/screen/LevelScreen.java</a>
+
+<table style="width:100%; border-collapse: collapse;">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>Win/Loss Screens</strong><br>
+      <ul>
+        <li>Displays static win or loss images.</li>
+        <li>No integration with other level-specific UI elements.</li>
+      </ul>
+    </td>
+    <td>
+      <strong>Level Instructions</strong><br>
+      <ul>
+        <li>Displays instructions specific to the level.</li>
+        <li>Instructions include objectives like "Kill enemies" or "Survive."</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Improved Clarity:</strong> Ensures players understand their objectives for each level.</li>
+        <li><strong>Enhanced Experience:</strong> Adds narrative and context to levels.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Background</strong><br>
+      <ul>
+        <li>No background scrolling or dynamic visual effects.</li>
+      </ul>
+    </td>
+    <td>
+      <strong>Scrolling Background</strong><br>
+      <ul>
+        <li>Adds a scrolling effect to the background for a seamless visual experience.</li>
+        <li>Background resets when scrolling out of view.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Immersion:</strong> Creates a visually engaging and dynamic environment.</li>
+        <li><strong>Modern Game Design:</strong> Aligns with contemporary gaming visuals.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
 
 **Shield** (previously known as ShieldImage)
+
+Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shield.java">src/main/java/com/example/demo/actor/plane/component/Shield.java</a>
+
+<table style="width:100%; border-collapse: collapse;">
+  <tr>
+    <th>Original Version</th>
+    <th>Modified Version</th>
+    <th>Reasons for Modification</th>
+  </tr>
+  <tr>
+    <td>
+      <strong>Shield Activation Logic</strong><br>
+      <ul>
+        <li>Shield visibility is controlled by the <code>BossPlane</code>.</li>
+        <li>No independent activation or deactivation logic for the shield.</li>
+      </ul>
+    </td>
+    <td>
+      <strong>Self-Managed Shield Activation</strong><br>
+      <ul>
+        <li>Shield handles its own activation and deactivation logic.</li>
+        <li>Includes activation probability and duration management.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Single Responsibility Principle (SRP):</strong> Encapsulating shield logic within the <code>Shield</code> class ensures it is self-contained and not dependent on the <code>BossPlane</code>.</li>
+        <li><strong>Modularity:</strong> Makes the shield reusable and easier to maintain.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Positioning</strong><br>
+      <ul>
+        <li>Position is statically set during instantiation.</li>
+        <li>No dynamic updates based on the <code>BossPlane</code>'s position.</li>
+      </ul>
+    </td>
+    <td>
+      <strong>Dynamic Positioning</strong><br>
+      <ul>
+        <li>Shield position is updated dynamically relative to the <code>BossPlane</code>.</li>
+        <li>Offsets are configurable through constants.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Flexibility:</strong> Enables dynamic adjustment based on the parent entity's position.</li>
+        <li><strong>Reusability:</strong> Allows the shield to be used with different entities without modifications.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <strong>Visibility Management</strong><br>
+      <ul>
+        <li>Manages only the visual appearance (show or hide).</li>
+        <li>No visibility tied to shield duration or activation state.</li>
+      </ul>
+    </td>
+    <td>
+      <strong>State-Based Visibility</strong><br>
+      <ul>
+        <li>Visibility is managed based on the activation state and frame count.</li>
+        <li>Hides the shield when its duration expires.</li>
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li><strong>Improved Functionality:</strong> Ensures shield visibility aligns with its active state and duration.</li>
+        <li><strong>Game Logic Integration:</strong> Simplifies integration with game mechanics by handling visibility automatically.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+
 
 # Deleted Java Classes
 
