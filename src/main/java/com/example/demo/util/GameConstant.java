@@ -288,7 +288,7 @@ public class GameConstant {
      */
     public static class Level001 {
         public static final int TOTAL_ENEMIES = 5;
-        public static final int KILLS_TO_ADVANCE = 0;
+        public static final int KILLS_TO_ADVANCE = 5;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
     }
 

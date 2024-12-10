@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.example.demo.manager.ImageManager;
-import com.example.demo.strategy.firing.FiringStrategy;
-import com.example.demo.strategy.movement.MovementStrategy;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.image.Image;
 import org.junit.jupiter.api.AfterEach;

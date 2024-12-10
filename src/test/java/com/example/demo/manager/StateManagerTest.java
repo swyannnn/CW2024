@@ -1,8 +1,6 @@
 package com.example.demo.manager;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.example.demo.state.*;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.BeforeEach;
@@ -50,8 +48,6 @@ public class StateManagerTest {
         MockitoAnnotations.openMocks(this);
         stateManager = new StateManager(mockStage, mockActorManager, mockCollisionManager,
                                        mockGameLoopManager, mockAudioManager, 1);
-
-        // Inject mockStateFactory using reflection
         Field stateFactoryField = StateManager.class.getDeclaredField("stateFactory");
         stateFactoryField.setAccessible(true);
         stateFactoryField.set(stateManager, mockStateFactory);
@@ -59,60 +55,34 @@ public class StateManagerTest {
 
     @Test
     public void testGoToMainMenu() {
-        // Arrange
         when(mockStateFactory.createMainMenuState()).thenReturn(mockMainMenuState);
-
-        // Act
         stateManager.goToMainMenu();
-
-        // Assert
         verify(mockStateFactory).createMainMenuState();
         verify(mockMainMenuState).initialize();
-        // Optionally, verify currentState if accessible
     }
 
     @Test
     public void testGoToLevel() {
-        // Arrange
         int levelNumber = 2;
         when(mockStateFactory.createLevelState(levelNumber)).thenReturn(mockLevelState);
-
-        // Act
         stateManager.goToLevel(levelNumber);
-
-        // Assert
         verify(mockStateFactory).createLevelState(levelNumber);
         verify(mockLevelState).initialize();
-        // Optionally, verify currentState if accessible
     }
 
     @Test
     public void testGoToWinState() {
-        // Arrange
         when(mockStateFactory.createWinState()).thenReturn(mockWinState);
-
-        // Act
         stateManager.goToWinState();
-
-        // Assert
         verify(mockStateFactory).createWinState();
         verify(mockWinState).initialize();
-        // Optionally, verify currentState if accessible
     }
 
     @Test
     public void testGoToLoseState() {
-        // Arrange
         when(mockStateFactory.createLoseState()).thenReturn(mockLoseState);
-
-        // Act
         stateManager.goToLoseState();
-
-        // Assert
         verify(mockStateFactory).createLoseState();
         verify(mockLoseState).initialize();
-        // Optionally, verify currentState if accessible
     }
-
-    // Additional tests for other functionalities...
 }
