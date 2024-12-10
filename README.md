@@ -173,6 +173,9 @@ cd CW2024
 **5. Run the Application**
 <li>Right-click the file and select Run <code>Main.java</code> located at <code>src/main/java/com/example/demo</code></li><br>
 
+**Notes**<br>
+Dependencies are managed via Maven and will be automatically downloaded during the import process.
+
 # Implemented and Working Properly
 This section details the features that have been successfully implemented in both the frontend and backend of the project. Each feature is explained by outlining the <b>original version</b>, the <b>shortcomings of that approach</b>, <b>reasons why the modifications enhance the overall project</b> and the <b>new implementation</b>.
 
@@ -688,11 +691,6 @@ This section details the features that have been successfully implemented in bot
 
 # New Java Classes
 <table style="width:100%">
-  <tr>
-    <th style="width: 10%;">Class Name</th>
-    <th style="width: 80%;">Description</th>
-    <th style="width: 10%;">Code Location</th>
-  </tr>
   <tr>
     <td>
     1. ActiveActor 
@@ -1405,7 +1403,7 @@ This section details the features that have been successfully implemented in bot
 
 **FighterPlane**
 
-**BossPlane** (previously known as Boss)
+**BossPlane** (previously known as **Boss**)
 
 **EnemyPlane**
 
@@ -1451,7 +1449,7 @@ This section details the features that have been successfully implemented in bot
       ActiveActorDestructible.java
     </td>
     <td>
-      The logic has been integrated into the <a href="path/to/ActiveActor.java">ActiveActor</a> class to streamline functionality.
+      The logic has been integrated into the <a href="src/main/java/com/example/demo/actor/ActiveActor.java">ActiveActor</a> class to streamline functionality.
     </td>
   </tr>
   <tr>
@@ -1467,7 +1465,7 @@ This section details the features that have been successfully implemented in bot
       GameOverImage.java & WinImage.java
     </td>
     <td>
-      Image creation is now handled dynamically by the <a href="path/to/ImageManager.java">ImageManager</a>.
+      Image creation is now handled dynamically by the <a href="src/main/java/com/example/demo/manager/ImageManager.java">ImageManager</a>.
     </td>
   </tr>
   <tr>
@@ -1475,7 +1473,7 @@ This section details the features that have been successfully implemented in bot
       LevelViewLevelTwo.java
     </td>
     <td>
-      Its functionality has been merged into the <a href="path/to/LevelScreen.java">LevelScreen</a> class for better organization.
+      Its functionality has been merged into the <a href="src/main/java/com/example/demo/screen/LevelScreen.java">LevelScreen</a> class for better organization.
     </td>
   </tr>
 </table>

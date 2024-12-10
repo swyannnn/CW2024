@@ -1,4 +1,3 @@
-// PlaneFactory.java
 package com.example.demo.actor.plane;
 
 import com.example.demo.actor.ActorSpawner;

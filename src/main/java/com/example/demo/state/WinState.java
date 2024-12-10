@@ -41,7 +41,6 @@ public class WinState implements GameState {
     @Override
     public void initialize() {
         // Initialize the WinScreen and set the scene
-        System.out.println("Initializing Win State");
         winScreen = new WinScreen(stage, stateTransitioner);
         this.scene = winScreen.getWinScreenScene();
         stage.setScene(this.scene);

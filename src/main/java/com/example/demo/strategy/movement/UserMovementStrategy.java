@@ -64,7 +64,8 @@ public class UserMovementStrategy implements MovementStrategy {
             deltaX += speed;
         }
 
-        plane.move(deltaX, deltaY);
+        plane.moveHorizontally(deltaX);
+        plane.moveVertically(deltaY);
 
         // Bounds checking
         double currentX = plane.getLayoutX() + plane.getTranslateX();

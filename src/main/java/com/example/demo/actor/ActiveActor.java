@@ -32,18 +32,7 @@ public abstract class ActiveActor extends ImageView{
         this.isDestroyed = false;
         this.imageHeight = imageHeight;
     }
-
-    /**
-     * Moves the actor by the specified delta values in the X and Y directions.
-     *
-     * @param deltaX the change in the X direction
-     * @param deltaY the change in the Y direction
-     */
-    public void move(double deltaX, double deltaY) {
-        this.setTranslateX(getTranslateX() + deltaX);
-        this.setTranslateY(getTranslateY() + deltaY);
-    }
-
+    
     /**
      * Moves the actor horizontally by the specified amount.
      *
@@ -51,7 +40,7 @@ public abstract class ActiveActor extends ImageView{
      *                       Positive values move the actor to the right, 
      *                       and negative values move the actor to the left.
      */
-    protected void moveHorizontally(double horizontalMove) {
+    public void moveHorizontally(double horizontalMove) {
         this.setTranslateX(getTranslateX() + horizontalMove);
     }
 
@@ -61,7 +50,7 @@ public abstract class ActiveActor extends ImageView{
      * @param verticalMove the amount to move the actor vertically. Positive values move the actor downwards,
      *                     while negative values move the actor upwards.
      */
-    protected void moveVertically(double verticalMove) {
+    public void moveVertically(double verticalMove) {
         this.setTranslateY(getTranslateY() + verticalMove);
     }
 
