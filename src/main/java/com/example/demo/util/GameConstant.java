@@ -119,7 +119,7 @@ public class GameConstant {
         public static final String IMAGE_NAME = "enemy0.png";
         public static final int IMAGE_HEIGHT = 60;
         public static final int INITIAL_HEALTH = 1;
-        public static final int HORIZONTAL_VELOCITY = -5;
+        public static final int HORIZONTAL_VELOCITY = -4;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
         public static final double X_UPPER_BOUND = 150;
