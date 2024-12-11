@@ -766,55 +766,10 @@ This section details the features that have been successfully implemented in bot
       <a href="src/main/java/com/example/demo/actor/projectile/ProjectileFactory.java">src/main/java/com/example/demo/actor/projectile/ProjectileFactory.java</a>
     </td>
   </tr>
-  <tr>
-    <td>
-    6. Projectile 
-    </td>
-    <td>
-      Abstract Projectile class representing a generic projectile in the game.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/projectile/Projectile.java">src/main/java/com/example/demo/actor/projectile/Projectile.java</a>
-    </td>
   </tr>
     <tr>
     <td>
-    7. UserProjectile 
-    </td>
-    <td>
-      A class representing a projectile fired by the user.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/projectile/UserProjectile.java">src/main/java/com/example/demo/actor/UserProjectile/Projectile.java</a>
-    </td>
-  </tr>
-  </tr>
-    <tr>
-    <td>
-    8. EnemyProjectile 
-    </td>
-    <td>
-      A class representing a projectile fired by enemies.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/projectile/EnemyProjectile.java">src/main/java/com/example/demo/actor/EnemyProjectile/Projectile.java</a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-    9. BossProjectile 
-    </td>
-    <td>
-      A class representing a projectile specifically used by a boss character in the game.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/projectile/BossProjectile.java">src/main/java/com/example/demo/actor/projectile/BossProjectile.java</a>
-    </td>
-  </tr>
-  </tr>
-    <tr>
-    <td>
-    10. PlaneType 
+    6. PlaneType 
     </td>
     <td>
       An enum represents different types of planes in the game, each with its own unique properties and behaviors.
@@ -825,7 +780,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    11. PlaneConfig 
+    7. PlaneConfig 
     </td>
     <td>
       A class representing the configuration settings for a plane in the game.
@@ -836,7 +791,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    12. PlaneFactory 
+    8. PlaneFactory 
     </td>
     <td>
       A Factory class responsible for creating various types of planes in the game.
@@ -847,51 +802,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    13. FighterPlane 
-    </td>
-    <td>
-      A class representing an abstract type of plane that can engage in combat.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/plane/FighterPlane.java">src/main/java/com/example/demo/actor/plane/FighterPlane.java</a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-    14. BossPlane 
-    </td>
-    <td>
-      A class representing a specialized type of FighterPlane with an additional shield capability.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/plane/BossPlane.java">src/main/java/com/example/demo/actor/plane/BossPlane.java</a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-    15. EnemyPlane 
-    </td>
-    <td>
-      A class representing an enemy fighter plane in the game.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/plane/EnemyPlane.java">src/main/java/com/example/demo/actor/plane/EnemyPlane.java</a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-    16. UserPlane 
-    </td>
-    <td>
-      A Class representing a fighter plane controlled by a user in the game
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/plane/UserPlane.java">src/main/java/com/example/demo/actor/plane/UserPlane.java</a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-    17. MultiPhaseBossPlane 
+    9. MultiPhaseBossPlane 
     </td>
     <td>
       A class representing a boss plane with multiple phases in a game.
@@ -902,29 +813,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    18. HeartDisplay 
-    </td>
-    <td>
-       A class representing a graphical component that displays a player's hearts in a game.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/plane/component/HeartDisplay.java">src/main/java/com/example/demo/actor/plane/component/HeartDisplay.java</a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-    19. Shield 
-    </td>
-    <td>
-      A class representing a visual shield that can be activated and deactivated based on certain conditions.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/actor/plane/component/Shield.java">src/main/java/com/example/demo/actor/plane/component/Shield.java</a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-    20. ExplosionEffect 
+    10. ExplosionEffect 
     </td>
     <td>
       A class representing an explosion animation effect.
@@ -935,7 +824,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    21. FlickerEffect 
+    11. FlickerEffect 
     </td>
     <td>
       A class that provides a reusable flicker animation for JavaFX Nodes.
@@ -946,7 +835,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    22. CollisionHandler 
+    12. CollisionHandler 
     </td>
     <td>
       An interface provides methods to handle collision events in the game.
@@ -957,7 +846,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    23. GameLoopHandler 
+    13. GameLoopHandler 
     </td>
     <td>
       A functional interface representing a handler for the game loop.
@@ -968,7 +857,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    24. HealthChangeHandler 
+    14. HealthChangeHandler 
     </td>
     <td>
       An interface for listening to changes in the health of a user plane.
@@ -979,7 +868,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    25. InputHandler 
+    15. InputHandler 
     </td>
     <td>
       An interface that defines a contract for handling input events.
@@ -990,7 +879,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    26. LevelConfig 
+    16. LevelConfig 
     </td>
     <td>
       A class that encapsulates the configuration settings for a game level.
@@ -1001,7 +890,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    27. LevelFactory 
+    17. LevelFactory 
     </td>
     <td>
       A factory class for creating different levels in the game.
@@ -1012,18 +901,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    28. LevelParent 
-    </td>
-    <td>
-      A class that serves as an abstract base class for game levels.
-    </td>
-    <td>
-      <a href="src/main/java/com/example/demo/level/LevelParent.java">src/main/java/com/example/demo/level/LevelParent.java</a>
-    </td>
-  </tr>
-  <tr>
-    <td>
-    29. Level003 
+    18. Level003 
     </td>
     <td>
       A subclass of LevelParent that represents the third level of the game.
@@ -1034,7 +912,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    30. Level004
+    19. Level004
     </td>
     <td>
       a subclass of LevelParent that represents the fourth level of the game.
@@ -1045,7 +923,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    31. ActorManager
+    20. ActorManager
     </td>
     <td>
       A class which responsible for managing and updating all active actors in the game.
@@ -1056,7 +934,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    32. AudioManager
+    21. AudioManager
     </td>
     <td>
       A class which responsible for managing audio playback in the application.
@@ -1067,7 +945,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
  <tr>
     <td>
-    33. ButtonManager
+    22. ButtonManager
     </td>
     <td>
       A class which provides utility methods to create and style buttons.
@@ -1078,7 +956,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    34. CollisionManager
+    23. CollisionManager
     </td>
     <td>
       A class which responsible for handling collisions between various actors in the game.
@@ -1089,7 +967,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    35. GameLoopManager
+    24. GameLoopManager
     </td>
     <td>
       A class which responsible for managing the game loop using the singleton pattern.
@@ -1100,7 +978,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    36. ImageManager
+    25. ImageManager
     </td>
     <td>
       A class which provides utility methods for managing and retrieving images.
@@ -1111,7 +989,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    37. InputManager
+    26. InputManager
     </td>
     <td>
       A class which responsible for handling and delegating input events.
@@ -1122,7 +1000,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    38. StateManager
+    27. StateManager
     </td>
     <td>
       A class which responsible for managing the transitions between different game states.
@@ -1133,7 +1011,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    39. LoseScreen
+    28. LoseScreen
     </td>
     <td>
       A class representing the screen displayed when the player loses the game.
@@ -1144,7 +1022,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    40. MainMenuScreen
+    29. MainMenuScreen
     </td>
     <td>
       A class representing the main menu of the game application.
@@ -1155,7 +1033,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    41. PauseScreen
+    30. PauseScreen
     </td>
     <td>
       A class representing a UI overlay that appears when the game is paused.
@@ -1166,7 +1044,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    42. WinScreen
+    31. WinScreen
     </td>
     <td>
       A class representing the screen displayed when the player wins the game.
@@ -1177,7 +1055,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    43. GameState
+    32. GameState
     </td>
     <td>
       A class representing a state in the game.
@@ -1188,7 +1066,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    44. StateFactory
+    33. StateFactory
     </td>
     <td>
       A class which responsible for creating instances of game states.
@@ -1199,7 +1077,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    45. StateTransitioner
+    34. StateTransitioner
     </td>
     <td>
       An interface that defines the methods required for transitioning between different states in a game or application.
@@ -1210,7 +1088,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    46. LevelState
+    35. LevelState
     </td>
     <td>
       A class representing the state of a game level and manages various aspects of the game, including input handling, collision detection, actor management, and state transitions.
@@ -1221,7 +1099,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    47. MainMenuState
+    36. MainMenuState
     </td>
     <td>
       A class that implements the GameState interface and represents the main menu state of the game.
@@ -1232,7 +1110,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    48. LoseState
+    37. LoseState
     </td>
     <td>
       A class that implements the GameState interface and represents the state of the game when the player has lost.
@@ -1243,7 +1121,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    49. WinState
+    38. WinState
     </td>
     <td>
        A class that implements the GameState interface and represents the state of the game when the player has won.
@@ -1254,7 +1132,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    50. FiringStrategy
+    39. FiringStrategy
     </td>
     <td>
       An interface that defines the contract for different firing strategies that can be implemented for a FighterPlane.
@@ -1265,7 +1143,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    51. UserFiringStrategy
+    40. UserFiringStrategy
     </td>
     <td>
       A class which implements the FiringStrategy interface and defines the firing behavior for user planes.
@@ -1276,7 +1154,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    52. EnemyFiringStrategy
+    41. EnemyFiringStrategy
     </td>
     <td>
       A class which implements the FiringStrategy interface and defines the firing behavior for enemy planes.
@@ -1287,7 +1165,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    53. BossFiringStrategy
+    42. BossFiringStrategy
     </td>
     <td>
       A class which implements the FiringStrategy interface and defines the firing behavior for a boss character.
@@ -1298,7 +1176,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    54. MultiPhaseBossFiringStrategy
+    43. MultiPhaseBossFiringStrategy
     </td>
     <td>
       A class which implements the FiringStrategy interface and defines the firing behavior for a multi-phase boss in a game.
@@ -1309,7 +1187,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    55. MovementType
+    44. MovementType
     </td>
     <td>
       An enum representing different types of movement strategies.
@@ -1320,7 +1198,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    56. MovementStrategy
+    45. MovementStrategy
     </td>
     <td>
       An interface that defines a strategy for moving a FighterPlane.
@@ -1331,7 +1209,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    57. UserMovementStrategy
+    46. UserMovementStrategy
     </td>
     <td>
       A class which implements the MovementStrategy interface and defines the movement behavior for the player's plane in the game.
@@ -1343,7 +1221,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    58. EnemyMovementStrategy
+    47. EnemyMovementStrategy
     </td>
     <td>
       A class which implements the MovementStrategy interface and defines the movement behavior for enemy planes in the game.
@@ -1354,7 +1232,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    59. BossMovementStrategy
+    48. BossMovementStrategy
     </td>
     <td>
       A class which  implements the MovementStrategy interface and defines the movement behavior for the boss plane in the game.
@@ -1365,7 +1243,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    60. MultiPhaseBossMovementStrategy
+    49. MultiPhaseBossMovementStrategy
     </td>
     <td>
       A class which implements the MovementStrategy interface and defines the movement behavior for a multi-phase boss in a game.
@@ -1376,7 +1254,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    61. PlayerKeyBindings
+    50. PlayerKeyBindings
     </td>
     <td>
       A class which manages key bindings for player movement in four directions: up, down, left, and right.
@@ -1387,7 +1265,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    62. GameConstant
+    51. GameConstant
     </td>
     <td>
       A class which holds various constants used throughout the game.
