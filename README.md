@@ -688,6 +688,28 @@ This section details the features that have been successfully implemented in bot
   </tr>
 </table>
 
+#### **3. Better Game Constant Management**
+
+<table style="width:100%">
+  <tr>
+    <th>Feature</th>
+    <th>Reason for Not Implementing</th>
+  </tr>
+  <tr>
+    <td>
+      Implementing a more organized and maintainable structure for the <a href="src/main/java/com/example/demo/util/GameConstant.java"><code>GameConstant</code></a>  class. The current implementation is messy with numerous nested static classes and a large number of constants, making it difficult to manage and extend.
+    </td>
+    <td>
+      The feature was not implemented due to:
+      <ul>
+        <li><strong>Time Constraints:</strong> Refactoring the <a href="src/main/java/com/example/demo/util/GameConstant.java"><code>GameConstant</code></a> class to a more manageable structure required substantial time, which was not available due to other project priorities.</li>
+      </ul>
+      This feature may be revisited in future iterations to improve code maintainability and readability.
+    </td>
+  </tr>
+</table>
+
+
 
 # New Java Classes
 <table style="width:100%">
