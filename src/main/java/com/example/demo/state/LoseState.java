@@ -42,7 +42,6 @@ public class LoseState implements GameState {
      */
     @Override
     public void initialize() {
-        System.out.println("Initializing Lose State");
         loseScreen = new LoseScreen(stage, stateTransitioner);
         this.scene = loseScreen.getLoseScreenScene();
         stage.setScene(this.scene);

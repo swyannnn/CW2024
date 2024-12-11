@@ -122,7 +122,6 @@ public class LevelState implements GameState, CollisionHandler {
         }
         setupScene(this.scene);
         stage.show();
-        System.out.println("LevelState: Level " + level.getCurrentLevelNumber() + " initialized and displayed.");
         createPauseOverlay();
     }
 
@@ -165,7 +164,6 @@ public class LevelState implements GameState, CollisionHandler {
     @Override
     public void handleInput(KeyEvent event) {
         if (gameLoopManager.isPaused()) {
-            System.out.println("LevelState: Game is paused using handleinput1 method.");
             if (event.getEventType() == KeyEvent.KEY_PRESSED && event.getCode() == KeyCode.SPACE) {
                 gameLoopManager.resumeGame();
             }
@@ -174,7 +172,6 @@ public class LevelState implements GameState, CollisionHandler {
 
         if (event.getEventType() == KeyEvent.KEY_PRESSED) {
             if (event.getCode() == KeyCode.SPACE) {
-                System.out.println("LevelState: Game paused using handleinput2 method.");
                 gameLoopManager.pauseGame();
             } else {
                 // Add other keys to activeKeys for movement
@@ -197,10 +194,8 @@ public class LevelState implements GameState, CollisionHandler {
      */
     @Override
     public void cleanup() {
-        System.out.println("LevelState: Cleaning up Level " + level.getCurrentLevelNumber());
         // remove health handlers from all players
         actorManager.cleanup();
-        System.out.println("LevelState: Cleanup completed.");
     }
 
     /**
@@ -286,7 +281,6 @@ public class LevelState implements GameState, CollisionHandler {
     @Override
     public void onProjectileHitEnemy(UserPlane userPlane, ActiveActor enemy) {
         userPlane.incrementKillCount();
-        System.out.println("Kill count for"+ userPlane + "updated: " + userPlane.getNumberOfKills());
     }
     
     /**
@@ -315,7 +309,6 @@ public class LevelState implements GameState, CollisionHandler {
      * pause overlay for the current level.
      */
     private void createPauseOverlay() {
-        System.out.println("Creating PauseOverlay for Level " + level.getCurrentLevelNumber());
         pauseOverlay = new PauseScreen(gameLoopManager, stateTransitioner);
     }
 
@@ -347,7 +340,6 @@ public class LevelState implements GameState, CollisionHandler {
             level.getRoot().getChildren().remove(pauseOverlay.getOverlay());
             level.getRoot().requestFocus();
         });
-        System.out.println("Pause overlay hidden.");
     }
 
     /**
@@ -376,12 +368,12 @@ public class LevelState implements GameState, CollisionHandler {
      * Checks if all users (players) are destroyed.
      * A user is considered destroyed if their health is less than or equal to 0.
      *
-     * @return true if all users are destroyed, false otherwise.
+     * @return true if any of the users are destroyed, false otherwise.
      */
     public boolean allUsersAreDestroyed() {
         return actorManager.getPlayers().stream()
-                .allMatch(player -> player.getHealth() <= 0);
-    }   
+                .anyMatch(player -> player.getHealth() <= 0);
+    }
 
     /**
      * Assigns key bindings to players based on their index.
@@ -426,7 +418,6 @@ public class LevelState implements GameState, CollisionHandler {
             }
 
             playerKeyBindingsMap.put(player, bindings);
-            System.out.println("Assigned key bindings for Player " + (i + 1));
 
             // Assign MovementStrategy and FiringStrategy to the UserPlane
             int planeSpeed = GameConstant.UserPlane.VELOCITY; 

@@ -69,7 +69,6 @@ public class BossPlane extends FighterPlane {
     @Override
     public boolean takeDamage() {
         if (shield.isShielded()) {
-            System.out.println("BossPlane is shielded. No damage taken.");
             return false; // Damage not applied
         }
         return super.takeDamage(); // Delegate to base class

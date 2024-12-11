@@ -71,7 +71,6 @@ public class HeartDisplay {
      * @return the image name for the player if the index is 0 or 1, otherwise null
      */
     public String getImageName(int playerIndex) {
-        System.out.println("playerIndex: " + playerIndex);
         switch (playerIndex) {
             case 0:
                 return GameConstant.UserPlane.ID1_IMAGE_NAME_DISPLAY;

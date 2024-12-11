@@ -89,6 +89,7 @@ public class GameConstant {
         public static final String IMAGE_NAME = "userfire.png";
         public static final int IMAGE_HEIGHT = 125;
         public static final int HORIZONTAL_VELOCITY = 15;
+        public static final long SOUND_COOL_DOWN = 200_000_000L;
         public static final long FIRE_INTERVAL_NANOSECONDS = 500_000_000L;
     }
 
@@ -203,7 +204,7 @@ public class GameConstant {
     public static class BossPlane {
         public static final String IMAGE_NAME = "bossplane.png";
         public static final int IMAGE_HEIGHT = 300;
-        public static final int INITIAL_HEALTH = 0;
+        public static final int INITIAL_HEALTH = 5;
         public static final double HORIZONTAL_VELOCITY = 4.0;
         public static final int VERTICAL_VELOCITY = 4;
         public static final double INITIAL_X_POSITION = 1000.0;
@@ -224,9 +225,9 @@ public class GameConstant {
     public static class MultiPhaseBossPlane {
         public static final String IMAGE_NAME = "enemy3.png";
         public static final int IMAGE_HEIGHT = 200;
-        public static final int REMAINING_HEALTH_PHASE1 = 3;
-        public static final int REMAINING_HEALTH_PHASE2 = 2;
-        public static final int REMAINING_HEALTH_PHASE3 = 1;
+        public static final int REMAINING_HEALTH_PHASE1 = 10;
+        public static final int REMAINING_HEALTH_PHASE2 = 7;
+        public static final int REMAINING_HEALTH_PHASE3 = 3;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
         public static final double FIRE_RATE = 0.5; // 50% chance to fire
         public static final double Y_POSITION = (GameSettings.SCREEN_HEIGHT / 2) - 100;
@@ -239,7 +240,7 @@ public class GameConstant {
         public static final int Y_LOWER_BOUND = 600;
         public static final int X_UPPER_BOUND = GameSettings.SCREEN_HEIGHT / 2;
         public static final int X_LOWER_BOUND = 1150;
-        public static final long SUMMON_COOLDOWN = 10_000_000_000L; //1_000_000_000L
+        public static final long SUMMON_COOLDOWN = 1_000_000_000L; //1_000_000_000L
         public static final int MAX_FRAMES_WITH_SAME_MOVE = 250;
     }
 
@@ -262,7 +263,7 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 200;
         public static final int X_POSITION_OFFSET = -80;
         public static final int Y_POSITION_OFFSET = 90;
-        public static final double BOSS_SHIELD_PROBABILITY = 0;
+        public static final double BOSS_SHIELD_PROBABILITY = 0.002;
         public static final int MAX_FRAMES_WITH_SHIELD = 500;
         public static final int MAX_FRAMES_WITHOUT_SHIELD = 500;
     }
@@ -287,8 +288,8 @@ public class GameConstant {
      * Level 001 settings.
      */
     public static class Level001 {
-        public static final int TOTAL_ENEMIES = 5;
-        public static final int KILLS_TO_ADVANCE = 5;
+        public static final int TOTAL_ENEMIES = 3;
+        public static final int KILLS_TO_ADVANCE = 10;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
     }
 
@@ -296,7 +297,7 @@ public class GameConstant {
      * Level 003 settings.
      */
     public static class Level003 {
-        public static final int SURVIVAL_TIME = 0; // in seconds
+        public static final int SURVIVAL_TIME = 30; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
     }
 

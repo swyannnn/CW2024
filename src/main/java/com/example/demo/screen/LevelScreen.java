@@ -85,7 +85,6 @@ public class LevelScreen implements HealthChangeHandler {
      * The text is added to the root node of the scene graph.
      */
     public void showInstructions() {
-        System.out.println("Showing instructions for level: " + currentLevelNumber);
         Text instructionText = new Text(getInstructionsForLevel(currentLevelNumber));
         instructionText.setFont(Font.font("Comic Sans MS", 35));
         instructionText.setFill(Color.BLACK);
@@ -142,7 +141,6 @@ public class LevelScreen implements HealthChangeHandler {
         HeartDisplay hd = heartDisplays.get(player);
         if (hd != null) {
             hd.setHearts(newHealth);
-            System.out.println("Updated heart display for player: " + player + " to " + newHealth + " hearts.");
         }
     }
 

@@ -46,7 +46,6 @@ public class MainMenuState implements GameState {
     @Override
     public void initialize() {
         // Initialize the HomeMenu and set the scene
-        System.out.println("Initializing Main Menu State");
         mainMenu = new MainMenuScreen(stage, stateTransitioner, audioManager);
         this.scene = mainMenu.getHomeMenuScene();
         stage.setScene(this.scene);

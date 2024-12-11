@@ -28,35 +28,40 @@ public class UserFiringStrategy implements FiringStrategy {
     private final long fireIntervalNanoseconds;
     private final AudioManager audioManager;
     private long lastFireTime;
+    private static long lastSoundPlayedTime = 0; // Static to track across instances
     private final double offsetX;
     private final double offsetY;
+    private static final long soundCooldown = GameConstant.UserProjectile.SOUND_COOL_DOWN;
 
     /**
-     * Constructs a UserFiringStrategy with the specified actor spawner and fire interval.
+     * Constructs a new UserFiringStrategy with the specified parameters.
      *
-     * @param actorSpawner the actor spawner responsible for spawning actors
-     * @param fireIntervalNanoseconds the interval between fires in nanoseconds
+     * @param actorSpawner the ActorSpawner instance used to spawn actors
+     * @param fireIntervalNanoseconds the interval between firing actions in nanoseconds
+     * @param offsetX the horizontal offset for the firing position
+     * @param offsetY the vertical offset for the firing position
      */
     public UserFiringStrategy(ActorSpawner actorSpawner, long fireIntervalNanoseconds, double offsetX, double offsetY) {
         this.actorSpawner = actorSpawner;
         this.fireIntervalNanoseconds = fireIntervalNanoseconds;
         this.audioManager = AudioManager.getInstance();
         this.offsetX = offsetX;
-        this.offsetY = offsetX;
+        this.offsetY = offsetY;
     }
 
     /**
-     * Fires a projectile from the given fighter plane if the specified time interval has passed since the last fire.
+     * Fires a projectile from the given fighter plane if the fire interval has passed.
+     * Also plays a sound effect if the sound cooldown has passed.
      *
-     * @param plane the fighter plane from which the projectile is fired
-     * @param now the current time in nanoseconds
+     * @param plane The fighter plane from which the projectile is fired.
+     * @param now The current time in nanoseconds.
      */
     @Override
     public void fire(FighterPlane plane, long now) {
         if (now - lastFireTime >= fireIntervalNanoseconds) {
             double projectileX = plane.getProjectileXPosition(offsetX);
             double projectileY = plane.getProjectileYPosition(offsetY);
-            
+
             Projectile projectile = projectileFactory.createProjectile(
                 ProjectileType.USER,
                 projectileX,
@@ -64,9 +69,15 @@ public class UserFiringStrategy implements FiringStrategy {
                 (UserPlane) plane
             );
             actorSpawner.addActor(projectile);
-            audioManager.playSoundEffect(GameConstant.SoundEffect.PLAYER_SHOOT.ordinal());
-    
+
+            // Play sound effect only if sufficient time has passed
+            if (now - lastSoundPlayedTime >= soundCooldown) {
+                audioManager.playSoundEffect(GameConstant.SoundEffect.PLAYER_SHOOT.ordinal());
+                lastSoundPlayedTime = now;
+            }
+
             lastFireTime = now; // Update the last fire time
         }
     }
 }
+

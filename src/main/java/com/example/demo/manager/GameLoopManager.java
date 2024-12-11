@@ -104,9 +104,7 @@ public class GameLoopManager{
     public void startLoop() {
         if (gameLoop != null) {
             gameLoop.start();
-            System.out.println("GameLoopManager: Game loop started.");
         } else {
-            System.out.println("GameLoopManager: Game loop not initialized.");
         }
     }
 
@@ -118,7 +116,6 @@ public class GameLoopManager{
     public void stopLoop() {
         if (gameLoop != null) {
             gameLoop.stop();
-            System.out.println("GameLoopManager: Game loop stopped.");
         }
     }
 

@@ -146,7 +146,6 @@ public abstract class FighterPlane extends ActiveActor {
      */
     public void update(long now) {
         if (healthAtZero()){
-            System.out.println(this + " is destroyed because health is zero");
             this.destroy();
         }
         if (firingStrategy != null && now - lastFireTime >= fireIntervalNanoseconds) {

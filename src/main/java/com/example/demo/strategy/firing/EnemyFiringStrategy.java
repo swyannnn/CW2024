@@ -40,7 +40,6 @@ public class EnemyFiringStrategy implements FiringStrategy {
         this.fireRate = fireRate;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
-        System.out.println("EnemyFiringStrategy: fireRate: " + fireRate + ", offsetX: " + offsetX + ", offsetY: " + offsetY);
     }
 
     /**

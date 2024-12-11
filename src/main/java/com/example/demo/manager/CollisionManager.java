@@ -151,7 +151,6 @@ public class CollisionManager {
     private void processCollision(CollisionPair pair) {
         ActiveActor source = pair.source;
         ActiveActor target = pair.target;
-        System.out.println("Collision detected: " + source + " hit " + target);
     
         source.takeDamage();
         target.takeDamage();

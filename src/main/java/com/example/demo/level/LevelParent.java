@@ -105,7 +105,6 @@ public abstract class LevelParent {
         int playerId1 = 1;
         ActiveActor player1 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId1);
         actorSpawn.addActor(player1);
-        System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
         ((UserPlane) player1).addHealthChangeHandler(this.levelScreen);
     
         // If double-player mode, initialize player 2
@@ -113,7 +112,6 @@ public abstract class LevelParent {
             int playerId2 = 2;
             ActiveActor player2 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId2);
             actorSpawn.addActor(player2);
-            System.out.println("Player 2 position: X=" + player2.getTranslateX() + ", Y=" + player2.getTranslateY());
             ((UserPlane) player2).addHealthChangeHandler(this.levelScreen);
         }
     }

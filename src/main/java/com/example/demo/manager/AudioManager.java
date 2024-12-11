@@ -59,11 +59,12 @@ public class AudioManager {
      */
     private void preloadAllAudio() {
         for (GameConstant.FilePaths.SoundEffect soundEffect : GameConstant.FilePaths.SoundEffect.values()) {
-            AudioClip clip = preloadAudioClip(soundEffect.getFileName());
-            if (clip != null) {
-                clip.setVolume(0.7);
-                soundEffects.add(clip);
+            String audioName = soundEffect.getFileName();
+            AudioClip clip = preloadAudioClip(audioName);
+            if (audioName == "player_shoot.mp3") {
+                clip.setVolume(0.3);
             }
+            soundEffects.add(clip);
         }
 
         for (GameConstant.FilePaths.BackgroundMusic backgroundMusic : GameConstant.FilePaths.BackgroundMusic.values()) {            
@@ -111,7 +112,6 @@ public class AudioManager {
         stopMusic();
         Media media = loadMedia(filename);
         if (media != null) {
-            System.out.println("Playing music: " + filename);
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setVolume(0.5);

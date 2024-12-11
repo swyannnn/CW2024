@@ -130,8 +130,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     private void moveHorizontally(FighterPlane plane) {
         double oldX = plane.getTranslateX();
         plane.setTranslateX(oldX + horizontalVelocity);
-        // Debugging statement (optional)
-        // System.out.println("Horizontal Move: X from " + oldX + " to " + plane.getTranslateX());
     }
 
     /**
@@ -154,9 +152,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
         double newY = plane.getTranslateY() + verticalVelocity * deltaTime;
         plane.setTranslateX(newX);
         plane.setTranslateY(newY);
-
-        // Debugging statement (optional)
-        // System.out.println("Sine Wave Move: X=" + newX + ", Y=" + newY);
     }
 
     /**
@@ -285,7 +280,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
      *                 3 - Phase with specific horizontal velocity and additional adjustments if necessary.
      */
     public void updatePhase(int newPhase) {
-        System.out.println("Updating phase to: " + newPhase);
         this.currentPhase = newPhase;
         this.horizontalVelocity *= 1.2;
         this.verticalVelocity *= 2;

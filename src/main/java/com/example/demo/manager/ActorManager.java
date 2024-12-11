@@ -58,7 +58,6 @@ public class ActorManager implements ActorSpawner {
      * @param newRoot the new root group to be set
      */
     public void updateRoot(Group newRoot) {
-        System.out.println("ActorManager: Updating root to " + newRoot);
         this.root = newRoot;
     }
 

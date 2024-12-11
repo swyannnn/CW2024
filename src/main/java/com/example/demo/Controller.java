@@ -124,6 +124,5 @@ public class Controller {
         }
 
         ImageManager.cleanup();
-        System.out.println("Controller: Cleanup completed.");
     }
 }

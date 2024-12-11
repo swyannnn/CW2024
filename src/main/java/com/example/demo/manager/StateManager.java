@@ -117,7 +117,6 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
             }
             currentState.initialize();
             setupInputHandlers();
-            System.out.println("StateManager: Initialized new state: " + currentState.getClass().getSimpleName());
         }
     }
 
@@ -127,7 +126,6 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
     public void cleanup() {
         if (currentState != null) {
             currentState.cleanup();
-            System.out.println("StateManager: Cleaned up previous state: " + currentState.getClass().getSimpleName());
 
             if (currentState instanceof LevelState) {
                 ((LevelState) currentState).removePropertyChangeListener(this);

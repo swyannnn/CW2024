@@ -101,7 +101,6 @@ public class MultiPhaseBossPlane extends FighterPlane {
         int currentHealth = getHealth();
         if (currentHealth <= 0) {
             // Boss defeated
-            System.out.println("Boss defeated");
             this.destroy();
             return;
         }
