@@ -46,7 +46,8 @@ public class HeartDisplayTest {
         HeartDisplay heartDisplay = new HeartDisplay(0, 100, 100, 3);
         Platform.runLater(() -> {
             heartDisplay.setHearts(2);
-            assertEquals(3, heartDisplay.getContainer().getChildren().size()); // 1 plane icon + 2 hearts
+            // (1 container for plane icon + 1 container of hearts) * 2 players
+            assertEquals(4, heartDisplay.getContainer().getChildren().size());
         });
     }
 }
