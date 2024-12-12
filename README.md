@@ -622,7 +622,7 @@ This section details the features that have been successfully implemented in bot
 
 # Implemented but Not Working Properly
 
-**Unexpected Behavior with SPACE Key Input**
+**1. Unexpected Behavior with SPACE Key Input**
 <table style="width:100%">
   <tr>
     <th>Feature</th>
@@ -648,6 +648,35 @@ This section details the features that have been successfully implemented in bot
     </td>
   </tr>
 </table>
+
+**2. Collision Detection with User Projectile**
+
+<table style="width:100%">
+  <tr>
+    <th>Feature</th>
+    <th>Encountered Issue</th>
+    <th>Steps Taken to Address</th>
+  </tr>
+  <tr>
+    <td>
+      Collision detection between user projectile and enemy planes, with bounding boxes adjusted to avoid overlapping collisions.
+    </td>
+    <td>
+      Despite shrinking the bounding boxes of the actors (user projectile and enemy planes), the same user projectile detects collisions with multiple enemy planes when these planes are close together. This results in unintended behavior, as a single projectile should only collide with one target.
+    </td>
+    <td>
+      Tried the following steps to resolve the issue:
+      <ul>
+        <li>Shrunk the bounding boxes of the user projectile and enemy planes to minimize overlapping regions.</li>
+        <li>Implemented logic to immediately remove the user projectile upon detecting a collision with any enemy plane.</li>
+        <li>Added debug logs to trace the sequence of collision events, which confirmed that the same projectile registers multiple collisions before being removed.</li>
+        <li>Verified that the collision removal logic is triggered correctly and happens promptly after detection.</li>
+      </ul>
+      Despite these efforts, the issue persists, suggesting that the collision detection system might be processing collisions for multiple frames before the projectile is fully removed. Further debugging is required to address this behavior.
+    </td>
+  </tr>
+</table>
+
 
 # Features Not Implemented
 
