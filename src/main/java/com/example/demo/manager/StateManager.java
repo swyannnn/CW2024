@@ -12,8 +12,23 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 /**
- * StateManager is responsible for managing game state transitions and lifecycle.
- * It implements StateTransitioner and listens for property changes from game states.
+ * The StateManager class is responsible for managing the transitions between different game states.
+ * It implements the StateTransitioner and PropertyChangeListener interfaces to handle state changes
+ * and respond to property changes from LevelStates.
+ * 
+ * <p>This class initializes the game state factory and provides methods to transition to various
+ * game states such as the main menu, specific levels, win state, and lose state. It also manages
+ * the cleanup of the current state before transitioning to a new state and sets up input handlers
+ * for the current state's scene.</p>
+ * 
+ * <p>Additionally, the StateManager class maintains the number of players and provides methods to
+ * get and set the number of players.</p>
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/StateManager.java">Github Source Code</a>
+ * @see StateTransitioner
+ * @see PropertyChangeListener
+ * @see GameState
+ * @see StateFactory
  */
 public class StateManager implements StateTransitioner, PropertyChangeListener {
     private GameState currentState;
@@ -45,7 +60,7 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
             stage,
             actorManager,
             collisionManager,
-            gameLoopManager, // PauseManager
+            gameLoopManager, 
             this,            // StateTransitioner
             audioManager
         );
@@ -56,7 +71,7 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
      */
     @Override
     public void goToMainMenu() {
-        cleanupCurrentState();
+        cleanup();
         setState(stateFactory.createMainMenuState());
     }
 
@@ -67,7 +82,7 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
      */
     @Override
     public void goToLevel(int levelNumber) {
-        cleanupCurrentState();
+        cleanup();
         setState(stateFactory.createLevelState(levelNumber));
     }
 
@@ -76,7 +91,7 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
      */
     @Override
     public void goToWinState() {
-        cleanupCurrentState();
+        cleanup();
         setState(stateFactory.createWinState());
     }
 
@@ -85,7 +100,7 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
      */
     @Override
     public void goToLoseState() {
-        cleanupCurrentState();
+        cleanup();
         setState(stateFactory.createLoseState());
     }
 
@@ -102,17 +117,15 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
             }
             currentState.initialize();
             setupInputHandlers();
-            System.out.println("StateManager: Initialized new state: " + currentState.getClass().getSimpleName());
         }
     }
 
     /**
      * Cleans up the current state before transitioning to a new state.
      */
-    private void cleanupCurrentState() {
+    public void cleanup() {
         if (currentState != null) {
             currentState.cleanup();
-            System.out.println("StateManager: Cleaned up previous state: " + currentState.getClass().getSimpleName());
 
             if (currentState instanceof LevelState) {
                 ((LevelState) currentState).removePropertyChangeListener(this);
@@ -170,14 +183,6 @@ public class StateManager implements StateTransitioner, PropertyChangeListener {
      */
     public int getNumberOfPlayers() {
         return numberOfPlayers;
-    }
-
-    /**
-     * Cleanup method to clean up the current state.
-     */
-    public void cleanup() {
-        cleanupCurrentState();
-        System.out.println("StateManager: Cleanup completed.");
     }
 
     /**

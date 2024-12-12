@@ -4,7 +4,10 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
 
 /**
- * GameState interface defines the basic structure for all game states.
+ * Represents a state in the game. Implementations of this interface define
+ * specific behaviors and logic for different game states.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/state/GameState.java">Github Source Code</a>
  */
 public interface GameState {
     /**

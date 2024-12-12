@@ -8,6 +8,8 @@ import java.util.function.Function;
 /**
  * Factory class for creating different levels in the game.
  * It uses a map to store level constructors and provides methods to create levels and register new levels.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/level/LevelFactory.java">Github Source Code</a>
  */
 public class LevelFactory {
     private static final Map<Integer, Function<LevelConfig, LevelParent>> levelMap = new HashMap<>();

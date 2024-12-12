@@ -8,6 +8,8 @@ import javafx.util.Duration;
 /**
  * The FlickerEffect class provides a reusable flicker animation for JavaFX Nodes.
  * It handles the visual flickering by alternating the opacity of the target node.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/effect/FlickerEffect.java">Github Source Code</a>
  */
 public class FlickerEffect {
     private final Node target;

@@ -6,48 +6,59 @@ import com.example.demo.actor.plane.UserPlane;
 /**
  * Factory class for creating different types of Projectile instances.
  * This class provides methods to create projectiles for ENEMY, BOSS, and USER types.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/projectile/ProjectileFactory.java">Github Source Code</a>
+ * @see ProjectileType
  */
 public class ProjectileFactory {
 
     /**
-     * Creates a Projectile instance based on the provided ProjectileType.
+     * Creates a Projectile instance based on the provided ProjectileConfig.
      * Applicable for ENEMY and BOSS projectile types.
      *
-     * @param type        The type of the projectile (ENEMY or BOSS).
-     * @param initialXPos The initial X position of the projectile.
-     * @param initialYPos The initial Y position of the projectile.
+     * @param config The ProjectileConfig containing all necessary configuration.
      * @return A new Projectile instance.
      */
-    public Projectile createProjectile(ProjectileType type, double initialXPos, double initialYPos) {
+    public Projectile createProjectile(ProjectileConfig config) {
+        if (config == null) {
+            throw new IllegalArgumentException("ProjectileConfig cannot be null.");
+        }
+
+        ProjectileType type = config.getType();
         if (type == null) {
             throw new IllegalArgumentException("ProjectileType cannot be null.");
         }
 
         switch (type) {
             case ENEMY:
-                return new EnemyProjectile(
-                    type.getImageName(),
-                    type.getImageHeight(),
-                    initialXPos,
-                    initialYPos,
-                    type.getHorizontalVelocity()
-                );
+                return new EnemyProjectile(config);
             case BOSS:
-                return new BossProjectile(
-                    type.getImageName(),
-                    type.getImageHeight(),
-                    initialXPos,
-                    initialYPos,
-                    type.getHorizontalVelocity()
-                );
+                return new BossProjectile(config);
+            case USER:
+                if (config.getUserPlane() == null) {
+                    throw new IllegalArgumentException("UserPlane cannot be null for USER ProjectileType.");
+                }
+                return new UserProjectile(config);
             default:
-                throw new UnsupportedOperationException("Unsupported ProjectileType for this method: " + type);
+                throw new UnsupportedOperationException("Unsupported ProjectileType: " + type);
         }
     }
 
     /**
-     * Creates a Projectile instance based on the provided ProjectileType and UserPlane.
-     * Specifically for USER projectile type.
+     * Convenience method to create ENEMY and BOSS projectiles with specified initial positions.
+     *
+     * @param type The type of the projectile (ENEMY or BOSS).
+     * @param initialXPos The initial X position of the projectile.
+     * @param initialYPos The initial Y position of the projectile.
+     * @return A new Projectile instance.
+     */
+    public Projectile createProjectile(ProjectileType type, double initialXPos, double initialYPos) {
+        ProjectileConfig config = new ProjectileConfig(type, initialXPos, initialYPos);
+        return createProjectile(config);
+    }
+
+    /**
+     * Convenience method to create USER projectile with specified initial positions and a UserPlane.
      *
      * @param type        The type of the projectile (USER).
      * @param initialXPos The initial X position of the projectile.
@@ -56,53 +67,7 @@ public class ProjectileFactory {
      * @return A new Projectile instance.
      */
     public Projectile createProjectile(ProjectileType type, double initialXPos, double initialYPos, UserPlane userPlane) {
-        if (type == null) {
-            throw new IllegalArgumentException("ProjectileType cannot be null.");
-        }
-
-        if (type != ProjectileType.USER) {
-            throw new UnsupportedOperationException("This method is only applicable for USER ProjectileType.");
-        }
-
-        if (userPlane == null) {
-            throw new IllegalArgumentException("UserPlane cannot be null for USER ProjectileType.");
-        }
-
-        return new UserProjectile(
-            type.getImageName(),
-            type.getImageHeight(),
-            initialXPos,
-            initialYPos,
-            type.getHorizontalVelocity(),
-            userPlane
-        );
-    }
-
-    /**
-     * Convenience method to create ENEMY and BOSS projectiles when initial positions are known.
-     * Assumes default initial positions if not provided.
-     *
-     * @param type The type of the projectile (ENEMY or BOSS).
-     * @return A new Projectile instance.
-     */
-    public Projectile createProjectile(ProjectileType type) {
-        // Define default initial positions or retrieve them from context/game state
-        double defaultX = 0.0;
-        double defaultY = 0.0;
-        return createProjectile(type, defaultX, defaultY);
-    }
-
-    /**
-     * Convenience method to create USER projectile when initial positions and UserPlane are known.
-     *
-     * @param type      The type of the projectile (USER).
-     * @param userPlane The UserPlane that owns this projectile.
-     * @return A new Projectile instance.
-     */
-    public Projectile createProjectile(ProjectileType type, UserPlane userPlane) {
-        // Define default initial positions or retrieve them from context/game state
-        double defaultX = 0.0;
-        double defaultY = 0.0;
-        return createProjectile(type, defaultX, defaultY, userPlane);
+        ProjectileConfig config = new ProjectileConfig(initialXPos, initialYPos, userPlane);
+        return createProjectile(config);
     }
 }

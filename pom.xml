@@ -45,7 +45,34 @@
       <artifactId>junit-jupiter-engine</artifactId>
       <version>${junit.version}</version>
       <scope>test</scope>
-    </dependency>  </dependencies>
+    </dependency>  
+    <!-- Mockito for Mocking Dependencies -->
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>4.8.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-inline</artifactId>
+        <version>4.8.0</version>
+        <scope>test</scope>
+    </dependency>
+        <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-junit-jupiter</artifactId>
+        <version>4.8.0</version>
+        <scope>test</scope>
+    </dependency>
+    <!-- TestFX for JavaFX Testing -->
+    <dependency>
+        <groupId>org.testfx</groupId>
+        <artifactId>testfx-junit5</artifactId>
+        <version>4.0.16-alpha</version>
+        <scope>test</scope>
+    </dependency>
+    </dependencies>
 
   <build>
     <plugins>
@@ -77,6 +104,19 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.3.1</version>
+          <configuration>
+              <links>
+                  <!-- Link to external JDK docs if needed -->
+              </links>
+              <additionalJOptionals>
+                  <additionalJOption> -link https://github.com/swyannnn/CW2024/tree/master/src/ </additionalJOption>
+              </additionalJOptionals>
+          </configuration>
       </plugin>
     </plugins>
   </build>

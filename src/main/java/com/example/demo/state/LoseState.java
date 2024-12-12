@@ -12,6 +12,11 @@ import javafx.stage.Stage;
  * The LoseState class implements the GameState interface and represents the state
  * of the game when the player has lost. It manages the display of the lose screen
  * and handles user input to transition to other states or exit the game.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/state/LoseState.java">Github Source Code</a>
+ * @see StateTransitioner
+ * @see GameState
+ * @see LoseScreen
  */
 public class LoseState implements GameState {
     private final Stage stage;
@@ -37,7 +42,6 @@ public class LoseState implements GameState {
      */
     @Override
     public void initialize() {
-        System.out.println("Initializing Lose State");
         loseScreen = new LoseScreen(stage, stateTransitioner);
         this.scene = loseScreen.getLoseScreenScene();
         stage.setScene(this.scene);

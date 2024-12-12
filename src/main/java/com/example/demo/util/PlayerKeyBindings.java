@@ -4,6 +4,13 @@ import java.util.Collections;
 import java.util.Set;
 import javafx.scene.input.KeyCode;
 
+
+/**
+ * The PlayerKeyBindings class manages key bindings for player movement in four directions: up, down, left, and right.
+ * It provides methods to check if any of the active keys correspond to the movement directions.
+ *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/util/PlayerKeyBindings.java">Github Source Code</a>
+ */
 public class PlayerKeyBindings {
     private final Set<KeyCode> upKeys;
     private final Set<KeyCode> downKeys;

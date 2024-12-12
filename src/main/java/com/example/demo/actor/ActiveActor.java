@@ -5,9 +5,11 @@ import com.example.demo.manager.ImageManager;
 import javafx.scene.image.ImageView;
 
 /**
- * The ActiveActor class represents an actor in a graphical application that can move and be destroyed.
- * It extends the ImageView class and provides methods for movement, destruction, and image handling.
+ * The ActiveActor class represents an actor in a game or simulation that can move and be destroyed.
+ * It extends the ImageView class to display an image and provides methods for movement and state management.
  * This class is abstract and requires subclasses to implement the update and takeDamage methods.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/ActiveActor.java">Github Source Code</a>
  */
 public abstract class ActiveActor extends ImageView{
     private boolean isDestroyed;
@@ -30,18 +32,7 @@ public abstract class ActiveActor extends ImageView{
         this.isDestroyed = false;
         this.imageHeight = imageHeight;
     }
-
-    /**
-     * Moves the actor by the specified delta values in the X and Y directions.
-     *
-     * @param deltaX the change in the X direction
-     * @param deltaY the change in the Y direction
-     */
-    public void move(double deltaX, double deltaY) {
-        this.setTranslateX(getTranslateX() + deltaX);
-        this.setTranslateY(getTranslateY() + deltaY);
-    }
-
+    
     /**
      * Moves the actor horizontally by the specified amount.
      *
@@ -49,7 +40,7 @@ public abstract class ActiveActor extends ImageView{
      *                       Positive values move the actor to the right, 
      *                       and negative values move the actor to the left.
      */
-    protected void moveHorizontally(double horizontalMove) {
+    public void moveHorizontally(double horizontalMove) {
         this.setTranslateX(getTranslateX() + horizontalMove);
     }
 
@@ -59,7 +50,7 @@ public abstract class ActiveActor extends ImageView{
      * @param verticalMove the amount to move the actor vertically. Positive values move the actor downwards,
      *                     while negative values move the actor upwards.
      */
-    protected void moveVertically(double verticalMove) {
+    public void moveVertically(double verticalMove) {
         this.setTranslateY(getTranslateY() + verticalMove);
     }
 
@@ -70,15 +61,6 @@ public abstract class ActiveActor extends ImageView{
      */
     public int getImageHeight() {
         return this.imageHeight;
-    }
-
-    /**
-     * Retrieves the width of the image associated with this actor.
-     *
-     * @return the width of the image in pixels as an integer.
-     */
-    public int getImageWidth() {
-        return (int) this.getBoundsInLocal().getWidth();
     }
 
     /**

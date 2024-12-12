@@ -33,9 +33,9 @@ import javafx.scene.text.Font;
  *   <li>Checking if the user has survived the required duration to complete the level.</li>
  * </ul>
  *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/level/Level003.java">Github Source Code</a>
  * @see LevelParent
  * @see ActorSpawner
- * @see AudioManager
  * @see PlaneFactory
  * @see GameLoopManager
  */
@@ -209,13 +209,13 @@ public class Level003 extends LevelParent {
         double randomValue = Math.random(); // Generates a number between 0.0 and 1.0
     
         Platform.runLater(() -> {
-            if (randomValue < 0.003 * spawnFactor) {
+            if (randomValue < 0.0035 * spawnFactor) {
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE1);
                 actorSpawn.addActor(newEnemy);
-            } else if (randomValue < 0.006 * spawnFactor) {
+            } else if (randomValue < 0.0065 * spawnFactor) {
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE2);
                 actorSpawn.addActor(newEnemy);
-            } else if (randomValue < 0.009 * spawnFactor) {
+            } else if (randomValue < 0.0095 * spawnFactor) {
                 ActiveActor newEnemy = planeFactory.createPlane(PlaneType.ENEMY_PLANE3);
                 actorSpawn.addActor(newEnemy);
             }

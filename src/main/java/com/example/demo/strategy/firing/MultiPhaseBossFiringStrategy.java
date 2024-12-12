@@ -5,7 +5,6 @@ import com.example.demo.actor.plane.FighterPlane;
 import com.example.demo.actor.projectile.BossProjectile;
 import com.example.demo.actor.projectile.ProjectileFactory;
 import com.example.demo.actor.projectile.ProjectileType;
-import com.example.demo.util.GameConstant;
 
 /**
  * The MultiPhaseBossFiringStrategy class implements the FiringStrategy interface
@@ -13,19 +12,11 @@ import com.example.demo.util.GameConstant;
  * It uses a ProjectileFactory to create projectiles and an ActorSpawner to spawn them.
  * The firing rate is determined by a specified fire rate.
  *
- * <p>This class is responsible for:
- * <ul>
- *   <li>Constructing a new MultiPhaseBossFiringStrategy with the specified actor spawner and fire rate.</li>
- *   <li>Firing a projectile from the given fighter plane if the random condition based on fireRate is met.</li>
- * </ul>
  *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/strategy/firing/MultiPhaseBossFiringStrategy.java">Github Source Code</a>
  * @see FiringStrategy
- * @see ProjectileFactory
  * @see ActorSpawner
- * @see FighterPlane
  * @see BossProjectile
- * @see ProjectileType
- * @see GameConstant
  */
 public class MultiPhaseBossFiringStrategy implements FiringStrategy {
     private final ProjectileFactory projectileFactory = new ProjectileFactory();

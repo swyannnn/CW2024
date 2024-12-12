@@ -14,6 +14,8 @@ import javafx.util.Duration;
  * The ExplosionEffect class represents an explosion animation effect.
  * It initializes an ImageView for the explosion and creates a Timeline
  * to animate the explosion frames.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/effect/ExplosionEffect.java">Github Source Code</a>
  */
 public class ExplosionEffect {
     private final ImageView explosionView;

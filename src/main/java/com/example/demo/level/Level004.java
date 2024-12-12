@@ -19,9 +19,9 @@ import com.example.demo.manager.AudioManager;
  *   <li>Spawning a multi-phase boss plane if no enemy units are currently spawned.</li>
  * </ul>
  *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/level/Level004.java">Github Source Code</a>
  * @see LevelParent
  * @see ActorSpawner
- * @see AudioManager
  * @see PlaneFactory
  */
 public class Level004 extends LevelParent {
@@ -32,9 +32,9 @@ public class Level004 extends LevelParent {
     /**
      * Constructs a new Level004 instance.
      *
-     * @param numberOfPlayers the number of players in the game level
-     * @param actorSpawner the actor spawner responsible for spawning game actors
-     * @param audioManager the audio manager responsible for handling game audio
+     * @param numberOfPlayers the number of players in the level
+     * @param actorSpawner the actor spawner used to spawn actors in the level
+     * @param audioManager the audio manager used to manage audio in the level
      */
     public Level004(int numberOfPlayers, ActorSpawner actorSpawner, AudioManager audioManager) {
         super(4, numberOfPlayers, actorSpawner, audioManager);
@@ -49,6 +49,9 @@ public class Level004 extends LevelParent {
      */
     @Override
     public boolean userHasReachedTarget() {
+        if (bossPlane == null) {
+            return false;
+        }
         return bossPlane.isDestroyed();
     }
 

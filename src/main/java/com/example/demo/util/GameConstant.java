@@ -4,6 +4,8 @@ package com.example.demo.util;
 /**
  * The GameConstant class holds various constants used throughout the game.
  * These constants are organized into nested static classes based on their usage context.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/util/GameConstant.java">Github Source Code</a>
  */
 public class GameConstant {
 
@@ -87,6 +89,7 @@ public class GameConstant {
         public static final String IMAGE_NAME = "userfire.png";
         public static final int IMAGE_HEIGHT = 125;
         public static final int HORIZONTAL_VELOCITY = 15;
+        public static final long SOUND_COOL_DOWN = 200_000_000L;
         public static final long FIRE_INTERVAL_NANOSECONDS = 500_000_000L;
     }
 
@@ -116,7 +119,7 @@ public class GameConstant {
         public static final String IMAGE_NAME = "enemy0.png";
         public static final int IMAGE_HEIGHT = 60;
         public static final int INITIAL_HEALTH = 1;
-        public static final int HORIZONTAL_VELOCITY = -5;
+        public static final int HORIZONTAL_VELOCITY = -4;
         public static final double MAXIMUM_Y_POSITION = 250.0;
         public static final double MINIMUM_Y_POSITION = -40.0;
         public static final double X_UPPER_BOUND = 150;
@@ -222,9 +225,9 @@ public class GameConstant {
     public static class MultiPhaseBossPlane {
         public static final String IMAGE_NAME = "enemy3.png";
         public static final int IMAGE_HEIGHT = 200;
-        public static final int REMAINING_HEALTH_PHASE1 = 600;
-        public static final int REMAINING_HEALTH_PHASE2 = 598;
-        public static final int REMAINING_HEALTH_PHASE3 = 596;
+        public static final int REMAINING_HEALTH_PHASE1 = 10;
+        public static final int REMAINING_HEALTH_PHASE2 = 7;
+        public static final int REMAINING_HEALTH_PHASE3 = 3;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000; // 1 second
         public static final double FIRE_RATE = 0.5; // 50% chance to fire
         public static final double Y_POSITION = (GameSettings.SCREEN_HEIGHT / 2) - 100;
@@ -237,7 +240,7 @@ public class GameConstant {
         public static final int Y_LOWER_BOUND = 600;
         public static final int X_UPPER_BOUND = GameSettings.SCREEN_HEIGHT / 2;
         public static final int X_LOWER_BOUND = 1150;
-        public static final long SUMMON_COOLDOWN = 10_000_000_000L; //1_000_000_000L
+        public static final long SUMMON_COOLDOWN = 1_000_000_000L; //1_000_000_000L
         public static final int MAX_FRAMES_WITH_SAME_MOVE = 250;
     }
 
@@ -249,7 +252,7 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 70;
         public static final double HORIZONTAL_VELOCITY = -7.5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
-        public static final double FIRE_RATE = 0.04;
+        public static final double FIRE_RATE = 0.03;
     }
 
     /**
@@ -260,7 +263,7 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 200;
         public static final int X_POSITION_OFFSET = -80;
         public static final int Y_POSITION_OFFSET = 90;
-        public static final double BOSS_SHIELD_PROBABILITY = 0;
+        public static final double BOSS_SHIELD_PROBABILITY = 0.002;
         public static final int MAX_FRAMES_WITH_SHIELD = 500;
         public static final int MAX_FRAMES_WITHOUT_SHIELD = 500;
     }
@@ -285,29 +288,17 @@ public class GameConstant {
      * Level 001 settings.
      */
     public static class Level001 {
-        public static final int TOTAL_ENEMIES = 5;
-        public static final int KILLS_TO_ADVANCE = 5;
+        public static final int TOTAL_ENEMIES = 3;
+        public static final int KILLS_TO_ADVANCE = 10;
         public static final double ENEMY_SPAWN_PROBABILITY = 1;
-    }
-
-    /**
-     * Level 002 settings.
-     */
-    public static class Level002 {
     }
 
     /**
      * Level 003 settings.
      */
     public static class Level003 {
-        public static final int SURVIVAL_TIME = 100; // in seconds
+        public static final int SURVIVAL_TIME = 30; // in seconds
         public static final int ENEMY_SPAWN_INTERVAL = 1000;
-    }
-
-    /**
-     * Level 004 settings.
-     */
-    public static class Level004 {
     }
 
     /**

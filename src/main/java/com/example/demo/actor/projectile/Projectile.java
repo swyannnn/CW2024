@@ -5,6 +5,9 @@ import com.example.demo.util.GameConstant;
 
 /**
  * Abstract Projectile class representing a generic projectile in the game.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/projectile/Projectile.java">Github Source Code</a>
+ * @see ActiveActor
  */
 public abstract class Projectile extends ActiveActor {
     protected double horizontalVelocity;
@@ -14,15 +17,12 @@ public abstract class Projectile extends ActiveActor {
     /**
      * Constructor for Projectile.
      *
-     * @param imageName         The image file name for the projectile.
-     * @param imageHeight       The height of the projectile image.
-     * @param initialXPos       The initial X position of the projectile.
-     * @param initialYPos       The initial Y position of the projectile.
-     * @param horizontalVelocity The horizontal velocity of the projectile.
+     * @param config The ProjectileConfig containing all necessary configuration.
      */
-    public Projectile(String imageName, int imageHeight, double initialXPos, double initialYPos, double horizontalVelocity) {
-        super(imageName, imageHeight, initialXPos, initialYPos);
-        this.horizontalVelocity = horizontalVelocity;
+    public Projectile(ProjectileConfig config) {
+        super(config.getType().getImageName(), config.getType().getImageHeight(),
+              config.getInitialXPos(), config.getInitialYPos());
+        this.horizontalVelocity = config.getType().getHorizontalVelocity();
     }
 
     /**

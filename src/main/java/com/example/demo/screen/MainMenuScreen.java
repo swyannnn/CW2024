@@ -25,8 +25,7 @@ import com.example.demo.util.GameConstant;
  * as well as an option to exit the game. It also plays background music when the
  * menu is displayed.
  * 
- * The class provides methods to construct the main menu scene, create the title text,
- * and handle the exit game action.
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/screen/MainMenuScreen.java">Github Source Code</a>
  * 
  */
 public class MainMenuScreen {

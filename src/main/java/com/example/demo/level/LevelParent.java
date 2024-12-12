@@ -18,20 +18,17 @@ import javafx.scene.image.ImageView;
 
 
 /**
- * The LevelParent class serves as an abstract base class for different levels in the game.
- * It manages the common functionalities and properties shared across various levels.
+ * The LevelParent class serves as an abstract base class for game levels.
+ * It provides common functionality and properties for managing game levels,
+ * including the root group, scene, player registration, background music
+ * initialization, and level view updates.
  * 
- * <p>Key responsibilities include:</p>
- * <ul>
- *   <li>Initializing the scene and root group for the level.</li>
- *   <li>Managing the player's initial health and the number of players.</li>
- *   <li>Spawning friendly units (players) and initializing their positions.</li>
- *   <li>Handling background music initialization for the level.</li>
- *   <li>Updating the level view, including player health display and background updates.</li>
- * </ul>
+ * Subclasses of LevelParent must implement the abstract methods
+ * userHasReachedTarget() and spawnEnemyUnits() to define specific level
+ * behavior.
  * 
- * <p>Subclasses are required to implement the abstract methods to define specific behaviors
- * for reaching targets and spawning enemy units.</p>
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/level/LevelParent.java">Github Source Code</a>
+ * @see LevelScreen
  */
 public abstract class LevelParent {
     protected final Group root;
@@ -108,7 +105,6 @@ public abstract class LevelParent {
         int playerId1 = 1;
         ActiveActor player1 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId1);
         actorSpawn.addActor(player1);
-        System.out.println("Player 1 position: X=" + player1.getTranslateX() + ", Y=" + player1.getTranslateY());
         ((UserPlane) player1).addHealthChangeHandler(this.levelScreen);
     
         // If double-player mode, initialize player 2
@@ -116,7 +112,6 @@ public abstract class LevelParent {
             int playerId2 = 2;
             ActiveActor player2 = planeFactory.createPlane(PlaneType.USER_PLANE, playerId2);
             actorSpawn.addActor(player2);
-            System.out.println("Player 2 position: X=" + player2.getTranslateX() + ", Y=" + player2.getTranslateY());
             ((UserPlane) player2).addHealthChangeHandler(this.levelScreen);
         }
     }

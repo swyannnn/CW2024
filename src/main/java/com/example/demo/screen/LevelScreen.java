@@ -16,13 +16,14 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- * The LevelView class is responsible for displaying the current level's background,
+ * The LevelScreen class is responsible for displaying the current level's background,
  * instructions, and heart displays for players. It implements the HealthChangeHandler
  * interface to update the heart display when a player's health changes.
  * 
  * <p>This class provides methods to initialize the background, show level instructions,
  * update the background for a scrolling effect, and manage heart displays for players.</p>
- * 
+ *
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/screen/LevelScreen.java">Github Source Code</a>
  * @see HealthChangeHandler
  * @see UserPlane
  * @see HeartDisplay
@@ -84,7 +85,6 @@ public class LevelScreen implements HealthChangeHandler {
      * The text is added to the root node of the scene graph.
      */
     public void showInstructions() {
-        System.out.println("Showing instructions for level: " + currentLevelNumber);
         Text instructionText = new Text(getInstructionsForLevel(currentLevelNumber));
         instructionText.setFont(Font.font("Comic Sans MS", 35));
         instructionText.setFill(Color.BLACK);
@@ -141,7 +141,6 @@ public class LevelScreen implements HealthChangeHandler {
         HeartDisplay hd = heartDisplays.get(player);
         if (hd != null) {
             hd.setHearts(newHealth);
-            System.out.println("Updated heart display for player: " + player + " to " + newHealth + " hearts.");
         }
     }
 

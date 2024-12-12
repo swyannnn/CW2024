@@ -12,6 +12,7 @@ import javafx.stage.Stage;
  * the main menu state of the game. It is responsible for initializing the main menu,
  * handling user input, and transitioning to other game states.
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/state/MainMenuState.java">Github Source Code</a>
  * @see GameState
  * @see Stage
  * @see StateTransitioner
@@ -25,10 +26,12 @@ public class MainMenuState implements GameState {
     private Scene scene;
 
     /**
-     * Constructor for MainMenuState.
+     * Represents the main menu state of the application.
+     * This state is responsible for displaying the main menu and handling user interactions.
      *
-     * @param primaryStage The primary stage of the application.
-     * @param controller   The game controller.
+     * @param stage The stage on which the main menu is displayed.
+     * @param stateTransitioner The object responsible for transitioning between states.
+     * @param audioManager The object responsible for managing audio within the application.
      */
     public MainMenuState(Stage stage, StateTransitioner stateTransitioner, AudioManager audioManager) {
         this.stage = stage;
@@ -43,7 +46,6 @@ public class MainMenuState implements GameState {
     @Override
     public void initialize() {
         // Initialize the HomeMenu and set the scene
-        System.out.println("Initializing Main Menu State");
         mainMenu = new MainMenuScreen(stage, stateTransitioner, audioManager);
         this.scene = mainMenu.getHomeMenuScene();
         stage.setScene(this.scene);

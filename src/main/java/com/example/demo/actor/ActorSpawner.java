@@ -12,6 +12,8 @@ import javafx.scene.Node;
  * The ActorSpawner interface provides methods for spawning and managing actors in the game world.
  * It includes methods for spawning active actors, updating the root group, adding UI elements,
  * and retrieving lists of players, enemy units, and boss units.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/actor/ActorSpawner.java">Github Source Code</a>
  */
 public interface ActorSpawner {
     /**
@@ -35,7 +37,6 @@ public interface ActorSpawner {
      */
     void addUIElement(Node node);
 
-    // get player list
     /**
      * Retrieves a list of UserPlane objects representing the players.
      *

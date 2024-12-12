@@ -5,6 +5,8 @@ package com.example.demo.state;
  * between different states in a game or application. Implementations of this 
  * interface will handle the logic for moving between states such as levels, 
  * main menu, win state, and lose state.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/state/StateTransitioner.java">Github Source Code</a>
  */
 public interface StateTransitioner {
     /**

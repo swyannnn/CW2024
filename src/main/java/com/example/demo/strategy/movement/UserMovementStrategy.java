@@ -17,7 +17,9 @@ import javafx.scene.input.KeyCode;
  * <p>The speed of the player's plane is determined by the {@code speed} parameter
  * passed to the constructor.</p>
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/strategy/movement/UserMovementStrategy.java">Github Source Code</a>
  * @see MovementStrategy
+ * @see FighterPlane
  */
 public class UserMovementStrategy implements MovementStrategy {
     private final Set<KeyCode> activeKeys;
@@ -62,7 +64,8 @@ public class UserMovementStrategy implements MovementStrategy {
             deltaX += speed;
         }
 
-        plane.move(deltaX, deltaY);
+        plane.moveHorizontally(deltaX);
+        plane.moveVertically(deltaY);
 
         // Bounds checking
         double currentX = plane.getLayoutX() + plane.getTranslateX();

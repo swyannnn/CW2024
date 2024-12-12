@@ -14,7 +14,7 @@ import java.util.List;
  * It follows the Singleton design pattern to ensure only one instance of the manager exists.
  * The class handles preloading of audio files, playing background music, and sound effects.
  * 
- * @see GameConstant
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/ActorManager.java">Github Source Code</a>
  */
 public class AudioManager {
     private static final String AUDIO_LOCATION = GameConstant.FilePaths.AUDIO_LOCATION;
@@ -49,21 +49,30 @@ public class AudioManager {
     }
 
     /**
-     * Preloads all audio assets used in the game.
-     * <p>
-     * This method iterates through all sound effects and background music defined
-     * in the {@code GameConstant.FilePaths} enum and preloads them. For sound effects,
-     * it sets the volume to 0.5 and adds them to the {@code soundEffects} list.
-     * Background music files are preloaded without additional configuration.
-    * </p>
+     * Preloads all audio files used in the game.
+     * 
+     * This method iterates through all sound effects and background music files defined in 
+     * the GameConstant.FilePaths enumeration, preloading each audio file and setting the 
+     * volume for specific sound effects.
+     * 
+     * Preloaded sound effects are added to the soundEffects list.
      */
     private void preloadAllAudio() {
         for (GameConstant.FilePaths.SoundEffect soundEffect : GameConstant.FilePaths.SoundEffect.values()) {
-            AudioClip clip = preloadAudioClip(soundEffect.getFileName());
-            if (clip != null) {
-                clip.setVolume(0.7);
-                soundEffects.add(clip);
+            String audioName = soundEffect.getFileName();
+            AudioClip clip = preloadAudioClip(audioName);
+            switch (audioName) {
+                case "player_shoot.mp3":
+                    clip.setVolume(0.1);
+                    break;
+                case "enemy_destroy.wav":
+                    clip.setVolume(0.35);
+                    break;
+                default:
+                    clip.setVolume(0.5); 
+                    break;
             }
+            soundEffects.add(clip);
         }
 
         for (GameConstant.FilePaths.BackgroundMusic backgroundMusic : GameConstant.FilePaths.BackgroundMusic.values()) {            
@@ -111,7 +120,6 @@ public class AudioManager {
         stopMusic();
         Media media = loadMedia(filename);
         if (media != null) {
-            System.out.println("Playing music: " + filename);
             mediaPlayer = new MediaPlayer(media);
             mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
             mediaPlayer.setVolume(0.5);

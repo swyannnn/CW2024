@@ -7,9 +7,11 @@ import java.util.Map;
 
 
 /**
- * The ImageManager class is responsible for managing images.
- * It provides methods to retrieve individual images and sequences of images
- * from a specified location.
+ * The ImageManager class provides utility methods for managing and retrieving images.
+ * It uses a cache to store loaded images and avoid redundant loading from the file system.
+ * This class is designed to be used as a utility class with static methods and cannot be instantiated.
+ * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/manager/ImageManager.java">Github Source Code</a>
  */
 public class ImageManager {
     private static final String IMAGE_LOCATION = GameConstant.FilePaths.IMAGE_LOCATION;

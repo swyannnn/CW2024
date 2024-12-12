@@ -18,7 +18,9 @@ import com.example.demo.util.GameConstant;
  * <p>The movement strategy also includes boundary checking to ensure the boss stays
  * within defined bounds and reverses direction if necessary.
  * 
+ * @see <a href="https://github.com/swyannnn/CW2024/blob/master/src/main/java/com/example/demo/strategy/movement/MultiPhaseBossMovementStrategy.java">Github Source Code</a>
  * @see MovementStrategy
+ * @see FighterPlane
  */
 public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     private double horizontalVelocity;
@@ -128,8 +130,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
     private void moveHorizontally(FighterPlane plane) {
         double oldX = plane.getTranslateX();
         plane.setTranslateX(oldX + horizontalVelocity);
-        // Debugging statement (optional)
-        // System.out.println("Horizontal Move: X from " + oldX + " to " + plane.getTranslateX());
     }
 
     /**
@@ -152,9 +152,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
         double newY = plane.getTranslateY() + verticalVelocity * deltaTime;
         plane.setTranslateX(newX);
         plane.setTranslateY(newY);
-
-        // Debugging statement (optional)
-        // System.out.println("Sine Wave Move: X=" + newX + ", Y=" + newY);
     }
 
     /**
@@ -283,7 +280,6 @@ public class MultiPhaseBossMovementStrategy implements MovementStrategy {
      *                 3 - Phase with specific horizontal velocity and additional adjustments if necessary.
      */
     public void updatePhase(int newPhase) {
-        System.out.println("Updating phase to: " + newPhase);
         this.currentPhase = newPhase;
         this.horizontalVelocity *= 1.2;
         this.verticalVelocity *= 2;
