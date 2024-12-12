@@ -252,7 +252,7 @@ public class GameConstant {
         public static final int IMAGE_HEIGHT = 70;
         public static final double HORIZONTAL_VELOCITY = -7.5;
         public static final long FIRE_INTERVAL_NANOSECONDS = 1_000_000_000L;
-        public static final double FIRE_RATE = 0.04;
+        public static final double FIRE_RATE = 0.03;
     }
 
     /**
