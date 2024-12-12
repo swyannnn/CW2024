@@ -1339,13 +1339,9 @@ Code Location: <a href="src/main/java/com/example/demo/actor/ActiveActor.java">s
       </ul>
     </td>
     <td>
-      <strong>Merged Class</strong><br>
+      <strong>Merged Class</strong>
       <ul>
-        Unified into a single class<br>
-        <code>
-        ActiveActor
-        </code>
-        Incorporates both movement and destruction logic within the same class.
+        Unified into a single class<code>ActiveActor</code>, incorporates both movement and destruction logic within the same class.
       </ul>
     </td>
     <td>
@@ -1727,34 +1723,34 @@ Code Location: <a href="src/main/java/com/example/demo/level/LevelParent.java">s
   <tr>
     <td>
       <ul>
-        <li><strong>Level Progression Methods</strong><br> <code>goToNextLevel</code>, <code>winGame</code>, <code>loseGame</code> handled within <code>LevelParent</code>.</li>
-        <li><strong>Game Loop Management:</strong> <code>initializeTimeline</code> manages the game loop within <code>LevelParent</code>.</li>
+        <strong>Level Progression Methods</strong><br> <code>goToNextLevel</code>, <code>winGame</code>, <code>loseGame</code> handled within <code>LevelParent</code>.<br>
+        <strong>Game Loop Management:</strong> <code>initializeTimeline</code> manages the game loop within <code>LevelParent</code>
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Level Progression Methods</strong><br> Moved to <code>LevelState</code> class.</li>
-        <li><strong>Game Loop Management:</strong> Handled by <code>GameLoopManager</code> class.</li>
+        <strong>Level Progression Methods</strong><br> Moved to <code>LevelState</code> class.<br>
+        <strong>Game Loop Management</strong><br> Handled by <code>GameLoopManager</code> class.
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Separation of Responsibilities</strong> <br>Delegating level progression and game loop management to specialized classes enhances modularity.</li>
-        <li><strong>Better Maintenance</strong><br> Makes the codebase easier to manage and extend by isolating different functionalities.</li>
+        <strong>Separation of Responsibilities</strong> <br>Delegating level progression and game loop management to specialized classes enhances modularity.<br>
+        <strong>Better Maintenance</strong><br> Makes the codebase easier to manage and extend by isolating different functionalities.
       </ul>
     </td>
   </tr>
   <tr>
     <td>
       <ul>
-        <li><strong>Background Initialization</strong> <br><code>initializeBackground</code> handled within <code>LevelParent</code>.</li>
-        <li><strong>Projectile and Enemy Fire:</strong> <code>fireProjectile</code>, <code>generateEnemyFire</code>, <code>spawnEnemyProjectile</code> managed within <code>LevelParent</code>.</li>
+        <strong>Background Initialization</strong> <br><code>initializeBackground</code> handled within <code>LevelParent</code>.<br>
+        <strong>Projectile and Enemy Fire:</strong> <code>fireProjectile</code>, <code>generateEnemyFire</code>, <code>spawnEnemyProjectile</code> managed within <code>LevelParent</code>.
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Background Initialization</strong> <br>Moved to <code>LevelScreen</code> class.</li>
-        <li><strong>Projectile and Enemy Fire:</strong> Handled by <code>FighterPlane</code> class.</li>
+        <strong>Background Initialization</strong> <br>Moved to <code>LevelScreen</code> class.<br>
+        <strong>Projectile and Enemy Fire:</strong><br> Handled by <code>FighterPlane</code> class.
       </ul>
     </td>
     <td>
@@ -1767,38 +1763,38 @@ Code Location: <a href="src/main/java/com/example/demo/level/LevelParent.java">s
   <tr>
     <td>
       <ul>
-        <li><strong>Actor Management:</strong> <br><code>updateActors</code> and <code>removeAllDestroyedActors</code> handled within <code>LevelParent</code>.</li>
-        <li><strong>Collision Handling:</strong> <code>handleCollisions</code> and <code>handleEnemyPenetration</code> managed within <code>LevelParent</code>.</li>
+        <strong>Actor Management:</strong> <br><code>updateActors</code> and <code>removeAllDestroyedActors</code> handled within <code>LevelParent</code>.<br>
+        <strong>Collision Handling:</strong><br> <code>handleCollisions</code> and <code>handleEnemyPenetration</code> managed within <code>LevelParent</code>.
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Actor Management</strong><br> Managed by <code>ActorManager</code> class.</li>
-        <li><strong>Collision Handling:</strong> Handled by <code>CollisionManager</code> class.</li>
+        <strong>Actor Management</strong><br> Managed by <code>ActorManager</code> class.<br>
+        <strong>Collision Handling:</strong> Handled by <code>CollisionManager</code> class.
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Separation of Concerns</strong><br> Delegating actor and collision management to specialized managers enhances clarity and maintainability.</li>
-        <li><strong>Scalability</strong><br> Facilitates easier expansion of actor and collision functionalities without impacting the core level logic.</li>
+        <strong>Separation of Concerns</strong><br> Delegating actor and collision management to specialized managers enhances clarity and maintainability.<br>
+        <strong>Scalability</strong><br> Facilitates easier expansion of actor and collision functionalities without impacting the core level logic.
       </ul>
     </td>
   </tr>
   <tr>
     <td>
       <ul>
-        <li><strong>Kill Count Management</strong><br> <code>updateKillCount</code> handled within <code>LevelParent</code>.</li>
+        <strong>Kill Count Management</strong><br> <code>updateKillCount</code> handled within <code>LevelParent</code>.
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Kill Count Management</strong><br> Handled by <code>UserPlane</code> class.</li>
+        <strong>Kill Count Management</strong><br> Handled by <code>UserPlane</code> class.
       </ul>
     </td>
     <td>
       <ul>
-        <li><strong>Encapsulation</strong><br> Moving kill count management to <code>UserPlane</code> aligns responsibility with the entity tracking kills.</li>
-        <li><strong>Improved Clarity</strong><br> Simplifies <code>LevelParent</code> by removing player-specific logic.</li>
+        <strong>Encapsulation</strong><br> Moving kill count management to <code>UserPlane</code> aligns responsibility with the entity tracking kills.<br>
+        <strong>Improved Clarity</strong><br> Simplifies <code>LevelParent</code> by removing player-specific logic.
       </ul>
     </td>
   </tr>
@@ -1886,8 +1882,8 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shi
     </td>
     <td>
       <ul>
-        <li><strong>Single Responsibility Principle (SRP)</strong><br> Encapsulating shield logic within the <code>Shield</code> class ensures it is self-contained and not dependent on the <code>BossPlane</code>.</li>
-        <li><strong>Modularity</strong><br> Makes the shield reusable and easier to maintain.</li>
+        <strong>Single Responsibility Principle (SRP)</strong><br> Encapsulating shield logic within the <code>Shield</code> class ensures it is self-contained and not dependent on the <code>BossPlane</code>.<br>
+        <strong>Modularity</strong><br> Makes the shield reusable and easier to maintain.
       </ul>
     </td>
   </tr>
@@ -1908,8 +1904,8 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shi
     </td>
     <td>
       <ul>
-        <li><strong>Flexibility</strong><br> Enables dynamic adjustment based on the parent entity's position.</li>
-        <li><strong>Reusability</strong><br> Allows the shield to be used with different entities without modifications.</li>
+        <strong>Flexibility</strong><br> Enables dynamic adjustment based on the parent entity's position.<br>
+        <strong>Reusability</strong><br> Allows the shield to be used with different entities without modifications.
       </ul>
     </td>
   </tr>
@@ -1957,7 +1953,7 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shi
       Destructible.java    
     </td>
     <td>
-      Removed due to redundancy after the deletion of `ActiveActorDestructible` class
+      Removed due to redundancy after the deletion of <code>ActiveActorDestructible</code> class
     </td>
   </tr>
   <tr>
