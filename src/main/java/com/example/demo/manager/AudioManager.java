@@ -49,20 +49,28 @@ public class AudioManager {
     }
 
     /**
-     * Preloads all audio assets used in the game.
-     * <p>
-     * This method iterates through all sound effects and background music defined
-     * in the {@code GameConstant.FilePaths} enum and preloads them. For sound effects,
-     * it sets the volume to 0.5 and adds them to the {@code soundEffects} list.
-     * Background music files are preloaded without additional configuration.
-    * </p>
+     * Preloads all audio files used in the game.
+     * 
+     * This method iterates through all sound effects and background music files defined in 
+     * the GameConstant.FilePaths enumeration, preloading each audio file and setting the 
+     * volume for specific sound effects.
+     * 
+     * Preloaded sound effects are added to the soundEffects list.
      */
     private void preloadAllAudio() {
         for (GameConstant.FilePaths.SoundEffect soundEffect : GameConstant.FilePaths.SoundEffect.values()) {
             String audioName = soundEffect.getFileName();
             AudioClip clip = preloadAudioClip(audioName);
-            if (audioName == "player_shoot.mp3") {
-                clip.setVolume(0.3);
+            switch (audioName) {
+                case "player_shoot.mp3":
+                    clip.setVolume(0.1);
+                    break;
+                case "enemy_destroy.wav":
+                    clip.setVolume(0.35);
+                    break;
+                default:
+                    clip.setVolume(0.5); 
+                    break;
             }
             soundEffects.add(clip);
         }

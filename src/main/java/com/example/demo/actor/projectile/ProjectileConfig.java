@@ -15,7 +15,7 @@ public class ProjectileConfig {
     private ProjectileType type;
     private double initialXPos;
     private double initialYPos;
-    private UserPlane userPlane; // Only required for UserProjectile
+    private UserPlane userPlane; // Only required for UserProjectile because we need to know it owner
 
     /**
      * Constructs a ProjectileConfig object with the specified type and initial positions.
