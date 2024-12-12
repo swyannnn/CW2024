@@ -195,7 +195,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     A comprehensive main menu has been developed, offering players options to start the game or select other functionalities.
       <div align="center">
-        <img src="./readme_ref/main_menu.png" alt="actor package class diagram" title="Actor" width="1000">
+        <img src="./readme_ref/main_menu.png" alt="actor package class diagram" title="Main_Menu" width="1000">
       </div>
     </td>
   </tr>
@@ -219,7 +219,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     Players can now choose between single player or double player modes before starting the game.
       <div align="center">
-        <img src="./readme_ref/double_player.gif" alt="actor package class diagram" title="Actor" width="300">
+        <img src="./readme_ref/double_player.gif" alt="actor package class diagram" title="double player" width="300">
       </div>
     </td>
   </tr>
@@ -243,7 +243,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     Instructions are now easily visible on game screen.
       <div align="center">
-        <img src="./readme_ref/game_instruction.gif" alt="actor package class diagram" title="Actor" width="300">
+        <img src="./readme_ref/game_instruction.gif" alt="actor package class diagram" title="game instruction" width="300">
       </div>
     </td>
   </tr>
@@ -331,7 +331,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     The game can now be paused at any time during play using a keyboard shortcut or by clicking on the settings icon, then resume gameplay at their own pace.
       <div align="center">
-        <img src="./readme_ref/pause_screen.png" alt="actor package class diagram" title="Actor" width="1000">
+        <img src="./readme_ref/pause_screen.png" alt="actor package class diagram" title="pause" width="1000">
       </div>
     </td>
   </tr>
@@ -377,10 +377,10 @@ This section details the features that have been successfully implemented in bot
     <td>
     Visual effects, including explosions, player actions, and enemy interactions, have been implemented.
       <div align="center">
-        <img src="./readme_ref/explosion_effect.gif" alt="actor package class diagram" title="Actor" width="200">
+        <img src="./readme_ref/explosion_effect.gif" alt="actor package class diagram" title="explosion" width="200">
       </div>
       <div align="center">
-        <img src="./readme_ref/flicker_effect.gif" alt="actor package class diagram" title="Actor" width="200">
+        <img src="./readme_ref/flicker_effect.gif" alt="actor package class diagram" title="flicker" width="200">
       </div>
     </td>
   </tr>
@@ -395,7 +395,7 @@ This section details the features that have been successfully implemented in bot
   </tr>
   <tr>
     <td>
-    Only two playable levels are featured<
+    Only two playable levels are featured
     </td>
     <td>
     <li>Limited levels reduce the game's replayability and can lead to player boredom.</li>
@@ -404,6 +404,12 @@ This section details the features that have been successfully implemented in bot
     <td>
     <li>Two additional playable levels have been created</li>
     <li>Each with increasing difficulty, distinct environments, and unique challenges.</li>
+      <div align="center">
+        <img src="./readme_ref/level003.png" alt="actor package class diagram" title="level003" width="1000">
+      </div>
+      <div align="center">
+        <img src="./readme_ref/level004.png" alt="actor package class diagram" title="level004" width="1000">
+      </div>
     </td>
   </tr>
 </table>
@@ -426,7 +432,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     A Game Over screen has been developed to inform players when they have failed a level. 
       <div align="center">
-        <img src="./readme_ref/game_over_screen.png" alt="actor package class diagram" title="Actor" width="1000">
+        <img src="./readme_ref/game_over_screen.png" alt="actor package class diagram" title="game over" width="1000">
       </div>
     </td>
   </tr>
@@ -450,7 +456,7 @@ This section details the features that have been successfully implemented in bot
     <td>
     A Win screen has been developed to inform players when they have won the game.  
       <div align="center">
-        <img src="./readme_ref/win_screen.png" alt="actor package class diagram" title="Actor" width="1000">
+        <img src="./readme_ref/win_screen.png" alt="actor package class diagram" title="win" width="1000">
       </div>
     </td>
   </tr>
@@ -538,7 +544,7 @@ This section details the features that have been successfully implemented in bot
       <li>A centralized system simplifies transitions, improves code reusability, and enables scalable design.</li>
     </td>
     <td>
-      A `StateManager` class was introduced, leveraging the <strong>State Pattern</strong> to centralize transitions and lifecycle management. More information please kindly visit <a href="#comexampledemostate">this section</a>.
+      <a href="src/main/java/com/example/demo/manager/StateManager.java">StateManager</a> class was introduced, leveraging the <strong>State Pattern</strong> to centralize transitions and lifecycle management. More information please kindly visit <a href="#comexampledemostate">this section</a>.
     </td>
   </tr>
 </table>
@@ -1302,16 +1308,6 @@ Code Location: <a href="src/main/java/com/example/demo/Controller.java">src/main
   </tr>
   <tr>
     <td>
-      Game Loop Management is handled by <code>LevelParent</code> class
-    </td>
-    <td>
-      <strong>Game Loop Management</strong><br> Implemented a <code>GameLoopManager</code> to handle the game loop, ensuring continuous updates and rendering by delegating to the current game state via the <code>StateManager</code>.
-    </td>
-    <td>
-      <strong>Performance Optimization</strong><br> A dedicated game loop manager allows for more efficient handling of updates and rendering cycles.
-    </td>
-  <tr>
-    <td>
       <strong>Resource Cleanup</strong><br> No explicit cleanup process for resources and managers.
     </td>
     <td>
@@ -1345,11 +1341,10 @@ Code Location: <a href="src/main/java/com/example/demo/actor/ActiveActor.java">s
     <td>
       <strong>Merged Class</strong><br>
       <ul>
-        <strong>Unified into a single class
-        </strong>
+        Unified into a single class<br>
         <code>
         ActiveActor
-        </code><br>
+        </code>
         Incorporates both movement and destruction logic within the same class.
       </ul>
     </td>
@@ -1370,8 +1365,8 @@ Code Location: <a href="src/main/java/com/example/demo/actor/ActiveActor.java">s
     <td>
       <strong>Centralized Image Management</strong><br>
       <ul>
-        Uses <code>ImageManager</code> for consistent image handling.<br>
-        Removes dependency on classpath-based image retrieval.
+        <li>Uses <code>ImageManager</code> for consistent image handling.</li><br>
+        <li>Removes dependency on classpath-based image retrieval.</li>
       </ul>
     </td>
     <td>
@@ -1438,7 +1433,7 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/EnemyPlane.ja
     <strong>Movement Handling</strong><br> Explicit movement and firing logic within the class.
     </td>
     <td>
-    <strong>Delegated Movement and Firing</strong><br> Removed movement logic, utilizes <code>MovementStrategy</code> and <code>FiringStrategy</code> from <code>FighterPlane</code>.
+    <strong>Delegated Movement and Firing</strong><br> Removed movement logic, utilizes <a href="src/main/java/com/example/demo/strategy/firing/FiringStrategy.java">FiringStrategy</a> and <a href="src/main/java/com/example/demo/strategy/firing/MovementStrategy.java">MovementStrategy</a> from <a href="src/main/java/com/example/demo/actor/plane/FighterPlane.java">FighterPlane</a>.
     </td>
     <td>
     <strong>Reduce Redundancy</strong><br> Centralizes movement and firing handling in the parent class for consistency.
@@ -1501,8 +1496,8 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/UserPlane.jav
     <td>
     -
     </td>
-    -
     <td>
+    -
     </td>
   </tr>
   <tr>
@@ -1512,7 +1507,7 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/UserPlane.jav
     </td>
     <td>
     <strong>Health Management with Handlers</strong><br> 
-    <li>Initializes a <code>HealthChangeHandler</code> to manage health changes.</li>
+    <li>Initializes a  <a href="src/main/java/com/example/demo/handler/HealthChangeHandler.java">HealthChangeHandler</a> to manage health changes.</li>
     <li>Notifies registered handlers whenever health changes.</li>
     </td>
     <td>
@@ -1533,17 +1528,6 @@ Code Location: <a href="src/main/java/com/example/demo/actor/projectile/Projecti
     <th>Original Version</th>
     <th>Modified Version</th>
     <th>Reasons for Modification</th>
-  </tr>
-  <tr>
-    <td>
-    Same as EnemyPlane
-    </td>
-    <td>
-    -
-    </td>
-    <td>
-    -
-    </td>
   </tr>
   <tr>
     <td>
@@ -1776,7 +1760,7 @@ Code Location: <a href="src/main/java/com/example/demo/level/LevelParent.java">s
     <td>
       <ul>
         <li><strong>Modularity</strong> <br>Separating background initialization and projectile management into dedicated classes reduces complexity.</li>
-        <li><strong>Code Reusability</strong> Allows reuse of projectile and firing logic across different plane types.</li>
+        <li><strong>Code Reusability</strong><br> Allows reuse of projectile and firing logic across different plane types.</li>
       </ul>
     </td>
   </tr>
@@ -1875,7 +1859,7 @@ Code Location: <a href="src/main/java/com/example/demo/screen/LevelScreen.java">
   </tr>
 </table>
 
-**16. Shield** (previously known as ShieldImage)
+**16. Shield** (previously known as `ShieldImage`)
 
 Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shield.java">src/main/java/com/example/demo/actor/plane/component/Shield.java</a>
 
@@ -1973,7 +1957,7 @@ Code Location: <a href="src/main/java/com/example/demo/actor/plane/component/Shi
       Destructible.java    
     </td>
     <td>
-      Removed due to redundancy after the deletion of ActiveActorDestructible class
+      Removed due to redundancy after the deletion of `ActiveActorDestructible` class
     </td>
   </tr>
   <tr>
